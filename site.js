@@ -230,14 +230,7 @@
       }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
         done(!!(d && d.ok));
       }).catch(function () {
-        var body = new URLSearchParams();
-        body.set('form-name', 'contact');
-        body.set('name', name.value.trim());
-        body.set('email', email.value.trim());
-        body.set('message', msg.value.trim());
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
-          .then(function (r) { done(r.ok); })
-          .catch(function () { done(false); });
+        done(false);
       });
     });
   }
