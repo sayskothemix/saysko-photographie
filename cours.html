@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=2">
+<link rel="stylesheet" href="site.css">
 <style>
 /* Menu mobile */
 .menu-toggle {
@@ -404,27 +404,37 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
-            <p class="cours-lead">Du fichier RAW brut sorti du boîtier jusqu'au portrait éclatant prêt à publier. Une méthode pas à pas pour révéler la lumière sans jamais dénaturer le visage du modèle.</p>
+            <p class="cours-lead">Tutoriel complet : passez d’un portrait RAW brut à une retouche naturelle, cohérente et prête à publier. Suivez les étapes dans l’ordre, puis comparez avec <kbd>\</kbd> avant chaque validation.</p>
             
             <div class="cours-subsep"><span>Texte explicatif & Méthode pas à pas</span></div>
             <div class="cours-expl-text">
-              <p><strong>Comprendre la logique du fichier RAW en portrait :</strong> Lorsque vous ouvrez un fichier RAW sorti de votre appareil (par exemple un Canon 5D Mark IV), l'image paraît souvent un peu plate ou sous-contrastée. C'est tout à fait normal : le capteur a enregistré un négatif numérique neutre sans aucun traitement destructeur. Le but du développement n'est pas de tout pousser à fond, mais d'équilibrer la dynamique lumineuse.</p>
-              
-              <div class="cours-expl-highlight">
-                <strong>La règle d'or de l'exposition en portrait :</strong> On expose toujours pour la peau du modèle. Si les hautes lumières de l'arrière-plan sont un peu vives, on les récupère avec le curseur <em>Hautes lumières</em> (-25 à -40), tandis qu'on débouche délicatement les ombres (+15 à +25) pour donner de la matière aux cheveux et aux cils sans faire monter de bruit chromatique.
-              </div>
+              <p><strong>Étape 1 — Créez une copie virtuelle :</strong> Appuyez sur <kbd>Ctrl</kbd> + <kbd>'</kbd>. Gardez toujours l’original intact, puis faites tous les essais sur cette copie.</p>
+              <p><strong>Étape 2 — Choisissez une Balance des blancs naturelle :</strong> Ouvrez le panneau <em>Calibrage</em>. Cliquez sur un gris neutre avec la pipette, ou utilisez <em>As Shot</em> puis réglez la température. Pour une peau naturelle, partez avec une petite correction selon l’ambiance : lumière chaude vers 4000–5000 K, lumière froide vers 5500–6500 K. Ne cherchez pas uniquement une valeur parfaite : comparez les mains, les lèvres et les blancs des yeux.</p>
+              <p><strong>Étape 3 — Corrigez l’exposition globale :</strong> Dans <em>Basique</em>, ajustez d’abord l’exposition jusqu’à ce que la peau soit lisible sans détails écrasés. Maintenez <kbd>Alt</kbd> pour contrôler les hautes lumières écrasées et les ombres bouchées. Point de départ : hautes lumières -20 à -45, ombres +10 à +35.</p>
+              <p><strong>Étape 4 — Redéfinissez les noirs et les blancs :</strong> Ajustez les <em>Blancs</em> puis les <em>Noirs</em>. Pour un fond studio blanc, gardez juste assez de noir sur les détails pour conserver la profondeur. À l’écran, une petite bande claire peut être acceptable si la peau reste naturelle.</p>
+              <p><strong>Étape 5 — Structurez le visage :</strong> Réglez le contraste doucement. Évitez une clarté positive élevée : elle durcit les rides et les cernes. Point de départ portrait : Texture +5 à +10, Clarté -5 à -10, Netteté +25 à +40 selon la qualité initiale.</p>
+              <p><strong>Étape 6 — Unifiez les couleurs :</strong> Faites descendre la vibrance à -5 seulement si les couleurs sont agressives, puis montez-la progressivement à +8 à +15 pour réveiller les yeux et les vêtements. N’utilisez la saturation que sur une couleur isolée dans le panneau HSL.</p>
+              <p><strong>Étape 7 — Affinez les tons chair :</strong> Dans <em>Mixage des couleurs</em>, réduisez légèrement l’orange si la peau devient rouge, ou baissez légèrement le rouge pour calmer les lèvres. Ne dépassez pas quelques dizaines de points : les changements importants donnent vite un rendu plastique.</p>
+              <p><strong>Étape 8 — Retouchez localement :</strong> Avec <kbd>Maj</kbd> + <kbd>W</kbd>, créez les masques nécessaires : Sujet, Iris et pupilles, Sourcils, Cheveux, puis Peau du visage si disponible. Sur la peau, Texture -5 à -12, Clarté -3 à -8. Sur les yeux, Exposition +0.10 à +0.25, Contraste +10, Netteté +15. Sur l’arrière-plan, baissez l’exposition de 0.15 à 0.40 EV si le sujet manque de séparation.</p>
+              <p><strong>Étape 9 — Corrigez les retouches visibles :</strong> Zoomez à 100 % avec <kbd>Ctrl</kbd> + <kbd>+</kbd>. Effacez les imperfections ponctuelles avec l’outil Correction par copier/décaler, puis vérifiez que la peau conserve ses pores. Masquez les imperfections uniquement si elles distraient l’œil.</p>
+              <p><strong>Étape 10 — Contrôlez l’ensemble :</strong> Appuyez sur <kbd>\</kbd>, puis sur <kbd>Y</kbd>. Vérifiez d’abord le visage, puis les yeux, les cheveux, les vêtements et enfin le fond. Si l’image paraît trop nette ou trop contrastée à 100 %, elle le sera sans doute encore plus au final : adoucissez légèrement.</p>
 
-              <p><strong>Le dosage subtil de la Texture et de la Clarté :</strong> C'est l'erreur numéro un des débutants : pousser la <em>Clarté</em> en croyant ajouter de la netteté. La Clarté agit sur le contraste des tons moyens et durcit considérablement les rides, les pores et les cernes. À l'inverse, l'outil <em>Texture</em> isole les micro-détails fins. En portrait, nous appliquons la technique Saysko : <strong>Texture à +8</strong> pour faire pétiller l'iris et la trame du vêtement, et <strong>Clarté à -4</strong> pour apporter ce velouté caractéristique des photos de studio pro.</p>
+              <div class="cours-expl-highlight">
+                <strong>Ordre de travail recommandé :</strong> Exposition → Balance des blancs → Hautes lumières/ombres → Présence → Couleurs HSL → Masques → Défauts → Contrôle avant/après → Recadrage → Export.
+              </div>
             </div>
 
             <div class="cours-cols">
               <div class="cours-block">
                 <h4>Les étapes chronologiques</h4>
                 <ul>
-                  <li><strong>1. Calibrer la balance des blancs :</strong> Pipette sur le blanc de l'œil ou une charte de gris pour caler la température exacte.</li>
-                  <li><strong>2. Tonalité de base :</strong> Ajuster l'exposition, baisser les hautes lumières, remonter les ombres.</li>
-                  <li><strong>3. Point blanc et point noir :</strong> Maintenir <kbd>Alt</kbd> en déplaçant les curseurs pour fixer les seuils absolus sans rien cramer.</li>
-                  <li><strong>4. Présence :</strong> Texture +8, Clarté -4, Vibrance +12 (la vibrance protège naturellement les tons chair).</li>
+                  <li><strong>1. Préparation :</strong> Copie virtuelle, cadrage, recadrage et rotation d’horizon.</li>
+                  <li><strong>2. Balance des blancs :</strong> Pipette sur une zone neutre ou réglage thermique manuel.</li>
+                  <li><strong>3. Lumière :</strong> Exposition, hautes lumières, ombres, blancs et noirs.</li>
+                  <li><strong>4. Rendu :</strong> Contraste, texture, clarté, déhaze et netteté avec prudence.</li>
+                  <li><strong>5. Couleur :</strong> Vibrance, HSL orange/rouge, calibration si nécessaire.</li>
+                  <li><strong>6. Masques :</strong> Sujet, peau, yeux, sourcils, cheveux et arrière-plan.</li>
+                  <li><strong>7. Finition :</strong> Correction ponctuelle, grain naturel et export adapté.</li>
                 </ul>
               </div>
               <div class="cours-block">
@@ -708,19 +718,24 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
-            <p class="cours-lead">La fonctionnalité qui fait la réputation planétaire de Capture One : harmoniser le teint d'un modèle en 30 secondes pour un résultat de magazine sans effet masque.</p>
+            <p class="cours-lead">Tutoriel Capture One étape par étape : préparez l’exposition, corrigez les tons chair, appliquez les masques, harmonisez localement puis vérifiez le résultat à 100 %.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La science du teint chez Capture One</span></div>
             <div class="cours-expl-text">
-              <p><strong>Le défi du teint humain en portrait :</strong> Même avec le meilleur maquillage, un visage humain présente naturellement des variations de couleur : des rougeurs autour des ailes du nez et des joues, des nuances plus jaunes sur le front, ou des tons plus froids sous le menton. Tenter de corriger cela au pinceau dans Photoshop prend des dizaines de minutes par photo. C'est ici que l'outil <em>Teinte de peau (Skin Tone)</em> de Capture One accomplit des miracles.</p>
+              <p><strong>Étape 1 — Créez un calque de retouche :</strong> Cliquez sur <em>Calque de réglage</em>, nommez-le « Peau – retouche », puis passez uniquement les réglages suivants sur ce calque. Désactivez temporairement toutes les autres modifications locales pour travailler proprement.</p>
+              <p><strong>Étape 2 — Corrigez d’abord la balance générale :</strong> Dans l’onglet <em>Blanc équilibré</em>, utilisez une zone neutre du vêtement ou une référence grise. Ajustez ensuite la balance manuellement si les tons chair restent trop jaunes ou trop verts.</p>
+              <p><strong>Étape 3 — Équilibre la luminance :</strong> Ajustez l’exposition entre -0.10 et +0.25 EV, les hautes lumières autour de -20 et les ombres autour de +10. Le visage doit rester détaillé : pas de joues entièrement blanches ni de mâchoire complètement noire.</p>
+              <p><strong>Étape 4 — Ouvrez Teinte de Peau :</strong> Dans les outils couleur, activez <em>Uniformité</em>. Prenez la pipette sur une zone homogène du front ou de la joue, à côté des rides et des rougeurs.</p>
+              <p><strong>Étape 5 — Échantillonnez plusieurs zones :</strong> Ajoutez deux ou trois points si le visage présente plusieurs types d’éclairage. Chaque point doit représenter une carnation saine, pas une ombre très bleue ni une zone brûlée.</p>
+              <p><strong>Étape 6 — Réglez l’uniformité avec prudence :</strong> Commencez avec <strong>Uniformité de teinte 25–45 %</strong> et <strong>Uniformité de saturation 10–25 %</strong>. N’utilisez pas 100 % : Capture One doit conserver les couleurs naturelles des joues, des lèvres et des ombres.</p>
+              <p><strong>Étape 7 — Protégez les détails :</strong> Sur le calque peau, baissez légèrement le bruit chromatique si nécessaire, sans appliquer de flou excessif. Gardez la netteté entre +10 et +20 pour éviter un effet de plastique.</p>
+              <p><strong>Étape 8 — Affinez yeux, sourcils et lèvres :</strong> Créez un nouveau calque nommé « Yeux et lèvres ». Avec un masque précis, augmentez légèrement l’exposition des yeux, récupérez les détails des sourcils, puis diminuez la luminance des lèvres si elles paraissent trop brillantes. Ne modifiez pas les dents en même temps que les yeux.</p>
+              <p><strong>Étape 9 — Vérifiez les couleurs extrêmes :</strong> Zoomez à 100 %, désactivez puis réactivez chaque calque et passez à l’aperçu noir sur blanc si nécessaire. Si une zone jaune ou rouge paraît artificielle, réduisez l’uniformité avant d’élargir le masque.</p>
+              <p><strong>Étape 10 — Finalisez l’opacité :</strong> Ramenez la visibilité du calque peau entre 70 et 100 % selon le résultat. Prenez une vue complète, puis exportez une copie JPEG pour comparer sur un autre écran.</p>
 
-              <p><strong>Comment fonctionne l'uniformisation intelligente :</strong></p>
-              <p>Avec la pipette de l'outil, vous cliquez sur une zone de peau saine et bien éclairée du visage. Capture One extrait la teinte de référence exacte. Ensuite, les curseurs magiques d'<strong>Uniformité</strong> permettent de ramener toutes les zones divergentes vers cette couleur cible :</p>
-              <ul>
-                <li><strong>Uniformité de Teinte (40-60%) :</strong> Élimine instantanément les rougeurs et marbrures en les harmonisant avec la carnation de référence.</li>
-                <li><strong>Uniformité de Saturation (20-30%) :</strong> Calme les plaques trop saturées sans éteindre la vivacité du regard.</li>
-                <li><strong>Le résultat :</strong> La peau devient uniforme, lumineuse et sublime, mais elle conserve <strong>100% de sa texture naturelle</strong>, de ses pores et de ses reliefs !</li>
-              </ul>
+              <div class="cours-expl-highlight">
+                <strong>Contrôle qualité :</strong> Une peau bien retouchée conserve les pores, les ombres naturelles, les bordures du visage et les variations légères de couleur. La main, les vêtements et l’arrière-plan doivent rester identiques.
+              </div>
             </div>
 
             <!-- VIDÉO QUENTIN DÉCAILLET -->
@@ -1206,7 +1221,7 @@
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
 
-<script src="site.js?v=2"></script>
+<script src="site.js"></script>
 <script>
   /* Menu mobile */
   (function () {
