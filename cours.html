@@ -281,9 +281,65 @@
 .cours-section.filtered-out, .cat-group.filtered-out {
   display: none !important;
 }
+/* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
+  .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
+  .site-controls button {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+  }
+  .site-controls button:hover { background: var(--accent); color: var(--bg); transform: translateY(-1px); }
+
+  /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
+  main { padding-top: 72px; }
+  #portfolio { padding: 90px 0 20px; }
+  .about-wrap { padding-bottom: 10px; }
+  #contact { padding-bottom: 90px; }
+  /* ---------- MENU MOBILE ---------- */
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  @media (max-width: 780px) {
+    .menu-toggle { display: flex; align-items: center; justify-content: center; }
+    nav {
+      position: fixed; top: 72px; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+      padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+      transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+    }
+    nav.open { transform: translateY(0); opacity: 1; }
+    nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .admin-btn { margin: 14px 0 0; width: 100%; }
+  }
+
+  @media (max-width: 760px) {
+    .intro-frame { display: none; }
+    .site-controls { top: 12px; right: 12px; }
+    .site-controls button { width: 38px; height: 38px; }
+  }
+  @media (max-width: 600px) {
+    .logo { font-size: 0.95rem; letter-spacing: 3px; }
+    .logo::before { width: 16px; }
+    .logo span { display: none; }
+    .site-controls { top: auto; bottom: 16px; right: 12px; }
+    .site-controls svg { width: 15px; height: 15px; }
+    .nav { height: 64px; }
+    header .admin-btn { padding: 8px 14px; }
+  }
+
 </style>
 </head>
 <body>
+<audio id="bgMusic" src="intro-music.mp3" loop preload="auto"></audio>
+<div class="site-controls">
+  <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
+  </button>
+  <button id="fsBtn" type="button" aria-label="Passer en plein écran" title="Plein écran">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
 <header>
   <div class="container nav">
     <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
@@ -480,6 +536,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/5Br5TEqfJVM" title="Structure de catalogue infaillible & Importation automatisée" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Pourquoi 90% des ralentissements et des pertes d'images viennent d'un catalogue mal configuré. La structure professionnelle pour gérer des dizaines de milliers de photos sans jamais ramer.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : L'architecture d'un catalogue sain</span></div>
@@ -514,6 +575,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/-sJ93tPU7lY" title="Tri express : 1000 photos triées en 20 minutes chrono" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">La méthode des 3 passages avec le mode Verrouillage Majuscule pour sélectionner les meilleures photos d'une séance sans perdre des heures à hésiter.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La méthode des 3 passages</span></div>
@@ -553,6 +619,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/AL9Cs1uOBwI" title="Color Grading cinématique : Roues chromatiques or & violet" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Construire une ambiance de cinéma : associer des ombres violettes profondes et des hautes lumières dorées chaleureuses pour une signature visuelle haut de gamme.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La théorie des couleurs complémentaires</span></div>
@@ -587,6 +658,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/e_HsdswGIg0" title="Formules d'export : Instagram 2048px & Tirage d'Art Grand Format" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Comment éviter la compression destructrice des réseaux sociaux et paramétrer un fichier maître pour un tirage d'art en galerie.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La gestion des espaces couleur et de la compression</span></div>
@@ -741,6 +817,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/Ju1jozJy-y0" title="Calques de réglage & Masquage par Plage Luma (Luma Range)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Sculpter les reflets de flash sans toucher aux ombres grâce au masquage interactif par niveau de luminance en temps réel.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La puissance de la Plage Luma</span></div>
@@ -774,6 +855,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/d9FWrKMu11Q" title="Éditeur de couleur avancé & Profils ICC capteur Canon" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Isoler chirurgicalement une nuance dans la roue chromatique 2D/3D pour modifier une teinte sans créer aucun artéfact de contour.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Pourquoi les couleurs de Capture One sont inégalées</span></div>
@@ -801,6 +887,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/vbvb0FlEc7k" title="Formules d'Export (Process Recipes) : Tout exporter en 1 clic" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Générez simultanément en appuyant sur une seule touche : les JPEG Web pour le client, les planches de contact filigranées et les TIFF 16 bits de tirage d'art.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : L'export multi-formats simultané</span></div>
@@ -938,6 +1029,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/AMG48xzYP_8" title="Strobisme créatif : Gélatines de couleur & Effet Nuit en plein jour" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Utilisez des filtres gélatines ambre et violettes pour teinter vos arrière-plans et transformez un plein midi en scène de nuit cinématographique.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Créer la nuit en plein jour</span></div>
@@ -965,6 +1061,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/l3bP2peT5F4" title="Photographier à plusieurs flashs : Key, Fill, Rim & Background Light" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Construire un éclairage de magazine de mode pas à pas : allumer et calibrer chaque source lumineuse l'une après l'autre sans jamais tâtonner.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Le protocole en 4 sources</span></div>
@@ -1009,6 +1110,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/MszeJgjfZb4" title="Ouverture, Vitesse & Sensibilité ISO : Les 3 leviers" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Comprendre comment les 3 paramètres interagissent et quel est leur impact créatif direct sur l'image.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Choisir sa priorité créative</span></div>
@@ -1041,6 +1147,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/xh1SICnw4tI" title="La profondeur de champ & le Bokeh créatif en portrait" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Les 3 facteurs physiques qui créent un détachement tridimensionnel du modèle par rapport à l'arrière-plan.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Les leviers du Bokeh</span></div>
@@ -1068,6 +1179,11 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/0GR9p9SEfoU" title="RAW vs JPEG : Pourquoi vous ne devez plus jamais shooter en JPEG" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
             <p class="cours-lead">Pourquoi le fichier RAW 14 bits contient 64 fois plus de nuances de couleur qu'un JPEG 8 bits figé par le processeur du boîtier.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : L'assurance vie de vos séances</span></div>
@@ -1161,6 +1277,93 @@
       }
     });
   })();
+</script>
+<script>
+(function () {
+  'use strict';
+  var intro = document.getElementById('intro');
+  var audio = document.getElementById('bgMusic');
+  var enterBtn = document.getElementById('enterBtn');
+  var soundBtn = document.getElementById('soundBtn');
+  var soundWaves = document.getElementById('soundWaves');
+  var fsBtn = document.getElementById('fsBtn');
+  var started = false;
+
+  document.documentElement.classList.add('intro-open');
+  if (audio) { audio.loop = true; audio.volume = 0.55; }
+
+  function startMusic() {
+    if (!audio) return;
+    var p = audio.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  }
+
+  function updateSoundUI() {
+    if (!audio || !soundBtn) return;
+    var muted = audio.muted;
+    soundBtn.setAttribute('aria-label', muted ? 'Activer la musique' : 'Couper la musique');
+    soundBtn.title = muted ? 'Activer la musique' : 'Couper la musique';
+    if (soundWaves) soundWaves.style.opacity = muted ? '0.15' : '1';
+    soundBtn.dataset.muted = muted ? '1' : '0';
+  }
+
+  function closeIntro() {
+    if (!intro || intro.classList.contains('done')) return;
+    started = true;
+    startMusic();
+    document.documentElement.classList.remove('intro-open');
+    intro.classList.add('done');
+    setTimeout(function () { if (intro && intro.parentNode) intro.parentNode.removeChild(intro); }, 1000);
+  }
+
+  if (intro) {
+    intro.addEventListener('click', closeIntro);
+    intro.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); closeIntro(); }
+    });
+    var first = intro.querySelector('.btn-enter');
+    intro.setAttribute('tabindex', '-1');
+    intro.focus({ preventScroll: true });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!intro || !intro.parentNode) return;
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') closeIntro();
+  });
+
+  if (soundBtn) {
+    soundBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!audio) return;
+      if (!started) {
+        started = true;
+        audio.muted = false;
+        startMusic();
+      } else {
+        audio.muted = !audio.muted;
+        if (!audio.muted && audio.paused) startMusic();
+      }
+      updateSoundUI();
+    });
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var d = document;
+      if (!d.fullscreenElement && !d.webkitFullscreenElement) {
+        var el = d.documentElement;
+        var req = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (req) req.call(el);
+      } else {
+        var exit = d.exitFullscreen || d.webkitExitFullscreen;
+        if (exit) exit.call(d);
+      }
+    });
+  }
+  updateSoundUI();
+})();
 </script>
 </body>
 </html>
