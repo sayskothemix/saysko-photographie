@@ -214,7 +214,14 @@
         return;
       }
       function done(ok) {
-        if (status) status.textContent = ok ? 'Message envoyé, merci !' : 'Envoi impossible pour le moment, écrivez à sayskothemix+contact@gmail.com';
+        if (status) {
+          if (ok) {
+            status.textContent = 'Message envoyé, merci !';
+          } else {
+            var href = 'mailto:sayskothemix+contact@gmail.com?subject=' + encodeURIComponent('Message depuis le site') + '&body=' + encodeURIComponent(msg.value.trim() + '\n\n' + name.value.trim() + ' — ' + email.value.trim());
+            status.innerHTML = 'Envoi direct indisponible : <a href="' + href + '" style="color:var(--accent)">envoyer par e-mail</a>';
+          }
+        }
         if (ok) { name.value = ''; email.value = ''; msg.value = ''; }
       }
       fetch('/api/message', {
