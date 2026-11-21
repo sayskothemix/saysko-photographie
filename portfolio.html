@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Saysko Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Menu mobile (pages séparées) */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html" class="active">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html">Cours</a>
+      <a href="shorts.html">Shorts</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="competences.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+  <div class="page-hero container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / Portfolio</div>
+    <div class="kicker">Vos émotions, au cœur de chaque image.</div>
+    <h1>Portfolio</h1>
+    <p>Une galerie de portraits, de lumière et d’histoires.</p>
+  </div>
+  <main class="page-main container">
+<section id="portfolio">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Mon <span>Portfolio</span></h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="view-modes reveal" id="viewModes">
+        <button class="view-mode active" data-mode="carousel" title="Diaporama">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 9h20"/></svg> Carrousel
+        </button>
+        <button class="view-mode" data-mode="grid" title="Grille">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Grille
+        </button>
+        <button class="view-mode" data-mode="story" title="Plein écran">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg> Plein écran
+        </button>
+      </div>
+
+      <div class="grid-view" id="gridView"></div>
+      <div class="story-view" id="storyView"></div>
+
+      <div class="carousel" id="carousel">
+        <div class="carousel-viewport" id="carouselViewport">
+          <div class="carousel-track" id="carouselTrack"></div>
+          <button class="car-trigger car-trigger-prev" id="carPrev" aria-label="Photo précédente">
+            <span class="trig-icon">&#8249;</span><span class="trig-label">PLAN PRÉC.</span>
+          </button>
+          <button class="car-trigger car-trigger-next" id="carNext" aria-label="Photo suivante">
+            <span class="trig-icon">&#8250;</span><span class="trig-label">PLAN SUIV.</span>
+          </button>
+        </div>
+        <div class="car-bottom">
+          <div class="car-dots" id="carDots"></div>
+          <div class="car-count" id="carCount"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+  <script src="site.js"></script>
+<script>
+  /* Menu mobile */
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+  })();
+</script>
+</body>
+</html>

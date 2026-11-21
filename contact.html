@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Saysko Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Menu mobile (pages séparées) */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html">Cours</a>
+      <a href="shorts.html">Shorts</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="competences.html">Compétences</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+  <div class="page-hero container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / Contact</div>
+    <div class="kicker">Parlons de votre projet.</div>
+    <h1>Contact</h1>
+    <p>Une collaboration, une commande ou simplement un bonjour.</p>
+  </div>
+  <main class="page-main container">
+<section id="contact">
+    <div class="container contact">
+      <div class="section-header reveal">
+        <h2>Me <span>contacter</span></h2>
+        <div class="line"></div>
+      </div>
+      <p>Une collaboration, une commande ou simplement un bonjour ?</p>
+      <a href="mailto:sayskothemix+contact@gmail.com" class="email" id="contactEmail">sayskothemix+contact@gmail.com</a>
+
+      <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact">
+        <p style="display:none"><label>Ne pas remplir <input name="bot-field"></label></p>
+        <h3>Ou envoyez-moi un message</h3>
+        <label for="cfName">Votre nom</label>
+        <input type="text" id="cfName" placeholder="Votre nom" required>
+        <label for="cfEmail">Votre email</label>
+        <input type="email" id="cfEmail" placeholder="vous@exemple.com" required>
+        <label for="cfMessage">Votre message</label>
+        <textarea id="cfMessage" name="message" placeholder="Votre message..." required></textarea>
+        <button type="submit" class="btn-admin">Envoyer le message</button>
+        <div class="status" id="cfStatus"></div>
+      </form>
+    </div>
+  </section>
+  </main>
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+  <script src="site.js"></script>
+<script>
+  /* Menu mobile */
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+  })();
+</script>
+</body>
+</html>

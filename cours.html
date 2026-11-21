@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutoriels & Cours Photo — Lightroom Classic, Capture One & Strobisme | Saysko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Menu mobile */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+
+/* Filtres de catégories */
+.course-filters-wrap {
+  text-align: center; margin: 30px auto 45px; max-width: 1050px;
+}
+.course-filters {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.filter-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(224,189,133,0.22);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.filter-btn:hover {
+  border-color: var(--accent); background: rgba(224,189,133,0.1);
+  transform: translateY(-2px);
+}
+.filter-btn.active {
+  background: var(--accent); color: #000; font-weight: 600;
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(224,189,133,0.35);
+  transform: translateY(-2px);
+}
+.badge-tag {
+  font-size: 0.65rem; font-weight: 700; padding: 2px 7px;
+  border-radius: 12px; letter-spacing: 0.5px;
+}
+.lr-tag { background: #001e36; color: #38a9ff; border: 1px solid #38a9ff55; }
+.c1-tag { background: #2b1100; color: #ff9d42; border: 1px solid #ff9d4255; }
+.strobe-tag { background: #261e05; color: #ffd15c; border: 1px solid #ffd15c55; }
+.basics-tag { background: #1a1a24; color: #bca4f5; border: 1px solid #bca4f555; }
+.filter-btn.active .badge-tag {
+  background: rgba(0,0,0,0.25); color: #000; border-color: rgba(0,0,0,0.3);
+}
+
+/* En-tête de catégorie */
+.cat-divider {
+  display: flex; align-items: center; gap: 16px; margin: 55px auto 20px;
+  max-width: 1000px;
+}
+.cat-divider h2 {
+  font-family: "Cormorant Garamond", serif; font-size: 2rem;
+  color: var(--accent); margin: 0; white-space: nowrap; display: flex; align-items: center; gap: 12px;
+}
+.cat-divider .line {
+  flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,189,133,0.4), transparent);
+}
+.cat-desc {
+  max-width: 1000px; margin: 0 auto 30px; color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+}
+
+/* Accordéon glissant ultra-fluide */
+.cours-section {
+  max-width: 1000px; margin: 0 auto 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(224,189,133,0.18);
+  border-radius: 4px;
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;
+  overflow: hidden;
+}
+.cours-section:hover {
+  border-color: rgba(224,189,133,0.45);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+.cours-section.open {
+  border-color: rgba(224,189,133,0.7);
+  background: rgba(255,255,255,0.035);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.55), 0 0 25px rgba(224,189,133,0.15);
+}
+.cours-section-head {
+  padding: 22px 28px;
+  display: flex; align-items: center; gap: 20px;
+  cursor: pointer; user-select: none;
+  background: rgba(255,255,255,0.01);
+  transition: background 0.3s;
+}
+.cours-section-head:hover {
+  background: rgba(224,189,133,0.04);
+}
+@media (max-width: 600px) {
+  .cours-section-head {
+    padding: 16px 18px; gap: 14px; flex-wrap: wrap;
+  }
+}
+.cours-num {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2.2rem; font-weight: 300; line-height: 1;
+  color: var(--accent); flex: none;
+}
+.cours-kicker {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 4px;
+}
+.cours-section-head h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.45rem; font-weight: 400; color: #fff; margin: 0;
+  line-height: 1.25;
+}
+.cours-badge {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 12px;
+  background: rgba(224,189,133,0.08); border: 1px solid rgba(224,189,133,0.3);
+  color: var(--accent); flex: none; margin-left: 10px;
+}
+@media (max-width: 700px) {
+  .cours-badge { display: none; }
+}
+
+.cours-toggle-btn {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 20px;
+  border: 1px solid rgba(224,189,133,0.35);
+  background: rgba(224,189,133,0.06);
+  color: var(--accent); font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  transition: all 0.3s ease;
+  flex: none;
+}
+.cours-section.open .cours-toggle-btn {
+  background: var(--accent); color: #0b0b0d; font-weight: 600;
+  border-color: var(--accent);
+}
+.cours-toggle-arrow {
+  display: inline-block; font-size: 0.75rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cours-section.open .cours-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* Le tiroir glissant (CSS Grid 0fr -> 1fr) */
+.cours-accordion-drawer {
+  display: grid !important;
+  grid-template-rows: 0fr !important;
+  transition: grid-template-rows 0.48s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.cours-section.open .cours-accordion-drawer {
+  grid-template-rows: 1fr !important;
+}
+.cours-accordion-inner {
+  overflow: hidden !important;
+  min-height: 0 !important;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.38s ease 0.1s, transform 0.38s ease 0.1s;
+}
+.cours-section.open .cours-accordion-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cours-body {
+  display: block !important;
+  padding: 16px 30px 34px !important;
+  border-top: 1px solid rgba(224,189,133,0.12);
+  margin-top: 0 !important;
+}
+@media (max-width: 600px) {
+  .cours-body { padding: 14px 18px 26px !important; }
+}
+
+.cours-lead {
+  color: var(--accent-2); font-size: 1.05rem; line-height: 1.7;
+  margin-bottom: 20px; font-style: italic; font-family: "Cormorant Garamond", serif;
+}
+
+/* Texte explicatif riche */
+.cours-expl-text {
+  color: #d6d3ce; font-size: 0.95rem; line-height: 1.85; margin: 20px 0 25px;
+}
+.cours-expl-text p { margin-bottom: 14px; }
+.cours-expl-text strong { color: #fff; font-weight: 600; }
+.cours-expl-text em { color: var(--accent-2); font-style: normal; }
+
+.cours-expl-highlight {
+  border-left: 3px solid var(--accent);
+  background: rgba(224,189,133,0.05);
+  padding: 14px 20px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.92rem; color: #f0ebe1;
+}
+
+/* Raccourcis et Astuces studio */
+.shortcut-box {
+  background: rgba(224,189,133,0.04);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.88rem; color: #e8e6e3;
+}
+.shortcut-box strong { color: var(--accent); display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+.shortcut-box kbd {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(224,189,133,0.35);
+  color: var(--accent); padding: 2px 7px; border-radius: 3px;
+  font-family: monospace; font-size: 0.82rem; margin: 0 2px;
+}
+.tip-box {
+  background: rgba(142,68,173,0.09);
+  border: 1px dashed rgba(188,164,245,0.38);
+  padding: 14px 18px; margin: 18px 0; border-radius: 4px;
+  font-size: 0.88rem; color: #ded4f5;
+}
+.tip-box strong { color: #caa6ff; display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Bloc Vidéo pédagogique */
+.cours-video {
+  margin: 26px 0 20px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(224,189,133,0.25);
+  padding: 18px;
+  border-radius: 4px;
+}
+.cours-video-label {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+}
+.cours-video-label::before {
+  content: ''; width: 20px; height: 2px; background: var(--accent);
+}
+.cours-video-frame {
+  position: relative; width: 100%; max-width: 800px;
+  aspect-ratio: 16 / 9; background: #000;
+  border: 1px solid rgba(224,189,133,0.2); overflow: hidden;
+  border-radius: 3px; margin-bottom: 12px;
+}
+.cours-video-frame iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}
+.cours-video-caption {
+  color: var(--muted); font-size: 0.85rem; line-height: 1.6;
+}
+.cours-video-caption a {
+  color: var(--accent); text-decoration: underline; margin-left: 6px;
+}
+.video-key-points {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.82rem; color: #ccc;
+}
+.video-key-points strong { color: var(--accent-2); }
+
+/* Filtres Masquage */
+.cours-section.filtered-out, .cat-group.filtered-out {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html" class="active">Cours & Tutos</a>
+      <a href="shorts.html">Shorts</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="competences.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero container">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Cours & Tutoriels</div>
+  <div class="kicker">Centre de Formation & Post-Production</div>
+  <h1>Tutoriels & Cours Pratiques</h1>
+  <p>Lightroom Classic, Capture One Pro, Strobisme studio et prise de vue — cliquez sur une rubrique pour dérouler les explications et vidéos.</p>
+</div>
+
+<main class="page-main container">
+  <!-- Filtres par catégorie -->
+  <div class="course-filters-wrap">
+    <div class="course-filters">
+      <button class="filter-btn active" data-filter="all">Tous les tutoriels <span class="badge-tag">18</span></button>
+      <button class="filter-btn" data-filter="lr"><span class="badge-tag lr-tag">LR</span> Lightroom Classic <span class="badge-tag">6</span></button>
+      <button class="filter-btn" data-filter="c1"><span class="badge-tag c1-tag">C1</span> Capture One Pro <span class="badge-tag">5</span></button>
+      <button class="filter-btn" data-filter="strobe"><span class="badge-tag strobe-tag">⚡</span> Strobisme & Studio <span class="badge-tag">4</span></button>
+      <button class="filter-btn" data-filter="basics"><span class="badge-tag basics-tag">📷</span> Prise de Vue & RAW <span class="badge-tag">3</span></button>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       SECTION 1 : LIGHTROOM CLASSIC
+       ============================================== -->
+  <div class="cat-group" data-category="lr">
+    <div class="cat-divider">
+      <h2><span class="badge-tag lr-tag" style="font-size:1.15rem;padding:4px 11px;">LR</span> Lightroom Classic</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">Le moteur de développement le plus utilisé au monde. Cliquez sur une fiche ci-dessous pour faire glisser le cours écrit approfondi, les étapes techniques, les raccourcis et la vidéo de démonstration en français.</p>
+
+    <!-- LR 01 : Retouche Portrait Express (AVEC VIDÉO JOANNIE THERRIEN) -->
+    <article class="cours-section reveal" data-category="lr" id="lr-1">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Retouche Portrait & Luminosité</div>
+          <h3>Traiter un portrait dans Lightroom Classic en 5 minutes</h3>
+        </div>
+        <div class="cours-badge">Indispensable</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Du fichier RAW brut sorti du boîtier jusqu'au portrait éclatant prêt à publier. Une méthode pas à pas pour révéler la lumière sans jamais dénaturer le visage du modèle.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif & Méthode pas à pas</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Comprendre la logique du fichier RAW en portrait :</strong> Lorsque vous ouvrez un fichier RAW sorti de votre appareil (par exemple un Canon 5D Mark IV), l'image paraît souvent un peu plate ou sous-contrastée. C'est tout à fait normal : le capteur a enregistré un négatif numérique neutre sans aucun traitement destructeur. Le but du développement n'est pas de tout pousser à fond, mais d'équilibrer la dynamique lumineuse.</p>
+              
+              <div class="cours-expl-highlight">
+                <strong>La règle d'or de l'exposition en portrait :</strong> On expose toujours pour la peau du modèle. Si les hautes lumières de l'arrière-plan sont un peu vives, on les récupère avec le curseur <em>Hautes lumières</em> (-25 à -40), tandis qu'on débouche délicatement les ombres (+15 à +25) pour donner de la matière aux cheveux et aux cils sans faire monter de bruit chromatique.
+              </div>
+
+              <p><strong>Le dosage subtil de la Texture et de la Clarté :</strong> C'est l'erreur numéro un des débutants : pousser la <em>Clarté</em> en croyant ajouter de la netteté. La Clarté agit sur le contraste des tons moyens et durcit considérablement les rides, les pores et les cernes. À l'inverse, l'outil <em>Texture</em> isole les micro-détails fins. En portrait, nous appliquons la technique Saysko : <strong>Texture à +8</strong> pour faire pétiller l'iris et la trame du vêtement, et <strong>Clarté à -4</strong> pour apporter ce velouté caractéristique des photos de studio pro.</p>
+            </div>
+
+            <div class="cours-cols">
+              <div class="cours-block">
+                <h4>Les étapes chronologiques</h4>
+                <ul>
+                  <li><strong>1. Calibrer la balance des blancs :</strong> Pipette sur le blanc de l'œil ou une charte de gris pour caler la température exacte.</li>
+                  <li><strong>2. Tonalité de base :</strong> Ajuster l'exposition, baisser les hautes lumières, remonter les ombres.</li>
+                  <li><strong>3. Point blanc et point noir :</strong> Maintenir <kbd>Alt</kbd> en déplaçant les curseurs pour fixer les seuils absolus sans rien cramer.</li>
+                  <li><strong>4. Présence :</strong> Texture +8, Clarté -4, Vibrance +12 (la vibrance protège naturellement les tons chair).</li>
+                </ul>
+              </div>
+              <div class="cours-block">
+                <h4>Ce que vous gagnez</h4>
+                <ul>
+                  <li>Un rendu net et éclatant qui respecte le grain de peau</li>
+                  <li>Un flux de travail reproductible en 5 minutes par photo</li>
+                  <li>Une cohérence parfaite sur toute votre série de portraits</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- VIDÉO EXPLICATIVE ASSOCIÉE -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/hF5knxWfWKA" title="Traiter un portrait dans Lightroom Classic en 5 minutes" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Traiter un portrait dans Lightroom Classic en 5 minutes » par <strong>Joannie Therrien</strong>.
+                <a href="https://www.youtube.com/watch?v=hF5knxWfWKA" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> La démonstration en direct de l'équilibrage de la lumière, l'adoucissement des ombres et la technique pour donner un coup d'éclat immédiat au modèle en quelques coups de curseurs.
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis essentiels</strong>
+              <kbd>D</kbd> : Ouvrir le module Développement · <kbd>Y</kbd> : Comparaison Avant / Après en écran scindé · <kbd>\</kbd> : Basculer entre l'image brute et l'image retouchée.
+            </div>
+
+            <div class="tip-box">
+              <strong>L'astuce Studio Saysko</strong>
+              Ne touchez jamais au curseur <em>Saturation</em> générale sur un visage ! Utilisez toujours la <strong>Vibrance</strong> : elle agit de façon intelligente en augmentant uniquement les couleurs sous-saturées sans saturer les tons orange et rouge de la peau.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LR 02 : Masques IA Portrait (AVEC VIDÉO LOUIS LAVOIE) -->
+    <article class="cours-section reveal" data-category="lr" id="lr-2">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Retouche Locale par IA</div>
+          <h3>Maîtriser les Masques IA : Sujet, Peau, Yeux & Arrière-plan</h3>
+        </div>
+        <div class="cours-badge">Avancé & IA</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">L'intelligence artificielle intégrée à Lightroom révolutionne la retouche portrait. Apprenez à isoler automatiquement chaque partie du visage pour un travail chirurgical.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Le masquage intelligent</span></div>
+            <div class="cours-expl-text">
+              <p><strong>La fin des sélections manuelles fastidieuses :</strong> Auparavant, retoucher les yeux ou adoucir la peau d'un modèle obligeait à peindre minutieusement chaque zone au pinceau avec un contour progressif. Depuis l'arrivée du moteur d'IA d'Adobe dans Lightroom Classic, le logiciel détecte instantanément les personnes présentes dans la scène et découpe automatiquement : le sujet complet, la peau du visage, la peau du corps, les sourcils, les blancs des yeux, l'iris, les lèvres et la chevelure.</p>
+
+              <p><strong>La technique de la retouche par calques séparés :</strong></p>
+              <ul>
+                <li><strong>Masque Peau du visage :</strong> Baisse de Texture (-12) et de Clarté (-6), puis hausse de Netteté (+8). Cette combinaison adoucit les micro-imperfections tout en préservant le piqué des pores.</li>
+                <li><strong>Masque Iris & Pupille :</strong> Boostez l'Exposition de +0.20 et la Clarté de +15 pour faire pétiller la couleur naturelle des yeux.</li>
+                <li><strong>Masque Arrière-plan :</strong> En inversant la sélection du sujet, baissez l'exposition du fond de -0.30 EV pour détacher le modèle avec force.</li>
+              </ul>
+            </div>
+
+            <!-- VIDÉO LOUIS LAVOIE -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/fG24M7ifWeE" title="Des essentiels pour améliorer vos masques sur Lightroom Classic" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Des essentiels pour améliorer vos masques dans Lightroom Classic » par <strong>Louis Lavoie</strong>.
+                <a href="https://www.youtube.com/watch?v=fG24M7ifWeE" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> Comment utiliser la détection de personnes par IA, combiner l'intersection de masques et soustraire des zones pour une retouche ultra-naturelle.
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Masquage</strong>
+              <kbd>Maj</kbd> + <kbd>W</kbd> : Ouvrir le panneau des Masques · <kbd>O</kbd> : Afficher / masquer l'incrustation rouge · <kbd>'</kbd> : Inverser le masque sélectionné.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LR 03 : Organisation & Catalogue -->
+    <article class="cours-section reveal" data-category="lr" id="lr-3">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Organisation & Catalogue</div>
+          <h3>Structure de catalogue infaillible & Importation automatisée</h3>
+        </div>
+        <div class="cours-badge">Organisation</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Pourquoi 90% des ralentissements et des pertes d'images viennent d'un catalogue mal configuré. La structure professionnelle pour gérer des dizaines de milliers de photos sans jamais ramer.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : L'architecture d'un catalogue sain</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Comprendre le fonctionnement de Lightroom :</strong> Beaucoup de photographes pensent que leurs photos sont « dans » Lightroom. C'est faux ! Lightroom est simplement une base de données (le fichier <code>.lrcat</code>) qui pointe vers les fichiers RAW stockés sur vos disques durs. Si vous déplacez ou renommez vos dossiers depuis l'Explorateur Windows sans passer par Lightroom, les liens sont brisés et le fameux point d'interrogation apparaît.</p>
+
+              <p><strong>La règle du catalogue annuel unique :</strong> Ne créez jamais un catalogue par shooting ! Vous perdriez toute la puissance de recherche et de comparaison de Lightroom. La méthode éprouvée en studio consiste à créer <strong>un catalogue par an</strong> (ex: <code>Saysko_2026.lrcat</code>), stocké sur votre SSD interne le plus rapide avec ses fichiers d'aperçus, tandis que les fichiers RAW originaux sont rangés dans une arborescence chronologique stricte : <code>D:\Photos\2026\2026-11-21_Shooting-Nom\</code>.</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis</strong>
+              <kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>I</kbd> : Ouvrir l'importation · <kbd>G</kbd> : Vue Grille · <kbd>E</kbd> : Vue Loupe · <kbd>Tab</kbd> : Masquer les panneaux latéraux pour agrandir la photo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LR 04 : Tri express Culling -->
+    <article class="cours-section reveal" data-category="lr" id="lr-4">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-04</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Tri & Sélection (Culling)</div>
+          <h3>Tri express : 1000 photos triées en 20 minutes chrono</h3>
+        </div>
+        <div class="cours-badge">Productivité</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">La méthode des 3 passages avec le mode Verrouillage Majuscule pour sélectionner les meilleures photos d'une séance sans perdre des heures à hésiter.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La méthode des 3 passages</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Le piège de la retouche prématurée :</strong> L'erreur classique est de commencer à retoucher une photo dès qu'on la voit lors du défilement. Résultat : vous passez 15 minutes sur une image que vous rejetterez peut-être plus tard ! Le tri (Culling) et le développement doivent être deux étapes totalement séparées.</p>
+
+              <p><strong>Le protocole en 3 passages rapides :</strong></p>
+              <ol style="margin-left:20px;margin-bottom:15px;">
+                <li><strong>Passage 1 (Élimination brute) :</strong> On appuie sur <kbd>Verr Maj</kbd> (Caps Lock). Dès qu'on appuie sur une touche, Lightroom passe automatiquement à la photo suivante sans toucher aux flèches. On rejette impitoyablement avec <kbd>X</kbd> les yeux fermés, les flous et les cadrages ratés.</li>
+                <li><strong>Passage 2 (Présélection) :</strong> On filtre pour n'afficher que les photos non rejetées, et on pose un drapeau blanc avec <kbd>P</kbd> sur chaque cliché qui dégage une émotion ou une posture forte.</li>
+                <li><strong>Passage 3 (Arbitrage comparatif) :</strong> On sélectionne les photos d'une même pose et on appuie sur <kbd>C</kbd> (Mode Comparaison). La meilleure reste à gauche, les autres défilent à droite jusqu'à n'en garder qu'une seule.</li>
+              </ol>
+            </div>
+
+            <div class="tip-box">
+              <strong>L'astuce Studio Saysko</strong>
+              Une fois le tri terminé, faites <kbd>Ctrl</kbd> + <kbd>Retour arrière</kbd> : Lightroom regroupe toutes les photos marquées d'une croix <kbd>X</kbd> et vous propose de les supprimer définitivement du disque en 1 seconde.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LR 05 : Color Grading -->
+    <article class="cours-section reveal" data-category="lr" id="lr-5">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-05</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Colorimétrie & Look Signature</div>
+          <h3>Color Grading cinématique : Roues chromatiques or & violet</h3>
+        </div>
+        <div class="cours-badge">Artistique</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Construire une ambiance de cinéma : associer des ombres violettes profondes et des hautes lumières dorées chaleureuses pour une signature visuelle haut de gamme.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La théorie des couleurs complémentaires</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Pourquoi l'alliance Or et Violet fonctionne à la perfection :</strong> Dans la roue des couleurs, le violet profond et l'ambre/or doré sont diamétralement opposés. C'est le contraste chromatique utilisé par les plus grands chefs opérateurs au cinéma. Le regard humain est naturellement attiré par les sources chaudes dorées (qui rappellent la lumière du soleil couchant ou des bougies), tandis que les ombres froides bleutées/violettes créent une sensation de profondeur et de mystère.</p>
+
+              <p><strong>Les réglages exacts dans le panneau Color Grading :</strong></p>
+              <ul>
+                <li><strong>Roue des Ombres :</strong> Orientez la teinte vers 245° (bleu-violet nuit) avec une saturation très légère de 8 à 12%. Ne dépassez jamais 15%, sinon les noirs deviennent délavés et synthétiques.</li>
+                <li><strong>Roue des Hautes lumières :</strong> Orientez la teinte vers 42° (or chaud / ambre) avec une saturation de 12 à 18%.</li>
+                <li><strong>Curseur de Balance :</strong> Poussez la balance vers +15 pour donner la priorité à la chaleur dorée sur l'ensemble de l'image.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LR 06 : Formules d'Export -->
+    <article class="cours-section reveal" data-category="lr" id="lr-6">
+      <div class="cours-section-head">
+        <div class="cours-num">LR-06</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Exportation & Netteté</div>
+          <h3>Formules d'export : Instagram 2048px & Tirage d'Art Grand Format</h3>
+        </div>
+        <div class="cours-badge">Finition</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Comment éviter la compression destructrice des réseaux sociaux et paramétrer un fichier maître pour un tirage d'art en galerie.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La gestion des espaces couleur et de la compression</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Le piège de la compression Instagram :</strong> Si vous envoyez un fichier JPEG de 30 mégapixels à Instagram, ses serveurs appliquent un algorithme de recompression extrêmement violent qui détruit le piqué et crée du moirage. Pour garder une netteté chirurgicale, <strong>c'est vous qui devez redimensionner votre image avant l'envoi</strong>. En redimensionnant le bord long à exactement <strong>2048 pixels</strong> avec une qualité de 82%, Instagram ne recompresse presque pas l'image !</p>
+
+              <p><strong>L'espace couleur sRGB vs AdobeRGB :</strong> Le web et les téléphones fonctionnent tous en espace colorimétrique <strong>sRGB</strong>. Si vous exportez par erreur en AdobeRGB ou ProPhoto RGB pour le web, vos photos apparaîtront ternes, délavées et sans vie sur les smartphones de vos clients.</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Export</strong>
+              <kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>E</kbd> : Ouvrir les paramètres d'exportation · <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Maj</kbd> + <kbd>E</kbd> : Exporter avec les derniers réglages sans rouvrir la fenêtre.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ==============================================
+       SECTION 2 : CAPTURE ONE PRO
+       ============================================== -->
+  <div class="cat-group" data-category="c1">
+    <div class="cat-divider">
+      <h2><span class="badge-tag c1-tag" style="font-size:1.15rem;padding:4px 11px;">C1</span> Capture One Pro</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">Le logiciel de référence des photographes de studio et de mode. Cliquez sur une fiche pour glisser vers le bas et découvrir la démonstration pas à pas.</p>
+
+    <!-- C1 01 : Outil Teinte de Peau (AVEC VIDÉO QUENTIN DÉCAILLET) -->
+    <article class="cours-section reveal" data-category="c1" id="c1-1">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Rendu Couleur & Teint de Peau</div>
+          <h3>L'outil Teinte de Peau (Skin Tone) : L'arme secrète de Capture One</h3>
+        </div>
+        <div class="cours-badge">Le Must Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">La fonctionnalité qui fait la réputation planétaire de Capture One : harmoniser le teint d'un modèle en 30 secondes pour un résultat de magazine sans effet masque.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La science du teint chez Capture One</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Le défi du teint humain en portrait :</strong> Même avec le meilleur maquillage, un visage humain présente naturellement des variations de couleur : des rougeurs autour des ailes du nez et des joues, des nuances plus jaunes sur le front, ou des tons plus froids sous le menton. Tenter de corriger cela au pinceau dans Photoshop prend des dizaines de minutes par photo. C'est ici que l'outil <em>Teinte de peau (Skin Tone)</em> de Capture One accomplit des miracles.</p>
+
+              <p><strong>Comment fonctionne l'uniformisation intelligente :</strong></p>
+              <p>Avec la pipette de l'outil, vous cliquez sur une zone de peau saine et bien éclairée du visage. Capture One extrait la teinte de référence exacte. Ensuite, les curseurs magiques d'<strong>Uniformité</strong> permettent de ramener toutes les zones divergentes vers cette couleur cible :</p>
+              <ul>
+                <li><strong>Uniformité de Teinte (40-60%) :</strong> Élimine instantanément les rougeurs et marbrures en les harmonisant avec la carnation de référence.</li>
+                <li><strong>Uniformité de Saturation (20-30%) :</strong> Calme les plaques trop saturées sans éteindre la vivacité du regard.</li>
+                <li><strong>Le résultat :</strong> La peau devient uniforme, lumineuse et sublime, mais elle conserve <strong>100% de sa texture naturelle</strong>, de ses pores et de ses reliefs !</li>
+              </ul>
+            </div>
+
+            <!-- VIDÉO QUENTIN DÉCAILLET -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/hreNgaQZYC4" title="Unifier les tons chair dans Capture One Pro" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Unifier les TONS CHAIR dans CAPTURE ONE PRO » par <strong>Quentin Décaillet</strong>.
+                <a href="https://www.youtube.com/watch?v=hreNgaQZYC4" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> La méthode professionnelle pour échantillonner la couleur de peau, ajuster la tolérance du secteur colorimétrique et doser l'uniformité pour un teint parfait sans effet artificiel.
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis</strong>
+              <kbd>Q</kbd> : Activer la pipette de couleur active · <kbd>Alt</kbd> + clic sur la flèche de réinitialisation pour annuler uniquement ce réglage précis.
+            </div>
+
+            <div class="tip-box">
+              <strong>L'astuce Studio Saysko</strong>
+              Créez toujours un <strong>Calque de réglage</strong> dédié nommé « Retouche Peau » avant d'utiliser l'outil Teinte de peau. Vous pouvez ainsi ajuster l'opacité générale du calque (par exemple à 75%) si vous trouvez que l'effet gomme trop les particularités du modèle.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 02 : Prise de Vue Connectée Tethering (AVEC VIDÉO TETHERING) -->
+    <article class="cours-section reveal" data-category="c1" id="c1-2">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue Studio & Tethering</div>
+          <h3>Tethering en direct : Brancher son Canon 5D Mark IV & Sessions Studio</h3>
+        </div>
+        <div class="cours-badge">Le Standard Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Le workflow studio par excellence : shooter relié par câble USB 3.0 à l'ordinateur, affichage plein écran instantané en 1 seconde et validation de la netteté en direct.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Pourquoi shooter connecté transforme vos séances</span></div>
+            <div class="cours-expl-text">
+              <p><strong>L'écran arrière de l'appareil est un menteur :</strong> Sur le petit écran LCD de 3 pouces de votre boîtier, une photo paraît toujours nette et bien exposée. Mais une fois rentré au studio sur grand écran, vous découvrez souvent que la mise au point était sur le nez au lieu de la pupille, ou qu'un pli de vêtement disgracieux gâche la pose. En travaillant connecté (<em>Tethered</em>) avec Capture One, chaque photo apparaît instantanément sur votre grand écran calibré en 1 seconde chrono.</p>
+
+              <p><strong>La structure en « Session » :</strong> Contrairement à Lightroom qui mise tout sur un catalogue unique, Capture One utilise le concept de <strong>Session</strong> pour les shootings. Une Session est un dossier autonome contenant 4 répertoires automatiques : <em>Capture</em> (où arrivent les photos brutes), <em>Selects</em> (les photos retenues), <em>Output</em> (les exports finaux) et <em>Trash</em>. Vous pouvez déplacer tout le dossier de la Session sur n'importe quel ordinateur ou disque dur sans jamais perdre aucun réglage !</p>
+            </div>
+
+            <!-- VIDÉO CAPTURE ONE TETHERING -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/IlSbPIe5_mA" title="Prise de vue connectée avec Capture One" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Prise de vue connectée (Tethering) dans Capture One » — Tutoriel complet en français.
+                <a href="https://www.youtube.com/watch?v=IlSbPIe5_mA" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> Comment connecter son appareil en USB, paramétrer le dossier de capture, déclencher depuis l'ordinateur et appliquer automatiquement le look sur les photos suivantes (Next Capture Adjustments).
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Tethering</strong>
+              <kbd>Ctrl</kbd> + <kbd>K</kbd> : Déclencher le boîtier depuis le clavier · <kbd>F10</kbd> : Mode plein écran Viewer pour montrer l'image au modèle en direct.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 03 : Calques & Plage Luma -->
+    <article class="cours-section reveal" data-category="c1" id="c1-3">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Masquage & Calques</div>
+          <h3>Calques de réglage & Masquage par Plage Luma (Luma Range)</h3>
+        </div>
+        <div class="cours-badge">Technique Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Sculpter les reflets de flash sans toucher aux ombres grâce au masquage interactif par niveau de luminance en temps réel.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La puissance de la Plage Luma</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Qu'est-ce que la Plage Luma ?</strong> Contrairement à un masque classique où l'on peint une zone géographique de l'image, la <strong>Plage Luma</strong> analyse la luminosité pixel par pixel. Elle permet de dire à Capture One : <em>« Applique ce réglage uniquement sur les pixels dont la luminosité se situe entre 70% et 100% »</em>.</p>
+              <p>En studio strobisme, cela permet d'isoler uniquement les éclats de lumière dorée sur les pommettes, les épaules et les cheveux (le rim light), et de monter leur clarté ou leur teinte dorée sans jamais dégrader les zones d'ombres profondes.</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Calques</strong>
+              <kbd>B</kbd> : Pinceau de dessin · <kbd>E</kbd> : Gomme de masque · <kbd>M</kbd> : Afficher/masquer le masque rouge en surimpression.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 04 : Éditeur de couleur avancé -->
+    <article class="cours-section reveal" data-category="c1" id="c1-4">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-04</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Colorimétrie Haute Précision</div>
+          <h3>Éditeur de couleur avancé & Profils ICC capteur Canon</h3>
+        </div>
+        <div class="cours-badge">Science des Couleurs</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Isoler chirurgicalement une nuance dans la roue chromatique 2D/3D pour modifier une teinte sans créer aucun artéfact de contour.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Pourquoi les couleurs de Capture One sont inégalées</span></div>
+            <div class="cours-expl-text">
+              <p>L'équipe de Capture One mesure physiquement chaque capteur photo en laboratoire avec des mires de haute précision pour créer des profils ICC sur-mesure (notamment le célèbre profil <em>ProStandard</em> pour Canon 5D Mark IV). Dans l'éditeur de couleur avancé, vous pouvez cocher <em>« Voir la plage de couleurs sélectionnée »</em> : le reste de la photo passe instantanément en noir et blanc, ce qui vous permet de vérifier avec une précision chirurgicale que votre sélection ne déborde pas sur le modèle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 05 : Process Recipes -->
+    <article class="cours-section reveal" data-category="c1" id="c1-5">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-05</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Exportation & Workflow Studio</div>
+          <h3>Formules d'Export (Process Recipes) : Tout exporter en 1 clic</h3>
+        </div>
+        <div class="cours-badge">Finition Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Générez simultanément en appuyant sur une seule touche : les JPEG Web pour le client, les planches de contact filigranées et les TIFF 16 bits de tirage d'art.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : L'export multi-formats simultané</span></div>
+            <div class="cours-expl-text">
+              <p>Dans la plupart des logiciels, si vous devez exporter vos photos en haute définition pour impression, puis en petit format pour les réseaux sociaux, vous devez lancer les opérations l'une après l'autre. Capture One propose les <strong>Formules de traitement (Process Recipes)</strong> : vous cochez plusieurs formules à la fois, et Capture One calcule tous les fichiers en parallèle en tâche de fond avec nommage dynamique automatique (tokens).</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourci magique</strong>
+              <kbd>Ctrl</kbd> + <kbd>D</kbd> : Lancer immédiatement le traitement des images sélectionnées selon toutes les formules cochées.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ==============================================
+       SECTION 3 : STROBISME & STUDIO
+       ============================================== -->
+  <div class="cat-group" data-category="strobe">
+    <div class="cat-divider">
+      <h2><span class="badge-tag strobe-tag" style="font-size:1.15rem;padding:4px 11px;">⚡</span> Strobisme & Éclairage Studio</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">Apprenez à maîtriser le flash déporté, sculpter la lumière au millimètre et construire des ambiances cinématiques saisissantes avec du vrai matériel de studio.</p>
+
+    <!-- ST 01 : Bases du Flash Déporté (AVEC VIDÉO FLASH STUDIO) -->
+    <article class="cours-section reveal" data-category="strobe" id="strobe-1">
+      <div class="cours-section-head">
+        <div class="cours-num">ST-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Fondations du Flash</div>
+          <h3>Les bases du flash déporté : Vitesse, Ouverture & Synchronisation</h3>
+        </div>
+        <div class="cours-badge">Fondations</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Sortir le flash de la griffe de l'appareil change tout. Comprenez la règle sacrée du strobisme : l'ouverture contrôle le flash, la vitesse contrôle la lumière ambiante.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La double exposition en strobisme</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Le principe fondamental du strobisme :</strong> Quand vous prenez une photo au flash, votre capteur enregistre en réalité <strong>deux expositions superposées en un seul déclenchement</strong> :</p>
+              <ul>
+                <li><strong>1. L'exposition ambiante (lumière continue) :</strong> Elle est contrôlée par le trio classique <em>Vitesse d'obturation + Ouverture + ISO</em>. Si vous baissez votre vitesse (ex: 1/30s), l'arrière-plan devient plus lumineux.</li>
+                <li><strong>2. L'exposition au flash (lumière instantanée) :</strong> L'éclair du flash dure une infime fraction de seconde (environ 1/2000s). La vitesse d'obturation n'a donc AUCUN impact sur la puissance de l'éclair ! C'est uniquement l'<strong>Ouverture du diaphragme</strong> et la puissance du flash qui contrôlent la luminosité de votre sujet.</li>
+              </ul>
+              <p><strong>La vitesse de synchronisation (Sync Speed) :</strong> Sur la plupart des boîtiers réflex (comme le Canon 5D Mark IV), la vitesse maximale avec un flash standard est de <strong>1/200s</strong>. Si vous déclenchez plus vite sans activer le mode HSS (High Speed Sync), le second rideau mécanique commence à se fermer avant la fin de l'éclair et crée une bande noire au bas de l'image.</p>
+            </div>
+
+            <!-- VIDÉO FLASH STUDIO -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/QXnVqx5j4rY" title="Les bases de la photo au flash déporté (strobisme)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Les bases de la photo au flash déporté (Strobisme) » — Tutoriel complet en français.
+                <a href="https://www.youtube.com/watch?v=QXnVqx5j4rY" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> Comment installer un déclencheur sans fil (transmetteur radio), régler le flash en mode Manuel, positionner la source à 45° et équilibrer la lumière du flash avec le décor.
+              </div>
+            </div>
+
+            <div class="tip-box">
+              <strong>L'astuce Studio Saysko</strong>
+              En studio, réglez toujours votre boîtier en <strong>Mode Manuel (M)</strong> : ISO 100 pour une pureté maximale du signal, vitesse calée à 1/160s, et diaphragme à f/4 ou f/5.6 pour une netteté impeccable d'une oreille à l'autre.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ST 02 : Modeler la lumière -->
+    <article class="cours-section reveal" data-category="strobe" id="strobe-2">
+      <div class="cours-section-head">
+        <div class="cours-num">ST-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Modeleurs & Diffusion</div>
+          <h3>Modeler la lumière : Softbox, Parapluie & Réflecteurs</h3>
+        </div>
+        <div class="cours-badge">Sculpture Lumière</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">La taille de la source définit la douceur des ombres. Découvrez l'impact de chaque modeleur pour donner du volume et du modelé à vos visages.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Lumière dure vs Lumière douce</span></div>
+            <div class="cours-expl-text">
+              <p><strong>La loi physique absolue de l'éclairage :</strong> Plus une source lumineuse est <strong>grande par rapport au sujet</strong>, plus les transitions entre ombre et lumière sont progressives et douces. Un flash nu est une minuscule ampoule de 3 cm : il produit une lumière dure, des ombres tranchées et fait briller les imperfections de peau. En plaçant une <strong>Octobox de 120 cm</strong> tout près du modèle, la source devient immense et enveloppe le visage d'une douceur flatteuse.</p>
+            </div>
+
+            <!-- VIDÉO STUDIO DE RUE -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/yll2nS6t0DY" title="Comment utiliser le matériel de studio de rue" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Comment utiliser le matériel de studio de rue » par <strong>fotoloco</strong>.
+                <a href="https://www.youtube.com/watch?v=yll2nS6t0DY" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> La mise en place concrète des pieds d'éclairage, le montage des boîtes à lumière et le comportement de la lumière en conditions réelles.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ST 03 : Strobisme créatif -->
+    <article class="cours-section reveal" data-category="strobe" id="strobe-3">
+      <div class="cours-section-head">
+        <div class="cours-num">ST-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Créativité & Ambiance</div>
+          <h3>Strobisme créatif : Gélatines de couleur & Effet Nuit en plein jour</h3>
+        </div>
+        <div class="cours-badge">Créatif</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Utilisez des filtres gélatines ambre et violettes pour teinter vos arrière-plans et transformez un plein midi en scène de nuit cinématographique.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Créer la nuit en plein jour</span></div>
+            <div class="cours-expl-text">
+              <p>Pour assombrir un décor en plein jour, il suffit de régler son boîtier à 1/200s, ISO 100 et de fermer le diaphragme à f/11 ou f/16 : l'image devient presque noire. Ensuite, on amène un puissant flash déporté tout près du sujet pour l'éclairer lui seul. Le résultat : le modèle est parfaitement illuminé sur un fond sombre et dramatique digne d'une affiche de film hollywoodien !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ST 04 : Setup 4 flashs -->
+    <article class="cours-section reveal" data-category="strobe" id="strobe-4">
+      <div class="cours-section-head">
+        <div class="cours-num">ST-04</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Setup Multi-Flashs</div>
+          <h3>Photographier à plusieurs flashs : Key, Fill, Rim & Background Light</h3>
+        </div>
+        <div class="cours-badge">Setup Pro</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Construire un éclairage de magazine de mode pas à pas : allumer et calibrer chaque source lumineuse l'une après l'autre sans jamais tâtonner.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Le protocole en 4 sources</span></div>
+            <div class="cours-expl-text">
+              <p><strong>La méthode d'isolation des sources :</strong> Ne réglez jamais tous vos flashs en même temps. Éteignez tout et procédez dans l'ordre :</p>
+              <ul>
+                <li><strong>1. Key Light (Source principale) :</strong> Placée à 45° légèrement au-dessus du regard. Elle modèle le nez et les pommettes.</li>
+                <li><strong>2. Fill Light (Débouchage) :</strong> Placée dans l'axe ou sous le menton avec un réflecteur. Elle dose le niveau de détail dans les ombres.</li>
+                <li><strong>3. Rim Light (Lumière de contour) :</strong> Placée derrière le modèle en contre-plongée latérale. Elle découpe la chevelure et les épaules pour détacher le sujet du fond.</li>
+                <li><strong>4. Background Light (Lumière de fond) :</strong> Éclaire le mur studio avec un cône ou une gélatine pour créer un halo de profondeur en 3D.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ==============================================
+       SECTION 4 : BASES PHOTO & RAW
+       ============================================== -->
+  <div class="cat-group" data-category="basics">
+    <div class="cat-divider">
+      <h2><span class="badge-tag basics-tag" style="font-size:1.15rem;padding:4px 11px;">📷</span> Prise de Vue & Fichiers RAW</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">Les fondamentaux indispensables pour réussir ses prises de vue : le triangle d'exposition, la netteté et la supériorité du format RAW.</p>
+
+    <!-- BP 01 : Triangle d'exposition -->
+    <article class="cours-section reveal" data-category="basics" id="base-1">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Triangle d'Exposition</div>
+          <h3>Ouverture, Vitesse & Sensibilité ISO : Les 3 leviers</h3>
+        </div>
+        <div class="cours-badge">Fondations</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Comprendre comment les 3 paramètres interagissent et quel est leur impact créatif direct sur l'image.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Choisir sa priorité créative</span></div>
+            <div class="cours-expl-text">
+              <p>Le triangle d'exposition n'est pas qu'une question mathématique de lumière : chaque curseur apporte une signature esthétique irremplaçable :</p>
+              <ul>
+                <li><strong>L'Ouverture (f/1.4 à f/16) :</strong> Choisit la zone de netteté. En portrait, on ouvre entre f/1.8 et f/2.8 pour faire fondre l'arrière-plan dans un flou velouté (bokeh).</li>
+                <li><strong>La Vitesse (1/8000s à 30s) :</strong> Gère le temps. En portrait à main levée, ne descendez jamais sous 1/125s pour éviter tout flou de micro-mouvement.</li>
+                <li><strong>L'ISO (100 à 6400+) :</strong> L'amplification électronique. Plus on monte, plus le grain numérique apparaît et plus la dynamique des couleurs baisse.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 02 : Profondeur de champ -->
+    <article class="cours-section reveal" data-category="basics" id="base-2">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Optique & Flou</div>
+          <h3>La profondeur de champ & le Bokeh créatif en portrait</h3>
+        </div>
+        <div class="cours-badge">Optique</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Les 3 facteurs physiques qui créent un détachement tridimensionnel du modèle par rapport à l'arrière-plan.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Les leviers du Bokeh</span></div>
+            <div class="cours-expl-text">
+              <p>Pour obtenir un arrière-plan ultra flou sans payer un objectif hors de prix, appliquez la trilogie Saysko : <strong>1. Grande ouverture</strong> (f/1.8 à f/2.8) · <strong>2. Longue focale</strong> (privilégiez un 85mm ou 135mm qui compresse les perspectives) · <strong>3. Distance relative</strong> : rapprochez-vous du modèle et assurez-vous que l'arrière-plan soit situé à au moins 4 ou 5 mètres derrière lui !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 03 : RAW vs JPEG -->
+    <article class="cours-section reveal" data-category="basics" id="base-3">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Format de Fichier</div>
+          <h3>RAW vs JPEG : Pourquoi vous ne devez plus jamais shooter en JPEG</h3>
+        </div>
+        <div class="cours-badge">Capital</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Pourquoi le fichier RAW 14 bits contient 64 fois plus de nuances de couleur qu'un JPEG 8 bits figé par le processeur du boîtier.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : L'assurance vie de vos séances</span></div>
+            <div class="cours-expl-text">
+              <p>Un fichier JPEG est une image compressée où le processeur de votre appareil a pris des décisions définitives : contraste figé, balance des blancs incrustée et hautes lumières coupées. Si votre balance des blancs était mal réglée en JPEG, tenter de la corriger en post-production détruit les teintes de peau.</p>
+              <p>En <strong>RAW</strong>, toutes les données brutes du capteur sont conservées intactes sur 14 bits. Vous pouvez changer la balance des blancs à 100% sans la moindre dégradation, et récupérer jusqu'à 3 diaphragmes complets dans les ombres sous Lightroom ou Capture One !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div style="text-align:center; margin: 60px 0 30px;">
+    <a href="contact.html" class="btn cours-btn" style="display:inline-block;padding:16px 36px;font-size:0.85rem;letter-spacing:2px;">Envie d'un atelier pratique en studio ? Contactez-moi</a>
+  </div>
+</main>
+
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+
+<script src="site.js"></script>
+<script>
+  /* Menu mobile */
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+    if (btn && nav) {
+      btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+      nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+    }
+  })();
+
+  /* Filtrage par catégorie */
+  (function () {
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var sections = document.querySelectorAll('.cours-section');
+    var catGroups = document.querySelectorAll('.cat-group');
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.getAttribute('data-filter');
+
+        if (filter === 'all') {
+          sections.forEach(function (sec) { sec.classList.remove('filtered-out'); });
+          catGroups.forEach(function (grp) { grp.classList.remove('filtered-out'); });
+        } else {
+          sections.forEach(function (sec) {
+            if (sec.getAttribute('data-category') === filter) {
+              sec.classList.remove('filtered-out');
+            } else {
+              sec.classList.add('filtered-out');
+            }
+          });
+          catGroups.forEach(function (grp) {
+            if (grp.getAttribute('data-category') === filter) {
+              grp.classList.remove('filtered-out');
+            } else {
+              grp.classList.add('filtered-out');
+            }
+          });
+        }
+      });
+    });
+  })();
+
+  /* Accordéons avec glissement ultra-fluide */
+  (function () {
+    var sections = document.querySelectorAll('.cours-section');
+    sections.forEach(function (sec) {
+      var head = sec.querySelector('.cours-section-head');
+      var drawer = sec.querySelector('.cours-accordion-drawer');
+      if (!head) return;
+
+      head.addEventListener('click', function (e) {
+        var isOpen = sec.classList.toggle('open');
+        var btnLbl = sec.querySelector('.btn-lbl');
+        if (btnLbl) {
+          btnLbl.textContent = isOpen ? 'Fermer' : 'Ouvrir';
+        }
+      });
+
+      // Éviter de fermer quand on clique dans le contenu
+      if (drawer) {
+        drawer.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+      }
+    });
+  })();
+</script>
+</body>
+</html>

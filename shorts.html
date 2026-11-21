@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shorts — Saysko Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Menu mobile (pages séparées) */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html">Cours</a>
+      <a href="shorts.html" class="active">Shorts</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="competences.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+  <div class="page-hero container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / Shorts</div>
+    <div class="kicker">La lumière en 60 secondes.</div>
+    <h1>Shorts</h1>
+    <p>Des vidéos courtes, verticales, pleines d’énergie.</p>
+  </div>
+  <main class="page-main container">
+<section id="shorts">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Shorts · <span>La photo en 60 s</span></h2>
+        <div class="line"></div>
+      </div>
+      <p class="shorts-intro reveal">Des vidéos courtes, verticales, pleines d'énergie — comme sur tes réseaux. Astuces lumière, flash et studio en moins d'une minute. Survolez pour révéler.</p>
+      <div class="shorts-grid">
+        <div class="short-card reveal">
+          <div class="short-frame">
+            <span class="short-badge">SHORT</span>
+            <iframe src="https://www.youtube-nocookie.com/embed/UZDMmfVD1PM" title="Le secret pour avoir des photos propres en studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="short-title">Le secret des photos propres en studio</div>
+          <div class="short-meta">par <a href="https://www.youtube.com/@lightandshoot" target="_blank" rel="noopener">Light&amp;Shoot</a> · <a href="https://www.youtube.com/watch?v=UZDMmfVD1PM" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+        <div class="short-card reveal">
+          <div class="short-frame">
+            <span class="short-badge">SHORT</span>
+            <iframe src="https://www.youtube-nocookie.com/embed/DKYsAO8r8H8" title="Astuce setup lumière pour shooter" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="short-title">Astuce setup lumière pour shooter</div>
+          <div class="short-meta">par <a href="https://www.youtube.com/@PortraitFr" target="_blank" rel="noopener">Portrait Fr</a> · <a href="https://www.youtube.com/watch?v=DKYsAO8r8H8" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+        <div class="short-card reveal">
+          <div class="short-frame">
+            <span class="short-badge">SHORT</span>
+            <iframe src="https://www.youtube-nocookie.com/embed/4GZC0EE6TWI" title="Shutter Drag + Strobe" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="short-title">Shutter Drag + Strobe = 🔥</div>
+          <div class="short-meta">par <a href="https://www.youtube.com/@JeahnLaffitte" target="_blank" rel="noopener">Jeahn Laffitte</a> · <a href="https://www.youtube.com/watch?v=4GZC0EE6TWI" target="_blank" rel="noopener">Source ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+  <script src="site.js"></script>
+<script>
+  /* Menu mobile */
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compétences — Saysko Photographie</title>
+<meta name="description" content="Les compétences de Saysko : photo de studio, strobisme, retouche, vidéo verticale et transmission.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Menu mobile (pages séparées) */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+.compet-row { display: flex; gap: 22px; align-items: flex-start; margin: 0 auto 46px; max-width: 900px; }
+.compet-num { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.2rem; color: var(--accent); line-height: 1; min-width: 62px; opacity: 0.85; }
+.compet-row h2 { font-size: 1.9rem; font-weight: 400; margin-bottom: 8px; }
+.compet-row h2 span { color: var(--accent); font-style: italic; }
+.compet-row > div > p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; }
+.compet-level { display: flex; gap: 6px; margin-top: 10px; }
+.compet-level i { width: 26px; height: 3px; background: rgba(224,189,133,0.22); display: block; }
+.compet-level i.on { background: var(--accent); }
+@media (max-width: 600px) { .compet-row { flex-direction: column; gap: 10px; } .compet-num { font-size: 1.6rem; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html">Cours</a>
+      <a href="shorts.html">Shorts</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="competences.html" class="active">Compétences</a>
+      <a href="contact.html">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero container">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Compétences</div>
+  <div class="kicker">Ce que je sais faire</div>
+  <h1>Mes <span>Compétences</span></h1>
+  <p>De la lumière au fichier livré : ce que je maîtrise en studio, en strobisme, en retouche et en vidéo.</p>
+</div>
+
+<main class="page-main container">
+  <section>
+    <div class="section-header reveal">
+      <h2>Savoir-faire <span>photo</span></h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="compet-row reveal">
+      <div class="compet-num">01</div>
+      <div>
+        <h2>Photo de <span>studio</span></h2>
+        <p>Portrait posé, mode, couple et famille : construction du décor, placement du sujet, gestion du fond.</p>
+        <div class="compet-level"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      </div>
+    </div>
+
+    <div class="compet-row reveal">
+      <div class="compet-num">02</div>
+      <div>
+        <h2><span>Strobisme</span> au flash</h2>
+        <p>Configurations à 1, 2, 3 et 4 flashs, key light, fill, contre-jour et fond séparé : contrôler contraste et relief.</p>
+        <div class="compet-level"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      </div>
+    </div>
+
+    <div class="compet-row reveal">
+      <div class="compet-num">03</div>
+      <div>
+        <h2>Lumière <span>naturelle</span> et extérieur</h2>
+        <p>Shooting en extérieur, gestion du soleil dur, réflecteurs, filet diffuseur et heure dorée.</p>
+        <div class="compet-level"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header reveal">
+      <h2>Post-<span>production</span></h2>
+      <div class="line"></div>
+    </div>
+    <div class="model-grid">
+      <div class="model-card reveal">
+        <div class="model-icon">🎛️</div>
+        <h3>Développement RAW</h3>
+        <p>Lightroom et Capture One : exposition, couleurs, grain, profils et traitement par lot.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">🖌️</div>
+        <h3>Retouche beauté</h3>
+        <p>Peau, regard, morphologie : retouche naturelle qui garde le visage crédible, sans effet plastique.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">✨</div>
+        <h3>Étalonnage &amp; noir et blanc</h3>
+        <p>Rendus chauds studio, conversions noir et blanc contrastées, harmonisation d'une série.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">🖼️</div>
+        <h3>Livraison &amp; export</h3>
+        <p>Formats web et impression, recadrages, nommage, galerie et fichier prêt à publier.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header reveal">
+      <h2>Vidéo &amp; <span>contenu</span></h2>
+      <div class="line"></div>
+    </div>
+    <div class="model-grid">
+      <div class="model-card reveal">
+        <div class="model-icon">🎬</div>
+        <h3>Shorts verticaux</h3>
+        <p>Cadrage 9:16, rythme court, sous-titres : des formats pensés pour les réseaux.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">✂️</div>
+        <h3>Montage</h3>
+        <p>Montage simple et propre, synchronisation du son, habillage et export adapté à chaque plateforme.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">📡</div>
+        <h3>Streaming</h3>
+        <p>Caméra, capture, audio et scène OBS : préparer un direct lisible, sans coupure.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header reveal">
+      <h2>Matériel &amp; <span>terrain</span></h2>
+      <div class="line"></div>
+    </div>
+    <div class="model-grid">
+      <div class="model-card reveal">
+        <div class="model-icon">📷</div>
+        <h3>Prise de vue</h3>
+        <p>Boîtiers reflex et hybrides, optiques fixes et zoom, trépied et télécommande.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">💡</div>
+        <h3>Éclairage</h3>
+        <p>Flashs de studio, speedlights, bols beauté, softbox, strip, nids d'abeille et fonds.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">🔧</div>
+        <h3>Organisation</h3>
+        <p>Préparation du plateau, essais de lumière, sécurité du matériel et rangement en fin de séance.</p>
+      </div>
+      <div class="model-card reveal">
+        <div class="model-icon">🎓</div>
+        <h3>Transmission</h3>
+        <p>Cours gratuits sur les basiques, le flash et le strobisme : expliquer simplement ce qui se règle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align:center;">
+    <div class="section-header reveal">
+      <h2>Un projet <span>à réaliser</span></h2>
+      <div class="line"></div>
+    </div>
+    <p style="color:var(--muted);max-width:620px;margin:0 auto 28px;">Portrait, book, couple, produit ou contenu vidéo : parlons de ce que vous voulez obtenir.</p>
+    <a class="btn" href="contact.html">Me contacter</a>
+  </section>
+</main>
+
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+  <script src="site.js"></script>
+<script>
+  /* Menu mobile */
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+  })();
+</script>
+</body>
+</html>

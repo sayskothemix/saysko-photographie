@@ -1,0 +1,4 @@
+/intro-music.mp3
+  Cache-Control: public, max-age=86400
+/*.jpg
+  Cache-Control: public, max-age=604800
