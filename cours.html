@@ -1206,7 +1206,7 @@
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
 
-<script src="site.js?v=3"></script>
+<script src="site.js?v=2"></script>
 <script>
   /* Menu mobile */
   (function () {
@@ -1306,6 +1306,17 @@
     if (soundWaves) soundWaves.style.opacity = muted ? '0.15' : '1';
     soundBtn.dataset.muted = muted ? '1' : '0';
   }
+
+  function startOnFirstInteraction() {
+    if (!audio || started) return;
+    started = true;
+    audio.muted = false;
+    startMusic();
+    updateSoundUI();
+  }
+
+  document.addEventListener('pointerdown', startOnFirstInteraction, { once: true });
+  document.addEventListener('keydown', startOnFirstInteraction, { once: true });
 
   function closeIntro() {
     if (!intro || intro.classList.contains('done')) return;

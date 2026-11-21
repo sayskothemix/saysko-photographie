@@ -23,7 +23,15 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  
+  /* ---------- Accordéons des cours ---------- */
+  document.querySelectorAll('.cours-section-head').forEach(function (head) {
+    head.addEventListener('click', function () {
+      var section = head.closest('.cours-section');
+      if (!section) return;
+      var open = section.classList.toggle('open');
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
 
   /* ---------- Galerie : données ---------- */
   var FALLBACK = [
