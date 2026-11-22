@@ -130,8 +130,8 @@
     }
     .hero::before {
       content: ''; position: absolute; inset: 0;
-      background: url('shooting-exterieur.jpg') center/cover no-repeat;
-      opacity: 0.18; filter: grayscale(30%);
+      background: url('studio-hero.jpg') center/cover no-repeat;
+      opacity: 0.3; filter: saturate(0.92);
       transform: translateY(var(--heroShift, 0px)) scale(1.08);
     }
     .hero::after {

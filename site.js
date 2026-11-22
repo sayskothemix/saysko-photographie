@@ -63,13 +63,13 @@
 
   /* ---------- Galerie : données ---------- */
   var FALLBACK = [
-    { title: 'Lumière Dorée', src: '/galerie-AB9A7835.jpg', desc: 'Portrait · Studio' },
-    { title: 'Noir & Blanc', src: '/galerie-AB9A7833_2.jpg', desc: 'Portrait · Studio' },
-    { title: 'Portrait Studio', src: '/galerie-portrait_nette.jpg', desc: 'Portrait · Strobisme' },
-    { title: 'Shooting Couple', src: '/galerie-AB9A7956.jpg', desc: 'Portrait · Studio' },
-    { title: 'Denim', src: '/galerie-AB9A7830.jpg', desc: 'Portrait · Studio' },
-    { title: 'Avant / Après', src: '/avant-apres.png', desc: 'Retouche · Studio' },
-    { title: 'Shooting Extérieur', src: '/shooting-exterieur.jpg', desc: 'Lifestyle · Nature' }
+    { title: 'Lumière Dorée', src: 'galerie-AB9A7835.jpg', desc: 'Portrait · Studio' },
+    { title: 'Noir & Blanc', src: 'galerie-AB9A7833_2.jpg', desc: 'Portrait · Studio' },
+    { title: 'Portrait Studio', src: 'galerie-portrait_nette.jpg', desc: 'Portrait · Strobisme' },
+    { title: 'Shooting Couple', src: 'galerie-AB9A7956.jpg', desc: 'Portrait · Studio' },
+    { title: 'Denim', src: 'galerie-AB9A7830.jpg', desc: 'Portrait · Studio' },
+    { title: 'Avant / Après', src: 'avant-apres.jpg', desc: 'Retouche · Studio' },
+    { title: 'Shooting Extérieur', src: 'shooting-exterieur.jpg', desc: 'Lifestyle · Nature' }
   ];
   var photos = FALLBACK.slice();
 

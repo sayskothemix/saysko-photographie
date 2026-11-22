@@ -9,178 +9,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
+<script>
+  try {
+    if (localStorage.getItem("saysko_intro_seen") === "1") {
+      document.documentElement.classList.add("intro-seen");
+    }
+  } catch (e) {}
+</script>
 <style>
   html.intro-open, html.intro-open body { overflow: hidden; }
-
-  /* ---------- INTRO ---------- */
-  .intro {
-    position: fixed; inset: 0; z-index: 9000;
-    display: flex; align-items: center; justify-content: center;
-    background: radial-gradient(ellipse at 50% 38%, #1b1510 0%, #0b0b0d 62%), #0b0b0d;
-    overflow: hidden;
-    transition: opacity 0.9s ease, visibility 0.9s;
-  }
-  .intro.done { opacity: 0; visibility: hidden; pointer-events: none; }
-  .intro { outline: none; }
-  .intro::before {
-    content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(circle at 50% 50%, rgba(224,189,133,0.12) 0 8%, rgba(224,189,133,0.04) 18%, transparent 38%),
-      radial-gradient(ellipse at 50% 118%, rgba(224,189,133,0.10) 0%, transparent 48%),
-      linear-gradient(145deg, #100e0c 0%, #08080a 52%, #120f0c 100%);
-    opacity: 0.98;
-  }
-  .intro::after {
-    content: ""; position: absolute; inset: 18px;
-    border: 1px solid rgba(224,189,133,0.24);
-    pointer-events: none;
-  }
-  .intro-aperture {
-    position: absolute; left: 50%; top: 50%; z-index: 5;
-    width: clamp(310px, 36vw, 560px); aspect-ratio: 1;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: radial-gradient(circle,
-      rgba(246,227,192,0.10) 0 13%,
-      rgba(224,189,133,0.22) 13.5% 14.5%,
-      #171412 15% 22%,
-      #080809 22.5% 38%,
-      #161310 38.5% 51%,
-      #09090a 52%);
-    box-shadow:
-      0 0 0 1px rgba(224,189,133,0.32),
-      0 0 70px rgba(224,189,133,0.10),
-      inset 0 0 52px rgba(0,0,0,0.92);
-    animation: apertureBreathe 5s cubic-bezier(.45,0,.55,1) infinite;
-  }
-  .intro-aperture::before {
-    content: ""; position: absolute; inset: 13%;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-      rgba(255,248,226,0.96) 0 8%,
-      rgba(224,189,133,0.75) 9% 14%,
-      rgba(224,189,133,0.18) 15% 21%,
-      transparent 22%);
-    box-shadow: 0 0 28px rgba(246,227,192,0.32), inset 0 0 18px rgba(246,227,192,0.16);
-  }
-  .intro-aperture::after {
-    content: ""; position: absolute; inset: 0;
-    border-radius: 50%;
-    background: repeating-conic-gradient(from 0deg,
-      rgba(224,189,133,0.18) 0deg 1deg,
-      transparent 1deg 22.5deg);
-    mask: radial-gradient(circle, transparent 0 21%, #000 21.5% 62%, transparent 62.5%);
-    -webkit-mask: radial-gradient(circle, transparent 0 21%, #000 21.5% 62%, transparent 62.5%);
-  }
-  .intro-blade {
-    position: absolute; left: 50%; top: 50%;
-    width: 38%; height: 45%;
-    transform-origin: 0 100%;
-    clip-path: polygon(0 100%, 18% 12%, 100% 0, 82% 82%);
-    background: linear-gradient(135deg, #24201c 0%, #09090a 55%, #181512 100%);
-    border: 1px solid rgba(224,189,133,0.14);
-    box-shadow: inset -8px -8px 18px rgba(0,0,0,0.72);
-  }
-  .intro-blade:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg) translateY(-8%); }
-  .intro-blade:nth-child(2) { transform: translate(-50%, -100%) rotate(45deg) translateY(-8%); }
-  .intro-blade:nth-child(3) { transform: translate(-50%, -100%) rotate(90deg) translateY(-8%); }
-  .intro-blade:nth-child(4) { transform: translate(-50%, -100%) rotate(135deg) translateY(-8%); }
-  .intro-blade:nth-child(5) { transform: translate(-50%, -100%) rotate(180deg) translateY(-8%); }
-  .intro-blade:nth-child(6) { transform: translate(-50%, -100%) rotate(225deg) translateY(-8%); }
-  .intro-blade:nth-child(7) { transform: translate(-50%, -100%) rotate(270deg) translateY(-8%); }
-  .intro-blade:nth-child(8) { transform: translate(-50%, -100%) rotate(315deg) translateY(-8%); }
-  .intro.entering .intro-blade {
-    transition: transform 1.15s cubic-bezier(.55,.05,.22,1), opacity 1s ease;
-    opacity: 0.12;
-  }
-  .intro.entering .intro-blade:nth-child(1) { transform: translate(-50%, -100%) rotate(-42deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(2) { transform: translate(-50%, -100%) rotate(3deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(3) { transform: translate(-50%, -100%) rotate(48deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(4) { transform: translate(-50%, -100%) rotate(93deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(5) { transform: translate(-50%, -100%) rotate(138deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(6) { transform: translate(-50%, -100%) rotate(183deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(7) { transform: translate(-50%, -100%) rotate(228deg) scale(0.2); }
-  .intro.entering .intro-blade:nth-child(8) { transform: translate(-50%, -100%) rotate(273deg) scale(0.2); }
-  }
-  @keyframes apertureBreathe {
-    0%, 100% { transform: translate(-50%, -50%) scale(0.92) rotate(0deg); filter: brightness(0.88); }
-    50% { transform: translate(-50%, -50%) scale(1.06) rotate(4deg); filter: brightness(1.05); }
-  }
-  .intro.entering .intro-aperture {
-    animation: apertureEnter 1.25s cubic-bezier(.55,.05,.22,1) both;
-  }
-  .intro.entering::before { animation: studioZoom 1.25s cubic-bezier(.55,.05,.22,1) both; }
-  .intro.entering .intro-inner { animation: introForward 1.05s ease both; }
-  @keyframes apertureEnter {
-    0% { transform: translate(-50%, -50%) scale(0.92) rotate(0deg); opacity: 1; }
-    38% { transform: translate(-50%, -50%) scale(0.48) rotate(-8deg); opacity: 1; }
-    72% { transform: translate(-50%, -50%) scale(1.55) rotate(10deg); opacity: 0.62; }
-    100% { transform: translate(-50%, -50%) scale(2.8) rotate(16deg); opacity: 0; }
-  }
-  @keyframes studioZoom {
-    0% { transform: scale(1); filter: brightness(1); }
-    100% { transform: scale(1.09); filter: brightness(1.18); }
-  }
-  @keyframes introForward {
-    0% { transform: translateZ(0) scale(1); opacity: 1; }
-    100% { transform: scale(1.035); opacity: 0; }
-  }
-  .intro-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 62%; pointer-events: none;
-    mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%); }
-  .intro-grid {
-    position: absolute; left: -20%; right: -20%; bottom: -6%; height: 100%;
-    background-image:
-      repeating-linear-gradient(90deg, rgba(224,189,133,0.55) 0 1px, transparent 1px 96px),
-      repeating-linear-gradient(0deg, rgba(224,189,133,0.45) 0 1px, transparent 1px 84px);
-    transform: perspective(520px) rotateX(64deg);
-    transform-origin: bottom center;
-    opacity: 0.65;
-  }
-  .intro-beam {
-    position: absolute; top: -35%; left: 52%; width: 16%; height: 170%;
-    background: linear-gradient(180deg, rgba(246,227,192,0.13), rgba(246,227,192,0.03) 60%, transparent 86%);
-    transform: rotate(23deg); filter: blur(30px); pointer-events: none;
-  }
-  .intro-beam-2 {
-    position: absolute; top: -20%; left: 30%; width: 9%; height: 150%;
-    background: linear-gradient(180deg, rgba(246,227,192,0.07), transparent 82%);
-    transform: rotate(-16deg); filter: blur(26px); pointer-events: none;
-  }
-  .intro-glow {
-    position: absolute; left: 50%; top: 34%; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px;
-    transform: translate(-50%, -50%); pointer-events: none;
-    background: radial-gradient(circle, rgba(224,189,133,0.10), transparent 62%);
-  }
-  .intro-spark { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #f6e3c0; opacity: 0.75; box-shadow: 0 0 8px 2px rgba(246,227,192,0.55); animation: introTwinkle 5s ease-in-out infinite; }
-  @keyframes introTwinkle { 0%,100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 0.9; transform: scale(1.1); } }
-  .intro-inner { position: relative; z-index: 3; text-align: left; padding: 24px clamp(32px, 8vw, 140px); width: 100%; max-width: 1500px; margin: 0 auto; }
-  .intro-mark {
-    width: 82px; height: 82px; border: 1px solid rgba(224,189,133,0.72); border-radius: 50%;
-    display: grid; place-items: center; margin-bottom: 28px;
-    color: var(--accent); font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 1.9rem; letter-spacing: 3px;
-    box-shadow: 0 0 38px rgba(224,189,133,0.10);
-  }
-  .intro-kicker { color: var(--accent); letter-spacing: 6px; font-size: 0.66rem; text-transform: uppercase; margin-bottom: 16px; font-weight: 500; }
-  .intro h1 {
-    font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300;
-    font-size: clamp(2.7rem, 7vw, 6.8rem); line-height: 0.92; letter-spacing: 1px; text-transform: uppercase;
-    max-width: 720px;
-  }
-  .intro h1 strong {
-    display: block;
-    font-weight: 400;
-    background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .intro-slogan { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: clamp(1rem, 1.8vw, 1.38rem); color: rgba(246,227,192,0.92); letter-spacing: 1px; margin: 24px 0 36px; max-width: 610px; opacity: 0.95; }
-  .btn-enter {
-    background: none; border: 1px solid rgba(224,189,133,0.55); color: var(--accent);
-    padding: 15px 42px; font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
-    cursor: pointer; transition: background 0.35s, color 0.35s, box-shadow 0.35s;
-  }
-  .btn-enter:hover, .btn-enter:focus-visible { background: var(--accent); color: var(--bg); box-shadow: 0 0 26px rgba(224,189,133,0.35); outline: none; }
 
   /* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
   .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
@@ -214,17 +51,6 @@
   }
 
   @media (max-width: 760px) {
-    .intro::before {
-      background:
-        radial-gradient(circle at 50% 42%, rgba(224,189,133,0.12) 0 8%, transparent 34%),
-        linear-gradient(180deg, #100e0c 0%, #08080a 58%, #120f0c 100%);
-    }
-    .intro-inner { text-align: center; padding: 24px 24px 38px; align-self: flex-end; }
-    .intro-mark { margin: 0 auto 20px; width: 68px; height: 68px; font-size: 1.55rem; }
-    .intro h1 { margin: 0 auto; max-width: 560px; }
-    .intro-slogan { margin: 18px auto 28px; }
-    .intro-kicker { letter-spacing: 4px; }
-    .intro::after { inset: 10px; }
     .site-controls { top: 12px; right: 12px; }
     .site-controls button { width: 38px; height: 38px; }
   }
@@ -237,35 +63,69 @@
     .nav { height: 64px; }
     header .admin-btn { padding: 8px 14px; }
   }
+
+  /* Introduction photo et iris mecanique SVG */
+  html.intro-open, html.intro-open body { overflow: hidden; }
+  html.intro-seen .intro, html.intro-seen .iris-transition { display: none; }
+  html.intro-open .site-controls { display: none; }
+  .intro {
+    position: fixed; inset: 0; z-index: 9000;
+    display: grid; place-items: center; overflow: hidden;
+    width: 100%; height: 100%; cursor: pointer; background: #050506;
+  }
+  .intro-photo {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 28%;
+    transform: scale(1.015); will-change: transform, filter;
+  }
+  .intro::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.06) 34%, rgba(0,0,0,.52) 100%);
+    pointer-events: none;
+  }
+  .intro-enter {
+    position: relative; z-index: 2; align-self: end;
+    margin: 0 0 clamp(34px, 7vh, 72px);
+    color: rgba(255,255,255,.94); font-family: "Montserrat", sans-serif;
+    font-size: .67rem; letter-spacing: 4px; text-transform: uppercase;
+    text-shadow: 0 2px 18px rgba(0,0,0,.75);
+    transition: opacity .25s ease;
+  }
+  .intro-enter::after {
+    content: ""; display: block; width: 34px; height: 1px;
+    margin: 12px auto 0; background: rgba(255,255,255,.82);
+  }
+  .intro.entering .intro-photo { animation: introPush 2s cubic-bezier(.2,.7,.2,1) forwards; }
+  .intro.entering .intro-enter { opacity: 0; }
+  @keyframes introPush {
+    0% { transform: scale(1.015); filter: brightness(1); }
+    100% { transform: scale(1.13); filter: brightness(.68); }
+  }
+  .iris-transition {
+    position: fixed; inset: 0; z-index: 10001;
+    display: none; width: 100vw; height: 100vh; height: 100dvh;
+    opacity: 1; pointer-events: none; background: #000;
+  }
+  .iris-transition.is-active { display: block; }
+  .iris-transition.is-fading { opacity: 0; transition: opacity .22s ease; }
+  .iris-transition svg { display: block; width: 100%; height: 100%; }
+  .iris-metal {
+    fill: url(#iris-metal);
+    stroke: rgba(138,138,150,.52); stroke-width: .18;
+    vector-effect: non-scaling-stroke;
+  }
+  .iris-blades { opacity: 1; transition: opacity .06s linear; }
+  .iris-transition.is-closed .iris-blades { opacity: 0; }
+  @media (max-width: 600px) {
+    .intro-enter { font-size: .62rem; letter-spacing: 3px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .intro.entering .intro-photo { animation-duration: 1.7s; }
+  }
 </style>
 </head>
 <body class="home">
 
-<div class="flash-overlay"></div>
-
-<!-- ================= INTRO ================= -->
-<div class="intro" id="intro" role="dialog" aria-label="Introduction Saysko Photographie">
-<div class="intro-aperture" aria-hidden="true">
-  <span class="intro-blade"></span><span class="intro-blade"></span>
-  <span class="intro-blade"></span><span class="intro-blade"></span>
-  <span class="intro-blade"></span><span class="intro-blade"></span>
-  <span class="intro-blade"></span><span class="intro-blade"></span>
-</div>
-  <span class="intro-spark" style="left:12%;top:42%;animation-delay:-1s;"></span>
-  <span class="intro-spark" style="left:76%;top:26%;animation-delay:-3s;width:3px;height:3px;"></span>
-  <span class="intro-spark" style="left:68%;top:78%;animation-delay:-2s;width:3px;height:3px;"></span>
-  <span class="intro-spark" style="left:31%;top:58%;animation-delay:-4s;width:2px;height:2px;"></span>
-
-  <div class="intro-inner">
-    <div class="intro-mark" aria-hidden="true">SP</div>
-    <div class="intro-kicker">Portrait · Lumière · Émotion</div>
-    <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
-    <p class="intro-slogan">La lumière sculptée · Vos émotions, au cœur de chaque image.</p>
-    <button class="btn-enter" id="enterBtn" type="button">Découvrir →</button>
-  </div>
-</div>
-
-<!-- ================= LECTEUR AUDIO (hors intro) ================= -->
 <audio id="bgMusic" src="intro-music.mp3" loop preload="auto"></audio>
 <div class="site-controls">
   <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
@@ -274,6 +134,33 @@
   <button id="fsBtn" type="button" aria-label="Passer en plein écran" title="Plein écran">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
   </button>
+</div>
+
+<div class="flash-overlay"></div>
+
+<!-- ================= INTRO ================= -->
+<div class="intro" id="intro" role="button" tabindex="0" aria-label="Entrer sur le site Saysko Photographie">
+  <img class="intro-photo" src="studio-hero.jpg" alt="" aria-hidden="true">
+  <div class="intro-enter">Cliquez pour entrer</div>
+</div>
+<div class="iris-transition" id="irisTransition" aria-hidden="true">
+  <svg id="irisSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="iris-metal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#29282d"></stop>
+        <stop offset=".18" stop-color="#111114"></stop>
+        <stop offset=".48" stop-color="#08080a"></stop>
+        <stop offset=".72" stop-color="#1b1a1f"></stop>
+        <stop offset="1" stop-color="#050506"></stop>
+      </linearGradient>
+      <mask id="iris-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+        <rect id="irisMaskRect" x="0" y="0" width="100" height="100" fill="#fff"></rect>
+        <path id="irisHole" fill="#000" d=""></path>
+      </mask>
+    </defs>
+    <rect id="irisCover" x="0" y="0" width="100" height="100" fill="#000" mask="url(#iris-mask)"></rect>
+    <g class="iris-blades" id="irisBlades"></g>
+  </svg>
 </div>
 
 <!-- ================= HEADER ================= -->
@@ -356,7 +243,7 @@
       </div>
       <div class="about-wrap">
         <div class="about-portrait reveal">
-          <img src="/saysko.jpg" alt="Saysko, photographe en studio" loading="lazy">
+          <img src="saysko.jpg" alt="Saysko, photographe en studio" loading="lazy">
           <div class="tag">Le photographe</div>
         </div>
         <div class="about-text reveal">
@@ -406,14 +293,273 @@
 (function () {
   'use strict';
   var intro = document.getElementById('intro');
+  var overlay = document.getElementById('irisTransition');
+  var svg = document.getElementById('irisSvg');
+  var bladeGroup = document.getElementById('irisBlades');
+  var irisHole = document.getElementById('irisHole');
+  var cover = document.getElementById('irisCover');
+  var maskRect = document.getElementById('irisMaskRect');
+  var bladeCount = 9;
+  var blades = [];
+  var centerX = 50;
+  var centerY = 50;
+  var maxRadius = 80;
+  var pivotRadius = 0;
+  var bladeLength = 0;
+  var followerX = 0;
+  var followerY = 0;
+  var bladeOpenAngle = -40 * Math.PI / 180;
+  var openAmount = 1;
+  var busy = false;
+  var audioContext = null;
+
+  if (!intro || !overlay || document.documentElement.classList.contains('intro-seen')) {
+    document.documentElement.classList.remove('intro-open');
+    if (intro) intro.remove();
+    if (overlay) overlay.remove();
+    return;
+  }
+  document.documentElement.classList.add('intro-open');
+
+  function point(value) {
+    return value[0].toFixed(3) + ' ' + value[1].toFixed(3);
+  }
+
+  function format(value) {
+    return value.toFixed(3);
+  }
+
+  function bladePath() {
+    var r = maxRadius;
+    var length = bladeLength;
+    return 'M ' + format(-length) + ' 0' +
+      ' C ' + format(-length * .94) + ' ' + format(-r * .055) +
+      ', ' + format(-length * .69) + ' ' + format(-r * .31) +
+      ', ' + format(-r * .22) + ' ' + format(-r * .37) +
+      ' C ' + format(-r * .01) + ' ' + format(-r * .44) +
+      ', ' + format(r * .26) + ' ' + format(-r * .32) +
+      ', ' + format(r * .37) + ' ' + format(-r * .08) +
+      ' C ' + format(r * .45) + ' ' + format(r * .12) +
+      ', ' + format(r * .25) + ' ' + format(r * .33) +
+      ', ' + format(-r * .05) + ' ' + format(r * .29) +
+      ' C ' + format(-length * .42) + ' ' + format(r * .25) +
+      ', ' + format(-length * .86) + ' ' + format(r * .12) +
+      ', ' + format(-length) + ' 0 Z';
+  }
+
+  function slotAngleForBlade(angle) {
+    var x = pivotRadius + followerX * Math.cos(angle) - followerY * Math.sin(angle);
+    var y = followerX * Math.sin(angle) + followerY * Math.cos(angle);
+    return Math.atan2(y, x);
+  }
+
+  function bladeAngleForAmount(amount) {
+    var closedSlotAngle = slotAngleForBlade(0);
+    var openSlotAngle = slotAngleForBlade(bladeOpenAngle);
+    var targetSlotAngle = closedSlotAngle + (openSlotAngle - closedSlotAngle) * amount;
+    var low = bladeOpenAngle;
+    var high = 0;
+
+    for (var i = 0; i < 24; i++) {
+      var middle = (low + high) / 2;
+      if (slotAngleForBlade(middle) > targetSlotAngle) low = middle;
+      else high = middle;
+    }
+    return (low + high) / 2;
+  }
+
+  function aperturePath(tips) {
+    var path = 'M ' + point(tips[0]);
+    var halfSectorRadius = Math.cos(Math.PI / bladeCount);
+
+    for (var i = 0; i < bladeCount; i++) {
+      var start = tips[i];
+      var end = tips[(i + 1) % bladeCount];
+      var startAngle = Math.atan2(start[1] - centerY, start[0] - centerX);
+      var endAngle = Math.atan2(end[1] - centerY, end[0] - centerX);
+      if (endAngle <= startAngle) endAngle += Math.PI * 2;
+
+      var radius = Math.sqrt(
+        Math.pow(start[0] - centerX, 2) + Math.pow(start[1] - centerY, 2)
+      );
+      var middleAngle = (startAngle + endAngle) / 2;
+      var middleRadius = radius * (halfSectorRadius + .035);
+      var middle = [
+        centerX + Math.cos(middleAngle) * middleRadius,
+        centerY + Math.sin(middleAngle) * middleRadius
+      ];
+      var control1 = [
+        start[0] + (middle[0] - start[0]) * (2 / 3),
+        start[1] + (middle[1] - start[1]) * (2 / 3)
+      ];
+      var control2 = [
+        end[0] + (middle[0] - end[0]) * (2 / 3),
+        end[1] + (middle[1] - end[1]) * (2 / 3)
+      ];
+      path += ' C ' + point(control1) + ', ' + point(control2) + ', ' + point(end);
+    }
+
+    return path + ' Z';
+  }
+
+  for (var bladeIndex = 0; bladeIndex < bladeCount; bladeIndex++) {
+    var blade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    blade.setAttribute('class', 'iris-metal');
+    bladeGroup.appendChild(blade);
+    blades.push(blade);
+  }
+
+  function renderIris(amount) {
+    openAmount = amount;
+    var bladeAngle = bladeAngleForAmount(amount);
+    var tips = [];
+
+    blades.forEach(function (blade, index) {
+      var pivotAngle = index * Math.PI * 2 / bladeCount;
+      var bladeRotation = pivotAngle + bladeAngle;
+      var pivotX = centerX + pivotRadius * Math.cos(pivotAngle);
+      var pivotY = centerY + pivotRadius * Math.sin(pivotAngle);
+      blade.setAttribute(
+        'transform',
+        'translate(' + format(pivotX) + ' ' + format(pivotY) + ') rotate(' +
+          format(bladeRotation * 180 / Math.PI) + ')'
+      );
+      tips.push([
+        pivotX - bladeLength * Math.cos(bladeRotation),
+        pivotY - bladeLength * Math.sin(bladeRotation)
+      ]);
+    });
+
+    irisHole.setAttribute('d', aperturePath(tips));
+  }
+
+  function resizeIris() {
+    var scale = 100 / Math.max(1, Math.min(window.innerWidth, window.innerHeight));
+    var viewWidth = window.innerWidth * scale;
+    var viewHeight = window.innerHeight * scale;
+    centerX = viewWidth / 2;
+    centerY = viewHeight / 2;
+    maxRadius = Math.sqrt(centerX * centerX + centerY * centerY) + 2;
+    pivotRadius = maxRadius * 1.6;
+    bladeLength = pivotRadius;
+    followerX = -maxRadius * .52;
+    followerY = maxRadius * .16;
+    svg.setAttribute('viewBox', '0 0 ' + viewWidth + ' ' + viewHeight);
+    [cover, maskRect].forEach(function (rect) {
+      rect.setAttribute('width', viewWidth);
+      rect.setAttribute('height', viewHeight);
+    });
+    document.getElementById('iris-mask').setAttribute('width', viewWidth);
+    document.getElementById('iris-mask').setAttribute('height', viewHeight);
+    blades.forEach(function (blade) {
+      blade.setAttribute('d', bladePath());
+    });
+    renderIris(openAmount);
+  }
+
+  function animateIris(from, to, duration) {
+    return new Promise(function (resolve) {
+      var start = performance.now();
+      function frame(now) {
+        var progress = Math.min(1, (now - start) / duration);
+        var eased = progress < .5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        renderIris(from + (to - from) * eased);
+        if (progress < 1) requestAnimationFrame(frame);
+        else resolve();
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  window.addEventListener('resize', resizeIris, { passive: true });
+  resizeIris();
+
+  function prepareShutter() {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      return Promise.resolve({ error: new Error('Web Audio is not supported in this browser.') });
+    }
+    if (!audioContext) audioContext = new AudioContext();
+
+    var resume = audioContext.state === 'suspended'
+      ? audioContext.resume()
+      : Promise.resolve();
+    var audioFile = fetch('reflex-shutter.mp3').then(function (response) {
+      if (!response.ok) throw new Error('The shutter sound could not be loaded.');
+      return response.arrayBuffer();
+    });
+
+    return Promise.all([resume, audioFile]).then(function (results) {
+      return audioContext.decodeAudioData(results[1]);
+    }).then(function (buffer) {
+      return { buffer: buffer };
+    }, function (error) {
+      return { error: error };
+    });
+  }
+
+  function playShutter(audioState) {
+    return audioState.then(function (result) {
+      if (result.error) throw result.error;
+      var source = audioContext.createBufferSource();
+      source.buffer = result.buffer;
+      source.connect(audioContext.destination);
+      return new Promise(function (resolve, reject) {
+        source.onended = resolve;
+        try {
+          source.start(0);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  async function enterSite() {
+    if (busy || !intro) return;
+    busy = true;
+    var shutterReady = prepareShutter();
+    var shutterDone = playShutter(shutterReady).catch(function (error) {
+      console.error('The reflex shutter sound could not be played.', error);
+    });
+    intro.classList.add('entering');
+    overlay.classList.add('is-active');
+    await animateIris(1, 0, 850);
+    overlay.classList.add('is-closed');
+    await shutterDone;
+
+    intro.remove();
+    overlay.classList.remove('is-closed');
+    await animateIris(0, 1, 900);
+    overlay.classList.add('is-fading');
+    await new Promise(function (resolve) { setTimeout(resolve, 240); });
+    overlay.classList.remove('is-active', 'is-fading');
+    document.documentElement.classList.remove('intro-open');
+    document.documentElement.classList.add('intro-seen');
+    try { localStorage.setItem('saysko_intro_seen', '1'); } catch (e) {}
+    busy = false;
+  }
+
+  intro.addEventListener('click', enterSite);
+  intro.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      enterSite();
+    }
+  });
+  intro.focus({ preventScroll: true });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
   var audio = document.getElementById('bgMusic');
-  var enterBtn = document.getElementById('enterBtn');
   var soundBtn = document.getElementById('soundBtn');
   var soundWaves = document.getElementById('soundWaves');
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
-
-  document.documentElement.classList.add('intro-open');
   if (audio) { audio.loop = true; audio.volume = 0.55; }
 
   function startMusic() {
@@ -431,38 +577,30 @@
     soundBtn.dataset.muted = muted ? '1' : '0';
   }
 
-  function closeIntro() {
-    if (!intro || intro.classList.contains('done')) return;
+  function startOnFirstInteraction() {
+    if (!audio || started) return;
     started = true;
+    audio.muted = false;
     startMusic();
-    document.documentElement.classList.remove('intro-open');
-    intro.classList.add('entering');
-    setTimeout(function () { intro.classList.add('done'); }, 780);
-    setTimeout(function () { if (intro && intro.parentNode) intro.parentNode.removeChild(intro); }, 1800);
+    updateSoundUI();
   }
 
-  if (intro) {
-    intro.addEventListener('click', closeIntro);
-    intro.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); closeIntro(); }
-    });
-    var first = intro.querySelector('.btn-enter');
-    intro.setAttribute('tabindex', '-1');
-    intro.focus({ preventScroll: true });
-  }
-  document.addEventListener('keydown', function (e) {
-    if (!intro || !intro.parentNode) return;
-    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') closeIntro();
-  });
+  document.addEventListener('pointerdown', startOnFirstInteraction, { once: true });
+  document.addEventListener('keydown', startOnFirstInteraction, { once: true });
 
   if (soundBtn) {
     soundBtn.addEventListener('pointerdown', function (e) {
       e.preventDefault();
       e.stopPropagation();
       if (!audio) return;
-      if (!started) { started = true; startMusic(); }
-      audio.muted = !audio.muted;
-      if (!audio.muted && audio.paused) startMusic();
+      if (!started) {
+        started = true;
+        audio.muted = false;
+        startMusic();
+      } else {
+        audio.muted = !audio.muted;
+        if (!audio.muted && audio.paused) startMusic();
+      }
       updateSoundUI();
     });
   }
