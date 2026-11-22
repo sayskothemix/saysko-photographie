@@ -95,7 +95,7 @@
     content: ""; display: block; width: 34px; height: 1px;
     margin: 12px auto 0; background: rgba(255,255,255,.82);
   }
-  .intro.entering .intro-photo { animation: introPush 2s cubic-bezier(.2,.7,.2,1) forwards; }
+  .intro.entering .intro-photo { animation: introPush 2.8s cubic-bezier(.2,.7,.2,1) forwards; }
   .intro.entering .intro-enter { opacity: 0; }
   @keyframes introPush {
     0% { transform: scale(1.015); filter: brightness(1); }
@@ -120,7 +120,7 @@
     .intro-enter { font-size: .62rem; letter-spacing: 3px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .intro.entering .intro-photo { animation-duration: 1.7s; }
+    .intro.entering .intro-photo { animation-duration: 2.2s; }
   }
 </style>
 </head>
@@ -527,20 +527,21 @@
     if (busy || !intro) return;
     busy = true;
     var shutterReady = prepareShutter();
+    intro.classList.add('entering');
+    overlay.classList.add('is-active');
+    await new Promise(function (resolve) { setTimeout(resolve, 350); });
     var shutterDone = playShutter(shutterReady).catch(function (error) {
       console.error('The reflex shutter sound could not be played.', error);
     });
-    intro.classList.add('entering');
-    overlay.classList.add('is-active');
-    await animateIris(1, 0, 850);
+    await animateIris(1, 0, 1400);
     overlay.classList.add('is-closed');
     await shutterDone;
 
     intro.remove();
     overlay.classList.remove('is-closed');
-    await animateIris(0, 1, 900);
+    await animateIris(0, 1, 1500);
     overlay.classList.add('is-fading');
-    await new Promise(function (resolve) { setTimeout(resolve, 240); });
+    await new Promise(function (resolve) { setTimeout(resolve, 420); });
     overlay.classList.remove('is-active', 'is-fading');
     document.documentElement.classList.remove('intro-open');
     document.documentElement.classList.add('intro-seen');
