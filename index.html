@@ -116,6 +116,9 @@
   }
   .iris-blades { opacity: 1; transition: opacity .06s linear; }
   .iris-transition.is-closed .iris-blades { opacity: 0; }
+  .iris-edge { fill: none; stroke: url(#irisEdge); stroke-width: .55; vector-effect: non-scaling-stroke; opacity: .7; }
+  #irisRing { pointer-events: none; }
+  #irisPivots circle, #irisPivots line { pointer-events: none; }
   @media (max-width: 600px) {
     .intro-enter { font-size: .62rem; letter-spacing: 3px; }
   }
@@ -153,6 +156,16 @@
         <stop offset=".72" stop-color="#1b1a1f"></stop>
         <stop offset="1" stop-color="#050506"></stop>
       </linearGradient>
+      <radialGradient id="irisScrew" cx="35%" cy="30%" r="80%">
+        <stop offset="0" stop-color="#9a9aa2"></stop>
+        <stop offset=".55" stop-color="#3a3a41"></stop>
+        <stop offset="1" stop-color="#0a0a0c"></stop>
+      </radialGradient>
+      <linearGradient id="irisEdge" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#7a7a82" stop-opacity="0"></stop>
+        <stop offset=".5" stop-color="#e6e6ec" stop-opacity=".5"></stop>
+        <stop offset="1" stop-color="#7a7a82" stop-opacity="0"></stop>
+      </linearGradient>
       <mask id="iris-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
         <rect id="irisMaskRect" x="0" y="0" width="100" height="100" fill="#fff"></rect>
         <path id="irisHole" fill="#000" d=""></path>
@@ -160,6 +173,8 @@
     </defs>
     <rect id="irisCover" x="0" y="0" width="100" height="100" fill="#000" mask="url(#iris-mask)"></rect>
     <g class="iris-blades" id="irisBlades"></g>
+    <circle id="irisRing" cx="50" cy="50" r="0" fill="none" stroke="#4a4a52" stroke-width=".7" opacity=".85"></circle>
+    <g id="irisPivots"></g>
   </svg>
 </div>
 
@@ -307,6 +322,9 @@
   var maskRect = document.getElementById('irisMaskRect');
   var bladeCount = 9;
   var blades = [];
+  var edgeBlades = [];
+  var pivotGroup = document.getElementById('irisPivots');
+  var ring = document.getElementById('irisRing');
   var centerX = 50;
   var centerY = 50;
   var maxRadius = 80;
@@ -413,30 +431,40 @@
     blade.setAttribute('class', 'iris-metal');
     bladeGroup.appendChild(blade);
     blades.push(blade);
+    var edge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    edge.setAttribute('class', 'iris-edge');
+    bladeGroup.appendChild(edge);
+    edgeBlades.push(edge);
   }
 
   function renderIris(amount) {
     openAmount = amount;
     var bladeAngle = bladeAngleForAmount(amount);
     var tips = [];
+    var holeRadiusSum = 0;
 
     blades.forEach(function (blade, index) {
       var pivotAngle = index * Math.PI * 2 / bladeCount;
       var bladeRotation = pivotAngle + bladeAngle;
       var pivotX = centerX + pivotRadius * Math.cos(pivotAngle);
       var pivotY = centerY + pivotRadius * Math.sin(pivotAngle);
-      blade.setAttribute(
-        'transform',
-        'translate(' + format(pivotX) + ' ' + format(pivotY) + ') rotate(' +
-          format(bladeRotation * 180 / Math.PI) + ')'
-      );
-      tips.push([
-        pivotX - bladeLength * Math.cos(bladeRotation),
-        pivotY - bladeLength * Math.sin(bladeRotation)
-      ]);
+      var transform = 'translate(' + format(pivotX) + ' ' + format(pivotY) + ') rotate(' +
+        format(bladeRotation * 180 / Math.PI) + ')';
+      blade.setAttribute('transform', transform);
+      edgeBlades[index].setAttribute('transform', transform);
+      var tipX = pivotX - bladeLength * Math.cos(bladeRotation);
+      var tipY = pivotY - bladeLength * Math.sin(bladeRotation);
+      tips.push([tipX, tipY]);
+      holeRadiusSum += Math.sqrt(Math.pow(tipX - centerX, 2) + Math.pow(tipY - centerY, 2));
     });
 
     irisHole.setAttribute('d', aperturePath(tips));
+    if (ring) {
+      var holeRadius = holeRadiusSum / bladeCount;
+      ring.setAttribute('cx', format(centerX));
+      ring.setAttribute('cy', format(centerY));
+      ring.setAttribute('r', format(Math.max(0, holeRadius + .9)));
+    }
   }
 
   function resizeIris() {
@@ -460,6 +488,33 @@
     blades.forEach(function (blade) {
       blade.setAttribute('d', bladePath());
     });
+    edgeBlades.forEach(function (edge) {
+      edge.setAttribute('d', bladePath());
+    });
+    if (pivotGroup) {
+      pivotGroup.innerHTML = '';
+      for (var screwIndex = 0; screwIndex < bladeCount; screwIndex++) {
+        var screwAngle = screwIndex * Math.PI * 2 / bladeCount;
+        var screwX = centerX + pivotRadius * Math.cos(screwAngle);
+        var screwY = centerY + pivotRadius * Math.sin(screwAngle);
+        var screw = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        screw.setAttribute('cx', format(screwX));
+        screw.setAttribute('cy', format(screwY));
+        screw.setAttribute('r', '1.7');
+        screw.setAttribute('fill', 'url(#irisScrew)');
+        screw.setAttribute('stroke', 'rgba(0,0,0,.65)');
+        screw.setAttribute('stroke-width', '.28');
+        pivotGroup.appendChild(screw);
+        var slot = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        slot.setAttribute('x1', format(screwX - .75));
+        slot.setAttribute('y1', format(screwY));
+        slot.setAttribute('x2', format(screwX + .75));
+        slot.setAttribute('y2', format(screwY));
+        slot.setAttribute('stroke', 'rgba(0,0,0,.55)');
+        slot.setAttribute('stroke-width', '.32');
+        pivotGroup.appendChild(slot);
+      }
+    }
     renderIris(openAmount);
   }
 
@@ -506,12 +561,15 @@
     });
   }
 
-  function playShutter(audioState) {
+  function playShutter(audioState, volume) {
     return audioState.then(function (result) {
       if (result.error) throw result.error;
       var source = audioContext.createBufferSource();
       source.buffer = result.buffer;
-      source.connect(audioContext.destination);
+      var gain = audioContext.createGain();
+      gain.gain.value = volume == null ? 1 : volume;
+      source.connect(gain);
+      gain.connect(audioContext.destination);
       return new Promise(function (resolve, reject) {
         source.onended = resolve;
         try {
@@ -539,6 +597,9 @@
 
     intro.remove();
     overlay.classList.remove('is-closed');
+    var mirrorBack = playShutter(shutterReady, 0.35).catch(function (error) {
+      console.error('The reflex mirror return sound could not be played.', error);
+    });
     await animateIris(0, 1, 1500);
     overlay.classList.add('is-fading');
     await new Promise(function (resolve) { setTimeout(resolve, 420); });
