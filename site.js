@@ -104,6 +104,7 @@
   var photos = FALLBACK.slice();
 
   function loadData(cb) {
+    if (!/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) { cb(); return; }
     fetch('/api/state', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
