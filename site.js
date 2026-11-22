@@ -283,7 +283,7 @@
 
   /* ---------- Bouton Admin (renvoie vers l'accueil) ---------- */
   var adminBtn = document.getElementById('adminBtn');
-  if (adminBtn) adminBtn.addEventListener('click', function () { window.location.href = 'index.html#admin'; });
+  if (adminBtn) adminBtn.addEventListener('click', function () { window.location.href = 'admin.html'; });
 
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
