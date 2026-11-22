@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=2">
+<link rel="stylesheet" href="site.css">
 <style>
 /* Menu mobile */
 .menu-toggle {
@@ -346,6 +346,63 @@
     header .admin-btn { padding: 8px 14px; }
   }
 
+
+/* ===== FOND STUDIO SEMI-FLOUTE (section A propos) ===== */
+#apropos { position: relative; overflow: hidden; }
+#apropos::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: url('studio-hero.jpg');
+  background-size: cover; background-position: center;
+  filter: blur(9px) brightness(0.5) saturate(0.85);
+  transform: scale(1.08); pointer-events: none;
+}
+#apropos::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(8,7,10,0.82) 0%, rgba(8,7,10,0.88) 55%, rgba(8,7,10,0.96) 100%);
+  pointer-events: none;
+}
+#apropos > .container { position: relative; z-index: 1; }
+
+/* ===== BOT LATERAL DROIT (assistant) ===== */
+.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; }
+.bot-bubble {
+  width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
+  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
+  transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
+}
+.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
+.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
+.bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
+.bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
+.bot-close { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px; }
+.bot-close:hover { color: var(--text); }
+.bot-body { padding: 12px 14px; }
+.bot-intro { color: var(--muted); font-size: .75rem; line-height: 1.7; margin: 0 0 10px; }
+.bot-accordion { border-bottom: 1px solid rgba(255,255,255,.06); }
+.bot-accordion:last-child { border-bottom: 0; }
+.bot-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: none; border: 0; color: var(--text); cursor: pointer; text-align: left;
+  padding: 10px 2px; font-size: .74rem; letter-spacing: .4px; font-family: inherit;
+}
+.bot-q::after { content: '+'; color: var(--accent); font-size: .9rem; transition: transform .2s; }
+.bot-accordion.open .bot-q::after { transform: rotate(45deg); }
+.bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
+.bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+@keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-launch {
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
+}
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+@media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
 </style>
 </head>
 <body>
@@ -1250,7 +1307,7 @@
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
 
-<script src="site.js?v=2"></script>
+<script src="site.js"></script>
 <script>
   /* Menu mobile */
   (function () {
@@ -1396,5 +1453,61 @@
   updateSoundUI();
 })();
 </script>
+
+  <!-- ===== BOT LATERAL DROIT ===== -->
+  <aside class="saysko-bot" id="sayskoBot" aria-label="Assistant du site">
+    <div class="bot-bubble" role="dialog" aria-label="Assistant Saysko">
+      <div class="bot-head">
+        <div class="bot-avatar">S</div>
+        <div><strong>Assistant Saysko</strong><small>En ligne · comment puis-je aider ?</small></div>
+        <button class="bot-close" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div class="bot-body">
+        <p class="bot-intro">Bonjour 👋 Choisis une question, je te réponds tout de suite.</p>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Quels services proposes-tu ?</button>
+          <div class="bot-a">Portrait, mariage, événementiel, produit et lifestyle — en studio ou en extérieur, avec une lumière travaillée au flash.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Comment réserver une séance ?</button>
+          <div class="bot-a">Écris-moi via la <a href="contact.html">page Contact</a> ou directement à sayskothemix+contact@gmail.com. On convient ensemble de la date et du lieu.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Où voir le portfolio ?</button>
+          <div class="bot-a">Dans la rubrique <a href="portfolio.html">Portfolio</a> : carrousel, grille ou plein écran. Des avant/après et des shootings couple, portrait et extérieur.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Proposes-tu des cours ?</button>
+          <div class="bot-a">Oui, des <a href="cours.html">tutoriels gratuits</a> : Lightroom Classic, Capture One, strobisme et retouche. Et un <a href="glossaire.html">glossaire</a> pour comprendre la lumière.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Quel matériel utilises-tu ?</button>
+          <div class="bot-a">Studio avec flashs, réflecteurs et lumière maîtrisée — boîtier Canon 5D Mark IV et objectifs L. Le détail est sur la page <a href="competences.html">Compétences</a>.</div>
+        </div>
+      </div>
+      <div class="bot-foot">Saysko Photographie · Assistant rapide</div>
+    </div>
+    <button class="bot-launch" type="button" aria-label="Ouvrir l'assistant">✦</button>
+  </aside>
+
+  <script>
+  (function () {
+    var bot = document.getElementById('sayskoBot');
+    if (!bot) return;
+    var launch = bot.querySelector('.bot-launch');
+    var close = bot.querySelector('.bot-close');
+    launch.addEventListener('click', function () { bot.classList.toggle('open'); });
+    close.addEventListener('click', function () { bot.classList.remove('open'); });
+    bot.querySelectorAll('.bot-q').forEach(function (q) {
+      q.addEventListener('click', function () {
+        var item = q.parentElement;
+        var wasOpen = item.classList.contains('open');
+        bot.querySelectorAll('.bot-accordion').forEach(function (a) { a.classList.remove('open'); });
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  })();
+  </script>
+
 </body>
 </html>
