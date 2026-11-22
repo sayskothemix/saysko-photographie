@@ -271,19 +271,37 @@
         if (status) status.textContent = 'Remplissez tous les champs.';
         return;
       }
+      function done(ok) {
+        if (status) {
+          if (ok) {
+            status.textContent = 'Message envoyé, merci !';
+          } else {
+            var href = 'mailto:sayskothemix+contact@gmail.com?subject=' + encodeURIComponent('Message depuis le site') + '&body=' + encodeURIComponent(msg.value.trim() + '\n\n' + name.value.trim() + ' — ' + email.value.trim());
+            status.innerHTML = 'Envoi direct indisponible : <a href="' + href + '" style="color:var(--accent)">envoyer par e-mail</a>';
+          }
+        }
+        if (ok) { name.value = ''; email.value = ''; msg.value = ''; }
+      }
       fetch('/api/message', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), message: msg.value.trim() })
-      }).then(function (r) { return r.json(); }).then(function (d) {
-        if (status) status.textContent = d.ok ? 'Message envoyé, merci !' : (d.error || 'Erreur lors de l’envoi.');
-        if (d.ok) { name.value = ''; email.value = ''; msg.value = ''; }
-      }).catch(function () { if (status) status.textContent = 'Serveur indisponible.'; });
+      }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
+        done(!!(d && d.ok));
+      }).catch(function () {
+        done(false);
+      });
     });
   }
 
   /* ---------- Bouton Admin (renvoie vers l'accueil) ---------- */
   var adminBtn = document.getElementById('adminBtn');
-  if (adminBtn) adminBtn.addEventListener('click', function () { window.location.href = 'admin.html'; });
+  if (adminBtn) {
+    if (/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) {
+      adminBtn.addEventListener('click', function () { window.location.href = 'admin.html'; });
+    } else {
+      adminBtn.style.display = 'none';
+    }
+  }
 
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
