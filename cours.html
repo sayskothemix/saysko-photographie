@@ -265,6 +265,25 @@
 .cours-video-frame iframe {
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
 }
+.cours-video-lazy {
+  position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer;
+  background: #08070a center / cover no-repeat;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+}
+.cours-video-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(224,189,133,.94); color: #09090b;
+  box-shadow: 0 10px 35px rgba(0,0,0,.55);
+  transition: transform .25s ease, background .25s ease;
+}
+.cours-video-lazy:hover .cours-video-play {
+  transform: scale(1.08); background: #fff0be;
+}
+.cours-video-play span {
+  margin-left: 5px; font-size: 1.45rem; line-height: 1;
+}
 .cours-video-caption {
   color: var(--muted); font-size: 0.85rem; line-height: 1.6;
 }
@@ -492,18 +511,20 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
-            <p class="cours-lead">L'intelligence artificielle intégrée à Lightroom révolutionne la retouche portrait. Apprenez à isoler automatiquement chaque partie du visage pour un travail chirurgical.</p>
+            <p class="cours-lead">Procédure Lightroom par ordre : ouvrez les Masques, séparez les zones du visage, appliquez une modification limitée à chaque zone, puis vérifiez l’incrustation à 100 %.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Le masquage intelligent</span></div>
             <div class="cours-expl-text">
-              <p><strong>La fin des sélections manuelles fastidieuses :</strong> Auparavant, retoucher les yeux ou adoucir la peau d'un modèle obligeait à peindre minutieusement chaque zone au pinceau avec un contour progressif. Depuis l'arrivée du moteur d'IA d'Adobe dans Lightroom Classic, le logiciel détecte instantanément les personnes présentes dans la scène et découpe automatiquement : le sujet complet, la peau du visage, la peau du corps, les sourcils, les blancs des yeux, l'iris, les lèvres et la chevelure.</p>
-
-              <p><strong>La technique de la retouche par calques séparés :</strong></p>
-              <ul>
-                <li><strong>Masque Peau du visage :</strong> Baisse de Texture (-12) et de Clarté (-6), puis hausse de Netteté (+8). Cette combinaison adoucit les micro-imperfections tout en préservant le piqué des pores.</li>
-                <li><strong>Masque Iris & Pupille :</strong> Boostez l'Exposition de +0.20 et la Clarté de +15 pour faire pétiller la couleur naturelle des yeux.</li>
-                <li><strong>Masque Arrière-plan :</strong> En inversant la sélection du sujet, baissez l'exposition du fond de -0.30 EV pour détacher le modèle avec force.</li>
-              </ul>
+              <p><strong>Étape 1 — Ouvrez les Masques :</strong> Appuyez sur <kbd>Maj</kbd> + <kbd>W</kbd>. Zoomez sur le visage avant de sélectionner une zone pour mieux contrôler les bordures.</p>
+              <p><strong>Étape 2 — Créez le masque du Sujet :</strong> Choisissez <em>Masquer personnes</em> seulement si une personne est détectée. Sélectionnez le visage concerné, puis ajoutez ou soustrayez des zones avec les outils pinceau si nécessaire.</p>
+              <p><strong>Étape 3 — Séparez la peau du visage :</strong> Créez un masque <em>Peau du visage</em>. Affichez-le en rouge avec <kbd>O</kbd>. Toute zone rouge incorrecte, comme une lèvre ou un vêtement, doit être retirée au pinceau soustraire.</p>
+              <p><strong>Étape 4 — Adoucissez sans effacer :</strong> Réglez Texture -8 à -12, Clarté -4 à -8 et Netteté +5 à +15. Regardez à 100 % : les pores doivent rester visibles.</p>
+              <p><strong>Étape 5 — Séparez les yeux :</strong> Créez un masque <em>Iris et pupilles</em>, puis ajoutez éventuellement les <em>Blancs des yeux</em> en soustrayant les paupières. Sur l’iris : Exposition +0.10 à +0.25, Contraste +5 à +15, Saturation modérée.</p>
+              <p><strong>Étape 6 — Travaillez les sourcils et les cheveux :</strong> Créez des masques distincts pour éviter qu’une modification sur les sourcils atteigne le front. Ajustez surtout le contraste et les hautes lumières, pas l’exposition globale.</p>
+              <p><strong>Étape 7 — Séparez l’arrière-plan :</strong> Masquez le sujet, inversez si nécessaire avec <kbd>'</kbd>, puis baissez l’exposition du fond de 0.10 à 0.40 EV. Évitez une correction de saturation importante qui fait entrer le fond dans une teinte artificielle.</p>
+              <p><strong>Étape 8 — Inspectez chaque masque :</strong> Désactivez puis réactivez le masque pour mesurer son effet. Zoomez sur les contours des cheveux, les oreilles, les lèvres et le col.</p>
+              <p><strong>Étape 9 — Corrigez les intersections :</strong> Utilisez Soustraire → Luminance ou les contours du pinceau pour empêcher une modification sur les cernes, les sourcils ou les dents. Les dents doivent être traitées séparément si elles sont jaunes.</p>
+              <p><strong>Étape 10 — Contrôlez avant/après :</strong> Appuyez sur <kbd>\</kbd>. Si le visage paraît uniforme mais sans relief, remontez légèrement Texture ou Clarté. Si les bords sont visibles, ajoutez de la douceur au pinceau ou réduisez la modification.</p>
             </div>
 
             <!-- VIDÉO LOUIS LAVOIE -->
@@ -837,12 +858,20 @@
                 <iframe src="https://www.youtube-nocookie.com/embed/Ju1jozJy-y0" title="Calques de réglage & Masquage par Plage Luma (Luma Range)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </div>
 
-            <p class="cours-lead">Sculpter les reflets de flash sans toucher aux ombres grâce au masquage interactif par niveau de luminance en temps réel.</p>
+            <p class="cours-lead">Procédure Capture One : créez un calque, testez une plage de luminance, réduisez sa sélection aux hautes lumières utiles, appliquez un réglage limité puis vérifiez bordures et texture.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La puissance de la Plage Luma</span></div>
             <div class="cours-expl-text">
-              <p><strong>Qu'est-ce que la Plage Luma ?</strong> Contrairement à un masque classique où l'on peint une zone géographique de l'image, la <strong>Plage Luma</strong> analyse la luminosité pixel par pixel. Elle permet de dire à Capture One : <em>« Applique ce réglage uniquement sur les pixels dont la luminosité se situe entre 70% et 100% »</em>.</p>
-              <p>En studio strobisme, cela permet d'isoler uniquement les éclats de lumière dorée sur les pommettes, les épaules et les cheveux (le rim light), et de monter leur clarté ou leur teinte dorée sans jamais dégrader les zones d'ombres profondes.</p>
+              <p><strong>Étape 1 — Créez un calque :</strong> Dans le panneau Ajustements locaux, ajoutez un calque nommé « Plage de lumières ». Travaillez toujours sur un calque séparé pour pouvoir désactiver l’effet en un clic.</p>
+              <p><strong>Étape 2 — Activez Plage Luma :</strong> Ouvrez l’outil de masque, choisissez <em>Luma Range</em>, puis cliquez sur une zone lumineuse du portrait : une joue éclairée, une épaule ou un reflet produit.</p>
+              <p><strong>Étape 3 — Étendez ou réduisez la plage :</strong> Déplacez les curseurs pour inclure seulement les pixels du niveau de lumière visé. La zone active doit couvrir les hautes lumières utiles, pas toute la peau ni le fond clair.</p>
+              <p><strong>Étape 4 — Affinez avec le pointeur :</strong> Cliquez sur plusieurs zones pour ajouter des niveaux similaires, puis utilisez la soustraction si les lèvres, les dents ou les parties trop sombres sont sélectionnées.</p>
+              <p><strong>Étape 5 — Appliquez un réglage modéré :</strong> Pour récupérer des flashs trop durs, baissez les hautes lumières de -15 à -35. Pour sculpter un rim light, montez légèrement la luminosité ou ajoutez une teinte très légère.</p>
+              <p><strong>Étape 6 — Conservez les ombres :</strong> Vérifiez que les ombres profondes restent hors du masque. Si elles sont incluses, déplacez le seuil minimum vers une luminance plus élevée.</p>
+              <p><strong>Étape 7 — Protégez les détails du visage :</strong> Combinez la plage avec un masque géométrique si nécessaire : ajoutez uniquement les pommettes, les épaules ou les cheveux, jamais toute la tête.</p>
+              <p><strong>Étape 8 — Contrôlez la surimpression :</strong> Affichez le masque rouge. Désactivez les réglages du calque pour isoler la sélection elle-même et vérifier les contours pixel par pixel.</p>
+              <p><strong>Étape 9 — Comparez à l’image complète :</strong> Zoomez à 100 %, puis revenez à la vue entière. Une sélection réussie ne crée pas de halo lumineux autour du visage ou du corps.</p>
+              <p><strong>Étape 10 — Finalisez ou supprimez :</strong> Si l’effet reste naturel, baissez l’opacité locale à 70–90 %. Sinon, réduisez les réglages plutôt que d’élargir encore le masque.</p>
             </div>
 
             <div class="shortcut-box">

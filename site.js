@@ -33,15 +33,43 @@
     });
   });
 
+  /* ---------- Vidéos chargées au clic ---------- */
+  document.querySelectorAll('.cours-video-frame iframe[src*="youtube"]').forEach(function (iframe) {
+    var frame = iframe.closest('.cours-video-frame');
+    if (!frame) return;
+    var src = iframe.getAttribute('src') || '';
+    var match = src.match(/embed\/([^?&]+)/);
+    if (!match) return;
+    var videoId = match[1];
+    var title = iframe.getAttribute('title') || 'Lire la vidéo';
+    var poster = 'url("https://i.ytimg.com/vi/' + videoId + '/hqdefault.jpg")';
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'cours-video-lazy';
+    button.style.backgroundImage = poster;
+    button.setAttribute('aria-label', 'Lire la vidéo : ' + title);
+    button.innerHTML = '<span class="cours-video-play" aria-hidden="true"><span>▶</span></span>';
+    button.addEventListener('click', function () {
+      var player = document.createElement('iframe');
+      player.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0';
+      player.title = title;
+      player.loading = 'eager';
+      player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      player.allowFullscreen = true;
+      frame.replaceChildren(player);
+    });
+    frame.replaceChildren(button);
+  });
+
   /* ---------- Galerie : données ---------- */
   var FALLBACK = [
-    { title: 'Lumière Dorée', src: 'galerie-AB9A7835.jpg', desc: 'Portrait · Studio' },
-    { title: 'Noir & Blanc', src: 'galerie-AB9A7833_2.jpg', desc: 'Portrait · Studio' },
-    { title: 'Portrait Studio', src: 'galerie-portrait_nette.jpg', desc: 'Portrait · Strobisme' },
-    { title: 'Shooting Couple', src: 'galerie-AB9A7956.jpg', desc: 'Portrait · Studio' },
-    { title: 'Denim', src: 'galerie-AB9A7830.jpg', desc: 'Portrait · Studio' },
-    { title: 'Avant / Après', src: 'avant-apres.jpg', desc: 'Retouche · Studio' },
-    { title: 'Shooting Extérieur', src: 'shooting-exterieur.jpg', desc: 'Lifestyle · Nature' }
+    { title: 'Lumière Dorée', src: '/galerie-AB9A7835.jpg', desc: 'Portrait · Studio' },
+    { title: 'Noir & Blanc', src: '/galerie-AB9A7833_2.jpg', desc: 'Portrait · Studio' },
+    { title: 'Portrait Studio', src: '/galerie-portrait_nette.jpg', desc: 'Portrait · Strobisme' },
+    { title: 'Shooting Couple', src: '/galerie-AB9A7956.jpg', desc: 'Portrait · Studio' },
+    { title: 'Denim', src: '/galerie-AB9A7830.jpg', desc: 'Portrait · Studio' },
+    { title: 'Avant / Après', src: '/avant-apres.png', desc: 'Retouche · Studio' },
+    { title: 'Shooting Extérieur', src: '/shooting-exterieur.jpg', desc: 'Lifestyle · Nature' }
   ];
   var photos = FALLBACK.slice();
 
@@ -213,37 +241,19 @@
         if (status) status.textContent = 'Remplissez tous les champs.';
         return;
       }
-      function done(ok) {
-        if (status) {
-          if (ok) {
-            status.textContent = 'Message envoyé, merci !';
-          } else {
-            var href = 'mailto:sayskothemix+contact@gmail.com?subject=' + encodeURIComponent('Message depuis le site') + '&body=' + encodeURIComponent(msg.value.trim() + '\n\n' + name.value.trim() + ' — ' + email.value.trim());
-            status.innerHTML = 'Envoi direct indisponible : <a href="' + href + '" style="color:var(--accent)">envoyer par e-mail</a>';
-          }
-        }
-        if (ok) { name.value = ''; email.value = ''; msg.value = ''; }
-      }
       fetch('/api/message', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), message: msg.value.trim() })
-      }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
-        done(!!(d && d.ok));
-      }).catch(function () {
-        done(false);
-      });
+      }).then(function (r) { return r.json(); }).then(function (d) {
+        if (status) status.textContent = d.ok ? 'Message envoyé, merci !' : (d.error || 'Erreur lors de l’envoi.');
+        if (d.ok) { name.value = ''; email.value = ''; msg.value = ''; }
+      }).catch(function () { if (status) status.textContent = 'Serveur indisponible.'; });
     });
   }
 
   /* ---------- Bouton Admin (renvoie vers l'accueil) ---------- */
   var adminBtn = document.getElementById('adminBtn');
-  if (adminBtn) {
-    if (/localhost|127\.0\.0\.1/.test(location.hostname)) {
-      adminBtn.addEventListener('click', function () { window.location.href = 'index.html#admin'; });
-    } else {
-      adminBtn.style.display = 'none';
-    }
-  }
+  if (adminBtn) adminBtn.addEventListener('click', function () { window.location.href = 'index.html#admin'; });
 
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
