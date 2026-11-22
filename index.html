@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=2">
+<link rel="stylesheet" href="site.css">
 <style>
   html.intro-open, html.intro-open body { overflow: hidden; }
 
@@ -22,6 +22,18 @@
   }
   .intro.done { opacity: 0; visibility: hidden; pointer-events: none; }
   .intro { outline: none; }
+  .intro::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(7,7,9,0.94) 0%, rgba(7,7,9,0.72) 42%, rgba(7,7,9,0.18) 78%, rgba(7,7,9,0.50) 100%),
+      url("studio-bg-final.jpg") center 58% / cover no-repeat;
+    opacity: 0.98;
+  }
+  .intro::after {
+    content: ""; position: absolute; inset: 18px;
+    border: 1px solid rgba(224,189,133,0.24);
+    pointer-events: none;
+  }
   .intro-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 62%; pointer-events: none;
     mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
     -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%); }
@@ -51,20 +63,27 @@
   }
   .intro-spark { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #f6e3c0; opacity: 0.75; box-shadow: 0 0 8px 2px rgba(246,227,192,0.55); animation: introTwinkle 5s ease-in-out infinite; }
   @keyframes introTwinkle { 0%,100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 0.9; transform: scale(1.1); } }
-  .intro-frame { position: absolute; width: 52px; height: 34px; border: 1px solid rgba(224,189,133,0.55); border-radius: 3px; background: radial-gradient(circle at 60% 40%, rgba(150,90,190,0.55), rgba(224,189,133,0.10)); opacity: 0.65; animation: floatY 9s ease-in-out infinite; }
-  .intro-inner { position: relative; z-index: 3; text-align: center; padding: 24px; max-width: 980px; }
-  .intro-camera { width: clamp(250px, 32vw, 400px); height: auto; display: block; margin: 0 auto 30px; filter: drop-shadow(0 0 22px rgba(224,189,133,0.22)); animation: fadeUp 0.9s ease both; }
-  .intro-kicker { color: var(--accent); letter-spacing: 6px; font-size: 0.66rem; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
+  .intro-inner { position: relative; z-index: 3; text-align: left; padding: 24px clamp(32px, 8vw, 140px); width: 100%; max-width: 1500px; margin: 0 auto; }
+  .intro-mark {
+    width: 82px; height: 82px; border: 1px solid rgba(224,189,133,0.72); border-radius: 50%;
+    display: grid; place-items: center; margin-bottom: 28px;
+    color: var(--accent); font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.9rem; letter-spacing: 3px;
+    box-shadow: 0 0 38px rgba(224,189,133,0.10);
+  }
+  .intro-kicker { color: var(--accent); letter-spacing: 6px; font-size: 0.66rem; text-transform: uppercase; margin-bottom: 16px; font-weight: 500; }
   .intro h1 {
     font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300;
-    font-size: clamp(1.9rem, 5.2vw, 4.6rem); line-height: 1.05; letter-spacing: 2px; text-transform: uppercase;
+    font-size: clamp(2.7rem, 7vw, 6.8rem); line-height: 0.92; letter-spacing: 1px; text-transform: uppercase;
+    max-width: 720px;
   }
   .intro h1 strong {
+    display: block;
     font-weight: 400;
     background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .intro-slogan { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: clamp(0.95rem, 1.7vw, 1.25rem); color: var(--accent); letter-spacing: 1px; margin: 18px auto 34px; opacity: 0.95; }
+  .intro-slogan { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-size: clamp(1rem, 1.8vw, 1.38rem); color: rgba(246,227,192,0.92); letter-spacing: 1px; margin: 24px 0 36px; max-width: 610px; opacity: 0.95; }
   .btn-enter {
     background: none; border: 1px solid rgba(224,189,133,0.55); color: var(--accent);
     padding: 15px 42px; font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase;
@@ -104,7 +123,17 @@
   }
 
   @media (max-width: 760px) {
-    .intro-frame { display: none; }
+    .intro::before {
+      background:
+        linear-gradient(180deg, rgba(7,7,9,0.25) 0%, rgba(7,7,9,0.78) 58%, rgba(7,7,9,0.96) 100%),
+        url("studio-bg-final.jpg") center 42% / cover no-repeat;
+    }
+    .intro-inner { text-align: center; padding: 24px 24px 38px; align-self: flex-end; }
+    .intro-mark { margin: 0 auto 20px; width: 68px; height: 68px; font-size: 1.55rem; }
+    .intro h1 { margin: 0 auto; max-width: 560px; }
+    .intro-slogan { margin: 18px auto 28px; }
+    .intro-kicker { letter-spacing: 4px; }
+    .intro::after { inset: 10px; }
     .site-controls { top: 12px; right: 12px; }
     .site-controls button { width: 38px; height: 38px; }
   }
@@ -125,57 +154,14 @@
 
 <!-- ================= INTRO ================= -->
 <div class="intro" id="intro" role="dialog" aria-label="Introduction Saysko Photographie">
-  <div class="intro-glow"></div>
-  <div class="intro-beam"></div>
-  <div class="intro-beam-2"></div>
-  <div class="intro-floor"><div class="intro-grid"></div></div>
-  <div class="intro-frame" style="left:8%;top:22%;animation-delay:-2s;"></div>
-  <div class="intro-frame" style="left:16%;top:74%;animation-delay:-5s;width:44px;height:30px;"></div>
-  <div class="intro-frame" style="left:84%;top:63%;animation-delay:-3.5s;"></div>
-  <div class="intro-frame" style="left:88%;top:34%;animation-delay:-7s;width:40px;height:26px;"></div>
   <span class="intro-spark" style="left:12%;top:42%;animation-delay:-1s;"></span>
   <span class="intro-spark" style="left:76%;top:26%;animation-delay:-3s;width:3px;height:3px;"></span>
   <span class="intro-spark" style="left:68%;top:78%;animation-delay:-2s;width:3px;height:3px;"></span>
   <span class="intro-spark" style="left:31%;top:58%;animation-delay:-4s;width:2px;height:2px;"></span>
 
   <div class="intro-inner">
-    <svg class="intro-camera" viewBox="0 0 520 210" fill="none" stroke="#e0bd85" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <defs>
-        <radialGradient id="lensGrad" cx="38%" cy="35%" r="75%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-          <stop offset="28%" stop-color="#fff0c4"/>
-          <stop offset="52%" stop-color="#f0a93c"/>
-          <stop offset="78%" stop-color="#b06ad6"/>
-          <stop offset="100%" stop-color="#4a2a6b"/>
-        </radialGradient>
-      </defs>
-      <!-- flash a gauche -->
-      <g opacity="0.85">
-        <path d="M96 84 L136 68 L136 104 Z"/>
-        <rect x="88" y="88" width="18" height="28" rx="2"/>
-        <path d="M97 116 L88 152 M97 116 L106 152 M97 116 L97 152"/>
-      </g>
-      <!-- flash a droite -->
-      <g opacity="0.85">
-        <path d="M424 84 L384 68 L384 104 Z"/>
-        <rect x="414" y="88" width="18" height="28" rx="2"/>
-        <path d="M423 116 L414 152 M423 116 L432 152 M423 116 L423 152"/>
-      </g>
-      <!-- boitier -->
-      <path d="M196 104 L210 88 L310 88 L324 104"/>
-      <rect x="188" y="100" width="144" height="76" rx="10"/>
-      <path d="M232 88 L238 76 L280 76 L288 88"/>
-      <rect x="300" y="80" width="16" height="9" rx="2"/>
-      <circle cx="262" cy="136" r="36" stroke-width="2.2"/>
-      <circle cx="262" cy="136" r="28" stroke-width="1.2"/>
-      <circle cx="262" cy="136" r="23" fill="url(#lensGrad)" stroke="#f6e3c0" stroke-width="0.8"/>
-      <circle cx="252" cy="126" r="7" fill="#ffffff" fill-opacity="0.55" stroke="none"/>
-      <circle cx="274" cy="147" r="3" fill="#ffffff" fill-opacity="0.35" stroke="none"/>
-      <path d="M206 100 L206 96 M330 100 L330 96"/>
-      <circle cx="318" cy="114" r="4" opacity="0.7"/>
-    </svg>
-
-    <div class="intro-kicker">Photo de studio &amp; strobisme</div>
+    <div class="intro-mark" aria-hidden="true">SP</div>
+    <div class="intro-kicker">Portrait · Lumière · Émotion</div>
     <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
     <p class="intro-slogan">La lumière sculptée · Vos émotions, au cœur de chaque image.</p>
     <button class="btn-enter" id="enterBtn" type="button">Découvrir →</button>
@@ -273,7 +259,7 @@
       </div>
       <div class="about-wrap">
         <div class="about-portrait reveal">
-          <img src="saysko.jpg" alt="Saysko, photographe en studio" loading="lazy">
+          <img src="/saysko.jpg" alt="Saysko, photographe en studio" loading="lazy">
           <div class="tag">Le photographe</div>
         </div>
         <div class="about-text reveal">
@@ -299,9 +285,7 @@
       <p>Une collaboration, une commande ou simplement un bonjour ?</p>
       <a href="mailto:sayskothemix+contact@gmail.com" class="email" id="contactEmail">sayskothemix+contact@gmail.com</a>
 
-      <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact">
-        <p style="display:none"><label>Ne pas remplir <input name="bot-field"></label></p>
+      <form class="contact-form" id="contactForm">
         <h3>Ou envoyez-moi un message</h3>
         <label for="cfName">Votre nom</label>
         <input type="text" id="cfName" placeholder="Votre nom" required>
@@ -320,7 +304,7 @@
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
 
-<script src="site.js?v=2"></script>
+<script src="site.js"></script>
 <script>
 (function () {
   'use strict';
