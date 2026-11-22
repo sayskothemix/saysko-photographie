@@ -25,8 +25,9 @@
   .intro::before {
     content: ""; position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgba(7,7,9,0.88) 0%, rgba(7,7,9,0.54) 38%, rgba(7,7,9,0.08) 68%, rgba(7,7,9,0.28) 100%),
-      url("galerie-AB9A7835.jpg") center 38% / cover no-repeat;
+      radial-gradient(circle at 50% 50%, rgba(224,189,133,0.12) 0 8%, rgba(224,189,133,0.04) 18%, transparent 38%),
+      radial-gradient(ellipse at 50% 118%, rgba(224,189,133,0.10) 0%, transparent 48%),
+      linear-gradient(145deg, #100e0c 0%, #08080a 52%, #120f0c 100%);
     opacity: 0.98;
   }
   .intro::after {
@@ -36,40 +37,70 @@
   }
   .intro-aperture {
     position: absolute; left: 50%; top: 50%; z-index: 5;
-    width: clamp(260px, 30vw, 470px); aspect-ratio: 1;
+    width: clamp(310px, 36vw, 560px); aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background:
-      radial-gradient(circle, transparent 0 20%, rgba(224,189,133,0.18) 20.5% 21.5%, transparent 22% 34%),
-      conic-gradient(from 18deg,
-        rgba(43,32,24,0.96) 0deg 32deg,
-        rgba(12,11,13,0.98) 32deg 45deg,
-        rgba(61,45,31,0.92) 45deg 77deg,
-        rgba(12,11,13,0.98) 77deg 90deg,
-        rgba(43,32,24,0.96) 90deg 122deg,
-        rgba(12,11,13,0.98) 122deg 135deg,
-        rgba(61,45,31,0.92) 135deg 167deg,
-        rgba(12,11,13,0.98) 167deg 180deg,
-        rgba(43,32,24,0.96) 180deg 212deg,
-        rgba(12,11,13,0.98) 212deg 225deg,
-        rgba(61,45,31,0.92) 225deg 257deg,
-        rgba(12,11,13,0.98) 257deg 270deg,
-        rgba(43,32,24,0.96) 270deg 302deg,
-        rgba(12,11,13,0.98) 302deg 315deg,
-        rgba(61,45,31,0.92) 315deg 347deg,
-        rgba(12,11,13,0.98) 347deg 360deg);
+    background: radial-gradient(circle,
+      rgba(246,227,192,0.10) 0 13%,
+      rgba(224,189,133,0.22) 13.5% 14.5%,
+      #171412 15% 22%,
+      #080809 22.5% 38%,
+      #161310 38.5% 51%,
+      #09090a 52%);
     box-shadow:
-      0 0 0 1px rgba(224,189,133,0.38),
-      0 0 34px rgba(224,189,133,0.12),
-      inset 0 0 46px rgba(0,0,0,0.72);
-    mask: radial-gradient(circle, transparent 0 19%, #000 19.8% 58%, transparent 58.5%);
-    -webkit-mask: radial-gradient(circle, transparent 0 19%, #000 19.8% 58%, transparent 58.5%);
-    animation: apertureBreathe 4.2s cubic-bezier(.45,0,.55,1) infinite;
+      0 0 0 1px rgba(224,189,133,0.32),
+      0 0 70px rgba(224,189,133,0.10),
+      inset 0 0 52px rgba(0,0,0,0.92);
+    animation: apertureBreathe 5s cubic-bezier(.45,0,.55,1) infinite;
+  }
+  .intro-aperture::before {
+    content: ""; position: absolute; inset: 13%;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(255,248,226,0.96) 0 8%,
+      rgba(224,189,133,0.75) 9% 14%,
+      rgba(224,189,133,0.18) 15% 21%,
+      transparent 22%);
+    box-shadow: 0 0 28px rgba(246,227,192,0.32), inset 0 0 18px rgba(246,227,192,0.16);
   }
   .intro-aperture::after {
-    content: ""; position: absolute; inset: 19%;
-    border-radius: 50%; border: 1px solid rgba(246,227,192,0.38);
-    box-shadow: 0 0 24px rgba(224,189,133,0.16), inset 0 0 18px rgba(0,0,0,0.88);
+    content: ""; position: absolute; inset: 0;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg,
+      rgba(224,189,133,0.18) 0deg 1deg,
+      transparent 1deg 22.5deg);
+    mask: radial-gradient(circle, transparent 0 21%, #000 21.5% 62%, transparent 62.5%);
+    -webkit-mask: radial-gradient(circle, transparent 0 21%, #000 21.5% 62%, transparent 62.5%);
+  }
+  .intro-blade {
+    position: absolute; left: 50%; top: 50%;
+    width: 38%; height: 45%;
+    transform-origin: 0 100%;
+    clip-path: polygon(0 100%, 18% 12%, 100% 0, 82% 82%);
+    background: linear-gradient(135deg, #24201c 0%, #09090a 55%, #181512 100%);
+    border: 1px solid rgba(224,189,133,0.14);
+    box-shadow: inset -8px -8px 18px rgba(0,0,0,0.72);
+  }
+  .intro-blade:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg) translateY(-8%); }
+  .intro-blade:nth-child(2) { transform: translate(-50%, -100%) rotate(45deg) translateY(-8%); }
+  .intro-blade:nth-child(3) { transform: translate(-50%, -100%) rotate(90deg) translateY(-8%); }
+  .intro-blade:nth-child(4) { transform: translate(-50%, -100%) rotate(135deg) translateY(-8%); }
+  .intro-blade:nth-child(5) { transform: translate(-50%, -100%) rotate(180deg) translateY(-8%); }
+  .intro-blade:nth-child(6) { transform: translate(-50%, -100%) rotate(225deg) translateY(-8%); }
+  .intro-blade:nth-child(7) { transform: translate(-50%, -100%) rotate(270deg) translateY(-8%); }
+  .intro-blade:nth-child(8) { transform: translate(-50%, -100%) rotate(315deg) translateY(-8%); }
+  .intro.entering .intro-blade {
+    transition: transform 1.15s cubic-bezier(.55,.05,.22,1), opacity 1s ease;
+    opacity: 0.12;
+  }
+  .intro.entering .intro-blade:nth-child(1) { transform: translate(-50%, -100%) rotate(-42deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(2) { transform: translate(-50%, -100%) rotate(3deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(3) { transform: translate(-50%, -100%) rotate(48deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(4) { transform: translate(-50%, -100%) rotate(93deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(5) { transform: translate(-50%, -100%) rotate(138deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(6) { transform: translate(-50%, -100%) rotate(183deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(7) { transform: translate(-50%, -100%) rotate(228deg) scale(0.2); }
+  .intro.entering .intro-blade:nth-child(8) { transform: translate(-50%, -100%) rotate(273deg) scale(0.2); }
   }
   @keyframes apertureBreathe {
     0%, 100% { transform: translate(-50%, -50%) scale(0.92) rotate(0deg); filter: brightness(0.88); }
@@ -185,8 +216,8 @@
   @media (max-width: 760px) {
     .intro::before {
       background:
-        linear-gradient(180deg, rgba(7,7,9,0.12) 0%, rgba(7,7,9,0.68) 58%, rgba(7,7,9,0.96) 100%),
-        url("galerie-AB9A7835.jpg") center 24% / cover no-repeat;
+        radial-gradient(circle at 50% 42%, rgba(224,189,133,0.12) 0 8%, transparent 34%),
+        linear-gradient(180deg, #100e0c 0%, #08080a 58%, #120f0c 100%);
     }
     .intro-inner { text-align: center; padding: 24px 24px 38px; align-self: flex-end; }
     .intro-mark { margin: 0 auto 20px; width: 68px; height: 68px; font-size: 1.55rem; }
@@ -214,7 +245,12 @@
 
 <!-- ================= INTRO ================= -->
 <div class="intro" id="intro" role="dialog" aria-label="Introduction Saysko Photographie">
-<div class="intro-aperture" aria-hidden="true"></div>
+<div class="intro-aperture" aria-hidden="true">
+  <span class="intro-blade"></span><span class="intro-blade"></span>
+  <span class="intro-blade"></span><span class="intro-blade"></span>
+  <span class="intro-blade"></span><span class="intro-blade"></span>
+  <span class="intro-blade"></span><span class="intro-blade"></span>
+</div>
   <span class="intro-spark" style="left:12%;top:42%;animation-delay:-1s;"></span>
   <span class="intro-spark" style="left:76%;top:26%;animation-delay:-3s;width:3px;height:3px;"></span>
   <span class="intro-spark" style="left:68%;top:78%;animation-delay:-2s;width:3px;height:3px;"></span>
