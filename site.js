@@ -51,7 +51,7 @@
     button.innerHTML = '<span class="cours-video-play" aria-hidden="true"><span>▶</span></span>';
     button.addEventListener('click', function () {
       var player = document.createElement('iframe');
-      player.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0';
+      player.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&mute=0&rel=0&playsinline=1';
       player.title = title;
       player.loading = 'eager';
       player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';

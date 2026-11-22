@@ -34,6 +34,66 @@
     border: 1px solid rgba(224,189,133,0.24);
     pointer-events: none;
   }
+  .intro-aperture {
+    position: absolute; left: 50%; top: 50%; z-index: 5;
+    width: clamp(260px, 30vw, 470px); aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, transparent 0 20%, rgba(224,189,133,0.18) 20.5% 21.5%, transparent 22% 34%),
+      conic-gradient(from 18deg,
+        rgba(43,32,24,0.96) 0deg 32deg,
+        rgba(12,11,13,0.98) 32deg 45deg,
+        rgba(61,45,31,0.92) 45deg 77deg,
+        rgba(12,11,13,0.98) 77deg 90deg,
+        rgba(43,32,24,0.96) 90deg 122deg,
+        rgba(12,11,13,0.98) 122deg 135deg,
+        rgba(61,45,31,0.92) 135deg 167deg,
+        rgba(12,11,13,0.98) 167deg 180deg,
+        rgba(43,32,24,0.96) 180deg 212deg,
+        rgba(12,11,13,0.98) 212deg 225deg,
+        rgba(61,45,31,0.92) 225deg 257deg,
+        rgba(12,11,13,0.98) 257deg 270deg,
+        rgba(43,32,24,0.96) 270deg 302deg,
+        rgba(12,11,13,0.98) 302deg 315deg,
+        rgba(61,45,31,0.92) 315deg 347deg,
+        rgba(12,11,13,0.98) 347deg 360deg);
+    box-shadow:
+      0 0 0 1px rgba(224,189,133,0.38),
+      0 0 34px rgba(224,189,133,0.12),
+      inset 0 0 46px rgba(0,0,0,0.72);
+    mask: radial-gradient(circle, transparent 0 19%, #000 19.8% 58%, transparent 58.5%);
+    -webkit-mask: radial-gradient(circle, transparent 0 19%, #000 19.8% 58%, transparent 58.5%);
+    animation: apertureBreathe 4.2s cubic-bezier(.45,0,.55,1) infinite;
+  }
+  .intro-aperture::after {
+    content: ""; position: absolute; inset: 19%;
+    border-radius: 50%; border: 1px solid rgba(246,227,192,0.38);
+    box-shadow: 0 0 24px rgba(224,189,133,0.16), inset 0 0 18px rgba(0,0,0,0.88);
+  }
+  @keyframes apertureBreathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.92) rotate(0deg); filter: brightness(0.88); }
+    50% { transform: translate(-50%, -50%) scale(1.06) rotate(4deg); filter: brightness(1.05); }
+  }
+  .intro.entering .intro-aperture {
+    animation: apertureEnter 1.25s cubic-bezier(.55,.05,.22,1) both;
+  }
+  .intro.entering::before { animation: studioZoom 1.25s cubic-bezier(.55,.05,.22,1) both; }
+  .intro.entering .intro-inner { animation: introForward 1.05s ease both; }
+  @keyframes apertureEnter {
+    0% { transform: translate(-50%, -50%) scale(0.92) rotate(0deg); opacity: 1; }
+    38% { transform: translate(-50%, -50%) scale(0.48) rotate(-8deg); opacity: 1; }
+    72% { transform: translate(-50%, -50%) scale(1.55) rotate(10deg); opacity: 0.62; }
+    100% { transform: translate(-50%, -50%) scale(2.8) rotate(16deg); opacity: 0; }
+  }
+  @keyframes studioZoom {
+    0% { transform: scale(1); filter: brightness(1); }
+    100% { transform: scale(1.09); filter: brightness(1.18); }
+  }
+  @keyframes introForward {
+    0% { transform: translateZ(0) scale(1); opacity: 1; }
+    100% { transform: scale(1.035); opacity: 0; }
+  }
   .intro-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 62%; pointer-events: none;
     mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
     -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%); }
@@ -154,6 +214,7 @@
 
 <!-- ================= INTRO ================= -->
 <div class="intro" id="intro" role="dialog" aria-label="Introduction Saysko Photographie">
+<div class="intro-aperture" aria-hidden="true"></div>
   <span class="intro-spark" style="left:12%;top:42%;animation-delay:-1s;"></span>
   <span class="intro-spark" style="left:76%;top:26%;animation-delay:-3s;width:3px;height:3px;"></span>
   <span class="intro-spark" style="left:68%;top:78%;animation-delay:-2s;width:3px;height:3px;"></span>
@@ -339,8 +400,9 @@
     started = true;
     startMusic();
     document.documentElement.classList.remove('intro-open');
-    intro.classList.add('done');
-    setTimeout(function () { if (intro && intro.parentNode) intro.parentNode.removeChild(intro); }, 1000);
+    intro.classList.add('entering');
+    setTimeout(function () { intro.classList.add('done'); }, 780);
+    setTimeout(function () { if (intro && intro.parentNode) intro.parentNode.removeChild(intro); }, 1800);
   }
 
   if (intro) {
