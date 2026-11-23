@@ -566,7 +566,8 @@
     }
     .about-portrait .portrait-title {
       color: var(--accent); font-size: 0.72rem; letter-spacing: 3px;
-      text-transform: uppercase; text-align: center; margin: 0 0 14px; font-weight: 500;
+      text-transform: uppercase; text-align: left; margin: 0 0 18px; font-weight: 500;
+      padding-left: 2px;
     }
     @media (max-width: 780px) {
       .about-portrait .portrait-title { margin-top: 6px; }
