@@ -56,7 +56,7 @@
 #apropos > .container { position: relative; z-index: 1; }
 
 /* ===== BOT LATERAL DROIT (assistant) ===== */
-.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; }
+.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
 .bot-bubble {
   width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
   background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
@@ -64,7 +64,7 @@
   transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
   transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
 }
-.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
 .bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
 .bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
 .bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
