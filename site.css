@@ -85,11 +85,11 @@
       background: linear-gradient(90deg, transparent, var(--accent));
     }
     .logo span { color: var(--accent); }
-    nav { display: flex; align-items: center; gap: 4px; }
+    nav { display: flex; align-items: center; gap: 2px; }
     nav a {
       position: relative; color: var(--muted); text-decoration: none;
-      padding: 9px 14px; border-radius: 2px;
-      font-size: 0.68rem; letter-spacing: 2.2px; text-transform: uppercase;
+      padding: 9px 10px; border-radius: 2px;
+      font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase;
       white-space: nowrap;
       transition: color 0.3s, background 0.3s;
     }
