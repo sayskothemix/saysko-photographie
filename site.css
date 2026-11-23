@@ -564,6 +564,13 @@
       color: var(--accent); font-size: 0.62rem; letter-spacing: 2px;
       text-transform: uppercase; padding: 8px 12px;
     }
+    .about-portrait .portrait-title {
+      color: var(--accent); font-size: 0.72rem; letter-spacing: 3px;
+      text-transform: uppercase; text-align: center; margin: 0 0 14px; font-weight: 500;
+    }
+    @media (max-width: 780px) {
+      .about-portrait .portrait-title { margin-top: 6px; }
+    }
     .about-text p { color: var(--muted); font-size: 1.02rem; line-height: 1.9; }
     .about-text p + p { margin-top: 20px; }
     .about-text .about-kicker {
