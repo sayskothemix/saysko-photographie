@@ -23,6 +23,17 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  /* ---------- Lien Commentaires dans le menu (toutes les pages) ---------- */
+  (function () {
+    var nav = document.querySelector('header nav');
+    if (!nav || nav.querySelector('a[href="commentaires.html"]')) return;
+    var link = document.createElement('a');
+    link.href = 'commentaires.html';
+    link.textContent = 'Commentaires';
+    var admin = nav.querySelector('.admin-btn');
+    if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
+  })();
+
   /* ---------- Accordéons des cours ---------- */
   document.querySelectorAll('.cours-section-head').forEach(function (head) {
     head.addEventListener('click', function () {

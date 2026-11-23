@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commentaires — Saysko Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=2">
+<style>
+/* Menu mobile (pages séparées) */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+
+.comment-intro { max-width: 760px; margin: 0 auto; text-align: center; color: var(--muted); line-height: 1.8; font-size: .95rem; }
+.comment-wrap { max-width: 860px; margin: 38px auto 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(224,189,133,0.18); padding: 26px 24px 34px; border-radius: 4px; }
+.comment-wrap h2 { text-align: center; }
+@media (max-width: 600px) { .comment-wrap { padding: 18px 12px 26px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="apropos.html">À propos</a>
+      <a href="cours.html">Tutoriels</a>
+      <a href="contact.html">Contact</a>
+      <a href="modeles.html">Modèles</a>
+      <a href="competences.html">Compétences</a>
+      <a href="glossaire.html">Glossaire</a>
+      <a href="shorts.html">Shorts</a>
+      <a href="commentaires.html" class="active">Commentaires</a>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+  <div class="page-hero container">
+    <div class="breadcrumb"><a href="index.html">Accueil</a> / Commentaires</div>
+    <div class="kicker">Votre avis compte.</div>
+    <h1>Commentaires</h1>
+    <p>Laissez un avis, une question ou un mot doux — la discussion est ouverte à tous.</p>
+  </div>
+  <main class="page-main container">
+    <section class="comment-section reveal">
+      <p class="comment-intro">Les commentaires sont hébergés par <strong style="color:var(--accent)">GitHub Discussions</strong>. Pour écrire, connecte-toi simplement avec ton compte GitHub (gratuit) — aucun compte n'est nécessaire sur ce site.</p>
+      <div class="comment-wrap">
+        <h2>Laissez un <span>commentaire</span></h2>
+        <div class="giscus"></div>
+      </div>
+    </section>
+  </main>
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+  <script src="site.js?v=2"></script>
+
+  <script src="https://giscus.app/client.js"
+        data-repo="sayskothemix/saysko-photographie"
+        data-repo-id="R_kgDOV2_V0g"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOV2_V0s4DL0Z9"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="fr"
+        crossorigin="anonymous"
+        async></script>
+
+</body>
+</html>
