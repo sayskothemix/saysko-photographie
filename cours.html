@@ -1308,53 +1308,7 @@
 </footer>
 
 <script src="site.js"></script>
-<script>
-  /* Menu mobile */
-  (function () {
-    var btn = document.querySelector('.menu-toggle');
-    var nav = document.querySelector('nav');
-    if (btn && nav) {
-      btn.addEventListener('click', function () { nav.classList.toggle('open'); });
-      nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
-    }
-  })();
 
-  /* Filtrage par catégorie */
-  (function () {
-    var filterBtns = document.querySelectorAll('.filter-btn');
-    var sections = document.querySelectorAll('.cours-section');
-    var catGroups = document.querySelectorAll('.cat-group');
-
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        filterBtns.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var filter = btn.getAttribute('data-filter');
-
-        if (filter === 'all') {
-          sections.forEach(function (sec) { sec.classList.remove('filtered-out'); });
-          catGroups.forEach(function (grp) { grp.classList.remove('filtered-out'); });
-        } else {
-          sections.forEach(function (sec) {
-            if (sec.getAttribute('data-category') === filter) {
-              sec.classList.remove('filtered-out');
-            } else {
-              sec.classList.add('filtered-out');
-            }
-          });
-          catGroups.forEach(function (grp) {
-            if (grp.getAttribute('data-category') === filter) {
-              grp.classList.remove('filtered-out');
-            } else {
-              grp.classList.add('filtered-out');
-            }
-          });
-        }
-      });
-    });
-  })();
-
-</script>
 <script>
 (function () {
   'use strict';

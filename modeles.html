@@ -204,38 +204,7 @@ Dis-moi si le projet t'intéresse, on peut en discuter.</div>
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
   <script src="site.js?v=2"></script>
-<script>
-  /* Menu mobile */
-  (function () {
-    var btn = document.querySelector('.menu-toggle');
-    var nav = document.querySelector('nav');
-    if (!btn || !nav) return;
-    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
-    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
-  })();
-  (function () {
-    var btn = document.getElementById('copyModelMsg');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var tpl = document.getElementById('modelTemplate');
-      var done = function () {
-        var m = document.getElementById('copyMsg');
-        if (m) { m.textContent = 'Message copié.'; setTimeout(function () { m.textContent = ''; }, 2000); }
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(tpl.textContent).then(done).catch(done);
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = tpl.textContent;
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); } catch (e) {}
-        ta.remove();
-        done();
-      }
-    });
-  })();
-</script>
+
 
   <!-- ===== BOT LATERAL DROIT ===== -->
   <aside class="saysko-bot" id="sayskoBot" aria-label="Assistant du site">
