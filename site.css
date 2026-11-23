@@ -1423,3 +1423,36 @@ body { padding-top: 72px; }
 }
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+/* ===== MENU MOBILE (global - toutes les pages) ===== */
+.menu-toggle { display: none; width: 44px; height: 44px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.3rem; line-height: 1; flex: none; }
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(8,7,10,0.98); border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 22px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 99;
+    max-height: calc(100vh - 72px); overflow-y: auto;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 14px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+  .admin-btn, button.admin-btn { margin: 16px 0 0; width: 100%; }
+  .logo { font-size: 1.05rem; }
+  .container { padding: 0 16px; }
+  section { padding: 60px 0; }
+  h1 { font-size: 2.1rem; }
+  h2 { font-size: 1.7rem; }
+  .grid-view { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .grid-card .overlay { padding: 14px; }
+  .grid-card .overlay h3 { font-size: 1.1rem; }
+  .shorts-grid { gap: 16px; }
+  .short-card { width: min(260px, 90vw); }
+  .saysko-bot { right: 10px; bottom: 10px; }
+  .bot-bubble { width: min(340px, calc(100vw - 24px)); right: 0; }
+}
+@media (max-width: 380px) {
+  .grid-view { grid-template-columns: 1fr; }
+  h1 { font-size: 1.8rem; }
+}

@@ -307,3 +307,14 @@
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
 })();
+
+/* Menu mobile - global (toutes les pages) */
+(function () {
+  var btn = document.querySelector('.menu-toggle');
+  var nav = document.querySelector('header nav') || document.querySelector('nav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', function (e) { e.stopPropagation(); nav.classList.toggle('open'); });
+  nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
+  document.addEventListener('click', function (e) { if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) nav.classList.remove('open'); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 780) nav.classList.remove('open'); });
+})();

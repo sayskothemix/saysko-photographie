@@ -743,16 +743,7 @@
   updateSoundUI();
 })();
 </script>
-<script>
-  /* Menu mobile */
-  (function () {
-    var btn = document.querySelector('.menu-toggle');
-    var nav = document.querySelector('nav');
-    if (!btn || !nav) return;
-    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
-    nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); }); });
-  })();
-</script>
+
 
   <!-- ===== BOT LATERAL DROIT ===== -->
   <aside class="saysko-bot" id="sayskoBot" aria-label="Assistant du site">
