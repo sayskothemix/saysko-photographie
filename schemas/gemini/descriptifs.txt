@@ -10,7 +10,7 @@ Spec : Softbox 60 cm · 45° haut et lateral · ratio 1:4
 
 2. gm-rim-light.png — Eclairage trois points
 Titre : Eclairage trois points
-Description : Un portrait studio classique de trois-quarts. Ce schema combine les trois lumieres : Key light (principale) chaude et doree, venant de l'avant-gauche ; Fill light (bouche) douce, qui attenue les ombres a droite ; Rim light (contre-jour), un filet de lumiere brillant qui detache les cheveux et l'epaule de l'arriere-plan sombre. Le rendu est tres editorial et propre.
+Description (bonnes informations retenues) : Portrait studio classique de trois-quarts : trois lumières combinées. Key light (principale) chaude et dorée, venant de l'avant-gauche. Fill light (appoint) douce, qui atténue les ombres à droite. Rim light (contre-jour) : un filet brillant qui détache les cheveux et l'épaule du fond sombre. Rendu éditorial et propre.
 Spec : 3 sources · key chaude 45° · fill douce · rim 135°
 
 3. gm-lumiere-douce.png — Lumiere douce
