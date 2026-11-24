@@ -1,0 +1,34 @@
+DESCRIPTIFS DES SCHEMAS D'ECLAIRAGE (images Gemini)
+Dossier : F:\_PROJETS\site-saysko\deploy\schemas\gemini\
+Format des images : 1024x572 ou 1376x768, fond sombre, accent dore #e0bd85.
+Un descriptif par photo. Style coherent avec les legendes de eclairage.html : titre, description courte, spec technique.
+
+1. gm-rembrandt-triangle.png — Rembrandt (triangle)
+Titre : Rembrandt
+Description : La lumiere vient de haut et de cote : un petit triangle lumineux apparait sur la joue ombree, sous l'oeil oppose. Rendu pictural et dramatique, tres flatteur pour les portraits.
+Spec : Softbox 60 cm · 45° haut et lateral · ratio 1:4
+
+2. gm-rim-light.png — Contour / rim light
+Titre : Rim light (contre-jour de contour)
+Description : Une source placee derriere le sujet decoupe les cheveux et les epaules d'un liseré dore. Le corps reste dans l'ombre, le regard est porte par le contour lumineux.
+Spec : Source arriere haute · 160° · LED ou flash dedarde · ratio 1:2
+
+3. gm-lumiere-douce.png — Lumiere douce
+Titre : Lumiere douce
+Description : Une grande source proche enveloppe le visage : les ombres sont fondues, la peau est lisse et les transitions progressives. Ideal pour les portraits naturels et flatteurs.
+Spec : Grande softbox 90 cm ou lumiere continue · proche du sujet · ratio 1:1
+
+4. gm-key-light-45.jpg — Key light 45°
+Titre : Key light 45° (lumiere principale)
+Description : La source principale est placee a 45° sur le cote et au-dessus du regard. Elle modele le volume du visage et cree l'ombre du cote oppose. Les fleches indiquent l'angle d'arrivee de la lumiere.
+Spec : Key a 45° · 30° au-dessus · source unique · ratio 1:2
+
+5. gm-key-light-45-v2.jpg — Key light 45° (face)
+Titre : Key light 45° — rendu face
+Description : Variante sans annotations : meme lumiere principale a 45°, vue de face. On voit nettement le cote eclaire et le cote dans l'ombre, avec un modele plus doux que la version dure.
+Spec : Key a 45° · face au sujet · softbox · ratio 1:2
+
+6. gm-lumiere-dure.jpg — Lumiere dure
+Titre : Lumiere dure
+Description : Une petite source donne une ombre a bord net, fort contraste : la moitie du visage est dans l'ombre, la peau et les textures sont marquees. Parfait pour le caractere et le dramatique.
+Spec : Flash nu ou snoot · petite source · ratio 1:8
