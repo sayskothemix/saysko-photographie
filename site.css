@@ -1686,7 +1686,27 @@ body.has-cursor-halo::after { opacity: 1; }
   transform: skewX(-25deg);
   animation: sayskoShine 15s infinite;
 }
+/* Balayage large du titre hero (8 s) */
+.hero h1 { position: relative; overflow: hidden; }
+.hero h1::before {
+  content: ""; position: absolute; top: 0; left: -120%;
+  width: 120%; height: 100%; pointer-events: none; z-index: 3;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(201,165,106,0.05) 25%,
+    rgba(201,165,106,0.35) 50%,
+    rgba(255,255,255,0.15) 60%,
+    rgba(201,165,106,0.35) 70%,
+    transparent 100%);
+  animation: titleSweep 8s infinite;
+}
+@keyframes titleSweep {
+  0% { transform: translateX(-100%); }
+  25% { transform: translateX(220%); }
+  100% { transform: translateX(220%); }
+}
 @media (prefers-reduced-motion: reduce) {
   .hero h1::after, .page-hero h1::after,
-  .hero h1 span.hero-shine::after { animation: none; }
+  .hero h1 span.hero-shine::after,
+  .hero h1::before { animation: none; }
 }
