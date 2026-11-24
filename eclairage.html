@@ -172,185 +172,203 @@
 <script>
 (function () {
   'use strict';
-  var MX = 200, MY = 172; // position du sujet
+  var SUBJ = { x: 205, y: 178 }; // tête du modèle
 
-  function esc(s) { return s; }
-
-  // Construit le décor : studio (cyclorama), extérieur (horizon) ou nuit
-  function decor(env) {
+  // ---- Décor : studio (cyclorama), extérieur, nuit ----
+  function decor(env, uid) {
     if (env === 'studio') {
-      return '<path d="M0 320 L0 210 Q200 180 400 210 L400 320 Z" fill="#141419"/>' +
-             '<path d="M0 210 Q200 180 400 210" fill="none" stroke="#26262e" stroke-width="2"/>' +
-             '<ellipse cx="200" cy="300" rx="90" ry="10" fill="#000" opacity="0.4"/>';
+      return '<defs><linearGradient id="fl-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#191920"/><stop offset=".62" stop-color="#101014"/><stop offset="1" stop-color="#0a0a0e"/></linearGradient>' +
+        '<linearGradient id="fm-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#26262f"/><stop offset="1" stop-color="#0c0c10"/></linearGradient></defs>' +
+        '<rect width="400" height="205" fill="url(#fl-' + uid + ')"/>' +
+        '<path d="M0 205 Q200 178 400 205 L400 400 L0 400 Z" fill="url(#fm-' + uid + ')"/>' +
+        '<path d="M0 205 Q200 178 400 205" fill="none" stroke="#33333e" stroke-width="1.5" opacity=".8"/>' +
+        '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".45"/>';
     }
     if (env === 'exterieur') {
-      return '<rect x="0" y="0" width="400" height="320" fill="#1b2233"/>' +
-             '<circle cx="330" cy="70" r="26" fill="#ffdf9e" opacity="0.9"/>' +
-             '<circle cx="330" cy="70" r="40" fill="#ffdf9e" opacity="0.15"/>' +
-             '<rect x="0" y="235" width="400" height="85" fill="#20291c"/>' +
-             '<rect x="0" y="232" width="400" height="4" fill="#3a3a2c" opacity="0.7"/>';
+      return '<defs><linearGradient id="sk-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#2a3550"/><stop offset=".55" stop-color="#6b4a3a"/><stop offset="1" stop-color="#c98a4a"/></linearGradient>' +
+        '<linearGradient id="gr-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#3a3226"/><stop offset="1" stop-color="#17130e"/></linearGradient></defs>' +
+        '<rect width="400" height="400" fill="url(#sk-' + uid + ')"/>' +
+        '<rect y="255" width="400" height="145" fill="url(#gr-' + uid + ')"/>' +
+        '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".4"/>';
     }
-    // nuit / intérieur sombre
-    return '<rect x="0" y="0" width="400" height="320" fill="#0a0a12"/>' +
-           '<rect x="0" y="240" width="400" height="80" fill="#0d0d14"/>';
+    return '<defs><linearGradient id="nk-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#0b0b14"/><stop offset="1" stop-color="#05050a"/></linearGradient></defs>' +
+      '<rect width="400" height="400" fill="url(#nk-' + uid + ')"/>' +
+      '<rect y="250" width="400" height="150" fill="#08080d"/>' +
+      '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".5"/>';
   }
 
+  // ---- Modèle : silhouette éclairée ----
   function subject() {
     return '<g>' +
-      '<ellipse cx="200" cy="182" rx="60" ry="10" fill="#000" opacity="0.45"/>' +
-      '<path d="M172 250 Q172 205 200 200 Q228 205 228 250 Z" fill="#26262e"/>' +
-      '<circle cx="200" cy="172" r="22" fill="#26262e"/>' +
-      '<path d="M200 150 q-4 -10 0 -14 M194 152 q-8 -8 -12 -8 M206 152 q8 -8 12 -8" stroke="#26262e" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M160 400 Q162 320 190 285 Q205 272 220 285 Q248 320 250 400 Z" fill="#1c1c24"/>' +
+      '<circle cx="205" cy="245" r="34" fill="#22222c"/>' +
       '</g>';
   }
 
-  function camera() {
-    return '<g transform="translate(200,296)">' +
-      '<rect x="-26" y="-8" width="52" height="16" rx="4" fill="#1e1e26" stroke="#3a3a48"/>' +
-      '<circle cx="0" cy="0" r="5" fill="#0a0a10" stroke="#4a4a5a"/>' +
-      '<text x="34" y="4" font-size="10" fill="#5a5a6a" font-family="Montserrat">caméra</text></g>';
+  // ---- Faisceau volumétrique : cône dégradé + rayons + poussière ----
+  function beam(l, uid) {
+    var col = l.color || '#ffd98f';
+    var x2 = l.tx !== undefined ? l.tx : SUBJ.x, y2 = l.ty !== undefined ? l.ty : SUBJ.y;
+    var spread = l.spread || 55;
+    var px = -(y2 - l.y), py = (x2 - l.x);
+    var pl = Math.hypot(px, py) || 1; px /= pl; py /= pl;
+    var bx1 = x2 - px * spread, by1 = y2 - py * spread;
+    var bx2 = x2 + px * spread, by2 = y2 + py * spread;
+    var tipx = l.x + (x2 - l.x) * 0.12, tipy = l.y + (y2 - l.y) * 0.12;
+    var cone = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) +
+      ' L' + bx1.toFixed(1) + ' ' + by1.toFixed(1) +
+      ' Q' + x2.toFixed(1) + ' ' + y2.toFixed(1) + ' ' + bx2.toFixed(1) + ' ' + by2.toFixed(1) + ' Z';
+    var cone2 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) +
+      ' L' + (x2 - px * spread * 0.45).toFixed(1) + ' ' + (y2 - py * spread * 0.45).toFixed(1) +
+      ' Q' + x2.toFixed(1) + ' ' + y2.toFixed(1) + ' ' + (x2 + px * spread * 0.45).toFixed(1) + ' ' + (y2 + py * spread * 0.45).toFixed(1) + ' Z';
+    var r1 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + (x2 - px * spread * 0.55).toFixed(1) + ' ' + (y2 - py * spread * 0.55).toFixed(1);
+    var r2 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + (x2 + px * spread * 0.55).toFixed(1) + ' ' + (y2 + py * spread * 0.55).toFixed(1);
+    var r3 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + x2 + ' ' + y2;
+    var dust = '';
+    for (var i = 0; i < 5; i++) {
+      var t = 0.25 + i * 0.14;
+      var dx = l.x + (x2 - l.x) * t + (i % 2 ? spread * 0.3 : -spread * 0.3);
+      var dy = l.y + (y2 - l.y) * t;
+      dust += '<circle cx="' + dx.toFixed(0) + '" cy="' + dy.toFixed(0) + '" r="' + (1 + (i % 3) * 0.6).toFixed(1) + '" fill="' + col + '" class="lc-dust" style="animation-delay:' + (i * 0.7).toFixed(1) + 's"/>';
+    }
+    var gid = 'bm-' + uid + '-' + l.x + '-' + l.y;
+    return '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="' + col + '" stop-opacity="0.5"/><stop offset="1" stop-color="' + col + '" stop-opacity="0.05"/></linearGradient></defs>' +
+      '<path class="lc-beam" d="' + cone + '" fill="url(#' + gid + ')"/>' +
+      '<path class="lc-beam2" d="' + cone2 + '" fill="' + col + '" opacity="0.28"/>' +
+      '<path class="lc-ray" d="' + r1 + '" stroke="' + col + '" stroke-width="1.4" fill="none"/>' +
+      '<path class="lc-ray" d="' + r2 + '" stroke="' + col + '" stroke-width="1.4" fill="none"/>' +
+      '<path class="lc-ray" d="' + r3 + '" stroke="' + col + '" stroke-width="1.8" fill="none"/>' + dust;
   }
 
-  function stand(x, y, h) {
-    return '<line x1="' + x + '" y1="' + y + '" x2="' + x + '" y2="' + (y + h) + '" stroke="#3a3a46" stroke-width="4"/>' +
-           '<line x1="' + (x - 16) + '" y2="' + (y + h) + '" x2="' + (x + 16) + '" y2="' + (y + h) + '" stroke="#3a3a46" stroke-width="4"/>';
-  }
-
-  // Dessine une source. type: softbox|flash|cobra|panel|led|sun
+  // ---- Sources : softbox, flash, LED panel, soleil ----
   function light(l) {
-    var col = l.color || '#f6dfae';
-    var label = l.k ? '<text x="' + (l.x + 10) + '" y="' + (l.y - 14) + '" font-size="12" font-weight="700" fill="' + col + '" font-family="Montserrat">' + l.k + '</text>' : '';
-    var glow = '<circle cx="' + l.x + '" cy="' + l.y + '" r="10" fill="' + col + '" class="lc-bulb" opacity="0.9"/>';
+    var col = l.color || '#ffd98f';
+    var label = l.k ? '<text x="' + l.x + '" y="' + (l.y - 52) + '" font-size="13" font-weight="700" fill="' + col + '" font-family="Montserrat" text-anchor="middle">' + l.k + '</text>' : '';
+    var head = '', standH = 0, glow = '<circle cx="' + l.x + '" cy="' + l.y + '" r="8" fill="' + col + '" class="lc-bulb"/>';
 
     if (l.t === 'sun') {
       var rays = '';
-      for (var a = 0; a < 8; a++) {
-        var ang = a * Math.PI / 4;
-        var x1 = l.x + Math.cos(ang) * 22, y1 = l.y + Math.sin(ang) * 22;
-        var x2 = l.x + Math.cos(ang) * 34, y2 = l.y + Math.sin(ang) * 34;
-        rays += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#ffdf9e" stroke-width="2.5"/>';
+      for (var a = 0; a < 10; a++) {
+        var ang = a * Math.PI / 5;
+        rays += '<line x1="' + (l.x + Math.cos(ang) * 24).toFixed(1) + '" y1="' + (l.y + Math.sin(ang) * 24).toFixed(1) +
+          '" x2="' + (l.x + Math.cos(ang) * 38).toFixed(1) + '" y2="' + (l.y + Math.sin(ang) * 38).toFixed(1) +
+          '" stroke="#ffdf9e" stroke-width="2.5"/>';
       }
       return '<g class="lc-sunrays">' + rays + '</g>' +
-             '<circle cx="' + l.x + '" cy="' + l.y + '" r="20" fill="#ffdf9e"/>' +
-             '<circle cx="' + l.x + '" cy="' + l.y + '" r="30" fill="#ffdf9e" opacity="0.18"/>' + label;
+        '<circle cx="' + l.x + '" cy="' + l.y + '" r="22" fill="#ffdf9e"/>' +
+        '<circle cx="' + l.x + '" cy="' + l.y + '" r="34" fill="#ffdf9e" opacity="0.2"/>' + label;
     }
     if (l.t === 'panel') {
-      // banque de LED : grand panneau vertical
-      return '<g transform="translate(' + l.x + ',' + l.y + ')">' +
-        '<rect x="-46" y="-30" width="92" height="60" rx="6" fill="#20242e" stroke="#5a6478" stroke-width="2"/>' +
-        Array.apply(null, {length: 12}).map(function (_, i) {
-          return '<rect x="' + (-40 + (i % 4) * 22) + '" y="' + (-24 + Math.floor(i / 4) * 17) + '" width="16" height="11" rx="2" fill="#dfe9ff" opacity="0.85"/>';
-        }).join('') + '</g>' +
-        stand(l.x, l.y + 30, 60) + glow + label;
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-52" y="-34" width="104" height="68" rx="8" fill="#181c26" stroke="#5a6478" stroke-width="2.5"/>' +
+        '<rect x="-46" y="-28" width="92" height="56" rx="4" fill="#dfe9ff" opacity="0.9"/>' +
+        Array.apply(null, { length: 8 }).map(function (_, i) {
+          return '<line x1="' + (-34 + i * 10) + '" y1="-26" x2="' + (-34 + i * 10) + '" y2="26" stroke="#b8c4dc" stroke-width="1.4"/>';
+        }).join('') + '</g>';
+      standH = 235 - (l.y + 34);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y + 34) + '" x2="' + l.x + '" y2="' + (l.y + 34 + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        '<line x1="' + (l.x - 22) + '" y1="' + (l.y + 34 + standH) + '" x2="' + (l.x + 22) + '" y2="' + (l.y + 34 + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        glow + label;
     }
     if (l.t === 'led') {
-      // softbox LED continue : grande boîte
-      return '<g transform="translate(' + l.x + ',' + l.y + ')">' +
-        '<rect x="-34" y="-46" width="68" height="46" rx="4" fill="#e8ecf5" opacity="0.95"/>' +
-        '<rect x="-34" y="-46" width="68" height="46" rx="4" fill="none" stroke="#8a94ac" stroke-width="2"/>' +
-        '<line x1="-20" y1="-40" x2="20" y2="-40" stroke="#aab4cc" stroke-width="1.5"/>' +
-        '<line x1="-20" y1="-30" x2="20" y2="-30" stroke="#aab4cc" stroke-width="1.5"/>' +
-        '</g>' + stand(l.x, l.y - 46, 0) +
-        '<line x1="' + l.x + '" y1="' + (l.y - 46) + '" x2="' + l.x + '" y2="' + (l.y - 120) + '" stroke="#3a3a46" stroke-width="4"/>' +
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-40" y="-52" width="80" height="52" rx="5" fill="#e8ecf5" stroke="#8a94ac" stroke-width="2.5"/>' +
+        '<line x1="-26" y1="-40" x2="26" y2="-40" stroke="#aab4cc" stroke-width="2"/>' +
+        '<line x1="-26" y1="-26" x2="26" y2="-26" stroke="#aab4cc" stroke-width="2"/></g>';
+      standH = 205 - (l.y - 52);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y - 52) + '" x2="' + l.x + '" y2="' + (l.y - 52 - standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        '<line x1="' + (l.x - 20) + '" y1="' + (l.y - 52 - standH) + '" x2="' + (l.x + 20) + '" y2="' + (l.y - 52 - standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
         glow + label;
     }
     if (l.t === 'cobra') {
-      // flash cobra : petit boîtier + diffuseur
-      return '<g transform="translate(' + l.x + ',' + l.y + ')">' +
-        '<rect x="-10" y="-16" width="20" height="30" rx="3" fill="#2a2a34" stroke="#5a5a6a"/>' +
-        '<rect x="-8" y="-26" width="16" height="12" rx="2" fill="#d8d8e2"/>' +
-        '<circle cx="0" cy="0" r="4" fill="#0a0a10"/>' +
-        '</g>' +
-        '<line x1="' + l.x + '" y1="' + (l.y + 14) + '" x2="' + l.x + '" y2="' + (l.y + 80) + '" stroke="#3a3a46" stroke-width="4"/>' +
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-11" y="-18" width="22" height="34" rx="4" fill="#2a2a34" stroke="#5a5a6a" stroke-width="1.5"/>' +
+        '<rect x="-9" y="-30" width="18" height="14" rx="3" fill="#d8d8e2"/>' +
+        '<rect x="-4" y="-8" width="8" height="5" fill="#0a0a10"/></g>';
+      standH = 240 - (l.y + 16);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y + 16) + '" x2="' + l.x + '" y2="' + (l.y + 16 + standH) + '" stroke="#3a3a46" stroke-width="4"/>' +
+        '<line x1="' + (l.x - 14) + '" y1="' + (l.y + 16 + standH) + '" x2="' + (l.x + 14) + '" y2="' + (l.y + 16 + standH) + '" stroke="#3a3a46" stroke-width="4"/>' +
         glow + label;
     }
-    // softbox / flash de studio : tête carrée + pied
-    var w = l.t === 'softbox' ? 44 : 26;
-    var h = l.t === 'softbox' ? 30 : 22;
-    var ang = (Math.atan2(MY - l.y, MX - l.x) * 180 / Math.PI).toFixed(1);
-    return '<g transform="translate(' + l.x + ',' + l.y + ') rotate(' + ang + ')">' +
-      '<rect x="' + (-w / 2) + '" y="' + (-h / 2) + '" width="' + w + '" height="' + h + '" rx="4" fill="' + (l.t === 'softbox' ? '#e8e4da' : '#2a2a34') + '" stroke="#6a6a78" stroke-width="1.5"/>' +
-      '<line x1="' + (-w / 4) + '" y1="' + (-h / 2 + 5) + '" x2="' + (w / 4) + '" y2="' + (-h / 2 + 5) + '" stroke="#9a9aa8" stroke-width="1"/>' +
-      '<line x1="' + (-w / 4) + '" y1="0" x2="' + (w / 4) + '" y2="0" stroke="#9a9aa8" stroke-width="1"/>' +
-      '</g>' +
-      stand(l.x, l.y, 90) + glow + label;
+    // flash de studio / softbox : tête orientée vers le sujet
+    var ang = (Math.atan2(SUBJ.y - l.y, SUBJ.x - l.x) * 180 / Math.PI).toFixed(1);
+    var w = l.t === 'softbox' ? 56 : 30, h = l.t === 'softbox' ? 40 : 26;
+    head = '<g transform="translate(' + l.x + ',' + l.y + ') rotate(' + ang + ')">' +
+      '<rect x="' + (-w / 2) + '" y="' + (-h / 2) + '" width="' + w + '" height="' + h + '" rx="5" fill="' + (l.t === 'softbox' ? '#e8e4da' : '#2a2a34') + '" stroke="#6a6a78" stroke-width="2"/>' +
+      '<line x1="' + (-w / 4) + '" y1="' + (-h / 2 + 7) + '" x2="' + (w / 4) + '" y2="' + (-h / 2 + 7) + '" stroke="#9a9aa8" stroke-width="1.5"/>' +
+      '<line x1="' + (-w / 4) + '" y1="2" x2="' + (w / 4) + '" y2="2" stroke="#9a9aa8" stroke-width="1.5"/></g>';
+    standH = 235 - l.y;
+    return head +
+      '<line x1="' + l.x + '" y1="' + l.y + '" x2="' + l.x + '" y2="' + (l.y + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+      '<line x1="' + (l.x - 20) + '" y1="' + (l.y + standH) + '" x2="' + (l.x + 20) + '" y2="' + (l.y + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+      glow + label;
   }
 
-  // Faisceau lumineux : cône du flash vers le sujet + rayons animés
-  function beam(l) {
-    var col = l.color || '#f6dfae';
-    var w = l.beam || 90;
-    // triangle élargi côté sujet
-    var spread = w;
-    var d = Math.hypot(MX - l.x, MY - l.y);
-    var spreadEnd = spread * (1 + d / 300);
-    var path = 'M' + l.x + ' ' + l.y +
-      ' L' + (MX - spreadEnd) + ' ' + (MY - spreadEnd * 0.7) +
-      ' L' + (MX + spreadEnd) + ' ' + (MY + spreadEnd * 0.7) + ' Z';
-    var ray1 = 'M' + l.x + ' ' + l.y + ' L' + (MX - spreadEnd * 0.5) + ' ' + (MY - spreadEnd * 0.35);
-    var ray2 = 'M' + l.x + ' ' + l.y + ' L' + (MX + spreadEnd * 0.5) + ' ' + (MY - spreadEnd * 0.35);
-    var ray3 = 'M' + l.x + ' ' + l.y + ' L' + MX + ' ' + (MY - spreadEnd * 0.15);
-    return '<path class="lc-beam" d="' + path + '" fill="' + col + '"/>' +
-      '<path class="lc-ray" d="' + ray1 + '" stroke="' + col + '" stroke-width="1.6" fill="none"/>' +
-      '<path class="lc-ray" d="' + ray2 + '" stroke="' + col + '" stroke-width="1.6" fill="none"/>' +
-      '<path class="lc-ray" d="' + ray3 + '" stroke="' + col + '" stroke-width="1.6" fill="none"/>';
-  }
-
-  function diagram(setup) {
-    var s = '<svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">';
-    s += decor(setup.env);
+  function diagram(setup, uid) {
+    var s = '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">';
+    s += decor(setup.env, uid);
     setup.lights.forEach(function (l) {
-      if (l.t === 'sun' || l.halo) s += '<circle cx="' + l.x + '" cy="' + l.y + '" r="90" fill="' + (l.color || '#f6dfae') + '" class="lc-haze"/>';
-      s += beam(l);
+      if (l.halo || l.t === 'sun') s += '<circle cx="' + l.x + '" cy="' + l.y + '" r="80" fill="' + (l.color || '#ffd98f') + '" class="lc-haze"/>';
+      s += beam(l, uid);
     });
-    s += subject() + camera();
+    s += subject();
     setup.lights.forEach(function (l) { s += light(l); });
     s += '</svg>';
     return s;
   }
 
-  function card(s) {
+  function card(s, i) {
     var ex = s.img ? '<figure class="lc-example"><img src="' + s.img + '" alt="' + s.title + ' — exemple"><figcaption>Exemple réel</figcaption></figure>' : '';
     return '<article class="lc-card reveal">' +
-      '<div class="lc-diagram">' + diagram(s) + '</div>' +
+      '<div class="lc-diagram">' + diagram(s, 'd' + i) + '</div>' +
       '<div class="lc-body"><h4>' + s.title + '</h4><p>' + s.desc + '</p>' +
       '<span class="lc-spec">' + s.spec + '</span>' + ex + '</div></article>';
   }
 
   var SETUPS = {
     studio: [
-      { title: 'Un flash', desc: 'La key light seule, à 45° du sujet et légèrement au-dessus. Simple, efficace, le point de départ de tout.', spec: 'Softbox 60 cm · 45° · f/5.6 · 1/125', env: 'studio', lights: [{ t: 'softbox', x: 285, y: 95, beam: 80, k: 'K' }] },
-      { title: 'Rembrandt', desc: 'La lumière vient de haut et de côté : une ombre triangle apparaît sous le nez du côté opposé. Rendu pictural, dramatique.', spec: 'Softbox 60 cm · 45° haut · ratio 1:4', env: 'studio', lights: [{ t: 'softbox', x: 290, y: 70, beam: 70, k: 'K' }] },
-      { title: 'Loop', desc: 'Le flash forme une petite boucle d\'ombre du côté du nez, sans toucher la joue. La plus polyvalente des lumières de portrait.', spec: 'Softbox 90 cm · 45° · ratio 1:2', env: 'studio', lights: [{ t: 'softbox', x: 275, y: 105, beam: 90, k: 'K' }] },
-      { title: 'Butterfly', desc: 'Le flash est au-dessus et dans l\'axe : l\'ombre du nez forme un papillon sous la bouche. Idéal beauté et maquillage.', spec: 'Softbox 60 cm · au-dessus · ratio 1:3', env: 'studio', lights: [{ t: 'softbox', x: 200, y: 55, beam: 75, k: 'K' }] },
-      { title: 'Split', desc: 'Le flash est à 90° : une moitié du visage est éclairée, l\'autre plongée dans l\'ombre. Très cinématographique.', spec: 'Stripbox 30 cm · 90° · ratio 1:8', env: 'studio', lights: [{ t: 'flash', x: 350, y: 160, beam: 60, k: 'K' }] },
-      { title: 'Clamshell', desc: 'Deux softboxes de part et d\'autre de l\'appareil : la lumière enveloppe le visage, les ombres s\'effacent. Rendu doux et féminin.', spec: '2× softbox 60 cm · de face · ratio 1:1,5', env: 'studio', lights: [{ t: 'softbox', x: 105, y: 140, beam: 95, k: 'F' }, { t: 'softbox', x: 295, y: 140, beam: 95, k: 'K' }] }
+      { title: 'Un flash', desc: 'La key light seule, à 45° du sujet et légèrement au-dessus. Simple, efficace, le point de départ de tout.', spec: 'Softbox 60 cm · 45° · f/5.6 · 1/125', env: 'studio', lights: [{ t: 'softbox', x: 60, y: 105, spread: 60, k: 'K' }] },
+      { title: 'Rembrandt', desc: 'La lumière vient de haut et de côté : une ombre triangle apparaît sous le nez du côté opposé. Rendu pictural, dramatique.', spec: 'Softbox 60 cm · 45° haut · ratio 1:4', env: 'studio', lights: [{ t: 'softbox', x: 55, y: 75, spread: 50, k: 'K' }] },
+      { title: 'Loop', desc: 'Le flash forme une petite boucle d\'ombre du côté du nez, sans toucher la joue. La plus polyvalente des lumières de portrait.', spec: 'Softbox 90 cm · 45° · ratio 1:2', env: 'studio', lights: [{ t: 'softbox', x: 70, y: 125, spread: 65, k: 'K' }] },
+      { title: 'Butterfly', desc: 'Le flash est au-dessus et dans l\'axe : l\'ombre du nez forme un papillon sous la bouche. Idéal beauté et maquillage.', spec: 'Softbox 60 cm · au-dessus · ratio 1:3', env: 'studio', lights: [{ t: 'softbox', x: 205, y: 70, spread: 55, k: 'K' }] },
+      { title: 'Split', desc: 'Le flash est à 90° : une moitié du visage est éclairée, l\'autre plongée dans l\'ombre. Très cinématographique.', spec: 'Stripbox 30 cm · 90° · ratio 1:8', env: 'studio', lights: [{ t: 'flash', x: 345, y: 175, spread: 45, k: 'K' }] },
+      { title: 'Clamshell', desc: 'Deux softboxes de part et d\'autre de l\'appareil : la lumière enveloppe le visage, les ombres s\'effacent. Rendu doux et féminin.', spec: '2× softbox 60 cm · de face · ratio 1:1,5', env: 'studio', lights: [{ t: 'softbox', x: 60, y: 160, spread: 70, k: 'F' }, { t: 'softbox', x: 350, y: 160, spread: 70, k: 'K' }] }
     ],
     cobra: [
-      { title: 'Un cobra déporté', desc: 'Le flash cobra déclenché à distance : on le place où on veut, comme un flash de studio miniature. Le secret du strobisme portable.', spec: 'Cobra + transmetteur · 1/128 → 1/1', env: 'studio', lights: [{ t: 'cobra', x: 120, y: 90, beam: 70, k: 'K' }] },
-      { title: 'Cobra + mini softbox', desc: 'Un petit softbox ou un diffuseur sur le cobra adoucit la lumière : le rendu se rapproche d\'un flash de studio pour un coût minimal.', spec: 'Cobra + diffuseur · 45° · f/4', env: 'studio', lights: [{ t: 'cobra', x: 280, y: 80, beam: 95, k: 'K' }] },
-      { title: 'Deux cobras', desc: 'Un en clé, un en rim derrière le sujet : le contour se détache du fond. Setup nomade pour portraits et concerts.', spec: '2 cobras · key 45° + rim 135°', env: 'studio', lights: [{ t: 'cobra', x: 115, y: 85, beam: 75, k: 'K' }, { t: 'cobra', x: 330, y: 105, beam: 55, color: '#e7c6ff', k: 'R' }] }
+      { title: 'Un cobra déporté', desc: 'Le flash cobra déclenché à distance : on le place où on veut, comme un flash de studio miniature. Le secret du strobisme portable.', spec: 'Cobra + transmetteur · 1/128 → 1/1', env: 'studio', lights: [{ t: 'cobra', x: 55, y: 140, spread: 55, k: 'K' }] },
+      { title: 'Cobra + diffuseur', desc: 'Un petit softbox ou un diffuseur sur le cobra adoucit la lumière : le rendu se rapproche d\'un flash de studio pour un coût minimal.', spec: 'Cobra + diffuseur · 45° · f/4', env: 'studio', lights: [{ t: 'cobra', x: 80, y: 115, spread: 75, k: 'K' }] },
+      { title: 'Deux cobras', desc: 'Un en clé, un en rim derrière le sujet : le contour se détache du fond. Setup nomade pour portraits et concerts.', spec: '2 cobras · key 45° + rim 135°', env: 'studio', lights: [{ t: 'cobra', x: 55, y: 125, spread: 60, k: 'K' }, { t: 'cobra', x: 355, y: 110, spread: 45, color: '#e7c6ff', tx: 235, ty: 190, k: 'R' }] }
     ],
     continu: [
-      { title: 'Softbox LED', desc: 'Une grande softbox à lumière continue : on voit le résultat en direct, parfait pour la vidéo et l\'apprentissage.', spec: 'LED 60 W · softbox 90 cm · 45°', env: 'studio', lights: [{ t: 'led', x: 285, y: 90, beam: 110, color: '#dfe9ff', k: 'K' }] },
-      { title: 'Banque de LED', desc: 'Un panneau LED comme une fenêtre de lumière : très doux, peu directionnel, idéal pour les ensembles et les produits.', spec: 'Panneau LED · grande surface · ratio 1:1', env: 'studio', lights: [{ t: 'panel', x: 90, y: 150, beam: 140, color: '#dfe9ff', k: 'K' }] },
-      { title: 'Continue + flash', desc: 'La lumière continue sert de fill doux pendant que le flash sculpte la clé : le meilleur des deux mondes en vidéo comme en photo.', spec: 'LED fill + flash clé · ratio 1:2', env: 'studio', lights: [{ t: 'panel', x: 90, y: 150, beam: 120, color: '#dfe9ff', k: 'F' }, { t: 'softbox', x: 290, y: 75, beam: 85, k: 'K' }] }
+      { title: 'Softbox LED', desc: 'Une grande softbox à lumière continue : on voit le résultat en direct, parfait pour la vidéo et l\'apprentissage.', spec: 'LED 60 W · softbox 90 cm · 45°', env: 'studio', lights: [{ t: 'led', x: 55, y: 105, spread: 75, color: '#dfe9ff', k: 'K' }] },
+      { title: 'Banque de LED', desc: 'Un panneau LED comme une fenêtre de lumière : très doux, peu directionnel, idéal pour les ensembles et les produits.', spec: 'Panneau LED · grande surface · ratio 1:1', env: 'studio', lights: [{ t: 'panel', x: 40, y: 145, spread: 95, color: '#dfe9ff', k: 'K' }] },
+      { title: 'Continue + flash', desc: 'La lumière continue sert de fill doux pendant que le flash sculpte la clé : le meilleur des deux mondes en vidéo comme en photo.', spec: 'LED fill + flash clé · ratio 1:2', env: 'studio', lights: [{ t: 'panel', x: 45, y: 150, spread: 90, color: '#dfe9ff', k: 'F' }, { t: 'softbox', x: 330, y: 85, spread: 60, k: 'K' }] }
     ],
     exterieur: [
-      { title: 'Golden hour', desc: 'Le soleil bas et doré fait tout le travail : ombres longues, peau chaude. On se place dos au soleil pour un contre-jour doux.', spec: '1 h avant/après coucher · exposition -1/3', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 60, beam: 160, halo: true }] },
-      { title: 'Fill flash', desc: 'Soleil de face ou de côté : le flash déporté à 45° rééquilibre le visage sans écraser la lumière naturelle. Le rendu reste « dehors ».', spec: 'Flash déporté · 1/4 de puissance · f/4', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 60, beam: 150, halo: true }, { t: 'cobra', x: 110, y: 110, beam: 70, k: 'F' }] },
-      { title: 'Contre-jour', desc: 'Le soleil derrière le sujet : silhouette ou halo doré autour des cheveux. On sous-expose le fond et on laisse le bord lumineux.', spec: 'Soleil derrière · expo -1 IL · f/2.8', env: 'exterieur', lights: [{ t: 'sun', x: 200, y: 235, beam: 130, halo: true }] }
+      { title: 'Golden hour', desc: 'Le soleil bas et doré fait tout le travail : ombres longues, peau chaude. On se place dos au soleil pour un contre-jour doux.', spec: '1 h avant/après coucher · exposition -1/3', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 75, spread: 110, halo: true }] },
+      { title: 'Fill flash', desc: 'Soleil de face ou de côté : le flash déporté à 45° rééquilibre le visage sans écraser la lumière naturelle. Le rendu reste « dehors ».', spec: 'Flash déporté · 1/4 de puissance · f/4', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 70, spread: 100, halo: true }, { t: 'cobra', x: 55, y: 130, spread: 65, color: '#ffe9c4', k: 'F' }] },
+      { title: 'Contre-jour', desc: 'Le soleil derrière le sujet : silhouette ou halo doré autour des cheveux. On sous-expose le fond et on laisse le bord lumineux.', spec: 'Soleil derrière · expo -1 IL · f/2.8', env: 'exterieur', lights: [{ t: 'sun', x: 205, y: 300, spread: 80, halo: true }] }
     ],
     strobisme: [
-      { title: 'Deux flashs déportés', desc: 'Key light et rim light déclenchés hors caméra : le portrait studio en plein jour ou dans une pièce sombre. Le flash n\'a plus besoin d\'être sur l\'appareil.', spec: '2 flashes · key 45° + rim 135° · 1/200', env: 'nuit', lights: [{ t: 'softbox', x: 110, y: 80, beam: 90, k: 'K' }, { t: 'flash', x: 335, y: 95, beam: 60, color: '#e7c6ff', k: 'R' }] },
-      { title: 'Flash + snoot', desc: 'Un flash avec un snoot ou une grille : le faisceau devient un spot net qui isole le sujet du fond. Dramatic, économique en lumière.', spec: 'Flash + snoot · spot serré · f/4', env: 'nuit', lights: [{ t: 'flash', x: 295, y: 85, beam: 45, k: 'K' }] },
-      { title: 'Strobisme de rue', desc: 'Un cobra déclenché à la main depuis l\'ombre : la lumière sculptée en extérieur, sans studio. Technique de la photo nocturne urbaine.', spec: 'Cobra déclenché · pleine puissance · 1/125', env: 'nuit', lights: [{ t: 'cobra', x: 110, y: 105, beam: 85, k: 'K' }] }
+      { title: 'Deux flashs déportés', desc: 'Key light et rim light déclenchés hors caméra : le portrait studio en plein jour ou dans une pièce sombre. Le flash n\'a plus besoin d\'être sur l\'appareil.', spec: '2 flashes · key 45° + rim 135° · 1/200', env: 'nuit', lights: [{ t: 'softbox', x: 55, y: 105, spread: 65, k: 'K' }, { t: 'flash', x: 350, y: 95, spread: 45, color: '#e7c6ff', tx: 240, ty: 170, k: 'R' }] },
+      { title: 'Flash + snoot', desc: 'Un flash avec un snoot ou une grille : le faisceau devient un spot net qui isole le sujet du fond. Dramatic, économique en lumière.', spec: 'Flash + snoot · spot serré · f/4', env: 'nuit', lights: [{ t: 'flash', x: 75, y: 95, spread: 32, k: 'K' }] },
+      { title: 'Strobisme de rue', desc: 'Un cobra déclenché à la main depuis l\'ombre : la lumière sculptée en extérieur, sans studio. Technique de la photo nocturne urbaine.', spec: 'Cobra déclenché · pleine puissance · 1/125', env: 'nuit', lights: [{ t: 'cobra', x: 55, y: 135, spread: 70, k: 'K' }] }
     ]
   };
 
+  var uidc = 0;
   ['studio', 'cobra', 'continu', 'exterieur', 'strobisme'].forEach(function (key) {
     var grid = document.getElementById('grid-' + key);
-    if (grid) grid.innerHTML = SETUPS[key].map(card).join('');
+    if (grid) grid.innerHTML = SETUPS[key].map(function (s) { return card(s, uidc++); }).join('');
   });
 })();
 </script>
