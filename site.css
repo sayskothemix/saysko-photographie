@@ -1635,7 +1635,7 @@ body.has-cursor-halo::after { opacity: 1; }
 .cours-section:hover::after, .search-result-card:hover::after { transform: translateX(120%); }
 
 /* --- EFFET 7 : fond studio éclairci +10 % --- */
-.hero::before { opacity: 0.4; }
+.hero::before { opacity: 0.45; filter: brightness(1.15) saturate(0.92); }
 
 /* --- Accessibilité : pas d'animation pour les sensibles --- */
 @media (prefers-reduced-motion: reduce) {
