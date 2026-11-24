@@ -46,41 +46,6 @@
     if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
   })();
 
-  /* ---------- Contact rangé dans le menu « Qui suis-je » ---------- */
-  (function () {
-    var nav = document.querySelector('header nav');
-    if (!nav || nav.querySelector('.nav-dropdown')) return;
-    var apropos = nav.querySelector('a[href="apropos.html"]');
-    var contact = nav.querySelector('a[href="contact.html"]');
-    if (!apropos || !contact) return;
-    var drop = document.createElement('div');
-    drop.className = 'nav-dropdown';
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'nav-drop-btn';
-    btn.setAttribute('aria-expanded', 'false');
-    btn.innerHTML = 'Qui suis-je <span>▾</span>';
-    var menu = document.createElement('div');
-    menu.className = 'nav-drop-menu';
-    var a1 = document.createElement('a');
-    a1.href = 'apropos.html';
-    a1.textContent = 'Qui suis-je';
-    if (apropos.classList.contains('active')) a1.classList.add('active');
-    var a2 = document.createElement('a');
-    a2.href = 'contact.html';
-    a2.textContent = 'Contact';
-    if (contact.classList.contains('active')) {
-      a2.classList.add('active');
-      drop.classList.add('has-active');
-    }
-    menu.appendChild(a1);
-    menu.appendChild(a2);
-    drop.appendChild(btn);
-    drop.appendChild(menu);
-    nav.replaceChild(drop, apropos);
-    contact.remove();
-  })();
-
   /* ---------- Accordéons des cours ---------- */
   document.querySelectorAll('.cours-section-head').forEach(function (head) {
     head.addEventListener('click', function () {
