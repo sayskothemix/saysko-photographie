@@ -29,21 +29,35 @@
 }
 
 /* ===== PAGE ÉCLAIRAGE ===== */
-.lc-section { margin-bottom: 90px; }
+.lc-section { margin-bottom: 64px; }
+.lc-section > h2::after {
+  content: ''; display: block; width: 52px; height: 2px; margin-top: 12px;
+  background: var(--accent); opacity: .7;
+}
 .lc-section > h2 {
   font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.1rem; font-weight: 500;
   color: var(--text); margin-bottom: 8px;
 }
 .lc-section > .lc-intro { color: var(--muted); max-width: 640px; line-height: 1.8; margin-bottom: 36px; font-size: .95rem; }
-.lc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 26px; }
+.lc-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; font-weight: 500;
+  color: var(--text); margin: 44px 0 20px; padding-top: 26px;
+  border-top: 1px solid rgba(224,189,133,0.16);
+}
+.lc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
 .lc-card {
   background: var(--surface); border: 1px solid rgba(224,189,133,0.18); border-radius: 4px;
-  overflow: hidden; transition: border-color .4s, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: border-color .4s, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
 }
 .lc-card:hover { border-color: rgba(224,189,133,0.55); transform: translateY(-6px); box-shadow: 0 26px 60px rgba(0,0,0,.55); }
-.lc-diagram { position: relative; aspect-ratio: 4/3; background: #0c0c10; }
+.lc-diagram { position: relative; aspect-ratio: 4/3; background: #0c0c10; overflow: hidden; }
+.lc-diagram img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lc-diagram svg { width: 100%; height: 100%; display: block; }
-.lc-body { padding: 20px 22px 22px; }
+/* Cartes photo : hauteur d'image fixe pour une grille alignée */
+.lc-grid > .lc-card .lc-diagram { aspect-ratio: 16/10; height: auto; }
+.lc-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+.lc-body .lc-spec { margin-top: auto; align-self: flex-start; }
 .lc-body h4 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.45rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
 .lc-body p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin-bottom: 12px; }
 .lc-spec {
@@ -70,12 +84,18 @@
 .lc-beam2 { animation: lcBeamPulse 3.4s ease-in-out infinite reverse; }
 .lc-dust { animation: lcDust 4s ease-in-out infinite; opacity: .5; }
 @keyframes lcDust { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .8; transform: translateY(-14px); } }
-.lc-video { position: relative; margin: 40px auto 10px; max-width: 860px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,160,94,.35); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #000; }
+.lc-video { position: relative; margin: 32px auto 8px; max-width: 760px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,160,94,.35); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #000; }
 .lc-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 @media (prefers-reduced-motion: reduce) {
   .lc-beam,.lc-beam2,.lc-ray,.lc-bulb,.lc-sunrays,.lc-haze,.lc-sweep,.lc-dust { animation: none; }
 }
-@media (max-width: 600px) { .lc-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .lc-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
+@media (max-width: 600px) {
+  .lc-grid { grid-template-columns: 1fr; }
+  .lc-section { margin-bottom: 48px; }
+  .lc-subtitle { margin: 32px 0 16px; padding-top: 20px; }
+  .lc-section > h2 { font-size: 1.7rem; }
+}
 </style>
 </head>
 <body>
@@ -117,22 +137,22 @@
     <div class="lc-video reveal">
       <iframe src="https://www.youtube.com/embed/sGTlys85g-s" title="Vidéo éclairage studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <h3 class="reveal" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);margin:44px 0 20px;">Rendus réalistes</h3>
+    <h3 class="lc-subtitle reveal">Rendus réalistes</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-rembrandt-triangle.png" alt="Rembrandt — triangle de lumière" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rembrandt-triangle.png" alt="Rembrandt — triangle de lumière" style="display:block"></div>
         <figcaption class="lc-body"><h4>Rembrandt (triangle)</h4><p>La lumière vient de haut et de côté : un petit triangle lumineux apparaît sur la joue ombrée, sous l'œil opposé. Rendu pictural et dramatique, très flatteur pour les portraits.</p><span class="lc-spec">Softbox 60 cm · 45° haut et latéral · ratio 1:4</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Éclairage trois points — key, fill et rim" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Éclairage trois points — key, fill et rim" style="display:block"></div>
         <figcaption class="lc-body"><h4>Éclairage trois points</h4><p>Portrait studio classique de trois-quarts : trois lumières combinées. Key light (principale) chaude et dorée, venant de l'avant-gauche. Fill light (appoint) douce, qui atténue les ombres à droite. Rim light (contre-jour) : un filet brillant qui détache les cheveux et l'épaule du fond sombre. Rendu éditorial et propre.</p><span class="lc-spec">3 sources · key chaude 45° · fill douce · rim 135°</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Key light 45° — lumière principale" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Key light 45° — lumière principale" style="display:block"></div>
         <figcaption class="lc-body"><h4>Key light 45° (lumière principale)</h4><p>La source principale est placée à 45° sur le côté et au-dessus du regard. Elle modèle le volume du visage et crée l'ombre du côté opposé. Les flèches indiquent l'angle d'arrivée de la lumière.</p><span class="lc-spec">Key à 45° · 30° au-dessus · source unique · ratio 1:2</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Key light 45° — rendu face" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Key light 45° — rendu face" style="display:block"></div>
         <figcaption class="lc-body"><h4>Key light 45° — rendu face</h4><p>Variante sans annotations : même lumière principale à 45°, vue de face. On voit nettement le côté éclairé et le côté dans l'ombre, avec un modelé plus doux que la version dure.</p><span class="lc-spec">Key à 45° · face au sujet · softbox · ratio 1:2</span></figcaption>
       </figure>
     </div>
@@ -143,14 +163,14 @@
     <h2 class="reveal">Studio · Flash cobra</h2>
     <p class="lc-intro reveal">Le flash cobra (speedlight) se déclenche à distance avec un transmetteur. Léger et mobile, il change tout en extérieur comme en petit studio.</p>
     <div class="lc-grid" id="grid-cobra"></div>
-    <h3 class="reveal" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);margin:44px 0 20px;">En images et en vidéo</h3>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Portrait au flash cobra — key 45°" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Portrait au flash cobra — key 45°" style="display:block"></div>
         <figcaption class="lc-body"><h4>Le cobra en key light</h4><p>Un seul flash cobra à 45° suffit à sculpter le visage. Léger, rapide à positionner, il remplace une softbox en studio comme en déplacement.</p><span class="lc-spec">Cobra + transmetteur · 45° · 1/125</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="galerie-AB9A7835.jpg" alt="Portrait flash cobra en studio" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85);display:block"></div>
+        <div class="lc-diagram"><img src="galerie-AB9A7835.jpg" alt="Portrait flash cobra en studio" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Cobra + diffuseur</h4><p>Un petit diffuseur devant le cobra adoucit la lumière : le rendu se rapproche du studio, avec un matériel qui tient dans une sacoche.</p><span class="lc-spec">Cobra + diffuseur · proche du sujet</span></figcaption>
       </figure>
     </div>
@@ -164,14 +184,14 @@
     <h2 class="reveal">Lumière continue</h2>
     <p class="lc-intro reveal">La lumière continue (LED, halogène) permet de voir le rendu en direct — idéale pour la vidéo et les débutants. Elle demande plus de puissance qu'un flash.</p>
     <div class="lc-grid" id="grid-continu"></div>
-    <h3 class="reveal" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);margin:44px 0 20px;">En images et en vidéo</h3>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Portrait en lumière continue douce" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Portrait en lumière continue douce" style="display:block"></div>
         <figcaption class="lc-body"><h4>LED en lumière douce</h4><p>Une grande source LED proche enveloppe le visage : ce que tu vois est ce que tu obtiens. Parfait pour la vidéo et pour apprendre à lire la lumière.</p><span class="lc-spec">LED + softbox 90 cm · 45° · 1/200</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="studio-hero.jpg" alt="Setup studio lumière continue" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85);display:block"></div>
+        <div class="lc-diagram"><img src="studio-hero.jpg" alt="Setup studio lumière continue" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Le setup continu</h4><p>Panneau LED ou softbox : on règle la température de couleur et on visualise les ombres en direct, sans attendre le flash.</p><span class="lc-spec">Panneau LED · 5600 K · grande surface</span></figcaption>
       </figure>
     </div>
@@ -185,14 +205,14 @@
     <h2 class="reveal">Extérieur</h2>
     <p class="lc-intro reveal">Dehors, on travaille avec le soleil — ou contre lui. La lumière dorée, le fill flash et le contre-jour changent complètement l'image.</p>
     <div class="lc-grid" id="grid-exterieur"></div>
-    <h3 class="reveal" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);margin:44px 0 20px;">En images et en vidéo</h3>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="shooting-exterieur.jpg" alt="Shooting en extérieur" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85);display:block"></div>
+        <div class="lc-diagram"><img src="shooting-exterieur.jpg" alt="Shooting en extérieur" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Lumière naturelle</h4><p>En extérieur, le soleil fait tout le travail. On choisit l'heure, l'angle et le sens du regard pour façonner le visage.</p><span class="lc-spec">Lumière naturelle · heure dorée</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Contre-jour doré en extérieur" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Contre-jour doré en extérieur" style="display:block"></div>
         <figcaption class="lc-body"><h4>Contre-jour doré</h4><p>Soleil derrière le sujet : un liseré chaud détache les cheveux. On sous-expose le fond et on laisse parler le contour.</p><span class="lc-spec">Soleil arrière · expo -1 IL · f/2.8</span></figcaption>
       </figure>
     </div>
@@ -206,14 +226,14 @@
     <h2 class="reveal">Strobisme · Flash déporté</h2>
     <p class="lc-intro reveal">Le flash déporté sort du axe de l'objectif : on façonne la lumière comme au studio, en plein air ou dans une pièce sans fenêtres.</p>
     <div class="lc-grid" id="grid-strobisme"></div>
-    <h3 class="reveal" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.4rem;font-weight:500;color:var(--text);margin:44px 0 20px;">En images et en vidéo</h3>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Flash déporté key 45°" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Flash déporté key 45°" style="display:block"></div>
         <figcaption class="lc-body"><h4>Le déporté en clé</h4><p>Le flash quitte l'appareil et se place à 45° : l'ombre se déplace, le volume apparaît. Le geste qui change tout.</p><span class="lc-spec">Flash déporté · 45° · transmetteur</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Flash déporté ombre dure" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Flash déporté ombre dure" style="display:block"></div>
         <figcaption class="lc-body"><h4>Flash nu et ombre nette</h4><p>Un déporté sans diffuseur dessine une ombre à bord franc : idéal pour le caractère et les rendus cinématographiques.</p><span class="lc-spec">Flash nu · 90° · ratio 1:8</span></figcaption>
       </figure>
     </div>
@@ -230,14 +250,14 @@
 
       <figure class="lc-card reveal">
         <div class="lc-diagram">
-          <img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Lumière dure — ombre à bord net" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Lumière dure — ombre à bord net" style="display:block">
         </div>
         <figcaption class="lc-body"><h4>Lumière dure</h4><p>Une petite source donne une ombre à bord net, fort contraste : la moitié du visage est dans l'ombre, la peau et les textures sont marquées. Parfait pour le caractère et le dramatique.</p><span class="lc-spec">Flash nu ou snoot · petite source · ratio 1:8</span></figcaption>
       </figure>
 
       <figure class="lc-card reveal">
         <div class="lc-diagram">
-          <img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Lumière douce — ombre fondue" style="width:100%;height:100%;object-fit:cover;display:block">
+          <img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Lumière douce — ombre fondue" style="display:block">
         </div>
         <figcaption class="lc-body"><h4>Lumière douce</h4><p>Une grande source proche enveloppe le visage : les ombres sont fondues, la peau est lisse et les transitions progressives. Idéal pour les portraits naturels et flatteurs.</p><span class="lc-spec">Grande softbox 90 cm ou lumière continue · proche du sujet · ratio 1:1</span></figcaption>
       </figure>
