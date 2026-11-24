@@ -682,7 +682,7 @@
   var soundWaves = document.getElementById('soundWaves');
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
-  if (audio) { audio.loop = true; audio.volume = 0.55; }
+  if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;

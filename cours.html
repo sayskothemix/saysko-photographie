@@ -1322,7 +1322,7 @@
   var started = false;
 
   document.documentElement.classList.add('intro-open');
-  if (audio) { audio.loop = true; audio.volume = 0.55; }
+  if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;
