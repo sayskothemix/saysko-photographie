@@ -35,30 +35,26 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- Lien Commentaires dans le menu (toutes les pages) ---------- */
+  /* ---------- Compteurs du menu « Apprendre » ---------- */
   (function () {
-    var nav = document.querySelector('header nav');
-    if (!nav || nav.querySelector('a[href="commentaires.html"]')) return;
-    var link = document.createElement('a');
-    link.href = 'commentaires.html';
-    link.textContent = 'Commentaires';
-    var admin = nav.querySelector('.admin-btn');
-    if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
-  })();
-
-  /* ---------- Lien Recherche dans le menu (toutes les pages) ---------- */
-  (function () {
-    var nav = document.querySelector('header nav');
-    if (!nav || nav.querySelector('a[href="recherche.html"]')) return;
-    var link = document.createElement('a');
-    link.href = 'recherche.html';
-    link.textContent = '🔍 Recherche';
-    var sep = nav.querySelector('.nav-sep');
-    if (sep) nav.insertBefore(link, sep);
-    else {
-      var admin = nav.querySelector('.admin-btn');
-      if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
-    }
+    var targets = {
+      cours: ['cours.html', '.cours-section'],
+      glossaire: ['glossaire.html', '.gloss-card'],
+      eclairage: ['eclairage.html', '.lc-section']
+    };
+    var spans = document.querySelectorAll('.nav-count[data-count]');
+    if (!spans.length) return;
+    Object.keys(targets).forEach(function (key) {
+      var conf = targets[key];
+      fetch(conf[0]).then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var n = doc.querySelectorAll(conf[1]).length;
+          if (!n) return;
+          spans.forEach(function (s) { if (s.dataset.count === key) s.textContent = '(' + n + ')'; });
+        })
+        .catch(function () {});
+    });
   })();
 
   /* ---------- Accordéons des cours ---------- */
