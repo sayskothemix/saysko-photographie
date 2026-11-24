@@ -46,6 +46,21 @@
     if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
   })();
 
+  /* ---------- Lien Recherche dans le menu (toutes les pages) ---------- */
+  (function () {
+    var nav = document.querySelector('header nav');
+    if (!nav || nav.querySelector('a[href="recherche.html"]')) return;
+    var link = document.createElement('a');
+    link.href = 'recherche.html';
+    link.textContent = 'Recherche';
+    var sep = nav.querySelector('.nav-sep');
+    if (sep) nav.insertBefore(link, sep);
+    else {
+      var admin = nav.querySelector('.admin-btn');
+      if (admin) nav.insertBefore(link, admin); else nav.appendChild(link);
+    }
+  })();
+
   /* ---------- Accordéons des cours ---------- */
   document.querySelectorAll('.cours-section-head').forEach(function (head) {
     head.addEventListener('click', function () {
