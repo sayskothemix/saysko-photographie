@@ -85,6 +85,37 @@
 }
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+/* ===== RECHERCHE GLOSSAIRE ===== */
+.gloss-search { max-width: 560px; margin: 0 auto 30px; position: relative; }
+.gloss-search input {
+  width: 100%; padding: 15px 46px 15px 18px;
+  background: rgba(8,7,10,0.72); border: 1px solid rgba(201,165,106,0.4);
+  border-radius: 2px; color: var(--text); font-family: inherit;
+  font-size: 0.9rem; letter-spacing: 0.5px; outline: none;
+  backdrop-filter: blur(8px); transition: border-color .25s, box-shadow .25s;
+}
+.gloss-search input::placeholder { color: var(--muted); }
+.gloss-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(224,189,133,0.15), 0 8px 30px rgba(0,0,0,.4);
+}
+.gloss-search-clear {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(201,165,106,0.35); background: transparent;
+  color: var(--accent); cursor: pointer; font-size: .85rem;
+  display: none; align-items: center; justify-content: center;
+}
+.gloss-search-clear:hover { background: rgba(224,189,133,0.12); }
+.gloss-search.has-text .gloss-search-clear { display: flex; }
+.gloss-count {
+  text-align: center; color: var(--muted); font-size: .75rem;
+  letter-spacing: 2px; text-transform: uppercase; margin: -14px 0 24px; min-height: 1em;
+}
+.gloss-card.hidden-by-search { display: none; }
+@keyframes glossIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.gloss-card.gloss-in { animation: glossIn .45s ease both; }
 </style>
 </head>
 <body>
@@ -124,6 +155,12 @@
       </div>
       <p class="gloss-intro reveal">Le vocabulaire de la lumière, expliqué simplement. Survolez une fiche pour la voir s'animer, puis étudiez les schémas : le flash, le sujet, et ce que chaque lumière vient dessiner.</p>
 
+      <div class="gloss-search">
+        <input type="search" id="searchGlossaire" placeholder="Rechercher un terme : Softbox, TTL, HSS..." autocomplete="off" aria-label="Rechercher dans le glossaire">
+        <button type="button" class="gloss-search-clear" id="clearGlossaire" aria-label="Effacer la recherche">✕</button>
+      </div>
+      <div class="gloss-count" id="glossCount" aria-live="polite"></div>
+
       <div class="gloss-grid">
         <div class="gloss-card reveal"><div class="gloss-term">Key light</div><div class="gloss-en">Lumière principale</div><p>La source principale qui éclaire le sujet et définit la direction de la lumière. C'est elle qui donne le modelé et les ombres.</p></div>
         <div class="gloss-card reveal"><div class="gloss-term">Fill light</div><div class="gloss-en">Lumière de remplissage</div><p>Une source plus douce qui éclaire les ombres créées par la key light, sans les effacer complètement.</p></div>
@@ -137,6 +174,9 @@
         <div class="gloss-card reveal"><div class="gloss-term">Ratio</div><div class="gloss-en">Rapport de lumière</div><p>La différence d'intensité entre deux sources, par exemple 1:2 ou 1:4. Il contrôle le contraste de l'image.</p></div>
         <div class="gloss-card reveal"><div class="gloss-term">Carré inverse</div><div class="gloss-en">Inverse square law</div><p>L'intensité diminue avec le carré de la distance : éloigner le flash de deux fois divise sa lumière par quatre.</p></div>
         <div class="gloss-card reveal"><div class="gloss-term">Flashmètre</div><div class="gloss-en">Posemètre à flash</div><p>Un appareil qui mesure la lumière du flash pour régler l'exposition avec précision, sans tâtonner.</p></div>
+        <div class="gloss-card reveal"><div class="gloss-term">Flash</div><div class="gloss-en">Source de lumière artificielle</div><p>Une impulsion de lumière très brève et puissante, déclenchée en synchronisation avec l'obturateur. Sa durée fige le mouvement.</p></div>
+        <div class="gloss-card reveal"><div class="gloss-term">TTL</div><div class="gloss-en">Through The Lens</div><p>La mesure automatique de l'exposition du flash à travers l'objectif : le flash émet un pré-flash et l'appareil calcule la puissance.</p></div>
+        <div class="gloss-card reveal"><div class="gloss-term">HSS</div><div class="gloss-en">High Speed Sync</div><p>La synchronisation haute vitesse permet de déclencher le flash au-delà de la vitesse de synchro, pour ouvrir le diaphragme en plein jour sans surexposer le fond.</p></div>
       </div>
 
       <h3 class="schema-title reveal">Schémas de lumière</h3>
@@ -196,6 +236,35 @@
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
 </footer>
   <script src="site.js?v=3"></script>
+  <script>
+  (function () {
+    var input = document.getElementById('searchGlossaire');
+    var clearBtn = document.getElementById('clearGlossaire');
+    var count = document.getElementById('glossCount');
+    var wrap = input ? input.closest('.gloss-search') : null;
+    if (!input || !count) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.gloss-card'));
+    function filtrer() {
+      var q = input.value.trim().toLowerCase();
+      if (wrap) wrap.classList.toggle('has-text', q.length > 0);
+      var n = 0;
+      cards.forEach(function (c) {
+        var ok = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+        c.classList.toggle('hidden-by-search', !ok);
+        c.classList.toggle('visible', ok);
+        if (ok) {
+          n++;
+          c.classList.remove('gloss-in');
+          void c.offsetWidth;
+          c.classList.add('gloss-in');
+        }
+      });
+      count.textContent = q ? (n ? n + ' résultat' + (n > 1 ? 's' : '') : 'Aucun résultat') : '';
+    }
+    input.addEventListener('input', filtrer);
+    if (clearBtn) clearBtn.addEventListener('click', function () { input.value = ''; filtrer(); input.focus(); });
+  })();
+  </script>
 
 
   <!-- ===== BOT LATERAL DROIT ===== -->
