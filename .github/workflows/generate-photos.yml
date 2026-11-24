@@ -1,0 +1,66 @@
+name: Generate photos.json
+
+# Régénère photos.json à chaque ajout de photo dans images/.
+# L'utilisateur ajoute ses photos sur github.com : Add file > Upload files > dossier images/.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'images/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate photos.json from images/
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+
+          IMG_DIR = 'images'
+          OUT = 'photos.json'
+          exts = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
+          files = sorted(
+              f for f in os.listdir(IMG_DIR)
+              if f.lower().endswith(exts)
+          )
+
+          def title_from(name):
+              base = os.path.splitext(name)[0]
+              base = re.sub(r'^galerie[-_ ]?', '', base, flags=re.I)
+              base = re.sub(r'[-_]+', ' ', base).strip()
+              if not base:
+                  base = 'Photographie'
+              return base[0].upper() + base[1:]
+
+          photos = [
+              {
+                  "title": title_from(f),
+                  "src": "images/" + f,
+                  "desc": "Photographie · Studio"
+              }
+              for f in files
+          ]
+          with open(OUT, 'w', encoding='utf-8') as fh:
+              json.dump(photos, fh, ensure_ascii=False, indent=2)
+              fh.write('\n')
+          print('Wrote', OUT, 'with', len(photos), 'photos')
+          PY
+
+      - name: Commit photos.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add photos.json
+          if git diff --cached --quiet; then
+            echo "photos.json unchanged"
+          else
+            git commit -m "Gallery: regenerate photos.json from images/"
+            git push
+          fi

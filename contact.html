@@ -150,16 +150,14 @@
       <p>Une collaboration, une commande ou simplement un bonjour ?</p>
       <a href="mailto:sayskothemix+contact@gmail.com" class="email" id="contactEmail">sayskothemix+contact@gmail.com</a>
 
-      <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact">
-        <p style="display:none"><label>Ne pas remplir <input name="bot-field"></label></p>
+      <form class="contact-form" id="contactForm" name="contact" method="POST">
         <h3>Ou envoyez-moi un message</h3>
         <label for="cfName">Votre nom</label>
-        <input type="text" id="cfName" placeholder="Votre nom" required>
+        <input type="text" id="cfName" name="name" placeholder="Votre nom" required>
         <label for="cfEmail">Votre email</label>
-        <input type="email" id="cfEmail" placeholder="vous@exemple.com" required>
+        <input type="email" id="cfEmail" name="email" placeholder="vous@exemple.com" required>
         <label for="cfMessage">Votre message</label>
-        <textarea id="cfMessage" placeholder="Votre message..." required></textarea>
+        <textarea id="cfMessage" name="message" placeholder="Votre message..." required></textarea>
         <button type="submit" class="btn-admin">Envoyer le message</button>
         <div class="status" id="cfStatus"></div>
       </form>

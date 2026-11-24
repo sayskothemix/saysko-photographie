@@ -113,12 +113,11 @@
       transition: color 0.3s, background 0.3s;
     }
     .nav-drop-btn:hover, .nav-dropdown.open .nav-drop-btn, .nav-dropdown.has-active .nav-drop-btn { color: var(--text); background: rgba(224,189,133,0.07); }
-    .nav-drop-btn span { font-size: 0.55rem; transition: transform 0.25s ease; }
-    .nav-dropdown.open .nav-drop-btn span { transform: rotate(180deg); }
-    @media (min-width: 781px) {
-      .nav-dropdown:hover .nav-drop-btn span,
-      .nav-dropdown:focus-within .nav-drop-btn span { transform: rotate(180deg); }
-    }
+    .nav-drop-btn span { font-size: 0.55rem; transition: opacity 0.25s ease, color 0.25s ease; }
+    /* Aucune rotation 3D : le chevron change seulement d'opacité/couleur */
+    .nav-dropdown.open .nav-drop-btn span,
+    .nav-dropdown:hover .nav-drop-btn span,
+    .nav-dropdown:focus-within .nav-drop-btn span { opacity: 1; color: var(--accent); }
     .nav-drop-menu {
       position: absolute; top: calc(100% + 8px); left: 0; min-width: 200px;
       display: none; flex-direction: column; padding: 8px;

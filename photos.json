@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Lumière Dorée",
+    "src": "images/galerie-AB9A7835.jpg",
+    "desc": "Portrait · Studio"
+  },
+  {
+    "title": "Noir & Blanc",
+    "src": "images/galerie-AB9A7833_2.jpg",
+    "desc": "Portrait · Studio"
+  },
+  {
+    "title": "Portrait Studio",
+    "src": "images/galerie-portrait_nette.jpg",
+    "desc": "Portrait · Strobisme"
+  },
+  {
+    "title": "Shooting Couple",
+    "src": "images/galerie-AB9A7956.jpg",
+    "desc": "Portrait · Studio"
+  },
+  {
+    "title": "Denim",
+    "src": "images/galerie-AB9A7830.jpg",
+    "desc": "Portrait · Studio"
+  },
+  {
+    "title": "Shooting Extérieur",
+    "src": "images/shooting-exterieur.jpg",
+    "desc": "Lifestyle · Nature"
+  }
+]

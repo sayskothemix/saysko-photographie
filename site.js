@@ -136,16 +136,47 @@
   ];
   var photos = FALLBACK.slice();
 
+  var IS_LOCAL = /localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname);
+
   function loadData(cb) {
-    if (!/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) { cb(); return; }
-    fetch('/api/state', { credentials: 'same-origin' })
+    // Sur le site public (GitHub Pages), la galerie est pilotée par photos.json,
+    // généré par GitHub Actions à partir du dossier images/.
+    var local = IS_LOCAL;
+    fetch('photos.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        var payload = d && d.data ? d.data : d;
-        if (payload && Array.isArray(payload.photos) && payload.photos.length) photos = payload.photos;
+      .then(function (list) {
+        if (Array.isArray(list) && list.length) {
+          photos = list.filter(function (p) { return p && p.src; });
+          cb();
+          return;
+        }
+        if (local) {
+          fetch('/api/state', { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+              var payload = d && d.data ? d.data : d;
+              if (payload && Array.isArray(payload.photos) && payload.photos.length) photos = payload.photos;
+              cb();
+            })
+            .catch(function () { cb(); });
+          return;
+        }
         cb();
       })
-      .catch(function () { cb(); });
+      .catch(function () {
+        if (local) {
+          fetch('/api/state', { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+              var payload = d && d.data ? d.data : d;
+              if (payload && Array.isArray(payload.photos) && payload.photos.length) photos = payload.photos;
+              cb();
+            })
+            .catch(function () { cb(); });
+          return;
+        }
+        cb();
+      });
   }
 
   /* ---------- Carrousel 3D ---------- */
@@ -341,7 +372,10 @@
     if (document.hidden) clearTimeout(autoTimer); else scheduleAuto();
   });
 
-  /* ---------- Formulaire de contact ---------- */
+  /* ---------- Formulaire de contact ----------
+     Envoi via Formspree : remplace FORMSPREE_ENDPOINT par l'URL de ton formulaire
+     (https://formspree.io/f/XXXXXXXX) créée sur formspree.io. */
+  var FORMSPREE_ENDPOINT = ''; // <-- à remplir avec ton URL Formspree
   var form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', function (e) {
@@ -365,14 +399,33 @@
         }
         if (ok) { name.value = ''; email.value = ''; msg.value = ''; }
       }
-      fetch('/api/message', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), message: msg.value.trim() })
-      }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
-        done(!!(d && d.ok));
-      }).catch(function () {
-        done(false);
-      });
+      var payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: msg.value.trim()
+      };
+      if (FORMSPREE_ENDPOINT) {
+        fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); })
+          .then(function () { done(true); })
+          .catch(function () { done(false); });
+        return;
+      }
+      if (IS_LOCAL) {
+        fetch('/api/message', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
+          done(!!(d && d.ok));
+        }).catch(function () {
+          done(false);
+        });
+        return;
+      }
+      done(false);
     });
   }
 
