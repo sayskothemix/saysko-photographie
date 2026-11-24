@@ -158,17 +158,21 @@
           <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <linearGradient id="du1bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17171f"/><stop offset="1" stop-color="#0a0a0e"/></linearGradient>
-              <linearGradient id="du1face" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#efe6d2"/><stop offset=".38" stop-color="#d9cbb0"/>
-                <stop offset=".46" stop-color="#8a7a5f"/><stop offset=".55" stop-color="#3a3226"/><stop offset="1" stop-color="#1c1811"/>
+              <linearGradient id="du1sh" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".38" stop-color="#000" stop-opacity="0"/>
+                <stop offset=".5" stop-color="#0a0806" stop-opacity=".82"/><stop offset=".64" stop-color="#0a0806" stop-opacity=".93"/><stop offset="1" stop-color="#0a0806" stop-opacity=".96"/>
               </linearGradient>
               <linearGradient id="du1beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe9b8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe9b8" stop-opacity=".04"/></linearGradient>
+              <clipPath id="du1clip">
+                <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z"/>
+                <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z"/>
+                <ellipse cx="153" cy="152" rx="9" ry="13"/><ellipse cx="257" cy="152" rx="9" ry="13"/>
+              </clipPath>
             </defs>
             <rect width="400" height="300" fill="url(#du1bg)"/>
             <rect y="238" width="400" height="62" fill="#0d0d12"/>
             <path d="M62 140 L172 104 L172 182 L62 152 Z" fill="url(#du1beam)" class="lc-beam"/>
             <path d="M62 140 L172 104 L172 182 L62 152 Z" fill="none" stroke="#ffe9b8" stroke-width="1.2" opacity=".5"/>
-            <!-- flash nu sur pied -->
             <g transform="translate(48,140)">
               <rect x="-14" y="-9" width="28" height="18" rx="3" fill="#2a2a34" stroke="#5a5a6a" stroke-width="1.5"/>
               <rect x="10" y="-6" width="8" height="12" rx="2" fill="#ffe9b8"/>
@@ -176,10 +180,20 @@
             <line x1="48" y1="149" x2="48" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <line x1="34" y1="238" x2="62" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <text x="48" y="120" font-size="13" font-weight="700" fill="#ffd98f" font-family="Montserrat" text-anchor="middle">K</text>
-            <!-- tête de profil éclairée -->
-            <path d="M210 60 C250 60 268 92 264 128 C261 156 254 172 249 186 C247 200 244 210 239 218 L223 218 C223 202 219 190 213 182 C205 176 197 175 191 179 C187 171 185 164 186 157 C176 153 168 147 166 138 L138 126 C132 118 138 106 152 102 C170 90 192 74 210 60 Z" fill="url(#du1face)"/>
-            <circle cx="196" cy="128" r="3" fill="#fff" opacity=".85"/>
-            <text x="205" y="252" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE À BORD NET</text>
+            <path d="M110 300 C135 262 168 246 205 246 C242 246 275 262 300 300 Z" fill="#7a4f34"/>
+            <path d="M186 205 L186 248 Q205 256 224 248 L224 205 Z" fill="#b57e52"/>
+            <ellipse cx="153" cy="152" rx="9" ry="13" fill="#d99e6f"/><ellipse cx="257" cy="152" rx="9" ry="13" fill="#d99e6f"/>
+            <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z" fill="#d99e6f"/>
+            <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z" fill="#2e2018"/>
+            <ellipse cx="187" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="187" cy="141" r="3" fill="#2e2018"/>
+            <ellipse cx="223" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="223" cy="141" r="3" fill="#2e2018"/>
+            <path d="M178 129 Q187 123 196 128" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M214 128 Q223 123 232 129" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M204 148 Q206 158 202 161" stroke="#a5713f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M196 177 Q205 173 214 177 Q211 184 205 185 Q199 184 196 177 Z" fill="#a8554f"/>
+            <rect x="120" y="40" width="170" height="230" fill="url(#du1sh)" clip-path="url(#du1clip)"/>
+            <ellipse cx="184" cy="140" rx="3" ry="1.8" fill="#fff" opacity=".7"/>
+            <text x="205" y="286" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE À BORD NET</text>
           </svg>
         </div>
         <figcaption class="lc-body"><h4>Lumière dure</h4><p>Flash nu, petit softbox ou snoot : la source est petite, l'ombre tombe net. Regard perçant, texture marquée — parfait pour le caractère et le dramatique.</p><span class="lc-spec">Flash nu · snoot · petite source</span></figcaption>
@@ -190,16 +204,20 @@
           <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <linearGradient id="du2bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17171f"/><stop offset="1" stop-color="#0a0a0e"/></linearGradient>
-              <linearGradient id="du2face" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#efe6d2"/><stop offset=".3" stop-color="#e0d3ba"/>
-                <stop offset=".55" stop-color="#b3a284"/><stop offset=".8" stop-color="#6e5f45"/><stop offset="1" stop-color="#3a3226"/>
+              <linearGradient id="du2sh" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".3" stop-color="#000" stop-opacity="0"/>
+                <stop offset=".52" stop-color="#0a0806" stop-opacity=".4"/><stop offset=".72" stop-color="#0a0806" stop-opacity=".68"/><stop offset=".88" stop-color="#0a0806" stop-opacity=".85"/><stop offset="1" stop-color="#0a0806" stop-opacity=".92"/>
               </linearGradient>
               <linearGradient id="du2beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe9b8" stop-opacity=".4"/><stop offset="1" stop-color="#ffe9b8" stop-opacity=".03"/></linearGradient>
+              <clipPath id="du2clip">
+                <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z"/>
+                <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z"/>
+                <ellipse cx="153" cy="152" rx="9" ry="13"/><ellipse cx="257" cy="152" rx="9" ry="13"/>
+              </clipPath>
             </defs>
             <rect width="400" height="300" fill="url(#du2bg)"/>
             <rect y="238" width="400" height="62" fill="#0d0d12"/>
             <path d="M96 96 L196 52 L196 244 L96 196 Z" fill="url(#du2beam)" class="lc-beam"/>
-            <!-- grande softbox -->
             <g transform="translate(64,140)">
               <rect x="-30" y="-52" width="60" height="104" rx="6" fill="#e8e4da" stroke="#8a94ac" stroke-width="2.5"/>
               <line x1="-18" y1="-34" x2="18" y2="-34" stroke="#aab4cc" stroke-width="2"/>
@@ -209,9 +227,20 @@
             <line x1="64" y1="188" x2="64" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <line x1="48" y1="238" x2="80" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <text x="64" y="80" font-size="13" font-weight="700" fill="#ffd98f" font-family="Montserrat" text-anchor="middle">K</text>
-            <path d="M210 60 C250 60 268 92 264 128 C261 156 254 172 249 186 C247 200 244 210 239 218 L223 218 C223 202 219 190 213 182 C205 176 197 175 191 179 C187 171 185 164 186 157 C176 153 168 147 166 138 L138 126 C132 118 138 106 152 102 C170 90 192 74 210 60 Z" fill="url(#du2face)"/>
-            <circle cx="196" cy="128" r="5" fill="#fff" opacity=".5"/>
-            <text x="205" y="252" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE FONDANTE</text>
+            <path d="M110 300 C135 262 168 246 205 246 C242 246 275 262 300 300 Z" fill="#7a4f34"/>
+            <path d="M186 205 L186 248 Q205 256 224 248 L224 205 Z" fill="#b57e52"/>
+            <ellipse cx="153" cy="152" rx="9" ry="13" fill="#d99e6f"/><ellipse cx="257" cy="152" rx="9" ry="13" fill="#d99e6f"/>
+            <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z" fill="#d99e6f"/>
+            <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z" fill="#2e2018"/>
+            <ellipse cx="187" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="187" cy="141" r="3" fill="#2e2018"/>
+            <ellipse cx="223" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="223" cy="141" r="3" fill="#2e2018"/>
+            <path d="M178 129 Q187 123 196 128" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M214 128 Q223 123 232 129" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M204 148 Q206 158 202 161" stroke="#a5713f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M196 177 Q205 173 214 177 Q211 184 205 185 Q199 184 196 177 Z" fill="#a8554f"/>
+            <rect x="120" y="40" width="170" height="230" fill="url(#du2sh)" clip-path="url(#du2clip)"/>
+            <ellipse cx="186" cy="140" rx="5" ry="3" fill="#fff" opacity=".45"/>
+            <text x="205" y="286" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE FONDANTE</text>
           </svg>
         </div>
         <figcaption class="lc-body"><h4>Lumière douce</h4><p>Grande softbox ou lumière continue proche : la source « enveloppe » le sujet, les transitions sont fondantes. Rendu flatteur, peaux et formes adoucies.</p><span class="lc-spec">Softbox ≥ 60 cm · proche du sujet</span></figcaption>
@@ -222,16 +251,20 @@
           <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <linearGradient id="du3bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17171f"/><stop offset="1" stop-color="#0a0a0e"/></linearGradient>
-              <linearGradient id="du3face" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#efe6d2"/><stop offset=".4" stop-color="#d5c6a9"/>
-                <stop offset=".52" stop-color="#7d6c50"/><stop offset=".68" stop-color="#453b2b"/><stop offset="1" stop-color="#221d15"/>
+              <linearGradient id="du3sh" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".38" stop-color="#000" stop-opacity="0"/>
+                <stop offset=".5" stop-color="#0a0806" stop-opacity=".45"/><stop offset=".66" stop-color="#0a0806" stop-opacity=".75"/><stop offset=".85" stop-color="#0a0806" stop-opacity=".88"/><stop offset="1" stop-color="#0a0806" stop-opacity=".93"/>
               </linearGradient>
               <linearGradient id="du3beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe9b8" stop-opacity=".45"/><stop offset="1" stop-color="#ffe9b8" stop-opacity=".04"/></linearGradient>
+              <clipPath id="du3clip">
+                <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z"/>
+                <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z"/>
+                <ellipse cx="153" cy="152" rx="9" ry="13"/><ellipse cx="257" cy="152" rx="9" ry="13"/>
+              </clipPath>
             </defs>
             <rect width="400" height="300" fill="url(#du3bg)"/>
             <rect y="238" width="400" height="62" fill="#0d0d12"/>
             <path d="M78 132 L176 100 L176 196 L78 158 Z" fill="url(#du3beam)" class="lc-beam"/>
-            <!-- flash + petit diffuseur -->
             <g transform="translate(62,145)">
               <path d="M-16 -14 Q0 -34 16 -14 Z" fill="#d8d8e2" stroke="#8a94ac" stroke-width="1.5"/>
               <rect x="-13" y="-13" width="26" height="16" rx="3" fill="#2a2a34" stroke="#5a5a6a" stroke-width="1.5"/>
@@ -240,9 +273,20 @@
             <line x1="62" y1="159" x2="62" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <line x1="48" y1="238" x2="76" y2="238" stroke="#3a3a46" stroke-width="4"/>
             <text x="62" y="118" font-size="13" font-weight="700" fill="#ffd98f" font-family="Montserrat" text-anchor="middle">K</text>
-            <path d="M210 60 C250 60 268 92 264 128 C261 156 254 172 249 186 C247 200 244 210 239 218 L223 218 C223 202 219 190 213 182 C205 176 197 175 191 179 C187 171 185 164 186 157 C176 153 168 147 166 138 L138 126 C132 118 138 106 152 102 C170 90 192 74 210 60 Z" fill="url(#du3face)"/>
-            <circle cx="196" cy="128" r="4" fill="#fff" opacity=".7"/>
-            <text x="205" y="252" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE DOUCE, CONTRASTE GARDÉ</text>
+            <path d="M110 300 C135 262 168 246 205 246 C242 246 275 262 300 300 Z" fill="#7a4f34"/>
+            <path d="M186 205 L186 248 Q205 256 224 248 L224 205 Z" fill="#b57e52"/>
+            <ellipse cx="153" cy="152" rx="9" ry="13" fill="#d99e6f"/><ellipse cx="257" cy="152" rx="9" ry="13" fill="#d99e6f"/>
+            <path d="M205 66 C243 66 261 99 258 140 C255 179 241 209 205 221 C169 209 155 179 152 140 C149 99 167 66 205 66 Z" fill="#d99e6f"/>
+            <path d="M205 48 C241 48 263 80 261 128 C260 142 258 152 255 160 C249 126 231 101 205 101 C179 101 161 126 155 160 C152 152 150 142 149 128 C147 80 169 48 205 48 Z" fill="#2e2018"/>
+            <ellipse cx="187" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="187" cy="141" r="3" fill="#2e2018"/>
+            <ellipse cx="223" cy="141" rx="8" ry="4.5" fill="#f2ead9"/><circle cx="223" cy="141" r="3" fill="#2e2018"/>
+            <path d="M178 129 Q187 123 196 128" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M214 128 Q223 123 232 129" stroke="#3a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M204 148 Q206 158 202 161" stroke="#a5713f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M196 177 Q205 173 214 177 Q211 184 205 185 Q199 184 196 177 Z" fill="#a8554f"/>
+            <rect x="120" y="40" width="170" height="230" fill="url(#du3sh)" clip-path="url(#du3clip)"/>
+            <ellipse cx="185" cy="140" rx="4" ry="2.4" fill="#fff" opacity=".6"/>
+            <text x="205" y="286" font-size="12" fill="#8a8a96" font-family="Montserrat" text-anchor="middle" letter-spacing="1">OMBRE DOUCE, CONTRASTE GARDÉ</text>
           </svg>
         </div>
         <figcaption class="lc-body"><h4>Entre les deux : le diffuseur</h4><p>Un petit dôme ou une sphère devant le flash élargit la source sans la rendre molle : l'ombre reste marquée mais les bords s'adoucissent. Le compromis le plus utilisé.</p><span class="lc-spec">Flash + diffuseur 20–30 cm</span></figcaption>
