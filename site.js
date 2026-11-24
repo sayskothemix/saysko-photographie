@@ -241,7 +241,7 @@
       if (grid) {
         var g = document.createElement('div');
         g.className = 'grid-card';
-        g.innerHTML = '<img src="' + p.src + '" alt="' + p.title + '"><div class="overlay"><h3>' + p.title + '</h3><p>' + (p.desc || 'Photographie · Studio') + '</p><div class="view">Agrandir ↗</div></div>';
+        g.innerHTML = '<span class="grid-num">' + String(i + 1).padStart(2, '0') + '</span><img src="' + p.src + '" alt="' + p.title + '"><div class="overlay"><h3>' + p.title + '</h3><p>' + (p.desc || 'Photographie · Studio') + '</p><div class="view">Agrandir ↗</div></div>';
         g.addEventListener('click', function () { lightbox(p.src, p.title); });
         grid.appendChild(g);
       }
