@@ -56,6 +56,10 @@
 .lc-diagram svg { width: 100%; height: 100%; display: block; }
 /* Cartes photo : hauteur d'image fixe pour une grille alignée */
 .lc-grid > .lc-card .lc-diagram { aspect-ratio: 16/10; height: auto; }
+/* Rubrique Poses : photos verticales affichées en entier, sans couper le visage */
+#grid-poses { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+#grid-poses .lc-card .lc-diagram { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; background: #111116; }
+#grid-poses .lc-card .lc-diagram img { width: 100%; height: 100%; object-fit: contain; }
 .lc-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
 .lc-body .lc-spec { margin-top: auto; align-self: flex-start; }
 .lc-body h4 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.45rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
@@ -211,7 +215,7 @@
     <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="shooting-exterieur.jpg" alt="Shooting en extérieur" style="filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="lumiere-naturelle-pexels.jpg" alt="Portrait en lumière naturelle" style="display:block"></div>
         <figcaption class="lc-body"><h4>Lumière naturelle</h4><p>En extérieur, le soleil fait tout le travail. On choisit l'heure, l'angle et le sens du regard pour façonner le visage.</p><span class="lc-spec">Lumière naturelle · heure dorée</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
@@ -240,8 +244,36 @@
         <figcaption class="lc-body"><h4>Flash nu et ombre nette</h4><p>Un déporté sans diffuseur dessine une ombre à bord franc : idéal pour le caractère et les rendus cinématographiques.</p><span class="lc-spec">Flash nu · 90° · ratio 1:8</span></figcaption>
       </figure>
     </div>
+    <h3 class="lc-subtitle reveal">Comprendre le strobisme</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>1. Sortir le flash de l'appareil</h4><p>Tout commence par un flash qui n'est plus sur la griffe : on le pose sur un pied ou on le tient à bout de bras. Le déclencheur radio (ou infrarouge) synchronise le flash avec l'appareil photo.</p><span class="lc-spec">Flash + déclencheur + pied</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>2. Régler en manuel</h4><p>En strobisme, on passe en manuel : on choisit la puissance du flash (1/1 à 1/128) et on mesure le résultat. C'est ce qui donne une lumière prévisible et répétable.</p><span class="lc-spec">Mode manuel · 1/16 à 1/4 en général</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>3. Modeler avec les accessoires</h4><p>Nu, le flash donne une ombre dure. Une softbox, un parapluie ou un diffuseur élargissent la source et adoucissent les transitions. Un snoot, lui, resserre le faisceau en spot.</p><span class="lc-spec">Softbox · parapluie · snoot · grille</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>4. Dos lumière /ombre</h4><p>La clé sculpte le visage, le fill (souvent un réflecteur) réveille les ombres, le rim détache le sujet du fond. On ajuste l'écart entre eux avec le ratio lumière.</p><span class="lc-spec">Key · fill · rim · ratio 1:2 à 1:8</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>5. Equilibrer avec l'ambiant</h4><p>En extérieur ou dans une pièce éclairée, on sous-expose le fond d'environ 1 IL pour que le flash devienne la lumière principale. Vitesse 1/200, f/4, ISO 100 sont un bon point de départ.</p><span class="lc-spec">1/200 · f/4 · ISO 100 · -1 IL</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>6. Le matériel minimal</h4><p>Un cobra, un transmetteur, un pied et un diffuseur suffisent pour commencer. Le strobisme est nomade : on fait du studio partout, sans secteur ni grande valise.</p><span class="lc-spec">Cobra + transmetteur + pied + diffuseur</span></div>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Vidéos : les bases avec Blaisefielder</h3>
     <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/ABrNSSmkBCU" title="Portraits au flash déporté" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/QXnVqx5j4rY?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Les bases de la photo au flash déporté (strobisme) — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/_mUONHe0wlQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Comment utiliser un flash en extérieur — guide débutant" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/0sn31OZy2CU?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Guide débutant : comprendre et utiliser un flash" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -272,53 +304,30 @@
   <section class="lc-section">
     <h2 class="reveal">Poses · Le corps parle</h2>
     <p class="lc-intro reveal">La lumière sublime, la pose raconte. Comme dans la vidéo studio de Benoit Lombard ci-dessus — quelques attitudes qui fonctionnent toujours, et comment les guider.</p>
-    <div class="lc-grid">
+    <div class="lc-grid" id="grid-poses">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-20797541.jpg" alt="Pose debout 3/4" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="pose-20797541.jpg" alt="Pose debout 3/4" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Le 3/4 debout</h4><p>Épaules légèrement tournées, visage vers l'objectif. La pose la plus naturelle : elle allonge le cou et sculpte les joues.</p><span class="lc-spec">À proposer en premier — 80 % des portraits</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-22121196.jpg" alt="Pose assise" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="pose-22121196.jpg" alt="Pose assise" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Assise, dos rond</h4><p>Assise sur le bord, dos légèrement arrondi vers l'avant : le regard monte vers l'objectif. Détendue et graphique.</p><span class="lc-spec">Fauteuil, banc, rebord — tout marche</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-35907727.jpg" alt="Regard de côté" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="pose-35907727.jpg" alt="Regard de côté" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Regard de côté</h4><p>Le visage tourne à 45–90°, le regard reste vers l'objectif ou part au loin. La lumière key fait alors tout le travail de relief.</p><span class="lc-spec">Idéal avec une lumière sculptée</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-28863298.jpg" alt="Tête penchée" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="pose-28863298.jpg" alt="Tête penchée" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>Tête penchée</h4><p>Une inclinaison de 10–15° casse la raideur. Demande « penche la tête un peu » — jamais plus, sinon le regard se perd.</p><span class="lc-spec">Détail qui change tout en plan serré</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-26189510.jpg" alt="Main en geste" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>La main en geste</h4><p>Menton posé sur la main, main dans les cheveux, bras croisés sans tension. Une main qui touche le visage détend tout le haut du corps.</p><span class="lc-spec">Demander « touche-toi le visage »</span></figcaption>
+        <div class="lc-diagram"><img src="pose-10481318.jpg" alt="Main dans les cheveux" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>La main en geste</h4><p>La main dans les cheveux, le bras levé : le geste detend le haut du corps et donne du mouvement a la pose. A demander au modele sans trop de tension.</p><span class="lc-spec">Main dans les cheveux · bras leve</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="pose-25189380.jpg" alt="Marche" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
+        <div class="lc-diagram"><img src="pose-25189380.jpg" alt="Marche" style="filter:brightness(.85)"></div>
         <figcaption class="lc-body"><h4>En mouvement</h4><p>Marche, demi-tour, retour de regard : le mouvement tue la pose figée. Déclencher en rafale et choisir l'instant.</p><span class="lc-spec">Rafale + synchro flash si besoin</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="lc-section">
-    <h2 class="reveal">Exemples réels</h2>
-    <p class="lc-intro reveal">Le rendu obtenu sur le terrain — ces photos viennent de la galerie.</p>
-    <div class="lc-grid">
-      <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="galerie-AB9A7830.jpg" alt="Exemple studio" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>Portrait studio</h4><p>Une softbox en clé, le fond à part.</p></figcaption>
-      </figure>
-      <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="shooting-exterieur.jpg" alt="Exemple extérieur" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>Extérieur</h4><p>Lumière naturelle ou flash déporté.</p></figcaption>
-      </figure>
-      <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="galerie-AB9A7835.jpg" alt="Exemple lumière" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>Lumière sculptée</h4><p>Key, fill et rim dosés au flashmètre.</p></figcaption>
-      </figure>
-      <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="galerie-portrait_nette.jpg" alt="Exemple portrait" style="width:100%;height:100%;object-fit:cover;filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>Portrait net</h4><p>La lumière fait le relief, pas le flash.</p></figcaption>
       </figure>
     </div>
   </section>
