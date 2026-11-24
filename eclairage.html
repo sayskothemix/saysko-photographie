@@ -67,8 +67,13 @@
 @keyframes lcHaze { 0%,100% { opacity: .05; } 50% { opacity: .12; } }
 .lc-sweep { animation: lcSweep 7s ease-in-out infinite; }
 @keyframes lcSweep { 0%,100% { transform: translateX(-30px); opacity: .4; } 50% { transform: translateX(30px); opacity: .9; } }
+.lc-beam2 { animation: lcBeamPulse 3.4s ease-in-out infinite reverse; }
+.lc-dust { animation: lcDust 4s ease-in-out infinite; opacity: .5; }
+@keyframes lcDust { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .8; transform: translateY(-14px); } }
+.lc-video { position: relative; margin: 40px auto 10px; max-width: 860px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,160,94,.35); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #000; }
+.lc-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .lc-beam,.lc-ray,.lc-bulb,.lc-sunrays,.lc-haze,.lc-sweep { animation: none; }
+  .lc-beam,.lc-beam2,.lc-ray,.lc-bulb,.lc-sunrays,.lc-haze,.lc-sweep,.lc-dust { animation: none; }
 }
 @media (max-width: 600px) { .lc-grid { grid-template-columns: 1fr; } }
 </style>
@@ -109,6 +114,9 @@
     <h2 class="reveal">Studio · Flash de studio</h2>
     <p class="lc-intro reveal">Le flash de studio se règle à la main et se mesure au flashmètre. Voici les mises en place classiques, de la plus simple à la plus travaillée.</p>
     <div class="lc-grid" id="grid-studio"></div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/sGTlys85g-s" title="Vidéo éclairage studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </section>
 
   <!-- ============ FLASH COBRA ============ -->
