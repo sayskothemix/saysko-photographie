@@ -52,7 +52,7 @@
     if (!nav || nav.querySelector('a[href="recherche.html"]')) return;
     var link = document.createElement('a');
     link.href = 'recherche.html';
-    link.textContent = 'Recherche';
+    link.textContent = '🔍 Recherche';
     var sep = nav.querySelector('.nav-sep');
     if (sep) nav.insertBefore(link, sep);
     else {
