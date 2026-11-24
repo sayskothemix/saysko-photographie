@@ -11,11 +11,23 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
       });
-    }, { threshold: 0.08 });
+    }, { rootMargin: '200px 0px', threshold: 0 });
     reveals.forEach(function (el) { ro.observe(el); });
+    // Sécurité : révéler ce qui est déjà dans la fenêtre au chargement
+    reveals.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight + 200 && r.bottom > -200) el.classList.add('visible');
+    });
   } else {
     reveals.forEach(function (el) { el.classList.add('visible'); });
   }
+  // Les cartes injectées après le chargement (grilles de schémas) doivent aussi apparaître
+  window.addEventListener('load', function () {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight + 200 && r.bottom > -200) el.classList.add('visible');
+    });
+  });
 
   /* ---------- Header : effet au scroll + lien actif ---------- */
   var header = document.querySelector('header');
