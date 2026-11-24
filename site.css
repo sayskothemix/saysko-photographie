@@ -1648,3 +1648,28 @@ body.has-cursor-halo::after { opacity: 1; }
   .cours-section::after, .search-result-card::after { display: none; }
   nav a:hover .nav-ico, .nav-drop-btn:hover .nav-ico { transform: none; }
 }
+
+/* ============================================================
+   Reflet dore sur les titres hero et page-hero (15 s)
+   ============================================================ */
+.hero h1, .page-hero h1 { position: relative; overflow: hidden; }
+.hero h1::after, .page-hero h1::after {
+  content: ""; position: absolute; top: -20%; left: -150%;
+  width: 60%; height: 140%; pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.15),
+    rgba(201,165,106,0.55),
+    rgba(255,255,255,0.15),
+    transparent);
+  transform: skewX(-25deg);
+  animation: sayskoShine 15s infinite;
+}
+@keyframes sayskoShine {
+  0% { left: -150%; }
+  8% { left: 180%; }
+  100% { left: 180%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1::after, .page-hero h1::after { animation: none; }
+}
