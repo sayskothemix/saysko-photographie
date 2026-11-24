@@ -134,6 +134,38 @@
   var carIndex = 0;
   var autoTimer = null;
   var AUTO_DELAY = 8000;
+  var tiltX = 0, tiltY = 0;
+  var flashTimer = null;
+
+  /* ---------- Carrousel : habitacle studio (faisceau, rideau, slate) ---------- */
+  function ensureChrome() {
+    if (!viewport) return;
+    if (!viewport.querySelector('.car-beam')) {
+      var beam = document.createElement('div');
+      beam.className = 'car-beam';
+      viewport.appendChild(beam);
+    }
+    if (!viewport.querySelector('.car-curtain')) {
+      var curtain = document.createElement('div');
+      curtain.className = 'car-curtain';
+      viewport.appendChild(curtain);
+    }
+    if (!viewport.querySelector('.car-slate')) {
+      var slate = document.createElement('div');
+      slate.className = 'car-slate';
+      slate.innerHTML = '<span class="slate-label">Plan</span><span class="slate-num" id="carSlateNum">01</span>';
+      viewport.appendChild(slate);
+    }
+  }
+
+  function triggerFlash() {
+    if (!viewport) return;
+    viewport.classList.remove('flashing');
+    void viewport.offsetWidth;
+    viewport.classList.add('flashing');
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(function () { viewport.classList.remove('flashing'); }, 1300);
+  }
 
   function radius() {
     var w = viewport ? viewport.clientWidth : 980;
@@ -158,7 +190,7 @@
       var active = rel === 0;
       var z = Math.round(-Math.abs(angle) / 180 * r * 1.55);
       var scale = Math.max(0.5, 1.04 - dist * 0.11);
-      s.style.transform = 'translate(-50%, -50%) rotateY(' + angle.toFixed(1) + 'deg) translateZ(' + z + 'px) scale(' + scale.toFixed(3) + ')';
+      s.style.transform = 'translate(-50%, -50%) rotateX(' + tiltX.toFixed(2) + 'deg) rotateY(' + (angle + tiltY).toFixed(1) + 'deg) translateZ(' + z + 'px) scale(' + scale.toFixed(3) + ')';
       s.style.opacity = active ? '1' : (dist > 2 ? '0.04' : '0.22');
       s.style.filter = active ? 'none' : 'blur(' + Math.min(dist * 1.4, 5).toFixed(1) + 'px) brightness(0.42)';
       s.style.zIndex = String(100 - dist);
@@ -167,12 +199,15 @@
     });
     dots.forEach(function (d, i) { d.classList.toggle('active', i === carIndex); });
     if (counter) counter.innerHTML = '<b>' + String(carIndex + 1).padStart(2, '0') + '</b> / ' + String(total).padStart(2, '0');
+    var slateNum = document.getElementById('carSlateNum');
+    if (slateNum) slateNum.textContent = String(carIndex + 1).padStart(2, '0');
   }
 
   function goTo(i) {
     if (!photos.length) return;
     carIndex = (i + photos.length) % photos.length;
     updateCarousel();
+    triggerFlash();
     scheduleAuto();
   }
 
@@ -184,6 +219,7 @@
 
   function renderGallery() {
     if (!track) return;
+    ensureChrome();
     track.innerHTML = '';
     if (dotsBox) dotsBox.innerHTML = '';
     var grid = document.getElementById('gridView');
@@ -195,7 +231,8 @@
       var slide = document.createElement('div');
       slide.className = 'slide';
       slide.innerHTML = '<img src="' + p.src + '" alt="' + p.title + '">' +
-        '<div class="overlay"><h3>' + p.title + '</h3><p>' + (p.desc || 'Photographie · Studio') + '</p><div class="view">Agrandir ↗</div></div>';
+        '<div class="overlay"><h3>' + p.title + '</h3><p>' + (p.desc || 'Photographie · Studio') + '</p><div class="view">Agrandir ↗</div></div>' +
+        '<div class="photo-watermark"><span class="wm-mark">◆</span>SAYSKO<span class="wm-dot">·</span>STUDIO</div>';
       slide.addEventListener('click', function () { if (slide.classList.contains('is-active')) lightbox(p.src, p.title); });
       track.appendChild(slide);
 
@@ -262,6 +299,23 @@
 
   if (document.getElementById('carPrev')) document.getElementById('carPrev').addEventListener('click', function () { goTo(carIndex - 1); });
   if (document.getElementById('carNext')) document.getElementById('carNext').addEventListener('click', function () { goTo(carIndex + 1); });
+  /* ---------- Inclinaison 3D et reflet suivant le curseur ---------- */
+  if (viewport && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    viewport.addEventListener('pointermove', function (e) {
+      var r = viewport.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      tiltY = (px - 0.5) * 6;
+      tiltX = (0.5 - py) * 4;
+      viewport.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+      viewport.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+      updateCarousel();
+    });
+    viewport.addEventListener('pointerleave', function () {
+      tiltX = 0; tiltY = 0;
+      updateCarousel();
+    });
+  }
   if (viewport) {
     viewport.addEventListener('mouseenter', function () { clearTimeout(autoTimer); });
     viewport.addEventListener('mouseleave', function () { scheduleAuto(); });
