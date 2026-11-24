@@ -1399,6 +1399,44 @@ body { padding-top: 72px; }
   text-transform: uppercase; border-radius: 2px; transition: background 0.3s, color 0.3s;
 }
 .admin-btn:hover { background: var(--accent); color: var(--bg); }
+/* ===== ICÔNES DE NAVIGATION LUCIDE (fin, doré #c9a56a) ===== */
+.nav-ico {
+  width: 15px; height: 15px; flex: 0 0 15px;
+  color: #c9a56a; opacity: 0.85;
+  stroke-width: 1.5;
+  transition: color 0.3s ease, opacity 0.3s ease,
+              transform 0.32s cubic-bezier(.2,.8,.2,1),
+              filter 0.32s ease;
+}
+nav a, .nav-drop-btn { gap: 6px; white-space: nowrap; }
+nav a .nav-ico, .nav-drop-btn .nav-ico { margin-right: 1px; }
+.nav-drop-btn > span:not(.nav-lbl) { font-size: 0.55rem; }
+.nav-drop-btn .nav-lbl { font-size: inherit; letter-spacing: inherit; text-transform: inherit; transform: none; }
+
+/* Halo doré + légère translation verticale au survol */
+nav a:hover, nav a:focus-visible,
+.nav-drop-btn:hover, .nav-drop-btn:focus-visible,
+.nav-dropdown.open .nav-drop-btn, .nav-dropdown.has-active .nav-drop-btn {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(201,165,106,0.16), inset 0 0 0 1px rgba(201,165,106,0.18);
+}
+nav a:hover .nav-ico, nav a:focus-visible .nav-ico,
+.nav-drop-btn:hover .nav-ico, .nav-drop-btn:focus-visible .nav-ico,
+.nav-dropdown.open .nav-drop-btn .nav-ico {
+  color: #e0bd85; opacity: 1; transform: translateY(-1px);
+  filter: drop-shadow(0 0 5px rgba(201,165,106,0.55));
+}
+nav a.active .nav-ico { color: #e0bd85; opacity: 1; }
+.nav-drop-menu a { gap: 9px; }
+.nav-drop-menu a:hover .nav-ico, .nav-drop-menu a:focus-visible .nav-ico {
+  color: #e0bd85; opacity: 1; transform: translateX(2px);
+  filter: drop-shadow(0 0 5px rgba(201,165,106,0.5));
+}
+@media (prefers-reduced-motion: reduce) {
+  nav a, .nav-drop-btn, .nav-ico { transition: none; }
+  nav a:hover, .nav-drop-btn:hover { transform: none; }
+}
+
 .car-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; cursor: pointer; padding: 0; transition: background 0.3s, transform 0.3s; }
 .car-dot.active { background: var(--accent); transform: scale(1.35); }
 .view-mode.active { background: var(--accent); color: var(--bg); }
