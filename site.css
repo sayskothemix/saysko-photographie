@@ -1682,11 +1682,9 @@ body.has-cursor-halo::after { opacity: 1; }
 }
 /* Reflet sur le mot PHOTOGRAPHIE */
 .hero h1::after { display: none; }
-.hero h1 span.hero-shine {
-  position: relative; display: inline-block; overflow: hidden;
-}
 .hero h1 strong {
-  position: relative; display: inline-block;
+  position: relative; display: inline-block; overflow: hidden;
+  vertical-align: bottom;
 }
 .hero h1 strong::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
