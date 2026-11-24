@@ -1418,7 +1418,7 @@ nav a:hover, nav a:focus-visible,
 .nav-drop-btn:hover, .nav-drop-btn:focus-visible,
 .nav-dropdown.open .nav-drop-btn, .nav-dropdown.has-active .nav-drop-btn {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(201,165,106,0.16), inset 0 0 0 1px rgba(201,165,106,0.18);
+  box-shadow: 0 6px 16px rgba(201,165,106,0.10);
 }
 nav a:hover .nav-ico, nav a:focus-visible .nav-ico,
 .nav-drop-btn:hover .nav-ico, .nav-drop-btn:focus-visible .nav-ico,
@@ -1531,4 +1531,120 @@ nav a.active .nav-ico { color: #e0bd85; opacity: 1; }
 @media (max-width: 380px) {
   .grid-view { grid-template-columns: 1fr; }
   h1 { font-size: 1.8rem; }
+}
+
+/* ============================================================
+   PHASE 4 — EFFETS CINÉMA PREMIUM
+   Noir profond · doré #c9a56a · sobriété
+   ============================================================ */
+
+/* --- EFFET 1 : reflet doré sur le logo (15 s, très discret) --- */
+.logo { position: relative; overflow: hidden; isolation: isolate; }
+.logo::after {
+  content: ''; position: absolute; inset: -4px -10px; pointer-events: none;
+  background: linear-gradient(105deg,
+    transparent 38%,
+    rgba(201,165,106,0.00) 44%,
+    rgba(201,165,106,0.16) 50%,
+    rgba(201,165,106,0.00) 56%,
+    transparent 62%);
+  transform: translateX(-130%);
+  opacity: 0;
+  animation: logoSheen 15s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes logoSheen {
+  0%, 82% { transform: translateX(-130%); opacity: 0; }
+  86% { opacity: 0.5; }
+  94% { transform: translateX(130%); opacity: 0.35; }
+  100% { transform: translateX(130%); opacity: 0; }
+}
+
+/* --- EFFET 2 : soulignement premium (glisse, 0.3 s) --- */
+nav a::after {
+  left: 8px; right: 8px; bottom: 1px; height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a56a 20%, #e0bd85 50%, #c9a56a 80%, transparent);
+  transform: translateX(-8px) scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(.22,.8,.24,1);
+  opacity: 0.9;
+}
+nav a:hover::after, nav a:focus-visible::after,
+nav a.active::after { transform: translateX(0) scaleX(1); }
+
+/* --- EFFET 3 : icônes vivantes (montée 2 px + halo discret) --- */
+.nav-ico {
+  transition: transform 0.3s cubic-bezier(.22,.8,.24,1),
+              filter 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+nav a:hover .nav-ico, nav a:focus-visible .nav-ico,
+.nav-drop-btn:hover .nav-ico, .nav-drop-btn:focus-visible .nav-ico,
+.nav-dropdown.open .nav-drop-btn .nav-ico {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 4px rgba(201,165,106,0.45));
+}
+
+/* --- EFFET 4 : halo studio qui suit la souris (softbox virtuelle) --- */
+body::after {
+  content: ''; position: fixed; z-index: 1; pointer-events: none;
+  width: 460px; height: 460px; left: 0; top: 0;
+  margin: -230px 0 0 -230px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,165,106,0.055) 0%, rgba(201,165,106,0.02) 38%, transparent 70%);
+  opacity: 0; transition: opacity 0.6s ease;
+  transform: translate(var(--halo-x, -500px), var(--halo-y, -500px));
+  will-change: transform;
+}
+body.has-cursor-halo::after { opacity: 1; }
+
+/* --- EFFET 5 : apparition cinématique des titres --- */
+@keyframes cineIn {
+  from { opacity: 0; transform: translateY(14px); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.page-hero .kicker,
+.page-hero h1,
+.page-hero p { animation: cineIn 0.85s cubic-bezier(.2,.75,.25,1) both; }
+.page-hero .kicker { animation-delay: 0.05s; }
+.page-hero h1 { animation-delay: 0.16s; }
+.page-hero p { animation-delay: 0.26s; }
+.cours-section-head h2, .cours-section-head h3, .lc-section-title, .gloss-cat-title,
+.page-main > section > h2, .page-main > section > h3 {
+  animation: cineIn 0.7s cubic-bezier(.2,.75,.25,1) both;
+}
+.page-main > section:nth-child(2) > h2 { animation-delay: 0.08s; }
+.page-main > section:nth-child(3) > h2 { animation-delay: 0.14s; }
+.page-main > section:nth-child(4) > h2 { animation-delay: 0.2s; }
+.page-main > section:nth-child(5) > h2 { animation-delay: 0.26s; }
+
+/* --- EFFET 6 : reflet diagonal sur les cartes --- */
+.grid-card, .gloss-card, .schema-card,
+.cours-section, .search-result-card { position: relative; overflow: hidden; isolation: isolate; }
+.grid-card::after, .gloss-card::after, .schema-card::after,
+.cours-section::after, .search-result-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 4;
+  background: linear-gradient(125deg,
+    transparent 34%,
+    rgba(201,165,106,0.00) 42%,
+    rgba(201,165,106,0.13) 50%,
+    rgba(201,165,106,0.00) 58%,
+    transparent 66%);
+  transform: translateX(-120%);
+  transition: transform 0.65s cubic-bezier(.22,.8,.24,1);
+}
+.grid-card:hover::after, .gloss-card:hover::after, .schema-card:hover::after,
+.cours-section:hover::after, .search-result-card:hover::after { transform: translateX(120%); }
+
+/* --- EFFET 7 : fond studio éclairci +10 % --- */
+.hero::before { opacity: 0.4; }
+
+/* --- Accessibilité : pas d'animation pour les sensibles --- */
+@media (prefers-reduced-motion: reduce) {
+  .logo::after { animation: none; opacity: 0; }
+  body::after { display: none; }
+  .page-hero .kicker, .page-hero h1, .page-hero p,
+  .cours-section-head h2, .cours-section-head h3, .lc-section-title, .gloss-cat-title,
+  .page-main > section > h2, .page-main > section > h3 { animation: none; }
+  .grid-card::after, .gloss-card::after, .schema-card::after,
+  .cours-section::after, .search-result-card::after { display: none; }
+  nav a:hover .nav-ico, .nav-drop-btn:hover .nav-ico { transform: none; }
 }

@@ -400,3 +400,23 @@
   document.addEventListener('click', function (e) { if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target) && !e.target.closest('.menu-toggle')) nav.classList.remove('open'); });
   window.addEventListener('resize', function () { if (window.innerWidth > 780) nav.classList.remove('open'); });
 })();
+
+/* ---------- Halo studio : suit la souris (softbox virtuelle) ---------- */
+(function () {
+  if (!window.matchMedia || !matchMedia('(pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var x = -500, y = -500, raf = null;
+  function paint() {
+    raf = null;
+    document.body.style.setProperty('--halo-x', x + 'px');
+    document.body.style.setProperty('--halo-y', y + 'px');
+    document.body.classList.add('has-cursor-halo');
+  }
+  document.addEventListener('mousemove', function (e) {
+    x = e.clientX; y = e.clientY;
+    if (raf === null) raf = requestAnimationFrame(paint);
+  }, { passive: true });
+  document.addEventListener('mouseleave', function () {
+    document.body.classList.remove('has-cursor-halo');
+  });
+})();
