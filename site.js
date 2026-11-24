@@ -145,11 +145,6 @@
       beam.className = 'car-beam';
       viewport.appendChild(beam);
     }
-    if (!viewport.querySelector('.car-curtain')) {
-      var curtain = document.createElement('div');
-      curtain.className = 'car-curtain';
-      viewport.appendChild(curtain);
-    }
     if (!viewport.querySelector('.car-slate')) {
       var slate = document.createElement('div');
       slate.className = 'car-slate';

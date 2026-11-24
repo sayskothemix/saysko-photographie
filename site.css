@@ -300,20 +300,7 @@
       100% { opacity: 0; }
     }
 
-    /* Rideau de théâtre qui se lève à chaque plan */
-    .car-curtain {
-      position: absolute; inset: 0; z-index: 7; pointer-events: none;
-      background: linear-gradient(to bottom, #0b0b0f 0%, #141017 48%, #0b0b0f 100%);
-      transform: scaleY(0); transform-origin: top center;
-    }
-    .carousel-viewport.flashing .car-curtain { animation: carCurtain 1.15s cubic-bezier(.55,0,.3,1); }
-    @keyframes carCurtain {
-      0% { transform: scaleY(1); }
-      38% { transform: scaleY(1); }
-      62% { transform: scaleY(0.06); }
-      72% { transform: scaleY(0.12); }
-      100% { transform: scaleY(0); }
-    }
+    /* Rideau de théâtre désactivé */
 
     /* Slate cinéma en haut à gauche */
     .car-slate {
