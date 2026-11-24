@@ -1637,6 +1637,16 @@ body.has-cursor-halo::after { opacity: 1; }
 /* --- EFFET 7 : fond studio éclairci +10 % --- */
 .hero::before { opacity: 0.45; filter: brightness(1.15) saturate(0.92); }
 
+/* Voile bleu nuit : profondeur dans les zones sombres, noir dominant */
+.hero {
+  background-color: #050505;
+  background-image:
+    radial-gradient(ellipse 70% 55% at 8% 88%, rgba(18,32,58,0.55) 0%, rgba(10,18,34,0.30) 42%, transparent 72%),
+    radial-gradient(ellipse 65% 50% at 92% 12%, rgba(14,26,48,0.45) 0%, rgba(8,15,30,0.22) 45%, transparent 72%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(12,22,42,0.35) 0%, transparent 65%);
+  background-blend-mode: screen;
+}
+
 /* --- Accessibilité : pas d'animation pour les sensibles --- */
 @media (prefers-reduced-motion: reduce) {
   .logo::after { animation: none; opacity: 0; }
