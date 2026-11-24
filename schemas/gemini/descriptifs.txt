@@ -8,10 +8,10 @@ Titre : Rembrandt
 Description : La lumiere vient de haut et de cote : un petit triangle lumineux apparait sur la joue ombree, sous l'oeil oppose. Rendu pictural et dramatique, tres flatteur pour les portraits.
 Spec : Softbox 60 cm · 45° haut et lateral · ratio 1:4
 
-2. gm-rim-light.png — Contour / rim light
-Titre : Rim light (contre-jour de contour)
-Description : Une source placee derriere le sujet decoupe les cheveux et les epaules d'un liseré dore. Le corps reste dans l'ombre, le regard est porte par le contour lumineux.
-Spec : Source arriere haute · 160° · LED ou flash dedarde · ratio 1:2
+2. gm-rim-light.png — Eclairage trois points
+Titre : Eclairage trois points
+Description : Un portrait studio classique de trois-quarts. Ce schema combine les trois lumieres : Key light (principale) chaude et doree, venant de l'avant-gauche ; Fill light (bouche) douce, qui attenue les ombres a droite ; Rim light (contre-jour), un filet de lumiere brillant qui detache les cheveux et l'epaule de l'arriere-plan sombre. Le rendu est tres editorial et propre.
+Spec : 3 sources · key chaude 45° · fill douce · rim 135°
 
 3. gm-lumiere-douce.png — Lumiere douce
 Titre : Lumiere douce
