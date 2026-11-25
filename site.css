@@ -648,6 +648,8 @@
       animation: punchIn 0.8s cubic-bezier(.2,.8,.2,1) both;
     }
     @keyframes punchIn { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
+    /* Filtre des vignettes Tutoriels : masquer les catégories non sélectionnées */
+    .cat-group.filtered-out, .cours-section.filtered-out { display: none !important; }
     /* Entrée en cascade des fiches */
     .cours-section { animation: punchIn 0.7s cubic-bezier(.2,.8,.2,1) both; }
     .cours-section:nth-of-type(1) { animation-delay: 0.05s; }

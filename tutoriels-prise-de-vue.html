@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prise de Vue & RAW — Tutoriels | Saysko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=22">
+<style>
+/* Menu mobile */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+
+/* Filtres de catégories */
+.course-filters-wrap {
+  text-align: center; margin: 30px auto 45px; max-width: 1050px;
+}
+.course-filters {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.filter-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(224,189,133,0.22);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.filter-btn:hover {
+  border-color: var(--accent); background: rgba(224,189,133,0.1);
+  transform: translateY(-2px);
+}
+.filter-btn.active {
+  background: var(--accent); color: #000; font-weight: 600;
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(224,189,133,0.35);
+  transform: translateY(-2px);
+}
+.badge-tag {
+  font-size: 0.65rem; font-weight: 700; padding: 2px 7px;
+  border-radius: 12px; letter-spacing: 0.5px;
+}
+.lr-tag { background: #001e36; color: #38a9ff; border: 1px solid #38a9ff55; }
+.c1-tag { background: #2b1100; color: #ff9d42; border: 1px solid #ff9d4255; }
+.strobe-tag { background: #261e05; color: #ffd15c; border: 1px solid #ffd15c55; }
+.basics-tag { background: #1a1a24; color: #bca4f5; border: 1px solid #bca4f555; }
+.filter-btn.active .badge-tag {
+  background: rgba(0,0,0,0.25); color: #000; border-color: rgba(0,0,0,0.3);
+}
+
+/* En-tête de catégorie */
+.cat-divider {
+  display: flex; align-items: center; gap: 16px; margin: 55px auto 20px;
+  max-width: 1000px;
+}
+.cat-divider h2 {
+  font-family: "Cormorant Garamond", serif; font-size: 2rem;
+  color: var(--accent); margin: 0; white-space: nowrap; display: flex; align-items: center; gap: 12px;
+}
+.cat-divider .line {
+  flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,189,133,0.4), transparent);
+}
+.cat-desc {
+  max-width: 1000px; margin: 0 auto 30px; color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+}
+
+/* Accordéon glissant ultra-fluide */
+.cours-section {
+  max-width: 1000px; margin: 0 auto 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(224,189,133,0.18);
+  border-radius: 4px;
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;
+  overflow: hidden;
+}
+.cours-section:hover {
+  border-color: rgba(224,189,133,0.45);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+.cours-section.open {
+  border-color: rgba(224,189,133,0.7);
+  background: rgba(255,255,255,0.035);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.55), 0 0 25px rgba(224,189,133,0.15);
+}
+.cours-section-head {
+  padding: 22px 28px;
+  display: flex; align-items: center; gap: 20px;
+  cursor: pointer; user-select: none;
+  background: rgba(255,255,255,0.01);
+  transition: background 0.3s;
+}
+.cours-section-head:hover {
+  background: rgba(224,189,133,0.04);
+}
+@media (max-width: 600px) {
+  .cours-section-head {
+    padding: 16px 18px; gap: 14px; flex-wrap: wrap;
+  }
+}
+.cours-num {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2.2rem; font-weight: 300; line-height: 1;
+  color: var(--accent); flex: none;
+}
+.cours-kicker {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 4px;
+}
+.cours-section-head h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.45rem; font-weight: 400; color: #fff; margin: 0;
+  line-height: 1.25;
+}
+.cours-badge {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 12px;
+  background: rgba(224,189,133,0.08); border: 1px solid rgba(224,189,133,0.3);
+  color: var(--accent); flex: none; margin-left: 10px;
+}
+@media (max-width: 700px) {
+  .cours-badge { display: none; }
+}
+
+.cours-toggle-btn {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 20px;
+  border: 1px solid rgba(224,189,133,0.35);
+  background: rgba(224,189,133,0.06);
+  color: var(--accent); font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  transition: all 0.3s ease;
+  flex: none;
+}
+.cours-section.open .cours-toggle-btn {
+  background: var(--accent); color: #0b0b0d; font-weight: 600;
+  border-color: var(--accent);
+}
+.cours-toggle-arrow {
+  display: inline-block; font-size: 0.75rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cours-section.open .cours-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* Le tiroir glissant (CSS Grid 0fr -> 1fr) */
+.cours-accordion-drawer {
+  display: grid !important;
+  grid-template-rows: 0fr !important;
+  transition: grid-template-rows 0.48s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.cours-section.open .cours-accordion-drawer {
+  grid-template-rows: 1fr !important;
+}
+.cours-accordion-inner {
+  overflow: hidden !important;
+  min-height: 0 !important;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.38s ease 0.1s, transform 0.38s ease 0.1s;
+}
+.cours-section.open .cours-accordion-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cours-body {
+  display: block !important;
+  padding: 16px 30px 34px !important;
+  border-top: 1px solid rgba(224,189,133,0.12);
+  margin-top: 0 !important;
+}
+@media (max-width: 600px) {
+  .cours-body { padding: 14px 18px 26px !important; }
+}
+
+.reglages-table { margin: 18px 0 8px; }
+.reglages-table img { width: 100%; max-width: 720px; height: auto; display: block; border: 1px solid rgba(224,189,133,0.25); border-radius: 4px; }
+.cours-lead {
+  color: var(--accent-2); font-size: 1.05rem; line-height: 1.7;
+  margin-bottom: 20px; font-style: italic; font-family: "Cormorant Garamond", serif;
+}
+
+/* Texte explicatif riche */
+.cours-expl-text {
+  color: #d6d3ce; font-size: 0.95rem; line-height: 1.85; margin: 20px 0 25px;
+}
+.cours-expl-text p { margin-bottom: 14px; }
+.cours-expl-text strong { color: #fff; font-weight: 600; }
+.cours-expl-text em { color: var(--accent-2); font-style: normal; }
+
+.cours-expl-highlight {
+  border-left: 3px solid var(--accent);
+  background: rgba(224,189,133,0.05);
+  padding: 14px 20px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.92rem; color: #f0ebe1;
+}
+
+/* Raccourcis et Astuces studio */
+.shortcut-box {
+  background: rgba(224,189,133,0.04);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.88rem; color: #e8e6e3;
+}
+.shortcut-box strong { color: var(--accent); display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+.shortcut-box kbd {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(224,189,133,0.35);
+  color: var(--accent); padding: 2px 7px; border-radius: 3px;
+  font-family: monospace; font-size: 0.82rem; margin: 0 2px;
+}
+.tip-box {
+  background: rgba(142,68,173,0.09);
+  border: 1px dashed rgba(188,164,245,0.38);
+  padding: 14px 18px; margin: 18px 0; border-radius: 4px;
+  font-size: 0.88rem; color: #ded4f5;
+}
+.tip-box strong { color: #caa6ff; display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Bloc Vidéo pédagogique */
+.cours-video {
+  margin: 26px 0 20px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(224,189,133,0.25);
+  padding: 18px;
+  border-radius: 4px;
+}
+.cours-video-label {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+}
+.cours-video-label::before {
+  content: ''; width: 20px; height: 2px; background: var(--accent);
+}
+.cours-video-frame {
+  position: relative; width: 100%; max-width: 800px;
+  aspect-ratio: 16 / 9; background: #000;
+  border: 1px solid rgba(224,189,133,0.2); overflow: hidden;
+  border-radius: 3px; margin-bottom: 12px;
+}
+.cours-video-frame iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}
+.cours-video-lazy {
+  position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer;
+  background: #08070a center / cover no-repeat;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+}
+.cours-video-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(224,189,133,.94); color: #09090b;
+  box-shadow: 0 10px 35px rgba(0,0,0,.55);
+  transition: transform .25s ease, background .25s ease;
+}
+.cours-video-lazy:hover .cours-video-play {
+  transform: scale(1.08); background: #fff0be;
+}
+.cours-video-play span {
+  margin-left: 5px; font-size: 1.45rem; line-height: 1;
+}
+.cours-video-caption {
+  color: var(--muted); font-size: 0.85rem; line-height: 1.6;
+}
+.cours-video-caption a {
+  color: var(--accent); text-decoration: underline; margin-left: 6px;
+}
+.video-key-points {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.82rem; color: #ccc;
+}
+.video-key-points strong { color: var(--accent-2); }
+
+/* Filtres Masquage */
+.cours-section.filtered-out, .cat-group.filtered-out {
+  display: none !important;
+}
+/* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
+  .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
+  .site-controls button {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+  }
+  .site-controls button:hover { background: var(--accent); color: var(--bg); transform: translateY(-1px); }
+
+  /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
+  main { padding-top: 72px; }
+  #portfolio { padding: 90px 0 20px; }
+  .about-wrap { padding-bottom: 10px; }
+  #contact { padding-bottom: 90px; }
+  /* ---------- MENU MOBILE ---------- */
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  @media (max-width: 780px) {
+    .menu-toggle { display: flex; align-items: center; justify-content: center; }
+    nav {
+      position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+      padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+      transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+    }
+    nav.open { transform: translateY(0); opacity: 1; }
+    nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .admin-btn { margin: 14px 0 0; width: 100%; }
+  }
+
+  @media (max-width: 760px) {
+    .intro-frame { display: none; }
+    .site-controls { top: 12px; right: 12px; }
+    .site-controls button { width: 38px; height: 38px; }
+  }
+  @media (max-width: 600px) {
+    .logo { font-size: 0.95rem; letter-spacing: 3px; }
+    .logo::before { width: 16px; }
+    .logo span { display: none; }
+    .site-controls { top: auto; bottom: 16px; right: 12px; }
+    .site-controls svg { width: 15px; height: 15px; }
+    .nav { height: 64px; }
+    header .admin-btn { padding: 8px 14px; }
+  }
+
+
+/* ===== FOND STUDIO SEMI-FLOUTE (section A propos) ===== */
+#apropos { position: relative; overflow: hidden; }
+#apropos::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: url('studio-hero.jpg');
+  background-size: cover; background-position: center;
+  filter: blur(9px) brightness(0.5) saturate(0.85);
+  transform: scale(1.08); pointer-events: none;
+}
+#apropos::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(8,7,10,0.82) 0%, rgba(8,7,10,0.88) 55%, rgba(8,7,10,0.96) 100%);
+  pointer-events: none;
+}
+#apropos > .container { position: relative; z-index: 1; }
+
+/* ===== BOT LATERAL DROIT (assistant) ===== */
+.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
+.bot-bubble {
+  width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
+  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
+  transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
+}
+.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
+.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
+.bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
+.bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
+.bot-close { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px; }
+.bot-close:hover { color: var(--text); }
+.bot-body { padding: 12px 14px; }
+.bot-intro { color: var(--muted); font-size: .75rem; line-height: 1.7; margin: 0 0 10px; }
+.bot-accordion { border-bottom: 1px solid rgba(255,255,255,.06); }
+.bot-accordion:last-child { border-bottom: 0; }
+.bot-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: none; border: 0; color: var(--text); cursor: pointer; text-align: left;
+  padding: 10px 2px; font-size: .74rem; letter-spacing: .4px; font-family: inherit;
+}
+.bot-q::after { content: '+'; color: var(--accent); font-size: .9rem; transition: transform .2s; }
+.bot-accordion.open .bot-q::after { transform: rotate(45deg); }
+.bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
+.bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+@keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-launch {
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
+}
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+@media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+    .course-filters,.filter-bar { display: none !important; }
+</style>
+</head>
+<body>
+<audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
+<div class="site-controls">
+  <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
+  </button>
+  <button id="fsBtn" type="button" aria-label="Passer en plein écran" title="Plein écran">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <svg class="nav-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-8h6v8"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
+  <symbol id="i-bookopen" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-5a4 4 0 0 0-4 4 4 4 0 0 0-4-4H3Z"/></symbol>
+  <symbol id="i-booktext" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-clapper" viewBox="0 0 24 24"><path d="M20 11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"/><path d="m2 11 20 0"/><path d="m5 11 2-5 3 5"/><path d="m12 11 2-5 3 5"/></symbol>
+</svg>
+    <nav>
+      <a href="index.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="house"><use href="#i-house"/></svg><span>Accueil</span></a>
+      <a href="portfolio.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="images"><use href="#i-images"/></svg><span>Galerie</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="graduation"><use href="#i-graduation"/></svg><span class="nav-lbl">Apprendre</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="eclairage.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="lightbulb"><use href="#i-lightbulb"/></svg><span>Éclairage</span><span class="nav-count" data-count="eclairage"></span></a>
+          <a href="cours.html" class="active"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="bookopen"><use href="#i-bookopen"/></svg><span>Tutoriels</span><span class="nav-count" data-count="cours"></span></a>
+          <a href="glossaire.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="booktext"><use href="#i-booktext"/></svg><span>Glossaire</span><span class="nav-count" data-count="glossaire"></span></a>
+          <a href="competences.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="award"><use href="#i-award"/></svg><span>Compétences</span></a>
+          <a href="shorts.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="clapper"><use href="#i-clapper"/></svg><span>Shorts</span></a>
+        </div>
+      </div>
+      <a href="modeles.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Modèles</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span class="nav-lbl">Qui suis-je</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="apropos.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span>Présentation</span></a>
+          <a href="collaborations.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Collaborations</span></a>
+          <a href="commentaires.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Avis &amp; Commentaires</span></a>
+        </div>
+      </div>
+      <a href="recherche.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="search"><use href="#i-search"/></svg><span>Recherche</span></a>
+      <a href="contact.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Contact</span></a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero container">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Tutoriels</div>
+  <div class="kicker">Centre de Formation & Post-Production</div>
+  <h1>Tutoriels Pratiques</h1>
+  <p>Lightroom Classic, Capture One Pro, Strobisme studio et prise de vue — cliquez sur une rubrique pour dérouler les explications et vidéos.</p>
+</div>
+
+<main class="page-main container">
+  <!-- Filtres par catégorie -->
+  <div class="course-filters-wrap">
+    <div class="course-filters">
+      <button class="filter-btn active" data-filter="all">Tous les tutoriels <span class="badge-tag">18</span></button>
+      <button class="filter-btn" data-filter="lr"><span class="badge-tag lr-tag">LR</span> Lightroom Classic <span class="badge-tag">13</span></button>
+      <button class="filter-btn" data-filter="c1"><span class="badge-tag c1-tag">C1</span> Capture One Pro <span class="badge-tag">8</span></button>
+      <button class="filter-btn" data-filter="strobe"><span class="badge-tag strobe-tag">⚡</span> Strobisme & Studio <span class="badge-tag">8</span></button>
+      <button class="filter-btn" data-filter="basics"><span class="badge-tag basics-tag">📷</span> Prise de Vue & RAW <span class="badge-tag">12</span></button>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       SECTION 1 : LIGHTROOM CLASSIC
+       ============================================== -->
+  <div class="cat-group" data-category="basics">
+    <div class="cat-divider">
+      <h2><span class="badge-tag basics-tag" style="font-size:1.15rem;padding:4px 11px;">📷</span> Prise de Vue & Fichiers RAW</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">Les fondamentaux indispensables pour réussir ses prises de vue : le triangle d'exposition, la netteté et la supériorité du format RAW.</p>
+
+    <!-- BP 01 : Triangle d'exposition -->
+    <article class="cours-section reveal" data-category="basics" id="base-1">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Triangle d'Exposition</div>
+          <h3>Ouverture, Vitesse & Sensibilité ISO : Les 3 leviers</h3>
+        </div>
+        <div class="cours-badge">Fondations</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/MszeJgjfZb4" title="Ouverture, Vitesse & Sensibilité ISO : Les 3 leviers" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Comprendre comment les 3 paramètres interagissent et quel est leur impact créatif direct sur l'image.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Choisir sa priorité créative</span></div>
+            <div class="cours-expl-text">
+              <p>Le triangle d'exposition n'est pas qu'une question mathématique de lumière : chaque curseur apporte une signature esthétique irremplaçable :</p>
+              <ul>
+                <li><strong>L'Ouverture (f/1.4 à f/16) :</strong> Choisit la zone de netteté. En portrait, on ouvre entre f/1.8 et f/2.8 pour faire fondre l'arrière-plan dans un flou velouté (bokeh).</li>
+                <li><strong>La Vitesse (1/8000s à 30s) :</strong> Gère le temps. En portrait à main levée, ne descendez jamais sous 1/125s pour éviter tout flou de micro-mouvement.</li>
+                <li><strong>L'ISO (100 à 6400+) :</strong> L'amplification électronique. Plus on monte, plus le grain numérique apparaît et plus la dynamique des couleurs baisse.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 01b : Réglages appareil photo parfaits -->
+    <article class="cours-section reveal" data-category="basics" id="base-reglages">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01b</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Triangle d'Exposition</div>
+          <h3>Réglages appareil photo parfaits selon la scène</h3>
+        </div>
+        <div class="cours-badge">Aide-mémoire</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Un point de départ rapide pour chaque situation : ouverture, vitesse et ISO. À ajuster ensuite selon la lumière réelle et l'effet recherché.</p>
+            <div class="reglages-table">
+              <img src="reglages-appareil-photo.png" alt="Tableau des réglages appareil photo parfaits : portrait, paysage, sport, nuit, rue, macro, heure dorée, intérieur, feux d'artifice, vie sauvage" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 01c : Photo smartphone -->
+    <article class="cours-section reveal" data-category="basics" id="base-smartphone">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01c</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de vue · Smartphone</div>
+          <h3>Comment faire de meilleures photos avec votre téléphone</h3>
+        </div>
+        <div class="cours-badge">Smartphone</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Nettoyer l'objectif, utiliser la lumière naturelle, stabiliser le téléphone, activer le HDR et la grille : huit gestes simples pour des photos bien meilleures sans appareil photo.</p>
+            <div class="reglages-table">
+              <img src="photo-smartphone-conseils.png" alt="Infographie : comment faire de meilleures photos avec son téléphone — 8 étapes et conseils" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 01d : 10 erreurs de débutants -->
+    <article class="cours-section reveal" data-category="basics" id="base-erreurs">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01d</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Débuter</div>
+          <h3>Les 10 erreurs que les débutants font en photographie</h3>
+        </div>
+        <div class="cours-badge">Débuter</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Mauvaise mise au point, horizon penché, arrière-plan encombré, zoom numérique, lumière ignorée… Dix erreurs fréquentes, et à chaque fois un geste simple pour les corriger. Apprends, corrige, progresse.</p>
+            <div class="reglages-table">
+              <img src="10-erreurs-debutants.png" alt="Infographie : les 10 erreurs que les débutants font en photographie et comment les corriger" loading="lazy">
+            </div>
+            <div class="cours-expl-text">
+              <p><strong>Le réflexe à garder :</strong> avant de déclencher, vérifie le point, l'horizon, le fond et la lumière. Ensuite seulement vient le réglage. Chaque erreur corrigée est un pas vers la maîtrise — et la meilleure façon d'apprendre reste de pratiquer régulièrement en analysant ses propres photos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 01e : Effets de caméra / commandes IA -->
+    <article class="cours-section reveal" data-category="basics" id="base-effets-ia">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01e</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Effets & IA</div>
+          <h3>Effets de caméra et commandes d'image : comprendre les possibilités</h3>
+        </div>
+        <div class="cours-badge">IA</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Flou de mouvement, zoom, bokeh, lens flare, vignettage, split-tone, monochrome, flou radial, prisme, glitch, grain de pellicule : autant d'effets que l'on retrouve en photo comme dans les outils de génération d'images. Ce tableau liste les commandes (/motionblur, /bokeh, /filmgrain…) et l'effet visuel associé.</p>
+            <div class="reglages-table">
+              <img src="effets-camera-commandes.png" alt="Tableau des effets de caméra et commandes IA : motionblur, zoombblur, bokeh, lensflare, vignette, splittone, monochrome, radialblur, prism, glitch, filmgrain" loading="lazy">
+            </div>
+            <div class="cours-expl-text">
+              <p><strong>À retenir :</strong> ces effets ne remplacent pas une bonne prise de vue. En photo réelle, le bokeh vient de l'ouverture, le flou de mouvement de la vitesse, le grain de l'ISO ou d'un film. Les commandes IA permettent de les reproduire ou de les pousser plus loin — à utiliser avec mesure pour garder un rendu crédible et cohérent avec ta lumière sculptée.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 01j : 5 conseils photo -->
+    <article class="cours-section reveal" data-category="basics" id="base-5-conseils">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01j</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Habitudes</div>
+          <h3>Cinq habitudes simples pour de meilleures photos, à chaque fois</h3>
+        </div>
+        <div class="cours-badge">Débuter</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Nettoyer son objectif, essayer un angle bas, ralentir avant de déclencher, regarder derrière soi et utiliser la météo : cinq réflexes qui changent tout, bien avant le réglage de l'appareil.</p>
+        <div class="reglages-table"><img src="conseils-photo-5.png" alt="Infographie : cinq conseils photo — nettoyer l'objectif, angle bas, ralentir et réfléchir, regarder derrière soi, utiliser la météo" loading="lazy"></div>
+        <div class="cours-expl-text">
+          <p><strong>1. Nettoyez votre objectif.</strong> Les traces de doigts invisibles à l'œil nu détruisent le contraste. Un chiffon microfibre propre dans la poche, et un geste avant chaque shooting.</p>
+          <p><strong>2. Essayez un angle bas.</strong> Accroupissez-vous vraiment près du sol : les premiers plans prennent vie, les perspectives changent, les éléments cachés à hauteur d'œil apparaissent.</p>
+          <p><strong>3. Ralentissez et réfléchissez.</strong> Arrêtez de mitrailler. Une minute pour analyser la composition, la lumière et le moment vaut mieux que cinquante clichés pris au hasard.</p>
+          <p><strong>4. Regardez derrière vous.</strong> Les meilleures scènes ne sont pas toujours devant. Une lumière différente, une composition unique vous attend peut-être dans le dos.</p>
+          <p><strong>5. La météo crée l'ambiance.</strong> Pluie, neige, brouillard transforment les lieux ordinaires. Utilisez l'atmosphère et les reflets — avec un parapluie pour protéger le matériel.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> objectif propre · angle bas · patience · regard dans le dos · météo comme alliée.</div>
+      </div></div></div>
+    </article>
+
+    <!-- BP 01f : Mise au point -->
+    <article class="cours-section reveal" data-category="basics" id="base-mise-au-point">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01f</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Autofocus</div>
+          <h3>Mise au point : points AF, back-button et modes AF</h3>
+        </div>
+        <div class="cours-badge">Fondations</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Une photo nette commence par un bon point de focus. En portrait, visez toujours <strong>l'œil le plus proche</strong> : c'est lui que le spectateur regarde en premier. Les collimateurs centraux sont les plus précis, mais les points périphériques permettent de composer librement.</p>
+            <div class="reglages-table">
+              <img src="schema-back-button.png" alt="Schema boitier photo fleche bouton AF-ON back-button focus" loading="lazy">
+            </div>
+        <div class="cours-expl-text">
+          <p><strong>Back-button focus :</strong> découplez l'autofocus du déclencheur (le bouton AF-ON à l'arrière sert à faire le point, le déclencheur ne sert plus qu'à photographier). Vous verrouillez la mise au point sur l'œil, puis vous recomposez sans que l'appareil ne refasse le point sur un cil ou un cheveu.</p>
+          <p><strong>Les modes :</strong> <em>One Shot / AF-S</em> pour un sujet immobile (portrait posé, paysage) — le point se verrouille. <em>AI Servo / AF-C</em> pour un sujet en mouvement (sport, enfant) — l'appareil suit en continu. <em>AI Focus / AF-A</em> bascule automatiquement entre les deux, pratique quand le sujet bouge de façon imprévisible.</p>
+          <p><strong>Astuce studio :</strong> avec une faible profondeur de champ (f/1.8), un seul millimètre peut faire la différence. Activez l'agrandissement 100 % en visée et vérifiez l'œil avant de déclencher. La lumière sculptée ne rattrape pas un focus raté.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> œil le plus proche · back-button pour verrouiller · AF-S posé / AF-C mouvement.</div>
+      </div></div></div>
+    </article>
+
+    <!-- BP 01g : Filtres -->
+    <article class="cours-section reveal" data-category="basics" id="base-filtres">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01g</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Extérieur</div>
+          <h3>Filtres : polarisant, ND et dégradés en extérieur</h3>
+        </div>
+        <div class="cours-badge">Extérieur</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">En extérieur, le filtre est le seul accessoire qui modifie la lumière <strong>avant</strong> qu'elle n'atteigne le capteur — ce qu'aucun logiciel ne peut reproduire parfaitement.</p>
+        <div class="cours-expl-text">
+          <p><strong>Polarisant (CPL) :</strong> supprime les reflets sur l'eau, les vitres et les feuillages, sature le ciel et fait ressortir les nuages. Tournez-le jusqu'à l'effet maximum. Il fait perdre environ 1 à 2 crans de lumière : surveillez votre vitesse. Attention aux grands angles : le ciel peut devenir inégalement sombre.</p>
+          <p><strong>ND (densité neutre) :</strong> un verre sombre qui réduit la lumière sans changer les couleurs. Il permet d'utiliser une longue pose en plein jour — cascade soyeuse, nuages filés, foule estompée — ou d'ouvrir à f/1.8 sous le soleil avec un flash en HSS.</p>
+          <p><strong>Dégradé (GND) :</strong> sombre en haut, clair en bas. Il équilibre un ciel trop lumineux par rapport au premier plan, typiquement au coucher du soleil. Le dégradé souple convient aux horizons irréguliers (montagnes, arbres), le dur aux horizons plats (mer). Aujourd'hui, les filtres ND variables et le bracketing HDR le remplacent souvent, mais le dégradé reste imbattable pour un rendu naturel direct.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> CPL = reflets et ciel · ND = longue pose · GND = équilibrer ciel/sol.</div>
+      </div></div></div>
+    </article>
+
+    <!-- BP 01h : Composition -->
+    <article class="cours-section reveal" data-category="basics" id="base-composition">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01h</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Composition</div>
+          <h3>Composition : règle des tiers, lignes directrices et cadrage portrait</h3>
+        </div>
+        <div class="cours-badge">Fondations</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Bien exposé mais mal cadré, une photo reste banale. La composition guide l'œil du spectateur et donne de l'intention à l'image.</p>
+            <div class="reglages-table">
+              <img src="schema-tiers.png" alt="Schema regle des tiers grille 3x3 oil sur intersection espace devant le regard" loading="lazy">
+            </div>
+        <div class="cours-expl-text">
+          <p><strong>Règle des tiers :</strong> activez la grille de votre appareil. Placez les yeux du modèle sur l'une des lignes horizontales du tiers supérieur, jamais au centre. Le regard trouve ainsi naturellement sa place et le portrait respire.</p>
+          <p><strong>Lignes directrices :</strong> un mur, une route, une rambarde ou un regard convergent vers le sujet. Elles créent de la profondeur et ramènent l'attention vers le visage. En portrait de trois-quarts, les épaules forment elles-mêmes une ligne diagonale plus dynamique qu'une posture frontale.</p>
+          <p><strong>Cadrage portrait :</strong> laissez de l'espace dans le sens du regard — si le modèle regarde à droite, cadrez plus large à droite. Coupez au niveau des articulations (poignets, coudes), jamais au milieu d'un membre. Vérifiez les bords : un poulet de cheveux ou un poteau qui « pousse » sur la tête casse l'image. Activez le niveau virtuel pour garder l'horizon droit.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> yeux sur le tiers supérieur · espace devant le regard · bords propres.</div>
+      </div></div></div>
+    </article>
+
+    <!-- BP 01i : Focale portrait -->
+    <article class="cours-section reveal" data-category="basics" id="base-focale-portrait">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-01i</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue · Optique</div>
+          <h3>Focale portrait : 35, 50 ou 85 mm ?</h3>
+        </div>
+        <div class="cours-badge">Optique</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Le choix de la focale change autant le rendu que l'éclairage : il agit sur la <strong>compression</strong> des plans et sur la distance entre vous, le modèle et le fond.</p>
+            <div class="reglages-table">
+              <img src="schema-focales.png" alt="Comparatif focales 35mm 50mm 85mm champ de vision distance recommandee" loading="lazy">
+            </div>
+        <div class="cours-expl-text">
+          <p><strong>85 mm :</strong> le classique du portrait studio. Recul d'environ 2,5 à 3 mètres, visage sans déformation, arrière-plan très compressé et flou fondu à f/1.8. C'est le choix le plus flatteur pour un portrait seul.</p>
+          <p><strong>50 mm :</strong> polyvalent, proche de la vision humaine. On travaille à 1,5 mètre : plus d'interaction avec le modèle, mais un fond moins flou et une légère déformation si l'on s'approche trop. Idéal en petit studio ou en environnement.</p>
+          <p><strong>35 mm :</strong> le portrait environnemental. À 1 mètre, on raconte l'histoire du lieu autant que du visage. Attention aux déformations sur un visage de face en gros plan — privilégiez le trois-quarts et gardez de la distance.</p>
+          <p><strong>La trilogie du flou :</strong> grande ouverture (f/1.8) + longue focale (85 mm) + distance entre le sujet et le fond (4 à 5 mètres). C'est cette dernière, souvent oubliée, qui fait le bokeh velouté — la lumière sculptée fait le reste.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> 85 mm = compression flatteuse · 50 mm = polyvalence · 35 mm = contexte.</div>
+      </div></div></div>
+    </article>
+
+    <!-- BP 02 : Profondeur de champ -->
+    <article class="cours-section reveal" data-category="basics" id="base-2">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Optique & Flou</div>
+          <h3>La profondeur de champ & le Bokeh créatif en portrait</h3>
+        </div>
+        <div class="cours-badge">Optique</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/xh1SICnw4tI" title="La profondeur de champ & le Bokeh créatif en portrait" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Les 3 facteurs physiques qui créent un détachement tridimensionnel du modèle par rapport à l'arrière-plan.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Les leviers du Bokeh</span></div>
+            <div class="cours-expl-text">
+              <p>Pour obtenir un arrière-plan ultra flou sans payer un objectif hors de prix, appliquez la trilogie Saysko : <strong>1. Grande ouverture</strong> (f/1.8 à f/2.8) · <strong>2. Longue focale</strong> (privilégiez un 85mm ou 135mm qui compresse les perspectives) · <strong>3. Distance relative</strong> : rapprochez-vous du modèle et assurez-vous que l'arrière-plan soit situé à au moins 4 ou 5 mètres derrière lui !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BP 03 : RAW vs JPEG -->
+    <article class="cours-section reveal" data-category="basics" id="base-3">
+      <div class="cours-section-head">
+        <div class="cours-num">BP-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Format de Fichier</div>
+          <h3>RAW vs JPEG : Pourquoi vous ne devez plus jamais shooter en JPEG</h3>
+        </div>
+        <div class="cours-badge">Capital</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/0GR9p9SEfoU" title="RAW vs JPEG : Pourquoi vous ne devez plus jamais shooter en JPEG" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Pourquoi le fichier RAW 14 bits contient 64 fois plus de nuances de couleur qu'un JPEG 8 bits figé par le processeur du boîtier.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : L'assurance vie de vos séances</span></div>
+            <div class="cours-expl-text">
+              <p>Un fichier JPEG est une image compressée où le processeur de votre appareil a pris des décisions définitives : contraste figé, balance des blancs incrustée et hautes lumières coupées. Si votre balance des blancs était mal réglée en JPEG, tenter de la corriger en post-production détruit les teintes de peau.</p>
+              <p>En <strong>RAW</strong>, toutes les données brutes du capteur sont conservées intactes sur 14 bits. Vous pouvez changer la balance des blancs à 100% sans la moindre dégradation, et récupérer jusqu'à 3 diaphragmes complets dans les ombres sous Lightroom ou Capture One !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- ==============================================
+       SECTION 5 : PHOTOSHOP (rubrique autonome)
+       ============================================== -->
+    <div style="text-align:center;margin:3rem 0 1rem;"><a href="cours.html" class="btn">← Tous les tutoriels</a></div>
+</div>
+<footer> SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. · Saysko © 2026 · Musique : Alex Shulgin — Pixabay</footer>
+<script src="site.js?v=7"></script>
+</body>
+</html>

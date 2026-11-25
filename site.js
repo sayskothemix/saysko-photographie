@@ -450,11 +450,22 @@
       });
       // Page Tutoriels : masquer les groupes et fiches des autres catégories.
       if (document.querySelector('.cat-group')) {
+        // Fiches appartenant à un groupe .cat-group
         document.querySelectorAll('.cat-group').forEach(function (group) {
-          group.classList.toggle('filtered-out', activeFilter !== 'all' && group.getAttribute('data-category') !== activeFilter);
+          var cat = group.getAttribute('data-category');
+          // Chaque filtre n'affiche que les fiches de sa propre catégorie.
+          var keep = activeFilter === 'all' || cat === activeFilter;
+          group.classList.toggle('filtered-out', !keep);
           group.querySelectorAll('.cours-section').forEach(function (card) {
-            card.classList.toggle('filtered-out', activeFilter !== 'all' && card.getAttribute('data-category') !== activeFilter);
+            var keepCard = keep && (activeFilter === 'all' || card.getAttribute('data-category') === activeFilter);
+            card.classList.toggle('filtered-out', !keepCard);
           });
+        });
+        // Fiches sans groupe : filtrage direct (certaines fiches sont orphelines dans cours.html)
+        document.querySelectorAll('.cours-section').forEach(function (card) {
+          if (card.closest('.cat-group')) return;
+          var keepCard = activeFilter === 'all' || card.getAttribute('data-category') === activeFilter;
+          card.classList.toggle('filtered-out', !keepCard);
         });
         return;
       }
