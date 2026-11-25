@@ -739,7 +739,7 @@
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
-        window.location.href = 'portfolio.html?iris=1';
+        window.location.href = visitBtn.getAttribute('href');
         return new Promise(function (resolve) { setTimeout(resolve, 500); });
       });
     });
