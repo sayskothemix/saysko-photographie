@@ -182,7 +182,6 @@
           setTimeout(function () {
             wrap.remove();
             css.remove();
-            history.replaceState(null, '', clean);
           }, 320);
         }
       }
