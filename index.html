@@ -639,7 +639,10 @@
     if (!audioContext) audioContext = new AudioContext();
 
     var resume = audioContext.state === 'suspended'
-      ? audioContext.resume()
+      ? Promise.race([
+          audioContext.resume(),
+          new Promise(function (resolve) { setTimeout(resolve, 500); })
+        ])
       : Promise.resolve();
     var audioFile = fetch('reflex-shutter.mp3').then(function (response) {
       if (!response.ok) throw new Error('The shutter sound could not be loaded.');
@@ -729,6 +732,15 @@
       event.preventDefault();
       visiting = true;
 
+      // Filet de sécurité : la musique remonte et l'overlay se ferme quoi qu'il arrive.
+      var watchdog = setTimeout(function () {
+        if (bgm && oldVol != null) bgm.volume = oldVol;
+        overlay.classList.remove('is-active', 'is-closed', 'is-fading');
+        visiting = false;
+      }, 3500);
+      clearTimeout(visitBtn._watchdog);
+      visitBtn._watchdog = watchdog;
+
       // Son synkro : déclic au début de la fermeture, miroir au début de l'ouverture.
       // Les deux sons sont lancés sans jamais bloquer l'animation.
       // On baisse la musique de fond le temps du déclic pour qu'il soit audible.
@@ -753,6 +765,7 @@
         overlay.classList.add('is-fading');
         return new Promise(function (resolve) { setTimeout(resolve, 300); });
       }).then(function () {
+        clearTimeout(watchdog);
         overlay.classList.remove('is-active', 'is-fading');
         if (bgm && oldVol != null) {
           bgm.volume = oldVol;
