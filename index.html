@@ -10,7 +10,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="site.css?v=17">
+<link rel="stylesheet" href="site.css?v=20">
 <script>
   try {
     if (localStorage.getItem("saysko_intro_seen") === "1") {
@@ -661,7 +661,7 @@
       var source = audioContext.createBufferSource();
       source.buffer = result.buffer;
       var gain = audioContext.createGain();
-      gain.gain.value = volume == null ? 1 : volume;
+      gain.gain.value = volume == null ? 2 : volume;
       source.connect(gain);
       gain.connect(audioContext.destination);
       return new Promise(function (resolve, reject) {
@@ -731,6 +731,10 @@
 
       // Son synkro : déclic au début de la fermeture, miroir au début de l'ouverture.
       // Les deux sons sont lancés sans jamais bloquer l'animation.
+      // On baisse la musique de fond le temps du déclic pour qu'il soit audible.
+      var bgm = document.getElementById('bgMusic');
+      var oldVol = bgm ? bgm.volume : null;
+      if (bgm) bgm.volume = 0.12;
       playShutter(audioState).catch(function (error) {
         console.error('The reflex shutter sound could not be played.', error);
       });
@@ -750,6 +754,10 @@
         return new Promise(function (resolve) { setTimeout(resolve, 300); });
       }).then(function () {
         overlay.classList.remove('is-active', 'is-fading');
+        if (bgm && oldVol != null) {
+          bgm.volume = oldVol;
+          if (bgm.dataset.muted === '1') bgm.volume = 0;
+        }
         visiting = false;
       });
     });

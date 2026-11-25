@@ -72,7 +72,7 @@
       transition: background 0.4s, border-color 0.4s;
     }
     header.scrolled { background: rgba(8,7,10,0.97); border-color: rgba(224,189,133,0.22); }
-    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: clamp(24px, 4vw, 70px); height: 72px; }
     .logo {
       font-family: "Cormorant Garamond", Georgia, serif;
       font-size: 1.1rem; font-weight: 500; letter-spacing: 4px;
@@ -1546,7 +1546,7 @@ nav a.active .nav-ico { color: #e0bd85; opacity: 1; }
    ============================================================ */
 
 /* --- EFFET 1 : reflet doré sur le logo (15 s, très discret) --- */
-.logo { position: relative; overflow: hidden; isolation: isolate; }
+.logo { position: relative; isolation: isolate; white-space: nowrap; }
 .logo::after {
   content: ''; position: absolute; inset: -4px -10px; pointer-events: none;
   background: linear-gradient(105deg,
