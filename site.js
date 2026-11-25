@@ -137,16 +137,24 @@
   var photos = FALLBACK.slice();
   var activeFilter = 'all';
 
+  function addLocalPhotos() {
+    // Photos ajoutées localement par le propriétaire (visibles sur ce navigateur seulement).
+    try {
+      var extra = JSON.parse(localStorage.getItem('saysko_gallery_extra') || '[]');
+      if (Array.isArray(extra) && extra.length) photos = photos.concat(extra);
+    } catch (e) {}
+  }
   function loadData(cb) {
-    if (!/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) { cb(); return; }
+    if (!/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) { addLocalPhotos(); cb(); return; }
     fetch('/api/state', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
         var payload = d && d.data ? d.data : d;
         if (payload && Array.isArray(payload.photos) && payload.photos.length) photos = payload.photos;
+        addLocalPhotos();
         cb();
       })
-      .catch(function () { cb(); });
+      .catch(function () { addLocalPhotos(); cb(); });
   }
 
   /* ---------- Carrousel 3D ---------- */
