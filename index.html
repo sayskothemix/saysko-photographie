@@ -719,34 +719,18 @@
     if (!visitBtn) return;
 
     var visiting = false;
-    var shutterReady = prepareShutter;
-    var audioState = null;
 
     visitBtn.addEventListener('click', function (event) {
       if (visiting || document.documentElement.classList.contains('intro-open')) return;
       event.preventDefault();
       visiting = true;
 
-      // Le son est lancé sans jamais bloquer la transition visuelle.
-      // prepareShutter() peut rester en attente (autoplay) : on ne l'attend pas.
-      if (!audioState) {
-        audioState = Promise.race([
-          shutterReady(),
-          new Promise(function (resolve) { setTimeout(function () { resolve({ error: new Error('shutter timeout') }); }, 400); })
-        ]);
-      }
-      playShutter(audioState).catch(function (error) {
-        console.error('The reflex shutter sound could not be played.', error);
-      });
-
+      // Transition visuelle autonome : aucun son ne peut la bloquer.
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
         var target = document.getElementById('portfolio');
         if (target) target.scrollIntoView({ block: 'start' });
-        playShutter(audioState, 0.35).catch(function (error) {
-          console.error('The reflex mirror return sound could not be played.', error);
-        });
         overlay.classList.remove('is-closed');
         return animateIris(0, 1, 900);
       }).then(function () {
