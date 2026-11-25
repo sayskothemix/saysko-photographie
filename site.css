@@ -1308,10 +1308,10 @@
     }
     /* Balayage toujours de gauche à droite, puis retour invisible à gauche */
     @keyframes introBeamSweep {
-      0%   { transform: rotate(24deg) translateX(-12%); opacity: 0; }
+      0%   { transform: rotate(18deg) translateX(55%); opacity: 0; }
       8%   { opacity: 0.5; }
-      85%  { transform: rotate(18deg) translateX(55%); opacity: 1; }
-      100% { transform: rotate(18deg) translateX(55%); opacity: 0; }
+      85%  { transform: rotate(24deg) translateX(-12%); opacity: 1; }
+      100% { transform: rotate(24deg) translateX(-12%); opacity: 0; }
     }
     /* Particules lumineuses générées en JS (aucun carré) */
     .intro-particles { position: absolute; inset: 0; }
