@@ -719,19 +719,31 @@
     if (!visitBtn) return;
 
     var visiting = false;
+    var shutterReady = prepareShutter();
+    var audioState = shutterReady.catch(function (error) {
+      return { error: error };
+    });
 
     visitBtn.addEventListener('click', function (event) {
       if (visiting || document.documentElement.classList.contains('intro-open')) return;
       event.preventDefault();
       visiting = true;
 
-      // Transition visuelle autonome : aucun son ne peut la bloquer.
+      // Son synkro : déclic au début de la fermeture, miroir au début de l'ouverture.
+      // Les deux sons sont lancés sans jamais bloquer l'animation.
+      playShutter(audioState).catch(function (error) {
+        console.error('The reflex shutter sound could not be played.', error);
+      });
+
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
         var target = document.getElementById('portfolio');
         if (target) target.scrollIntoView({ block: 'start' });
         overlay.classList.remove('is-closed');
+        playShutter(audioState, 0.35).catch(function (error) {
+          console.error('The reflex mirror return sound could not be played.', error);
+        });
         return animateIris(0, 1, 900);
       }).then(function () {
         overlay.classList.add('is-fading');
