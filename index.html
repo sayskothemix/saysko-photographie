@@ -732,26 +732,7 @@
       event.preventDefault();
       visiting = true;
 
-      // On baisse la musique de fond le temps du déclic, sauf si elle est coupée.
-      var bgm = document.getElementById('bgMusic');
-      var oldVol = bgm ? bgm.volume : null;
-      var wasMuted = bgm ? bgm.muted : false;
-      if (bgm && !wasMuted) bgm.volume = 0.12;
-
-      // Filet de sécurité : la musique remonte et l'overlay se ferme quoi qu'il arrive.
-      function restoreMusic() {
-        if (bgm && oldVol != null && !bgm.muted) bgm.volume = oldVol;
-      }
-      var watchdog = setTimeout(function () {
-        restoreMusic();
-        overlay.classList.remove('is-active', 'is-closed', 'is-fading');
-        visiting = false;
-      }, 3500);
-      clearTimeout(visitBtn._watchdog);
-      visitBtn._watchdog = watchdog;
-
-      // Son synkro : déclic au début de la fermeture, miroir au début de l'ouverture.
-      // Les deux sons sont lancés sans jamais bloquer l'animation.
+      // Son synkro : déclic au début de la fermeture.
       playShutter(audioState).catch(function (error) {
         console.error('The reflex shutter sound could not be played.', error);
       });
@@ -759,23 +740,9 @@
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
-        overlay.classList.remove('is-closed');
-        playShutter(audioState, 0.35).catch(function (error) {
-          console.error('The reflex mirror return sound could not be played.', error);
-        });
-        return animateIris(0, 1, 900);
-      }).then(function () {
-        // Changement de page : la galerie s'ouvre dans sa propre page.
-        window.location.href = 'portfolio.html';
-        return new Promise(function (resolve) { setTimeout(resolve, 600); });
-      }).then(function () {
-        overlay.classList.add('is-fading');
-        return new Promise(function (resolve) { setTimeout(resolve, 300); });
-      }).then(function () {
-        clearTimeout(watchdog);
-        overlay.classList.remove('is-active', 'is-fading');
-        restoreMusic();
-        visiting = false;
+        // On garde l'iris fermé : la page de destination l'ouvrira.
+        window.location.href = 'portfolio.html?iris=1';
+        return new Promise(function (resolve) { setTimeout(resolve, 800); });
       });
     });
   })();
@@ -914,5 +881,6 @@
   })();
   </script>
 
+  <script src="iris-transition.js"></script>
 </body>
 </html>
