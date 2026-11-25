@@ -437,8 +437,17 @@
     }
   }
 
-  /* Les vignettes de catégories sont des liens vers des pages dédiées :
-     aucun filtre JavaScript ne doit intercepter le clic. */
+  /* Les vignettes de catégories sont des liens vers des pages dédiées.
+     On force la navigation au clic pour éviter tout blocage résiduel. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.filter-btn[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (href && href !== '#' && !e.defaultPrevented) {
+      e.preventDefault();
+      window.location.href = href;
+    }
+  });
 
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
