@@ -789,26 +789,34 @@
   var soundWaves = document.getElementById('soundWaves');
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
+  var blocked = false;
   if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;
     var p = audio.play();
-    if (p && typeof p.catch === 'function') p.catch(function () {});
+    if (p && typeof p.catch === 'function') p.catch(function () {
+      // Autoplay bloqué par le navigateur : on attend un clic utilisateur.
+      blocked = true;
+      updateSoundUI();
+    });
   }
 
   function updateSoundUI() {
     if (!audio || !soundBtn) return;
-    var muted = audio.muted;
-    soundBtn.setAttribute('aria-label', muted ? 'Activer la musique' : 'Couper la musique');
-    soundBtn.title = muted ? 'Activer la musique' : 'Couper la musique';
-    if (soundWaves) soundWaves.style.opacity = muted ? '0.15' : '1';
-    soundBtn.dataset.muted = muted ? '1' : '0';
+    var off = audio.muted || blocked;
+    soundBtn.setAttribute('aria-label', off ? 'Activer la musique' : 'Couper la musique');
+    soundBtn.title = off ? 'Activer la musique' : 'Couper la musique';
+    if (soundWaves) soundWaves.style.opacity = off ? '0.15' : '1';
+    soundBtn.dataset.muted = off ? '1' : '0';
   }
 
   function startOnFirstInteraction() {
     if (!audio || started) return;
     started = true;
+    // On ne réactive jamais le son si l'utilisateur l'a coupé via le bouton.
+    if (audio.muted) return;
+    blocked = false;
     audio.muted = false;
     startMusic();
     updateSoundUI();
@@ -822,14 +830,11 @@
       e.preventDefault();
       e.stopPropagation();
       if (!audio) return;
-      if (!started) {
-        started = true;
-        audio.muted = false;
-        startMusic();
-      } else {
-        audio.muted = !audio.muted;
-        if (!audio.muted && audio.paused) startMusic();
-      }
+      started = true;
+      blocked = false;
+      // Si le son est coupé, on l'active ; sinon on le coupe.
+      audio.muted = !audio.muted;
+      if (!audio.muted) startMusic();
       updateSoundUI();
     });
   }
