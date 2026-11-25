@@ -728,7 +728,13 @@
       visiting = true;
 
       // Le son est lancé sans jamais bloquer la transition visuelle.
-      if (!audioState) audioState = shutterReady();
+      // prepareShutter() peut rester en attente (autoplay) : on ne l'attend pas.
+      if (!audioState) {
+        audioState = Promise.race([
+          shutterReady(),
+          new Promise(function (resolve) { setTimeout(function () { resolve({ error: new Error('shutter timeout') }); }, 400); })
+        ]);
+      }
       playShutter(audioState).catch(function (error) {
         console.error('The reflex shutter sound could not be played.', error);
       });
