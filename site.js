@@ -158,6 +158,7 @@
   var autoTimer = null;
   var AUTO_DELAY = 8000;
   var tiltX = 0, tiltY = 0;
+  var dragActive = false, dragStartX = 0, dragStartIndex = 0, dragVel = 0, inertiaRaf = null;
   var flashTimer = null;
 
   /* ---------- Carrousel : habitacle studio (faisceau, rideau, slate) ---------- */
@@ -340,6 +341,40 @@
       tiltX = 0; tiltY = 0;
       updateCarousel();
     });
+
+    /* ---------- Glisser-déposer avec inertie (rotation de l'anneau) ---------- */
+    viewport.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      dragActive = true; dragStartX = e.clientX; dragStartIndex = carIndex;
+      dragVel = 0;
+      if (inertiaRaf) { cancelAnimationFrame(inertiaRaf); inertiaRaf = null; }
+      clearTimeout(autoTimer);
+      viewport.setPointerCapture && viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add('is-dragging');
+    });
+    viewport.addEventListener('pointermove', function (e) {
+      if (!dragActive) return;
+      var n = track ? track.querySelectorAll('.slide').length : photos.length;
+      if (!n) return;
+      var dx = e.clientX - dragStartX;
+      var stepPx = 90;
+      var raw = dragStartIndex - dx / stepPx;
+      dragVel = (dragStartX - e.clientX - (dragVel || 0)) * 0.35;
+      carIndex = ((Math.round(raw) % n) + n) % n;
+      updateCarousel();
+    });
+    function endDrag() {
+      if (!dragActive) return;
+      dragActive = false;
+      viewport.classList.remove('is-dragging');
+      var n = track ? track.querySelectorAll('.slide').length : photos.length;
+      var glide = Math.round(Math.max(-3, Math.min(3, dragVel)));
+      if (glide) goTo(carIndex + glide);
+      dragVel = 0;
+      scheduleAuto();
+    }
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
   }
   if (viewport) {
     viewport.addEventListener('mouseenter', function () { clearTimeout(autoTimer); });

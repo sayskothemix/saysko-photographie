@@ -1751,3 +1751,10 @@ body.has-cursor-halo::after { opacity: 1; }
   .filter-bar { gap: 8px; }
   .filter-chip { padding: 7px 13px; font-size: .62rem; }
 }
+
+/* ---------- Carrousel 3D : glisser pour tourner ---------- */
+.carousel-viewport { cursor: grab; }
+.carousel-viewport.is-dragging { cursor: grabbing; }
+.carousel-viewport.is-dragging .carousel-track { transition: transform 0.12s ease-out; }
+.carousel-viewport.is-dragging .slide { transition: transform 0.12s ease-out, opacity 0.2s ease, filter 0.2s ease; }
+
