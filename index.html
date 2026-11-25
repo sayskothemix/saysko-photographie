@@ -765,8 +765,9 @@
         });
         return animateIris(0, 1, 900);
       }).then(function () {
+        window.location.hash = '#portfolio';
         var target = document.getElementById('portfolio');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (target && scrollY === 0) window.scrollTo(0, target.offsetTop);
         overlay.classList.add('is-fading');
         return new Promise(function (resolve) { setTimeout(resolve, 300); });
       }).then(function () {
