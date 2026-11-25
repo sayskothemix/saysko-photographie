@@ -754,14 +754,14 @@
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
-        var target = document.getElementById('portfolio');
-        if (target) target.scrollIntoView({ block: 'start' });
         overlay.classList.remove('is-closed');
         playShutter(audioState, 0.35).catch(function (error) {
           console.error('The reflex mirror return sound could not be played.', error);
         });
         return animateIris(0, 1, 900);
       }).then(function () {
+        var target = document.getElementById('portfolio');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         overlay.classList.add('is-fading');
         return new Promise(function (resolve) { setTimeout(resolve, 300); });
       }).then(function () {
