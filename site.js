@@ -437,41 +437,8 @@
     }
   }
 
-  /* ---------- Filtre par catégorie ---------- */
-  var filterBar = document.getElementById('filterBar') || document.querySelector('.course-filters');
-  if (filterBar) {
-    filterBar.addEventListener('click', function (e) {
-      var chip = e.target.closest('.filter-btn, .filter-chip');
-      if (!chip) return;
-      e.preventDefault();
-      activeFilter = chip.getAttribute('data-filter') || 'all';
-      filterBar.querySelectorAll('.filter-btn, .filter-chip').forEach(function (b) {
-        b.classList.toggle('active', b === chip);
-      });
-      // Page Tutoriels : masquer les groupes et fiches des autres catégories.
-      if (document.querySelector('.cat-group')) {
-        // Fiches appartenant à un groupe .cat-group
-        document.querySelectorAll('.cat-group').forEach(function (group) {
-          var cat = group.getAttribute('data-category');
-          // Chaque filtre n'affiche que les fiches de sa propre catégorie.
-          var keep = activeFilter === 'all' || cat === activeFilter;
-          group.classList.toggle('filtered-out', !keep);
-          group.querySelectorAll('.cours-section').forEach(function (card) {
-            var keepCard = keep && (activeFilter === 'all' || card.getAttribute('data-category') === activeFilter);
-            card.classList.toggle('filtered-out', !keepCard);
-          });
-        });
-        // Fiches sans groupe : filtrage direct (certaines fiches sont orphelines dans cours.html)
-        document.querySelectorAll('.cours-section').forEach(function (card) {
-          if (card.closest('.cat-group')) return;
-          var keepCard = activeFilter === 'all' || card.getAttribute('data-category') === activeFilter;
-          card.classList.toggle('filtered-out', !keepCard);
-        });
-        return;
-      }
-      renderGallery();
-    });
-  }
+  /* Les vignettes de catégories sont des liens vers des pages dédiées :
+     aucun filtre JavaScript ne doit intercepter le clic. */
 
   /* ---------- Démarrage ---------- */
   loadData(renderGallery);
