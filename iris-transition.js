@@ -167,13 +167,14 @@
   }
 
   resize();
-  requestAnimationFrame(function () {
+  // Petit délai : l'iris reste visible le temps que la page s'installe.
+  setTimeout(function () {
     requestAnimationFrame(function () {
       mirror();
       wrap.classList.add('is-opening');
       var start = performance.now();
       function frame(now) {
-        var p = Math.min(1, (now - start) / 1100);
+        var p = Math.min(1, (now - start) / 1400);
         var e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         render(e);
         if (p < 1) requestAnimationFrame(frame);
