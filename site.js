@@ -438,16 +438,26 @@
   }
 
   /* ---------- Filtre par catégorie ---------- */
-  var filterBar = document.getElementById('filterBar');
+  var filterBar = document.getElementById('filterBar') || document.querySelector('.course-filters');
   if (filterBar) {
     filterBar.addEventListener('click', function (e) {
-      var chip = e.target.closest('.filter-chip');
+      var chip = e.target.closest('.filter-btn, .filter-chip');
       if (!chip) return;
       e.preventDefault();
       activeFilter = chip.getAttribute('data-filter') || 'all';
-      filterBar.querySelectorAll('.filter-chip').forEach(function (b) {
+      filterBar.querySelectorAll('.filter-btn, .filter-chip').forEach(function (b) {
         b.classList.toggle('active', b === chip);
       });
+      // Page Tutoriels : masquer les groupes et fiches des autres catégories.
+      if (document.querySelector('.cat-group')) {
+        document.querySelectorAll('.cat-group').forEach(function (group) {
+          group.classList.toggle('filtered-out', activeFilter !== 'all' && group.getAttribute('data-category') !== activeFilter);
+          group.querySelectorAll('.cours-section').forEach(function (card) {
+            card.classList.toggle('filtered-out', activeFilter !== 'all' && card.getAttribute('data-category') !== activeFilter);
+          });
+        });
+        return;
+      }
       renderGallery();
     });
   }
