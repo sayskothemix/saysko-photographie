@@ -69,7 +69,7 @@
 
   /* Introduction photo et iris mecanique SVG */
   html.intro-open, html.intro-open body { overflow: hidden; }
-  html.intro-seen .intro, html.intro-seen .iris-transition { display: none; }
+  html.intro-seen .intro, html.intro-seen .iris-transition:not(.is-active) { display: none; }
   html.intro-open .site-controls { display: none; }
   .intro {
     position: fixed; inset: 0; z-index: 9000;
@@ -294,7 +294,7 @@
     <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
     <div class="slogan">La lumière sculpte vos émotions au cœur de chaque image.</div>
     <p>Des portraits travaillés au flash, une lumière maîtrisée et des images qui racontent une histoire. Bienvenue dans mon studio.</p>
-    <a class="btn" href="#portfolio">Visite</a>
+    <a class="btn" id="visitBtn" href="#portfolio">Visite</a>
     <div class="scroll-indicator"><span class="mouse"></span>Défiler</div>
   </section>
 
@@ -429,13 +429,15 @@
   var busy = false;
   var audioContext = null;
 
-  if (!intro || !overlay || document.documentElement.classList.contains('intro-seen')) {
+  var introSeen = document.documentElement.classList.contains('intro-seen');
+  var visitBtn = document.getElementById('visitBtn');
+
+  if (!intro || !overlay || introSeen) {
     document.documentElement.classList.remove('intro-open');
     if (intro) intro.remove();
-    if (overlay) overlay.remove();
-    return;
+  } else {
+    document.documentElement.classList.add('intro-open');
   }
-  document.documentElement.classList.add('intro-open');
 
   function point(value) {
     return value[0].toFixed(3) + ' ' + value[1].toFixed(3);
@@ -709,7 +711,47 @@
       enterSite();
     }
   });
-  intro.focus({ preventScroll: true });
+  if (intro && document.contains(intro)) intro.focus({ preventScroll: true });
+
+  // --- Transition iris synchronisée sur le bouton "Visite" ---
+  (function () {
+    var visitBtn = document.getElementById('visitBtn');
+    if (!visitBtn) return;
+
+    var visiting = false;
+    var shutterReady = prepareShutter;
+    var audioState = null;
+
+    visitBtn.addEventListener('click', function (event) {
+      if (visiting || document.documentElement.classList.contains('intro-open')) return;
+      event.preventDefault();
+      visiting = true;
+
+      // Le son est lancé sans jamais bloquer la transition visuelle.
+      if (!audioState) audioState = shutterReady();
+      playShutter(audioState).catch(function (error) {
+        console.error('The reflex shutter sound could not be played.', error);
+      });
+
+      overlay.classList.add('is-active');
+      animateIris(1, 0, 800).then(function () {
+        overlay.classList.add('is-closed');
+        var target = document.getElementById('portfolio');
+        if (target) target.scrollIntoView({ block: 'start' });
+        playShutter(audioState, 0.35).catch(function (error) {
+          console.error('The reflex mirror return sound could not be played.', error);
+        });
+        overlay.classList.remove('is-closed');
+        return animateIris(0, 1, 900);
+      }).then(function () {
+        overlay.classList.add('is-fading');
+        return new Promise(function (resolve) { setTimeout(resolve, 300); });
+      }).then(function () {
+        overlay.classList.remove('is-active', 'is-fading');
+        visiting = false;
+      });
+    });
+  })();
 })();
 </script>
 <script>
