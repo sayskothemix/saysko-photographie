@@ -7,7 +7,9 @@
 <meta name="description" content="Portfolio de Saysko, photographe spécialisé en photo de studio et strobisme : portraits, lumière sculptée, cours gratuits.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="site.css?v=13">
 <script>
   try {
@@ -339,6 +341,13 @@
         <button class="view-mode" data-mode="story" title="Plein écran">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg> Plein écran
         </button>
+      </div>
+
+      <div class="filter-bar reveal" id="filterBar" role="group" aria-label="Filtrer les photos par catégorie">
+        <button class="filter-chip active" data-filter="all">Tout</button>
+        <button class="filter-chip" data-filter="Portrait">Portraits</button>
+        <button class="filter-chip" data-filter="Strobisme">Strobisme</button>
+        <button class="filter-chip" data-filter="Lifestyle">Lifestyle</button>
       </div>
 
       <div class="grid-view" id="gridView"></div>

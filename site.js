@@ -135,6 +135,7 @@
     { title: 'Shooting Extérieur', src: 'shooting-exterieur.jpg', desc: 'Lifestyle · Nature' }
   ];
   var photos = FALLBACK.slice();
+  var activeFilter = 'all';
 
   function loadData(cb) {
     if (!/localhost|127\.0\.0\.1|trycloudflare\.com/.test(location.hostname)) { cb(); return; }
@@ -193,7 +194,7 @@
     if (!track || !photos.length) return;
     var slides = track.querySelectorAll('.slide');
     var dots = dotsBox ? dotsBox.querySelectorAll('.car-dot') : [];
-    var total = photos.length;
+    var total = slides.length || photos.length;
     var step = 360 / total;
     var half = Math.floor(total / 2);
     var r = radius();
@@ -221,8 +222,9 @@
   }
 
   function goTo(i) {
-    if (!photos.length) return;
-    carIndex = (i + photos.length) % photos.length;
+    var n = track ? track.querySelectorAll('.slide').length : photos.length;
+    if (!n) return;
+    carIndex = (i + n) % n;
     updateCarousel();
     triggerFlash();
     scheduleAuto();
@@ -244,7 +246,13 @@
     if (grid) grid.innerHTML = '';
     if (story) story.innerHTML = '';
 
-    photos.forEach(function (p, i) {
+    var visiblePhotos = photos.filter(function (p) {
+      if (activeFilter === 'all') return true;
+      return ((p.desc || '') + ' ' + (p.title || '')).toLowerCase().indexOf(activeFilter.toLowerCase()) !== -1;
+    });
+    if (!visiblePhotos.length) visiblePhotos = photos;
+
+    visiblePhotos.forEach(function (p, i) {
       var slide = document.createElement('div');
       slide.className = 'slide';
       slide.innerHTML = '<img src="' + p.src + '" alt="' + p.title + '">' +
@@ -384,6 +392,21 @@
     } else {
       adminBtn.style.display = 'none';
     }
+  }
+
+  /* ---------- Filtre par catégorie ---------- */
+  var filterBar = document.getElementById('filterBar');
+  if (filterBar) {
+    filterBar.addEventListener('click', function (e) {
+      var chip = e.target.closest('.filter-chip');
+      if (!chip) return;
+      e.preventDefault();
+      activeFilter = chip.getAttribute('data-filter') || 'all';
+      filterBar.querySelectorAll('.filter-chip').forEach(function (b) {
+        b.classList.toggle('active', b === chip);
+      });
+      renderGallery();
+    });
   }
 
   /* ---------- Démarrage ---------- */
