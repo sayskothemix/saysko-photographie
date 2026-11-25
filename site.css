@@ -1304,14 +1304,14 @@
       background: linear-gradient(90deg, transparent, rgba(246,227,192,0.075) 45%, rgba(246,227,192,0.12) 50%, rgba(246,227,192,0.075) 55%, transparent);
       transform: rotate(24deg);
       filter: blur(10px); mix-blend-mode: screen;
-      animation: introBeamSweep 14s ease-in-out infinite;
+      animation: sayskoSweep 14s ease-in-out infinite;
     }
-    /* Balayage toujours de gauche à droite, puis retour invisible à gauche */
-    @keyframes introBeamSweep {
-      0%   { transform: rotate(18deg) translateX(55%); opacity: 0; }
+    /* Balayage Saysko : de gauche à droite, puis retour invisible */
+    @keyframes sayskoSweep {
+      0%   { transform: rotate(24deg) translateX(-12%); opacity: 0; }
       8%   { opacity: 0.5; }
-      85%  { transform: rotate(24deg) translateX(-12%); opacity: 1; }
-      100% { transform: rotate(24deg) translateX(-12%); opacity: 0; }
+      85%  { transform: rotate(18deg) translateX(55%); opacity: 1; }
+      100% { transform: rotate(18deg) translateX(55%); opacity: 0; }
     }
     /* Particules lumineuses générées en JS (aucun carré) */
     .intro-particles { position: absolute; inset: 0; }
