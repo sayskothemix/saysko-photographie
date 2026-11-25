@@ -732,17 +732,15 @@
       event.preventDefault();
       visiting = true;
 
-      // Son synkro : déclic au début de la fermeture.
+      // Un seul iris : il se ferme ici, la page de destination le réouvre.
       playShutter(audioState).catch(function (error) {
         console.error('The reflex shutter sound could not be played.', error);
       });
-
       overlay.classList.add('is-active');
       animateIris(1, 0, 800).then(function () {
         overlay.classList.add('is-closed');
-        // On garde l'iris fermé : la page de destination l'ouvrira.
         window.location.href = 'portfolio.html?iris=1';
-        return new Promise(function (resolve) { setTimeout(resolve, 800); });
+        return new Promise(function (resolve) { setTimeout(resolve, 500); });
       });
     });
   })();

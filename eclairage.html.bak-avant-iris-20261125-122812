@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schémas d'éclairage — Saysko Photographie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=13">
+<style>
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+
+/* ===== PAGE ÉCLAIRAGE ===== */
+.lc-section { margin-bottom: 64px; }
+.lc-section > h2::after {
+  content: ''; display: block; width: 52px; height: 2px; margin-top: 12px;
+  background: var(--accent); opacity: .7;
+}
+.lc-section > h2 {
+  font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.1rem; font-weight: 500;
+  color: var(--text); margin-bottom: 8px;
+}
+.lc-section > .lc-intro { color: var(--muted); max-width: 640px; line-height: 1.8; margin-bottom: 36px; font-size: .95rem; }
+.lc-subtitle {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; font-weight: 500;
+  color: var(--text); margin: 44px 0 20px; padding-top: 26px;
+  border-top: 1px solid rgba(224,189,133,0.16);
+}
+.lc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+.lc-card {
+  background: var(--surface); border: 1px solid rgba(224,189,133,0.18); border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: border-color .4s, transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
+}
+.lc-card:hover { border-color: rgba(224,189,133,0.55); transform: translateY(-6px); box-shadow: 0 26px 60px rgba(0,0,0,.55); }
+.lc-diagram { position: relative; aspect-ratio: 4/3; background: #0c0c10; overflow: hidden; }
+.lc-diagram img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lc-diagram svg { width: 100%; height: 100%; display: block; }
+/* Cartes photo : hauteur d'image fixe pour une grille alignée */
+.lc-grid > .lc-card .lc-diagram { aspect-ratio: 16/10; height: auto; }
+/* Rubrique Poses : photos verticales affichées en entier, sans couper le visage */
+#grid-poses { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+#grid-poses .lc-card .lc-diagram { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; background: #111116; }
+#grid-poses .lc-card .lc-diagram img { width: 100%; height: 100%; object-fit: contain; }
+.lc-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+.lc-body .lc-spec { margin-top: auto; align-self: flex-start; }
+.lc-body h4 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.45rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.lc-body p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin-bottom: 12px; }
+.lc-spec {
+  display: inline-block; font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--accent); border: 1px solid rgba(224,189,133,0.35); padding: 5px 12px; border-radius: 2px;
+}
+.lc-example { margin-top: 14px; }
+.lc-example img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; filter: brightness(.92) saturate(1.02); }
+.lc-example figcaption { font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 8px 0 0; }
+
+/* ===== ANIMATIONS DES FAISCEAUX ===== */
+.lc-beam { animation: lcBeamPulse 3.4s ease-in-out infinite; }
+@keyframes lcBeamPulse { 0%,100% { opacity: .16; } 50% { opacity: .34; } }
+.lc-ray { stroke-dasharray: 5 9; animation: lcRayMove 1.1s linear infinite; }
+@keyframes lcRayMove { to { stroke-dashoffset: -28; } }
+.lc-bulb { animation: lcGlow 2.6s ease-in-out infinite; }
+@keyframes lcGlow { 0%,100% { opacity: .75; } 50% { opacity: 1; } }
+.lc-sunrays { animation: lcSpin 16s linear infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes lcSpin { to { transform: rotate(360deg); } }
+.lc-haze { animation: lcHaze 5s ease-in-out infinite; }
+@keyframes lcHaze { 0%,100% { opacity: .05; } 50% { opacity: .12; } }
+.lc-sweep { animation: lcSweep 7s ease-in-out infinite; }
+@keyframes lcSweep { 0%,100% { transform: translateX(-30px); opacity: .4; } 50% { transform: translateX(30px); opacity: .9; } }
+.lc-beam2 { animation: lcBeamPulse 3.4s ease-in-out infinite reverse; }
+.lc-dust { animation: lcDust 4s ease-in-out infinite; opacity: .5; }
+@keyframes lcDust { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .8; transform: translateY(-14px); } }
+.lc-video { position: relative; margin: 32px auto 8px; max-width: 760px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,160,94,.35); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #000; }
+.lc-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .lc-beam,.lc-beam2,.lc-ray,.lc-bulb,.lc-sunrays,.lc-haze,.lc-sweep,.lc-dust { animation: none; }
+}
+@media (max-width: 900px) { .lc-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
+@media (max-width: 600px) {
+  .lc-grid { grid-template-columns: 1fr; }
+  .lc-section { margin-bottom: 48px; }
+  .lc-subtitle { margin: 32px 0 16px; padding-top: 20px; }
+  .lc-section > h2 { font-size: 1.7rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <svg class="nav-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-8h6v8"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
+  <symbol id="i-bookopen" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-5a4 4 0 0 0-4 4 4 4 0 0 0-4-4H3Z"/></symbol>
+  <symbol id="i-booktext" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-clapper" viewBox="0 0 24 24"><path d="M20 11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"/><path d="m2 11 20 0"/><path d="m5 11 2-5 3 5"/><path d="m12 11 2-5 3 5"/></symbol>
+</svg>
+    <nav>
+      <a href="index.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="house"><use href="#i-house"/></svg><span>Accueil</span></a>
+      <a href="portfolio.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="images"><use href="#i-images"/></svg><span>Galerie</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="graduation"><use href="#i-graduation"/></svg><span class="nav-lbl">Apprendre</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="eclairage.html" class="active"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="lightbulb"><use href="#i-lightbulb"/></svg><span>Éclairage</span><span class="nav-count" data-count="eclairage"></span></a>
+          <a href="cours.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="bookopen"><use href="#i-bookopen"/></svg><span>Tutoriels</span><span class="nav-count" data-count="cours"></span></a>
+          <a href="glossaire.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="booktext"><use href="#i-booktext"/></svg><span>Glossaire</span><span class="nav-count" data-count="glossaire"></span></a>
+          <a href="competences.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="award"><use href="#i-award"/></svg><span>Compétences</span></a>
+          <a href="shorts.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="clapper"><use href="#i-clapper"/></svg><span>Shorts</span></a>
+        </div>
+      </div>
+      <a href="modeles.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Modèles</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span class="nav-lbl">Qui suis-je</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="apropos.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span>Présentation</span></a>
+          <a href="collaborations.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Collaborations</span></a>
+          <a href="commentaires.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Avis &amp; Commentaires</span></a>
+        </div>
+      </div>
+      <a href="recherche.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="search"><use href="#i-search"/></svg><span>Recherche</span></a>
+      <a href="contact.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Contact</span></a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero container">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / Éclairage</div>
+  <div class="kicker">La lumière, expliquée en schémas.</div>
+  <h1>Schémas d'éclairage</h1>
+  <p>Studio, flash cobra, lumière continue, extérieur et strobisme — chaque mise en place animée, avec les réglages qui vont avec.</p>
+</div>
+
+<main class="page-main container">
+
+  <!-- ============ STUDIO : FLASH DE STUDIO ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Studio · Flash de studio</h2>
+    <p class="lc-intro reveal">Le flash de studio se règle à la main et se mesure au flashmètre. Voici les mises en place classiques, de la plus simple à la plus travaillée.</p>
+    <div class="lc-grid" id="grid-studio"></div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/sGTlys85g-s" title="Vidéo éclairage studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <h3 class="lc-subtitle reveal">Rendus réalistes</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rembrandt-triangle.png" alt="Rembrandt — triangle de lumière" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Rembrandt (triangle)</h4><p>La lumière vient de haut et de côté : un petit triangle lumineux apparaît sur la joue ombrée, sous l'œil opposé. Rendu pictural et dramatique, très flatteur pour les portraits.</p><span class="lc-spec">Softbox 60 cm · 45° haut et latéral · ratio 1:4</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Éclairage trois points — key, fill et rim" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Éclairage trois points</h4><p>Portrait studio classique de trois-quarts : trois lumières combinées. Key light (principale) chaude et dorée, venant de l'avant-gauche. Fill light (appoint) douce, qui atténue les ombres à droite. Rim light (contre-jour) : un filet brillant qui détache les cheveux et l'épaule du fond sombre. Rendu éditorial et propre.</p><span class="lc-spec">3 sources · key chaude 45° · fill douce · rim 135°</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Key light 45° — lumière principale" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Key light 45° (lumière principale)</h4><p>La source principale est placée à 45° sur le côté et au-dessus du regard. Elle modèle le volume du visage et crée l'ombre du côté opposé. Les flèches indiquent l'angle d'arrivée de la lumière.</p><span class="lc-spec">Key à 45° · 30° au-dessus · source unique · ratio 1:2</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Key light 45° — rendu face" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Key light 45° — rendu face</h4><p>Variante sans annotations : même lumière principale à 45°, vue de face. On voit nettement le côté éclairé et le côté dans l'ombre, avec un modelé plus doux que la version dure.</p><span class="lc-spec">Key à 45° · face au sujet · softbox · ratio 1:2</span></figcaption>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Aide-mémoire : 9 schémas d'éclairage</h3>
+    <figure class="lc-card reveal" style="max-width:720px;margin:0 auto">
+      <div class="lc-diagram" style="aspect-ratio:auto;display:block"><img src="schemas-eclairage-9.png" alt="Infographie : 9 schémas d'éclairage — frontal, 45°, latéral, divisé, Rembrandt, boucle, papillon, large, court" style="width:100%;height:auto;display:block"></div>
+      <figcaption class="lc-body"><h4>Les 9 éclairages de portrait</h4><p>Frontal, 45°, latéral, divisé, Rembrandt, boucle, papillon, large, court : neuf façons de placer une seule source pour transformer le même visage. Un guide à garder en tête au studio.</p><span class="lc-spec">9 schémas · une source · studio</span></figcaption>
+    </figure>
+    <h3 class="lc-subtitle reveal">Guide complet des schémas d'éclairage de portrait</h3>
+    <figure class="lc-card reveal" style="max-width:720px;margin:0 auto">
+      <div class="lc-diagram" style="aspect-ratio:auto;display:block"><img src="guide-eclairage-portrait-12.png" alt="Guide complet des schémas d'éclairage de portrait : 12 setups avec schémas et résultats" style="width:100%;height:auto;display:block"></div>
+      <figcaption class="lc-body"><h4>Douze mises en place, une même modèle</h4><p>Boucle avec éclairage d'arrière-plan, éclairage plat, papillon, split, split large, gels colorés, split avec remplissage, boucle avec contour, Rembrandt large, boucle, source proche et douce, Rembrandt avec parapluie argenté, source éloignée et douce, Rembrandt à travers un parapluie. Chaque vignette montre le placement de la source à gauche et le rendu obtenu à droite : le même visage, transformé par la lumière.</p><span class="lc-spec">12 setups · schéma + rendu · studio</span></figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ FLASH COBRA ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Studio · Flash cobra</h2>
+    <p class="lc-intro reveal">Le flash cobra (speedlight) se déclenche à distance avec un transmetteur. Léger et mobile, il change tout en extérieur comme en petit studio.</p>
+    <div class="lc-grid" id="grid-cobra"></div>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
+    <figure class="lc-card reveal" style="max-width:720px;margin:0 auto 26px">
+      <div class="lc-diagram" style="aspect-ratio:auto;display:block"><img src="flash-cobra-illustration.png" alt="Flash cobra Canon : vue arrière avec écran de réglages et vue de face avec la tête orientable" style="width:100%;height:auto;display:block"></div>
+      <figcaption class="lc-body"><h4>Anatomie d'un flash cobra</h4><p>À gauche, le dos du flash avec son écran : on y règle le mode TTL ou manuel, la puissance et le zoom. À droite, la tête orientable et sa lentille de Fresnel : en la pivotant, on rebondit la lumière sur un mur ou un plafond pour l'adoucir.</p><span class="lc-spec">Cobra · TTL/manuel · tête orientable</span></figcaption>
+    </figure>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45-v2.jpg" alt="Portrait au flash cobra — key 45°" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Le cobra en key light</h4><p>Un seul flash cobra à 45° suffit à sculpter le visage. Léger, rapide à positionner, il remplace une softbox en studio comme en déplacement.</p><span class="lc-spec">Cobra + transmetteur · 45° · 1/125</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="galerie-AB9A7835.jpg" alt="Portrait flash cobra en studio" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Cobra + diffuseur</h4><p>Un petit diffuseur devant le cobra adoucit la lumière : le rendu se rapproche du studio, avec un matériel qui tient dans une sacoche.</p><span class="lc-spec">Cobra + diffuseur · proche du sujet</span></figcaption>
+      </figure>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/sbgK8EZ60c4" title="Le flash cobra — caractéristiques et modes" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============ LUMIÈRE CONTINUE ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Lumière continue</h2>
+    <p class="lc-intro reveal">La lumière continue (LED, halogène) permet de voir le rendu en direct — idéale pour la vidéo et les débutants. Elle demande plus de puissance qu'un flash.</p>
+    <div class="lc-grid" id="grid-continu"></div>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Portrait en lumière continue douce" style="display:block"></div>
+        <figcaption class="lc-body"><h4>LED en lumière douce</h4><p>Une grande source LED proche enveloppe le visage : ce que tu vois est ce que tu obtiens. Parfait pour la vidéo et pour apprendre à lire la lumière.</p><span class="lc-spec">LED + softbox 90 cm · 45° · 1/200</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="studio-hero.jpg" alt="Setup studio lumière continue" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Le setup continu</h4><p>Panneau LED ou softbox : on règle la température de couleur et on visualise les ombres en direct, sans attendre le flash.</p><span class="lc-spec">Panneau LED · 5600 K · grande surface</span></figcaption>
+      </figure>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/qXh_phavnL0?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait studio en lumière continue — éclairage noir & blanc (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/_cng2ncDtfQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait créatif en lumière continue — Le Tech' de la photo (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============ EXTÉRIEUR ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Extérieur</h2>
+    <p class="lc-intro reveal">Dehors, on travaille avec le soleil — ou contre lui. La lumière dorée, le fill flash et le contre-jour changent complètement l'image.</p>
+    <div class="lc-grid" id="grid-exterieur"></div>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="lumiere-naturelle-pexels.jpg" alt="Portrait en lumière naturelle" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Lumière naturelle</h4><p>En extérieur, le soleil fait tout le travail. On choisit l'heure, l'angle et le sens du regard pour façonner le visage.</p><span class="lc-spec">Lumière naturelle · heure dorée</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-rim-light.png" alt="Contre-jour doré en extérieur" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Contre-jour doré</h4><p>Soleil derrière le sujet : un liseré chaud détache les cheveux. On sous-expose le fond et on laisse parler le contour.</p><span class="lc-spec">Soleil arrière · expo -1 IL · f/2.8</span></figcaption>
+      </figure>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/Kj7vUJcS2RQ" title="10 conseils pour la golden hour" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============ STROBISME ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Strobisme · Flash déporté</h2>
+    <p class="lc-intro reveal">Le flash déporté sort du axe de l'objectif : on façonne la lumière comme au studio, en plein air ou dans une pièce sans fenêtres.</p>
+    <div class="lc-grid" id="grid-strobisme"></div>
+    <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-key-light-45.jpg" alt="Flash déporté key 45°" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Le déporté en clé</h4><p>Le flash quitte l'appareil et se place à 45° : l'ombre se déplace, le volume apparaît. Le geste qui change tout.</p><span class="lc-spec">Flash déporté · 45° · transmetteur</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Flash déporté ombre dure" style="display:block"></div>
+        <figcaption class="lc-body"><h4>Flash nu et ombre nette</h4><p>Un déporté sans diffuseur dessine une ombre à bord franc : idéal pour le caractère et les rendus cinématographiques.</p><span class="lc-spec">Flash nu · 90° · ratio 1:8</span></figcaption>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Comprendre le strobisme</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>1. Sortir le flash de l'appareil</h4><p>Tout commence par un flash qui n'est plus sur la griffe : on le pose sur un pied ou on le tient à bout de bras. Le déclencheur radio (ou infrarouge) synchronise le flash avec l'appareil photo.</p><span class="lc-spec">Flash + déclencheur + pied</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>2. Régler en manuel</h4><p>En strobisme, on passe en manuel : on choisit la puissance du flash (1/1 à 1/128) et on mesure le résultat. C'est ce qui donne une lumière prévisible et répétable.</p><span class="lc-spec">Mode manuel · 1/16 à 1/4 en général</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>3. Modeler avec les accessoires</h4><p>Nu, le flash donne une ombre dure. Une softbox, un parapluie ou un diffuseur élargissent la source et adoucissent les transitions. Un snoot, lui, resserre le faisceau en spot.</p><span class="lc-spec">Softbox · parapluie · snoot · grille</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>4. Dos lumière /ombre</h4><p>La clé sculpte le visage, le fill (souvent un réflecteur) réveille les ombres, le rim détache le sujet du fond. On ajuste l'écart entre eux avec le ratio lumière.</p><span class="lc-spec">Key · fill · rim · ratio 1:2 à 1:8</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>5. Equilibrer avec l'ambiant</h4><p>En extérieur ou dans une pièce éclairée, on sous-expose le fond d'environ 1 IL pour que le flash devienne la lumière principale. Vitesse 1/200, f/4, ISO 100 sont un bon point de départ.</p><span class="lc-spec">1/200 · f/4 · ISO 100 · -1 IL</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>6. Le matériel minimal</h4><p>Un cobra, un transmetteur, un pied et un diffuseur suffisent pour commencer. Le strobisme est nomade : on fait du studio partout, sans secteur ni grande valise.</p><span class="lc-spec">Cobra + transmetteur + pied + diffuseur</span></div>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Vidéos : les bases avec Blaisefielder</h3>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/QXnVqx5j4rY?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Les bases de la photo au flash déporté (strobisme) — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/_mUONHe0wlQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Comment utiliser un flash en extérieur — guide débutant" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/0sn31OZy2CU?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Guide débutant : comprendre et utiliser un flash" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============ TRIANGLE D'EXPOSITION ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Le triangle d'exposition</h2>
+    <p class="lc-intro reveal">Une photo, c'est trois curseurs qui travaillent ensemble : <strong>l'ouverture, la vitesse et l'ISO</strong>. Baisser l'un oblige à compenser par un autre — c'est la base de tout réglage manuel.</p>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>Ouverture (diaphragme)</h4><p>Le trou de l'objectif, noté f/. Un petit chiffre (f/1.8) = grande ouverture = beaucoup de lumière et fond flou. Un grand chiffre (f/11) = peu de lumière et tout net.</p><span class="lc-spec">f/1.8 · portrait flou · f/11 · paysage net</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>Vitesse d'obturation</h4><p>Le temps pendant lequel le capteur voit la lumière. Rapide (1/1000s) = action figée. Lent (1/30s) = mouvement flou et plus de lumière. En portrait, on reste au-dessus de 1/125s.</p><span class="lc-spec">1/1000s · sport · 1/125s · portrait · 4s · feux</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>Sensibilité ISO</h4><p>L'amplification du signal. ISO 100 = image la plus propre, mais il faut beaucoup de lumière. ISO 3200 = on peut photographier dans le noir, au prix d'un grain plus visible.</p><span class="lc-spec">ISO 100 · jour · ISO 800+ · intérieur/nuit</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>Compenser : la règle d'or</h4><p>Si tu fermes d'un cran (f/2.8 → f/4), tu perds de la lumière : compense en allongeant la vitesse ou en montant l'ISO. L'œil finale reste la même, seul le rendu change.</p><span class="lc-spec">1 cran = 2× moins de lumière</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>En portrait</h4><p>On ouvre grand (f/1.8 à f/2.8) pour flouter le fond, vitesse rapide (1/200s) pour la netteté, et ISO 100 tant que la lumière le permet. La lumière sculptée fait le reste.</p><span class="lc-spec">f/1.8 · 1/200s · ISO 100</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>Au flash déporté</h4><p>Autre règle : l'ouverture et l'ISO règlent le flash sur le sujet, la vitesse règle la lumière ambiante du fond. Voilà pourquoi on sous-expose le fond avant d'ajouter le flash.</p><span class="lc-spec">1/200s · f/4 · ISO 100 · fond -1 IL</span></div>
+      </figure>
+    </div>
+
+    <h3 class="lc-subtitle reveal">Comprendre la vignette : le triangle en un coup d'œil</h3>
+    <figure class="lc-card reveal" style="max-width:720px;margin:0 auto">
+      <div class="lc-diagram" style="aspect-ratio:auto;display:block"><img src="triangle-exposition.png" alt="Vignette du triangle de l'exposition : ouverture, vitesse et ISO reliés par des lignes de compensation" style="width:100%;height:auto;display:block"></div>
+      <figcaption class="lc-body"><h4>Lire la vignette</h4><p>Chaque sommet du triangle correspond à un réglage : <strong>l'ouverture</strong> (profondeur de champ), <strong>la vitesse d'obturation</strong> (mouvement) et <strong>l'ISO</strong> (bruit et luminosité). Les petites icônes montrent l'effet de chaque valeur : à f/1.4 le fond est flou, à 1/1000s le mouvement est figé, à 12800 ISO le grain apparaît. Les lignes rouge et jaune sont des <strong>expositions équivalentes</strong> : on peut changer les trois réglages tout en gardant la même luminosité.</p><span class="lc-spec">Ouverture · Vitesse · ISO · expositions équivalentes</span></figcaption>
+    </figure>
+
+    <div class="lc-grid" style="margin-top:26px">
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>1. L'ouverture contrôle la profondeur de champ</h4><p>Notée f/, c'est l'ouverture du diaphragme. Un petit chiffre (f/1.4 à f/4) laisse entrer beaucoup de lumière et donne un arrière-plan flou — idéal en portrait. Un grand chiffre (f/8 à f/16) garde tout net, du premier plan à l'horizon — idéal en paysage. Sur la vignette, l'échelle violette va de f/1.4 en bas à f/16 au sommet.</p><span class="lc-spec">f/1.4 · flou · f/16 · tout net</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>2. La vitesse contrôle le mouvement</h4><p>La durée pendant laquelle l'obturateur laisse passer la lumière. Lente (1/8 à 1/60s), elle enregistre le filé et le flou de bougé — utile pour une cascade ou un feu d'artifice. Rapide (1/250 à 1/1000s), elle fige l'action en sport ou en portrait. Sur la vignette, l'échelle bleue monte du bas vers le sommet.</p><span class="lc-spec">1/8s · filé · 1/1000s · figé</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>3. L'ISO contrôle le bruit</h4><p>La sensibilité du capteur. À 100-200 ISO, l'image est propre et douce : c'est le réglage de jour. À 1600 ISO et plus, on gagne en luminosité mais le grain numérique apparaît et les détails fins disparaissent. Sur la vignette, l'échelle verte va de 100 (à gauche) à 12800 (à droite), avec des vélos de plus en plus bruités.</p><span class="lc-spec">ISO 100 · propre · ISO 12800 · granuleux</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>4. La compensation : garder la même exposition</h4><p>Le triangle entier tient sur une règle simple : <strong>si tu donnes moins de lumière d'un côté, tu la reprends d'un autre</strong>. Fermer d'un cran (f/2.8 → f/4) divise la lumière par deux ; compense en doublant le temps de pose (1/250 → 1/125) ou en doublant l'ISO (100 → 200). C'est exactement ce que montrent les deux lignes colorées de la vignette : deux réglages très différents, une même image.</p><span class="lc-spec">1 cran = ×2 ou ÷2 de lumière</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>5. Choisir sa priorité créative</h4><p>On ne règle pas « au hasard » : on choisit d'abord l'effet voulu. Portrait ? On ouvre à f/1.8 et on laisse l'appareil calculer vitesse et ISO. Sport ? On impose 1/1000s et on ajuste l'ouverture. Paysage ? On ferme à f/11 sur trépied. Les modes A, S et M ne sont que des façons de donner la priorité à un sommet du triangle.</p><span class="lc-spec">Priorité ouverture · vitesse · manuel</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>6. Le piège de l'ISO auto</h4><p>En laissant l'appareil gérer l'ISO, on obtient une image correctement exposée mais souvent trop bruitée en fin de journée. Gardez un œil sur la vignette : dès que l'ISO dépasse 1600, préférez ouvrir un peu plus ou ralentir légèrement la vitesse, quitte à poser l'appareil sur un support. La lumière sculptée n'en sera que plus propre.</p><span class="lc-spec">Surveiller l'ISO · privilégier le trépied</span></div>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">En vidéo</h3>
+    <div class="lc-video reveal">
+      <iframe src="https://www.youtube.com/embed/MszeJgjfZb4?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Ouverture, vitesse et sensibilité ISO — les 3 leviers (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- ============ LUMIÈRE DURE / DOUCE ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Lumière dure et douce</h2>
+    <p class="lc-intro reveal">Ce qui rend une ombre dure ou douce, ce n'est pas la puissance du flash — c'est la <strong>taille apparente de la source</strong> par rapport au sujet, et sa distance. Une petite source loin = ombres dures. Une grande source proche = ombres fondantes.</p>
+    <div class="lc-grid">
+
+      <figure class="lc-card reveal">
+        <div class="lc-diagram">
+          <img src="schemas/gemini/gm-lumiere-dure.jpg" alt="Lumière dure — ombre à bord net" style="display:block">
+        </div>
+        <figcaption class="lc-body"><h4>Lumière dure</h4><p>Une petite source donne une ombre à bord net, fort contraste : la moitié du visage est dans l'ombre, la peau et les textures sont marquées. Parfait pour le caractère et le dramatique.</p><span class="lc-spec">Flash nu ou snoot · petite source · ratio 1:8</span></figcaption>
+      </figure>
+
+      <figure class="lc-card reveal">
+        <div class="lc-diagram">
+          <img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Lumière douce — ombre fondue" style="display:block">
+        </div>
+        <figcaption class="lc-body"><h4>Lumière douce</h4><p>Une grande source proche enveloppe le visage : les ombres sont fondues, la peau est lisse et les transitions progressives. Idéal pour les portraits naturels et flatteurs.</p><span class="lc-spec">Grande softbox 90 cm ou lumière continue · proche du sujet · ratio 1:1</span></figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ============ POSES ============ -->
+  <section class="lc-section">
+    <h2 class="reveal">Poses · Le corps parle</h2>
+    <p class="lc-intro reveal">La lumière sublime, la pose raconte. Comme dans la vidéo studio de Benoit Lombard ci-dessus — quelques attitudes qui fonctionnent toujours, et comment les guider.</p>
+    <div class="lc-grid" id="grid-poses">
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-20797541.jpg" alt="Pose debout 3/4" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Le 3/4 debout</h4><p>Épaules légèrement tournées, visage vers l'objectif. La pose la plus naturelle : elle allonge le cou et sculpte les joues.</p><span class="lc-spec">À proposer en premier — 80 % des portraits</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-22121196.jpg" alt="Pose assise" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Assise, dos rond</h4><p>Assise sur le bord, dos légèrement arrondi vers l'avant : le regard monte vers l'objectif. Détendue et graphique.</p><span class="lc-spec">Fauteuil, banc, rebord — tout marche</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-35907727.jpg" alt="Regard de côté" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Regard de côté</h4><p>Le visage tourne à 45–90°, le regard reste vers l'objectif ou part au loin. La lumière key fait alors tout le travail de relief.</p><span class="lc-spec">Idéal avec une lumière sculptée</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-28863298.jpg" alt="Tête penchée" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>Tête penchée</h4><p>Une inclinaison de 10–15° casse la raideur. Demande « penche la tête un peu » — jamais plus, sinon le regard se perd.</p><span class="lc-spec">Détail qui change tout en plan serré</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-10481318.jpg" alt="Main dans les cheveux" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>La main en geste</h4><p>La main dans les cheveux, le bras levé : le geste detend le haut du corps et donne du mouvement a la pose. A demander au modele sans trop de tension.</p><span class="lc-spec">Main dans les cheveux · bras leve</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-diagram"><img src="pose-25189380.jpg" alt="Marche" style="filter:brightness(.85)"></div>
+        <figcaption class="lc-body"><h4>En mouvement</h4><p>Marche, demi-tour, retour de regard : le mouvement tue la pose figée. Déclencher en rafale et choisir l'instant.</p><span class="lc-spec">Rafale + synchro flash si besoin</span></figcaption>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Diriger un modèle : la méthode</h3>
+    <div class="lc-grid">
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>1. Commencer par le regard</h4><p>Avant la pose, dites au modèle où regarder : « regarde vers la lumière », « regarde un point au-dessus de mon épaule ». Un regard précis donne vie au portrait — un regard flou le rend absent.</p><span class="lc-spec">Donner un point précis</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>2. Verbaliser par image</h4><p>« Penche la tête », « avance le menton », « détends les épaules » : des phrases courtes et concrètes. Évitez « sois naturel » — le modèle ne sait pas ce que ça veut dire. Donnez une image : « imagine que tu viens d'entendre une blague ».</p><span class="lc-spec">Phrases courtes · images mentales</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>3. Ajuster le corps</h4><p>Épaules tournées de trois-quarts, poids sur une jambe, mains occupées (cheveux, vêtement, menton). Corrigez une articulation à la fois : trop de consignes d'un coup et le modèle se fige.</p><span class="lc-spec">3/4 · poids décalé · mains actives</span></div>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-body"><h4>4. Gagner la confiance</h4><p>Parlez pendant la séance, regardez les images sur l'écran et dites ce qui marche. Un modèle qui se sent beau se détend — et c'est cette détente, plus que la pose parfaite, qui fait la bonne photo.</p><span class="lc-spec">Encourager · montrer · détendre</span></div>
+      </figure>
+    </div>
+    <h3 class="lc-subtitle reveal">Aide-mémoire : 30 poses pour homme</h3>
+    <figure class="lc-card reveal" style="max-width:720px;margin:0 auto">
+      <div class="lc-diagram" style="aspect-ratio:auto;display:block"><img src="poses-homme-30.png" alt="Infographie : 30 meilleures poses pour homme, debout, assis, appuyé, mains dans les poches" style="width:100%;height:auto;display:block"></div>
+      <figcaption class="lc-body"><h4>Le guide des poses masculine</h4><p>Debout, assis, appuyé contre un mur, mains dans les poches : 30 idées pour un rendu naturel et assuré. À garder sous la main pendant le shooting.</p><span class="lc-spec">30 poses · naturel et confiance</span></figcaption>
+    </figure>
+  </section>
+
+</main>
+
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+</footer>
+
+<script src="site.js?v=5"></script>
+<script>
+(function () {
+  'use strict';
+  var SUBJ = { x: 205, y: 178 }; // tête du modèle
+
+  // ---- Décor : studio (cyclorama), extérieur, nuit ----
+  function decor(env, uid) {
+    if (env === 'studio') {
+      return '<defs><linearGradient id="fl-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#191920"/><stop offset=".62" stop-color="#101014"/><stop offset="1" stop-color="#0a0a0e"/></linearGradient>' +
+        '<linearGradient id="fm-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#26262f"/><stop offset="1" stop-color="#0c0c10"/></linearGradient></defs>' +
+        '<rect width="400" height="205" fill="url(#fl-' + uid + ')"/>' +
+        '<path d="M0 205 Q200 178 400 205 L400 400 L0 400 Z" fill="url(#fm-' + uid + ')"/>' +
+        '<path d="M0 205 Q200 178 400 205" fill="none" stroke="#33333e" stroke-width="1.5" opacity=".8"/>' +
+        '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".45"/>';
+    }
+    if (env === 'exterieur') {
+      return '<defs><linearGradient id="sk-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#2a3550"/><stop offset=".55" stop-color="#6b4a3a"/><stop offset="1" stop-color="#c98a4a"/></linearGradient>' +
+        '<linearGradient id="gr-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#3a3226"/><stop offset="1" stop-color="#17130e"/></linearGradient></defs>' +
+        '<rect width="400" height="400" fill="url(#sk-' + uid + ')"/>' +
+        '<rect y="255" width="400" height="145" fill="url(#gr-' + uid + ')"/>' +
+        '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".4"/>';
+    }
+    return '<defs><linearGradient id="nk-' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" stop-color="#0b0b14"/><stop offset="1" stop-color="#05050a"/></linearGradient></defs>' +
+      '<rect width="400" height="400" fill="url(#nk-' + uid + ')"/>' +
+      '<rect y="250" width="400" height="150" fill="#08080d"/>' +
+      '<ellipse cx="205" cy="330" rx="80" ry="9" fill="#000" opacity=".5"/>';
+  }
+
+  // ---- Modèle : silhouette éclairée ----
+  function subject() {
+    return '<g>' +
+      '<path d="M160 400 Q162 320 190 285 Q205 272 220 285 Q248 320 250 400 Z" fill="#1c1c24"/>' +
+      '<circle cx="205" cy="245" r="34" fill="#22222c"/>' +
+      '</g>';
+  }
+
+  // ---- Faisceau volumétrique : cône dégradé + rayons + poussière ----
+  function beam(l, uid) {
+    var col = l.color || '#ffd98f';
+    var x2 = l.tx !== undefined ? l.tx : SUBJ.x, y2 = l.ty !== undefined ? l.ty : SUBJ.y;
+    var spread = l.spread || 55;
+    var px = -(y2 - l.y), py = (x2 - l.x);
+    var pl = Math.hypot(px, py) || 1; px /= pl; py /= pl;
+    var bx1 = x2 - px * spread, by1 = y2 - py * spread;
+    var bx2 = x2 + px * spread, by2 = y2 + py * spread;
+    var tipx = l.x + (x2 - l.x) * 0.12, tipy = l.y + (y2 - l.y) * 0.12;
+    var cone = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) +
+      ' L' + bx1.toFixed(1) + ' ' + by1.toFixed(1) +
+      ' Q' + x2.toFixed(1) + ' ' + y2.toFixed(1) + ' ' + bx2.toFixed(1) + ' ' + by2.toFixed(1) + ' Z';
+    var cone2 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) +
+      ' L' + (x2 - px * spread * 0.45).toFixed(1) + ' ' + (y2 - py * spread * 0.45).toFixed(1) +
+      ' Q' + x2.toFixed(1) + ' ' + y2.toFixed(1) + ' ' + (x2 + px * spread * 0.45).toFixed(1) + ' ' + (y2 + py * spread * 0.45).toFixed(1) + ' Z';
+    var r1 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + (x2 - px * spread * 0.55).toFixed(1) + ' ' + (y2 - py * spread * 0.55).toFixed(1);
+    var r2 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + (x2 + px * spread * 0.55).toFixed(1) + ' ' + (y2 + py * spread * 0.55).toFixed(1);
+    var r3 = 'M' + tipx.toFixed(1) + ' ' + tipy.toFixed(1) + ' L' + x2 + ' ' + y2;
+    var dust = '';
+    for (var i = 0; i < 5; i++) {
+      var t = 0.25 + i * 0.14;
+      var dx = l.x + (x2 - l.x) * t + (i % 2 ? spread * 0.3 : -spread * 0.3);
+      var dy = l.y + (y2 - l.y) * t;
+      dust += '<circle cx="' + dx.toFixed(0) + '" cy="' + dy.toFixed(0) + '" r="' + (1 + (i % 3) * 0.6).toFixed(1) + '" fill="' + col + '" class="lc-dust" style="animation-delay:' + (i * 0.7).toFixed(1) + 's"/>';
+    }
+    var gid = 'bm-' + uid + '-' + l.x + '-' + l.y;
+    return '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="' + col + '" stop-opacity="0.5"/><stop offset="1" stop-color="' + col + '" stop-opacity="0.05"/></linearGradient></defs>' +
+      '<path class="lc-beam" d="' + cone + '" fill="url(#' + gid + ')"/>' +
+      '<path class="lc-beam2" d="' + cone2 + '" fill="' + col + '" opacity="0.28"/>' +
+      '<path class="lc-ray" d="' + r1 + '" stroke="' + col + '" stroke-width="1.4" fill="none"/>' +
+      '<path class="lc-ray" d="' + r2 + '" stroke="' + col + '" stroke-width="1.4" fill="none"/>' +
+      '<path class="lc-ray" d="' + r3 + '" stroke="' + col + '" stroke-width="1.8" fill="none"/>' + dust;
+  }
+
+  // ---- Sources : softbox, flash, LED panel, soleil ----
+  function light(l) {
+    var col = l.color || '#ffd98f';
+    var label = l.k ? '<text x="' + l.x + '" y="' + (l.y - 52) + '" font-size="13" font-weight="700" fill="' + col + '" font-family="Montserrat" text-anchor="middle">' + l.k + '</text>' : '';
+    var head = '', standH = 0, glow = '<circle cx="' + l.x + '" cy="' + l.y + '" r="8" fill="' + col + '" class="lc-bulb"/>';
+
+    if (l.t === 'sun') {
+      var rays = '';
+      for (var a = 0; a < 10; a++) {
+        var ang = a * Math.PI / 5;
+        rays += '<line x1="' + (l.x + Math.cos(ang) * 24).toFixed(1) + '" y1="' + (l.y + Math.sin(ang) * 24).toFixed(1) +
+          '" x2="' + (l.x + Math.cos(ang) * 38).toFixed(1) + '" y2="' + (l.y + Math.sin(ang) * 38).toFixed(1) +
+          '" stroke="#ffdf9e" stroke-width="2.5"/>';
+      }
+      return '<g class="lc-sunrays">' + rays + '</g>' +
+        '<circle cx="' + l.x + '" cy="' + l.y + '" r="22" fill="#ffdf9e"/>' +
+        '<circle cx="' + l.x + '" cy="' + l.y + '" r="34" fill="#ffdf9e" opacity="0.2"/>' + label;
+    }
+    if (l.t === 'panel') {
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-52" y="-34" width="104" height="68" rx="8" fill="#181c26" stroke="#5a6478" stroke-width="2.5"/>' +
+        '<rect x="-46" y="-28" width="92" height="56" rx="4" fill="#dfe9ff" opacity="0.9"/>' +
+        Array.apply(null, { length: 8 }).map(function (_, i) {
+          return '<line x1="' + (-34 + i * 10) + '" y1="-26" x2="' + (-34 + i * 10) + '" y2="26" stroke="#b8c4dc" stroke-width="1.4"/>';
+        }).join('') + '</g>';
+      standH = 235 - (l.y + 34);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y + 34) + '" x2="' + l.x + '" y2="' + (l.y + 34 + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        '<line x1="' + (l.x - 22) + '" y1="' + (l.y + 34 + standH) + '" x2="' + (l.x + 22) + '" y2="' + (l.y + 34 + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        glow + label;
+    }
+    if (l.t === 'led') {
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-40" y="-52" width="80" height="52" rx="5" fill="#e8ecf5" stroke="#8a94ac" stroke-width="2.5"/>' +
+        '<line x1="-26" y1="-40" x2="26" y2="-40" stroke="#aab4cc" stroke-width="2"/>' +
+        '<line x1="-26" y1="-26" x2="26" y2="-26" stroke="#aab4cc" stroke-width="2"/></g>';
+      standH = 205 - (l.y - 52);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y - 52) + '" x2="' + l.x + '" y2="' + (l.y - 52 - standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        '<line x1="' + (l.x - 20) + '" y1="' + (l.y - 52 - standH) + '" x2="' + (l.x + 20) + '" y2="' + (l.y - 52 - standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+        glow + label;
+    }
+    if (l.t === 'cobra') {
+      head = '<g transform="translate(' + l.x + ',' + l.y + ')">' +
+        '<rect x="-11" y="-18" width="22" height="34" rx="4" fill="#2a2a34" stroke="#5a5a6a" stroke-width="1.5"/>' +
+        '<rect x="-9" y="-30" width="18" height="14" rx="3" fill="#d8d8e2"/>' +
+        '<rect x="-4" y="-8" width="8" height="5" fill="#0a0a10"/></g>';
+      standH = 240 - (l.y + 16);
+      return head +
+        '<line x1="' + l.x + '" y1="' + (l.y + 16) + '" x2="' + l.x + '" y2="' + (l.y + 16 + standH) + '" stroke="#3a3a46" stroke-width="4"/>' +
+        '<line x1="' + (l.x - 14) + '" y1="' + (l.y + 16 + standH) + '" x2="' + (l.x + 14) + '" y2="' + (l.y + 16 + standH) + '" stroke="#3a3a46" stroke-width="4"/>' +
+        glow + label;
+    }
+    // flash de studio / softbox : tête orientée vers le sujet
+    var ang = (Math.atan2(SUBJ.y - l.y, SUBJ.x - l.x) * 180 / Math.PI).toFixed(1);
+    var w = l.t === 'softbox' ? 56 : 30, h = l.t === 'softbox' ? 40 : 26;
+    head = '<g transform="translate(' + l.x + ',' + l.y + ') rotate(' + ang + ')">' +
+      '<rect x="' + (-w / 2) + '" y="' + (-h / 2) + '" width="' + w + '" height="' + h + '" rx="5" fill="' + (l.t === 'softbox' ? '#e8e4da' : '#2a2a34') + '" stroke="#6a6a78" stroke-width="2"/>' +
+      '<line x1="' + (-w / 4) + '" y1="' + (-h / 2 + 7) + '" x2="' + (w / 4) + '" y2="' + (-h / 2 + 7) + '" stroke="#9a9aa8" stroke-width="1.5"/>' +
+      '<line x1="' + (-w / 4) + '" y1="2" x2="' + (w / 4) + '" y2="2" stroke="#9a9aa8" stroke-width="1.5"/></g>';
+    standH = 235 - l.y;
+    return head +
+      '<line x1="' + l.x + '" y1="' + l.y + '" x2="' + l.x + '" y2="' + (l.y + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+      '<line x1="' + (l.x - 20) + '" y1="' + (l.y + standH) + '" x2="' + (l.x + 20) + '" y2="' + (l.y + standH) + '" stroke="#3a3a46" stroke-width="5"/>' +
+      glow + label;
+  }
+
+  function diagram(setup, uid) {
+    var s = '<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">';
+    s += decor(setup.env, uid);
+    setup.lights.forEach(function (l) {
+      if (l.halo || l.t === 'sun') s += '<circle cx="' + l.x + '" cy="' + l.y + '" r="80" fill="' + (l.color || '#ffd98f') + '" class="lc-haze"/>';
+      s += beam(l, uid);
+    });
+    s += subject();
+    setup.lights.forEach(function (l) { s += light(l); });
+    s += '</svg>';
+    return s;
+  }
+
+  function card(s, i) {
+    var ex = s.img ? '<figure class="lc-example"><img src="' + s.img + '" alt="' + s.title + ' — exemple"><figcaption>Exemple réel</figcaption></figure>' : '';
+    return '<article class="lc-card reveal">' +
+      '<div class="lc-diagram">' + diagram(s, 'd' + i) + '</div>' +
+      '<div class="lc-body"><h4>' + s.title + '</h4><p>' + s.desc + '</p>' +
+      '<span class="lc-spec">' + s.spec + '</span>' + ex + '</div></article>';
+  }
+
+  var SETUPS = {
+    studio: [
+      { title: 'Un flash', desc: 'La key light seule, à 45° du sujet et légèrement au-dessus. Simple, efficace, le point de départ de tout.', spec: 'Softbox 60 cm · 45° · f/5.6 · 1/125', env: 'studio', lights: [{ t: 'softbox', x: 60, y: 105, spread: 60, k: 'K' }] },
+      { title: 'Rembrandt', desc: 'La lumière vient de haut et de côté : une ombre triangle apparaît sous le nez du côté opposé. Rendu pictural, dramatique.', spec: 'Softbox 60 cm · 45° haut · ratio 1:4', env: 'studio', lights: [{ t: 'softbox', x: 55, y: 75, spread: 50, k: 'K' }] },
+      { title: 'Loop', desc: 'Le flash forme une petite boucle d\'ombre du côté du nez, sans toucher la joue. La plus polyvalente des lumières de portrait.', spec: 'Softbox 90 cm · 45° · ratio 1:2', env: 'studio', lights: [{ t: 'softbox', x: 70, y: 125, spread: 65, k: 'K' }] },
+      { title: 'Butterfly', desc: 'Le flash est au-dessus et dans l\'axe : l\'ombre du nez forme un papillon sous la bouche. Idéal beauté et maquillage.', spec: 'Softbox 60 cm · au-dessus · ratio 1:3', env: 'studio', lights: [{ t: 'softbox', x: 205, y: 70, spread: 55, k: 'K' }] },
+      { title: 'Split', desc: 'Le flash est à 90° : une moitié du visage est éclairée, l\'autre plongée dans l\'ombre. Très cinématographique.', spec: 'Stripbox 30 cm · 90° · ratio 1:8', env: 'studio', lights: [{ t: 'flash', x: 345, y: 175, spread: 45, k: 'K' }] },
+      { title: 'Clamshell', desc: 'Deux softboxes de part et d\'autre de l\'appareil : la lumière enveloppe le visage, les ombres s\'effacent. Rendu doux et féminin.', spec: '2× softbox 60 cm · de face · ratio 1:1,5', env: 'studio', lights: [{ t: 'softbox', x: 60, y: 160, spread: 70, k: 'F' }, { t: 'softbox', x: 350, y: 160, spread: 70, k: 'K' }] }
+    ],
+    cobra: [
+      { title: 'Un cobra déporté', desc: 'Le flash cobra déclenché à distance : on le place où on veut, comme un flash de studio miniature. Le secret du strobisme portable.', spec: 'Cobra + transmetteur · 1/128 → 1/1', env: 'studio', lights: [{ t: 'cobra', x: 55, y: 140, spread: 55, k: 'K' }] },
+      { title: 'Cobra + diffuseur', desc: 'Un petit softbox ou un diffuseur sur le cobra adoucit la lumière : le rendu se rapproche d\'un flash de studio pour un coût minimal.', spec: 'Cobra + diffuseur · 45° · f/4', env: 'studio', lights: [{ t: 'cobra', x: 80, y: 115, spread: 75, k: 'K' }] },
+      { title: 'Deux cobras', desc: 'Un en clé, un en rim derrière le sujet : le contour se détache du fond. Setup nomade pour portraits et concerts.', spec: '2 cobras · key 45° + rim 135°', env: 'studio', lights: [{ t: 'cobra', x: 55, y: 125, spread: 60, k: 'K' }, { t: 'cobra', x: 355, y: 110, spread: 45, color: '#e7c6ff', tx: 235, ty: 190, k: 'R' }] }
+    ],
+    continu: [
+      { title: 'Softbox LED', desc: 'Une grande softbox à lumière continue : on voit le résultat en direct, parfait pour la vidéo et l\'apprentissage.', spec: 'LED 60 W · softbox 90 cm · 45°', env: 'studio', lights: [{ t: 'led', x: 55, y: 105, spread: 75, color: '#dfe9ff', k: 'K' }] },
+      { title: 'Banque de LED', desc: 'Un panneau LED comme une fenêtre de lumière : très doux, peu directionnel, idéal pour les ensembles et les produits.', spec: 'Panneau LED · grande surface · ratio 1:1', env: 'studio', lights: [{ t: 'panel', x: 40, y: 145, spread: 95, color: '#dfe9ff', k: 'K' }] },
+      { title: 'Continue + flash', desc: 'La lumière continue sert de fill doux pendant que le flash sculpte la clé : le meilleur des deux mondes en vidéo comme en photo.', spec: 'LED fill + flash clé · ratio 1:2', env: 'studio', lights: [{ t: 'panel', x: 45, y: 150, spread: 90, color: '#dfe9ff', k: 'F' }, { t: 'softbox', x: 330, y: 85, spread: 60, k: 'K' }] }
+    ],
+    exterieur: [
+      { title: 'Golden hour', desc: 'Le soleil bas et doré fait tout le travail : ombres longues, peau chaude. On se place dos au soleil pour un contre-jour doux.', spec: '1 h avant/après coucher · exposition -1/3', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 75, spread: 110, halo: true }] },
+      { title: 'Fill flash', desc: 'Soleil de face ou de côté : le flash déporté à 45° rééquilibre le visage sans écraser la lumière naturelle. Le rendu reste « dehors ».', spec: 'Flash déporté · 1/4 de puissance · f/4', env: 'exterieur', lights: [{ t: 'sun', x: 330, y: 70, spread: 100, halo: true }, { t: 'cobra', x: 55, y: 130, spread: 65, color: '#ffe9c4', k: 'F' }] },
+      { title: 'Contre-jour', desc: 'Le soleil derrière le sujet : silhouette ou halo doré autour des cheveux. On sous-expose le fond et on laisse le bord lumineux.', spec: 'Soleil derrière · expo -1 IL · f/2.8', env: 'exterieur', lights: [{ t: 'sun', x: 205, y: 300, spread: 80, halo: true }] }
+    ],
+    strobisme: [
+      { title: 'Deux flashs déportés', desc: 'Key light et rim light déclenchés hors caméra : le portrait studio en plein jour ou dans une pièce sombre. Le flash n\'a plus besoin d\'être sur l\'appareil.', spec: '2 flashes · key 45° + rim 135° · 1/200', env: 'nuit', lights: [{ t: 'softbox', x: 55, y: 105, spread: 65, k: 'K' }, { t: 'flash', x: 350, y: 95, spread: 45, color: '#e7c6ff', tx: 240, ty: 170, k: 'R' }] },
+      { title: 'Flash + snoot', desc: 'Un flash avec un snoot ou une grille : le faisceau devient un spot net qui isole le sujet du fond. Dramatic, économique en lumière.', spec: 'Flash + snoot · spot serré · f/4', env: 'nuit', lights: [{ t: 'flash', x: 75, y: 95, spread: 32, k: 'K' }] },
+      { title: 'Strobisme de rue', desc: 'Un cobra déclenché à la main depuis l\'ombre : la lumière sculptée en extérieur, sans studio. Technique de la photo nocturne urbaine.', spec: 'Cobra déclenché · pleine puissance · 1/125', env: 'nuit', lights: [{ t: 'cobra', x: 55, y: 135, spread: 70, k: 'K' }] }
+    ]
+  };
+
+  var uidc = 0;
+  ['studio', 'cobra', 'continu', 'exterieur', 'strobisme'].forEach(function (key) {
+    var grid = document.getElementById('grid-' + key);
+    if (grid) grid.innerHTML = SETUPS[key].map(function (s) { return card(s, uidc++); }).join('');
+  });
+})();
+</script>
+</body>
+</html>

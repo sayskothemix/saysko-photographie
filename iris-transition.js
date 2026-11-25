@@ -5,7 +5,6 @@
   if (params.get('iris') !== '1') return;
   params.delete('iris');
   var clean = location.pathname + (params.toString() ? '?' + params.toString() : '') + location.hash;
-  history.replaceState(null, '', clean);
 
   var css = document.createElement('style');
   css.textContent =
@@ -180,7 +179,11 @@
         if (p < 1) requestAnimationFrame(frame);
         else {
           wrap.classList.add('is-fading');
-          setTimeout(function () { wrap.remove(); css.remove(); }, 320);
+          setTimeout(function () {
+            wrap.remove();
+            css.remove();
+            history.replaceState(null, '', clean);
+          }, 320);
         }
       }
       requestAnimationFrame(frame);
