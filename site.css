@@ -262,8 +262,15 @@
     @keyframes diamondSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
     .section-header.visible .line::after { animation: diamondSpin 12s linear infinite; }
     .hero .kicker { animation: fadeUp 0.8s ease both; }
-    .hero h1 { animation: fadeUp 0.9s ease 0.15s both; }
-    .hero .slogan { animation: fadeUp 0.9s ease 0.3s both; }
+    .hero h1 { animation: none; }
+    /* Titre en deux temps : SAYSKO d'abord, puis PHOTOGRAPHIE, chaque mot de gauche à droite */
+    .hero .titre-saysko { display: inline-block; animation: sayskoMot 0.9s cubic-bezier(.2,.8,.2,1) 0.15s both; }
+    .hero .titre-photo { display: inline-block; animation: sayskoMot 0.9s cubic-bezier(.2,.8,.2,1) 0.75s both; }
+    @keyframes sayskoMot {
+      from { opacity: 0; transform: translateX(-28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .hero .slogan { animation: fadeUp 0.9s ease 1.15s both; }
     .hero p { animation: fadeUp 0.9s ease 0.42s both; }
     .hero .btn { animation: fadeUp 0.9s ease 0.55s both; }
     .scroll-indicator { animation: fadeUp 0.9s ease 0.8s both; }
