@@ -89,7 +89,7 @@
     nav a {
       position: relative; color: #f5f2ed; text-decoration: none;
       padding: 10px 12px; border-radius: 2px;
-      font-size: 1rem; letter-spacing: 1.4px; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
       white-space: nowrap;
       transition: color 0.3s, background 0.3s;
     }
@@ -108,7 +108,7 @@
       display: inline-flex; align-items: center; gap: 7px;
       background: none; border: 0; cursor: pointer;
       color: #f5f2ed; font-family: inherit;
-      font-size: 1rem; letter-spacing: 1.4px; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
       padding: 9px 12px; border-radius: 2px;
       transition: color 0.3s, background 0.3s;
     }
@@ -1402,7 +1402,7 @@ body { padding-top: 72px; }
 .admin-btn:hover { background: var(--accent); color: var(--bg); }
 /* ===== ICÔNES DE NAVIGATION LUCIDE (fin, doré #c9a56a) ===== */
 .nav-ico {
-  width: 21px; height: 21px; flex: 0 0 21px;
+  width: 19px; height: 19px; flex: 0 0 19px;
   color: #f0d49a; opacity: 1;
   stroke-width: 1.5;
   transition: color 0.3s ease, opacity 0.3s ease,
