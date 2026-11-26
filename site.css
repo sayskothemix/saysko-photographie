@@ -583,6 +583,8 @@
       display: grid; grid-template-columns: 340px 1fr; gap: 70px;
       align-items: center; max-width: 1000px; margin: 0 auto; text-align: left;
     }
+    .about-wrap--centered { grid-template-columns: 1fr; max-width: 720px; text-align: center; }
+    .about-wrap--centered .about-text { margin: 0 auto; }
     .about-portrait { position: relative; }
     .about-portrait::before {
       content: ''; position: absolute; inset: 14px -14px -14px 14px;
