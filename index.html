@@ -1097,27 +1097,13 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     {rate:1.0, vol:0.55, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
     {rate:0.96, vol:0.55, freq:1500, type:'lowpass', offset:86}     // 06 · Contact : calme, feutré
   ];
-  function ensureAudio(){
-    if(actx||!audio) return;
-    var AC=window.AudioContext||window.webkitAudioContext;
-    if(!AC) return;
-    actx=new AC();
-    try{
-      src=actx.createMediaElementSource(audio);
-      gain=actx.createGain(); filter=actx.createBiquadFilter();
-      src.connect(filter); filter.connect(gain); gain.connect(actx.destination);
-    }catch(e){ actx=null; }
-  }
+  // Volume piloté uniquement par audio.volume : aucun Web Audio (source d'instabilité)
+  function ensureAudio(){ /* conservé pour compatibilité, sans effet */ }
   function setAmbiance(n){
     var a=ambiances[n]||ambiances[0];
     if(!audio) return;
     audio.playbackRate=a.rate;
-    // Un seul point de volume : le gain Web Audio (audio.volume reste à 1 pour éviter les conflits)
-    if(!actx){ audio.volume=a.vol; return; }
-    if(actx.state==='suspended') actx.resume();
-    gain.gain.setTargetAtTime(a.vol,actx.currentTime,0.25);
-    filter.type=a.type;
-    filter.frequency.setTargetAtTime(a.freq,actx.currentTime,0.3);
+    audio.volume=a.vol;
     if(Math.abs(audio.currentTime-a.offset)>8){ try{audio.currentTime=a.offset;}catch(e){} }
   }
   document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
