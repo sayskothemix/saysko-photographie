@@ -4,6 +4,19 @@
 (function () {
   'use strict';
 
+  /* ---------- Retour à la version mobile ---------- */
+  (function () {
+    var fromMobile = false;
+    try { fromMobile = sessionStorage.getItem('saysko_from_mobile') === '1'; } catch (e) {}
+    if (!fromMobile) return;
+    var a = document.createElement('a');
+    a.href = 'mobile.html';
+    a.textContent = '◄ Mobile';
+    a.setAttribute('aria-label', 'Retour à la version mobile');
+    a.style.cssText = 'position:fixed;left:10px;bottom:10px;z-index:9999;padding:9px 13px;background:rgba(8,11,18,.92);border:1px solid rgba(169,199,232,.5);color:#a9c7e8;font:600 .62rem Montserrat,sans-serif;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.5)';
+    document.body.appendChild(a);
+  })();
+
   /* ---------- Reveal au scroll ---------- */
   var reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {

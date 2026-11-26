@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b12">
+<meta name="description" content="Saysko Photographie — version mobile : portraits, studio, strobisme et tutoriels gratuits.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Saysko">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>Saysko Photographie — Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080b12;--text:#f2f5f9;--muted:#b9c6d8;--accent:#a9c7e8;--line:rgba(169,199,232,.3)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;background:var(--bg);color:var(--text);font-family:Montserrat,sans-serif;-webkit-text-size-adjust:100%}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent);text-decoration:none}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;margin:0}
+header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;height:calc(56px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 16px 0;background:rgba(8,11,18,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--text)}
+.brand span{color:var(--accent);font-size:.55rem;display:block;letter-spacing:2px}
+.sound{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(169,199,232,.08);color:var(--accent);font-size:1rem;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+.sound.off{opacity:.5}
+main{padding-top:calc(56px + env(safe-area-inset-top));padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+.chapter{min-height:calc(100dvh - 118px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:34px 18px 30px;display:flex;flex-direction:column;justify-content:center;position:relative;border-bottom:1px solid rgba(169,199,232,.12);scroll-margin-top:calc(56px + env(safe-area-inset-top))}
+.chapter:nth-child(odd){background:rgba(169,199,232,.025)}
+.chapter::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,rgba(169,199,232,.07),transparent 65%)}
+.kicker{color:var(--accent);font-size:.6rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.chapter h2{font-size:clamp(2rem,9vw,2.9rem);line-height:1.05;margin-bottom:6px}
+.chapter h2 em{font-style:italic;color:var(--accent)}
+.rule{width:52px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:16px 0}
+.chapter p{color:var(--muted);font-size:.88rem;line-height:1.6;margin:0 0 14px}
+.chapter img.photo{width:100%;max-height:44dvh;object-fit:cover;object-position:center 35%;border:1px solid var(--line);border-radius:3px;margin:16px 0;box-shadow:0 16px 36px rgba(0,0,0,.45)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:13px 20px;border:1px solid var(--accent);color:var(--accent);background:rgba(169,199,232,.05);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:background .2s,transform .12s}
+.btn.solid{background:var(--accent);color:var(--bg);font-weight:600}
+.btn:active{transform:scale(.97);background:rgba(169,199,232,.2)}
+.btn.solid:active{background:var(--text)}
+.gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 14px;-webkit-overflow-scrolling:touch}
+.gallery figure{flex:0 0 78%;margin:0;scroll-snap-align:center}
+.gallery img{width:100%;height:44dvh;object-fit:cover;border:1px solid var(--line)}
+.gallery figcaption{font-size:.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:8px}
+.contact-email{display:inline-flex;align-items:center;min-height:50px;padding:8px 12px;margin-bottom:12px;border:1px solid var(--line);border-radius:3px;background:rgba(169,199,232,.06);font-size:.9rem;word-break:break-all;-webkit-tap-highlight-color:transparent}
+form{display:flex;flex-direction:column;gap:10px}
+input,textarea{width:100%;padding:12px 14px;background:rgba(169,199,232,.06);border:1px solid var(--line);color:var(--text);border-radius:2px;font-family:inherit;font-size:.9rem}
+textarea{min-height:96px;resize:vertical}
+.status{font-size:.75rem;color:var(--accent);min-height:1em}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;min-height:calc(62px + env(safe-area-inset-bottom));display:flex;align-items:flex-start;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:rgba(8,11,18,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:48px;font-size:.55rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);flex:1;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+nav a.active{color:var(--accent)}
+nav a b{font-size:1.15rem;font-weight:400;line-height:1}
+footer{padding:26px 18px calc(90px + env(safe-area-inset-bottom));text-align:center;font-size:.62rem;color:var(--muted);line-height:1.7}
+footer a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;-webkit-tap-highlight-color:transparent}
+a.desktop-link{display:inline-flex;margin-top:18px;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:0 14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Saysko<span>Photographie</span></div>
+  <button class="sound" id="sound" type="button" aria-label="Couper la musique">♫</button>
+</header>
+
+<main>
+  <section class="chapter" id="c1" data-step="1">
+    <div class="kicker">01 · Le studio</div>
+    <h2>La lumière <em>sculpte</em> l'image.</h2>
+    <div class="rule"></div>
+    <p>Portraits travaillés au flash, lumière maîtrisée et images qui racontent une histoire. Bienvenue dans mon studio.</p>
+    <img class="photo" src="galerie-AB9A7835.jpg" alt="Portrait en lumière dorée">
+    <div class="actions"><a class="btn solid" href="portfolio.html">Voir la galerie</a></div>
+  </section>
+
+  <section class="chapter" id="c2" data-step="2">
+    <div class="kicker">02 · Qui suis-je</div>
+    <h2>Derrière <em>l'objectif</em>.</h2>
+    <div class="rule"></div>
+    <p>Spécialisé en photo de studio et en strobisme : flash, réflecteurs, ombres portées et contrastes travaillés pour donner du relief au sujet.</p>
+    <img class="photo" src="bg-about.jpg" alt="Le photographe">
+    <div class="actions"><a class="btn" href="competences.html">Mes compétences</a><a class="btn" href="apropos.html">À propos</a></div>
+  </section>
+
+  <section class="chapter" id="c3" data-step="3">
+    <div class="kicker">03 · Le matériel</div>
+    <h2>Un boîtier, <em>une intention</em>.</h2>
+    <div class="rule"></div>
+    <p>Canon EOS 5D Mark IV sur trépied, un flash déporté, une softbox, un réflecteur. Le matériel reste simple ; c'est la lumière qui parle.</p>
+    <img class="photo" src="canon-face.jpg" alt="Canon EOS 5D Mark IV de face">
+    <div class="actions"><a class="btn" href="https://discord.gg/DeJSVe7xM">Rejoindre le live 🎧</a></div>
+  </section>
+
+  <section class="chapter" id="c4" data-step="4">
+    <div class="kicker">04 · La retouche</div>
+    <h2>Le travail <em>de l'image</em>.</h2>
+    <div class="rule"></div>
+    <p>La prise de vue n'est que la moitié du chemin. Lightroom et Capture One révèlent ce que l'œil a vu au moment du déclenchement.</p>
+    <img class="photo" src="bg-retouche.jpg" alt="Station de retouche">
+    <div class="actions"><a class="btn" href="cours.html">Voir les tutoriels</a></div>
+  </section>
+
+  <section class="chapter" id="c5" data-step="5">
+    <div class="kicker">05 · La formation</div>
+    <h2>Apprendre <em>la retouche</em>.</h2>
+    <div class="rule"></div>
+    <p>Des tutoriels pas à pas, en français et gratuits : Lightroom, Capture One, strobisme et prise de vue.</p>
+    <img class="photo" src="station-retouche-3ecrans.jpg" alt="Salle de formation">
+    <div class="actions"><a class="btn solid" href="cours.html">Accéder aux tutoriels</a><a class="btn" href="https://discord.gg/DeJSVe7xM">Live Discord</a></div>
+  </section>
+
+  <section class="chapter" id="c6" data-step="6">
+    <div class="kicker">06 · La galerie</div>
+    <h2>Entrez dans <em>mon univers</em>.</h2>
+    <div class="rule"></div>
+    <p>Portraits, lumière sculptée et instants volés. Glissez pour parcourir.</p>
+    <div class="gallery" id="gallery"></div>
+    <div class="actions"><a class="btn" href="portfolio.html">Tout le portfolio</a></div>
+  </section>
+
+  <section class="chapter" id="c7" data-step="7">
+    <div class="kicker">07 · Contact</div>
+    <h2>Me <em>contacter</em>.</h2>
+    <div class="rule"></div>
+    <p>Une collaboration, une commande ou simplement un bonjour ?</p>
+    <a class="contact-email" href="mailto:sayskothemix+contact@gmail.com">sayskothemix+contact@gmail.com</a>
+    <form id="contactForm">
+      <input id="cfName" type="text" placeholder="Votre nom" required>
+      <input id="cfEmail" type="email" placeholder="vous@exemple.com" required>
+      <textarea id="cfMessage" placeholder="Votre message..." required></textarea>
+      <button class="btn solid" type="submit">Envoyer</button>
+      <div class="status" id="cfStatus"></div>
+    </form>
+  </section>
+
+  <footer>
+    Saysko Photographie · Leur bonheur est ma plus belle image.<br>
+    Musique : <a href="https://pixabay.com/fr/users/bodleasons-28047609/">BoDleasons</a> — <a href="https://pixabay.com/music/">Pixabay</a><br>
+    <button class="btn" id="installBtn" type="button" hidden style="margin-top:14px">Installer l'application</button>
+    <a class="desktop-link" href="index.html?desktop=1">Version web complète</a>
+  </footer>
+</main>
+
+<nav aria-label="Chapitres">
+  <a href="#c1" class="active"><b>⌂</b>Studio</a>
+  <a href="#c3"><b>◎</b>Matériel</a>
+  <a href="#c5"><b>✎</b>Apprendre</a>
+  <a href="#c6"><b>▣</b>Galerie</a>
+  <a href="#c7"><b>✉</b>Contact</a>
+</nav>
+
+<audio id="bgMusic" src="audio/lofi-retouche.mp3" loop preload="auto"></audio>
+<script>
+(function(){
+  'use strict';
+  // Application installable (PWA) : fonctionne hors ligne après première visite.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+  var deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var btn = document.getElementById('installBtn');
+    if (btn) btn.hidden = false;
+  });
+  var installBtn = document.getElementById('installBtn');
+  if (installBtn) installBtn.addEventListener('click', function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt = null;
+    this.hidden = true;
+  });
+
+  // Garder un fil mobile dans les pages internes ouvertes depuis ici.
+  try{ sessionStorage.setItem('saysko_from_mobile','1'); }catch(e){}
+
+  // Galerie
+  var photos=[
+    {src:'galerie-AB9A7835.jpg',title:'Lumière dorée'},
+    {src:'galerie-AB9A7833_2.jpg',title:'Noir & blanc'},
+    {src:'galerie-portrait_nette.jpg',title:'Portrait studio'},
+    {src:'galerie-AB9A7956.jpg',title:'Shooting couple'},
+    {src:'galerie-AB9A7830.jpg',title:'Denim'},
+    {src:'shooting-exterieur.jpg',title:'Extérieur'}
+  ];
+  var g=document.getElementById('gallery');
+  photos.forEach(function(p){
+    var f=document.createElement('figure');
+    f.innerHTML='<img src="'+p.src+'" alt="'+p.title+'" loading="lazy"><figcaption>'+p.title+'</figcaption>';
+    g.appendChild(f);
+  });
+
+  // Son : un seul morceau, pas de bug de fondu.
+  var a=document.getElementById('bgMusic'), btn=document.getElementById('sound');
+  a.volume=0.5;
+  function play(){ var p=a.play(); if(p&&p.catch)p.catch(function(){}); }
+  try{ if(sessionStorage.getItem('saysko_mobile_muted')==='1') a.muted=true; }catch(e){}
+  function paint(){ btn.classList.toggle('off',a.muted); btn.setAttribute('aria-label',a.muted?'Activer la musique':'Couper la musique'); }
+  function unlock(){ if(!a.muted) play(); document.removeEventListener('pointerdown',unlock); }
+  document.addEventListener('pointerdown',unlock);
+  btn.addEventListener('click',function(){
+    a.muted=!a.muted;
+    try{ sessionStorage.setItem('saysko_mobile_muted',a.muted?'1':'0'); }catch(e){}
+    if(!a.muted) play(); paint();
+  });
+  paint();
+
+  // Navigation basse : clic fiable sur iOS et Android
+  document.querySelectorAll('nav a').forEach(function(link){
+    link.addEventListener('click',function(e){
+      var target=document.querySelector(link.getAttribute('href'));
+      if(!target) return;
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+      document.querySelectorAll('nav a').forEach(function(l){ l.classList.toggle('active',l===link); });
+    });
+  });
+
+  // Navigation active au scroll
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var sections=links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){
+        links.forEach(function(l,i){ l.classList.toggle('active',sections[i]===e.target); });
+      }});
+    },{rootMargin:'-45% 0px -45% 0px'});
+    sections.forEach(function(s){ if(s) io.observe(s); });
+  }
+
+  // Formulaire de contact — même service que la version web (FormSubmit)
+  var form=document.getElementById('contactForm');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var status=document.getElementById('cfStatus');
+    status.textContent='Envoi en cours…';
+    var data=new FormData(form);
+    data.append('_subject','Contact site mobile');
+    fetch('https://formsubmit.co/ajax/sayskothemix%2Bcontact@gmail.com',{
+      method:'POST',body:data,headers:{'Accept':'application/json'}
+    }).then(function(r){ status.textContent=r.ok?'Message envoyé, merci !':'Envoi impossible, écrivez-moi par email.'; })
+      .catch(function(){ status.textContent='Envoi impossible, écrivez-moi par email.'; });
+  });
+})();
+</script>
+</body>
+</html>

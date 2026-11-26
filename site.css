@@ -1757,3 +1757,14 @@ body.has-cursor-halo::after { opacity: 1; }
 .carousel-viewport.is-dragging .carousel-track { transition: transform 0.12s ease-out; }
 .carousel-viewport.is-dragging .slide { transition: transform 0.12s ease-out, opacity 0.2s ease, filter 0.2s ease; }
 
+/* ---------- MOBILE GLOBAL : éviter tout débordement horizontal ---------- */
+@media (max-width: 700px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+  main, section, .container, article, .accordion, details, summary { max-width: 100%; box-sizing: border-box; }
+  img, svg, video, iframe { max-width: 100%; height: auto; }
+  .accordion-content, details > div, pre, code { overflow-wrap: anywhere; word-break: break-word; }
+  .cours-subsep span { white-space: normal !important; letter-spacing: 1.5px; }
+  .cours-subsep::after { display: none; }
+  table { display: block; max-width: 100%; overflow-x: auto; }
+}
+
