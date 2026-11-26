@@ -43,8 +43,12 @@ main{padding-top:calc(56px + env(safe-area-inset-top));padding-bottom:calc(70px 
 .btn.solid{background:var(--accent);color:var(--bg);font-weight:600}
 .btn:active{transform:scale(.97);background:rgba(169,199,232,.2)}
 .btn.solid:active{background:var(--text)}
-.gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 14px;-webkit-overflow-scrolling:touch}
-.gallery figure{flex:0 0 78%;margin:0;scroll-snap-align:center}
+.gallery-wrap{display:flex;align-items:center;gap:6px;width:100%}
+.gal-btn{flex:0 0 48px;height:64px;border:1px solid var(--line);background:rgba(169,199,232,.08);color:var(--accent);font-size:1.8rem;line-height:1;border-radius:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.gal-btn:active{background:var(--accent);color:var(--bg)}
+.gallery{flex:1;min-width:0;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.gallery::-webkit-scrollbar{display:none}
+.gallery figure{flex:0 0 86%;margin:0;scroll-snap-align:center}
 .gallery img{width:100%;height:44dvh;object-fit:cover;border:1px solid var(--line)}
 .gallery figcaption{font-size:.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:8px}
 .contact-email{display:inline-flex;align-items:center;min-height:50px;padding:8px 12px;margin-bottom:12px;border:1px solid var(--line);border-radius:3px;background:rgba(169,199,232,.06);font-size:.9rem;word-break:break-all;-webkit-tap-highlight-color:transparent}
@@ -118,7 +122,11 @@ a.desktop-link{display:inline-flex;margin-top:18px;font-size:.62rem;letter-spaci
     <h2>Entrez dans <em>mon univers</em>.</h2>
     <div class="rule"></div>
     <p>Portraits, lumière sculptée et instants volés. Glissez pour parcourir.</p>
-    <div class="gallery" id="gallery"></div>
+    <div class="gallery-wrap">
+      <button class="gal-btn" id="galPrev" type="button" aria-label="Photo précédente">‹</button>
+      <div class="gallery" id="gallery"></div>
+      <button class="gal-btn" id="galNext" type="button" aria-label="Photo suivante">›</button>
+    </div>
     <div class="actions"><a class="btn" href="portfolio.html">Tout le portfolio</a></div>
   </section>
 
@@ -207,6 +215,22 @@ a.desktop-link{display:inline-flex;margin-top:18px;font-size:.62rem;letter-spaci
     f.innerHTML='<img src="'+p.src+'" alt="'+p.title+'" loading="lazy"><figcaption>'+p.title+'</figcaption>';
     g.appendChild(f);
   });
+  var galIndex=0;
+  function move(dir){
+    var cards=[].slice.call(g.querySelectorAll('figure'));
+    if(!cards.length) return;
+    galIndex=Math.max(0,Math.min(cards.length-1,galIndex+dir));
+    var left=cards[galIndex].offsetLeft - (g.clientWidth-cards[galIndex].offsetWidth)/2;
+    g.scrollTo({left:left,behavior:'smooth'});
+  }
+  g.addEventListener('scroll',function(){
+    var cards=[].slice.call(g.querySelectorAll('figure'));
+    var best=0, d=Infinity;
+    cards.forEach(function(c,i){ var v=Math.abs(c.offsetLeft-g.scrollLeft); if(v<d){d=v;best=i;} });
+    galIndex=best;
+  });
+  document.getElementById('galPrev').addEventListener('click',function(){ move(-1); });
+  document.getElementById('galNext').addEventListener('click',function(){ move(1); });
 
   // Son : un seul morceau, pas de bug de fondu.
   var a=document.getElementById('bgMusic'), btn=document.getElementById('sound');
