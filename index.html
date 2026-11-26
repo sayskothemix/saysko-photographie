@@ -188,7 +188,7 @@
 
 /* ========== CHAPITRES HORIZONTAUX ========== */
 html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
-.chapters { position: fixed; inset: 0; overflow: hidden; }
+.chapters { position: fixed; inset: 0; overflow: hidden; overflow-x: hidden; overscroll-behavior-x: none; }
 .chapters-track { display: flex; height: 100%; width: 100%; transition: transform .8s cubic-bezier(.76,0,.24,1); }
 .chapter { flex: 0 0 100vw; width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding: 100px 0 90px; position: relative; }
 .chapter::-webkit-scrollbar { display: none; }
@@ -382,7 +382,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
       <div class="player-info"><span class="player-title">Ambiance · Studio</span><span class="player-sub">Saysko · Studio</span></div>
       <div class="player-bars"><i></i><i></i><i></i><i></i></div>
     </div>
-    <div class="kicker">Photo de studio &amp; strobisme</div>
+    <div class="kicker">Bienvenue · Photo de studio &amp; strobisme</div>
     <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
     <div class="slogan">La lumière sculpte vos émotions au cœur de chaque image.</div>
     <p>Des portraits travaillés au flash, une lumière maîtrisée et des images qui racontent une histoire. Bienvenue dans mon studio.</p>
@@ -1147,8 +1147,8 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   });
   var lock=false;
   window.addEventListener('wheel',function(e){
-    // Scroll horizontal bloqué sur la page d'accueil (molette / trackpad)
-    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); return; }
+    e.preventDefault(); // la page d'accueil ne doit jamais défiler
+    if(Math.abs(e.deltaX)>1) return; // horizontal ignoré
     if(lock) return;
     if(Math.abs(e.deltaY)<12) return;
     lock=true; go(i+(e.deltaY>0?1:-1));
@@ -1156,6 +1156,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   },{passive:false});
   var x0=null;
   window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  window.addEventListener('touchmove',function(e){ e.preventDefault(); },{passive:false});
   window.addEventListener('touchend',function(e){
     if(x0===null) return;
     var dx=e.changedTouches[0].clientX-x0;
