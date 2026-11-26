@@ -10,7 +10,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="site.css?v=26">
+<link rel="stylesheet" href="site.css?v=27">
 <script>
   try {
     if (localStorage.getItem("saysko_intro_seen") === "1") {
@@ -33,10 +33,14 @@
 
   /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
   main { padding-top: 72px; }
-  #portfolio { padding: 34px 0 64px; }
-  #portfolio .section-header { margin-bottom: 26px; }
-  #portfolio .carousel { max-width: 760px; }
-  #portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 14px; }
+  #portfolio { padding: 26px 0 34px; }
+  #portfolio .section-header { margin-bottom: 22px; }
+  #portfolio .carousel { max-width: 900px; }
+  #portfolio .carousel-viewport { aspect-ratio: 16 / 7.2; }
+  #portfolio .slide { width: min(56%, 540px); height: 80%; }
+  #portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 18px; }
+  #portfolio .univers-more { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 12px; }
+  #portfolio .univers-intro { margin: 0; max-width: 620px; color: var(--muted); font-size: 0.9rem; line-height: 1.6; font-style: italic; text-align: center; }
   .about-wrap { padding-bottom: 10px; }
   #contact { padding-bottom: 90px; }
   /* ---------- MENU MOBILE ---------- */
@@ -276,7 +280,14 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 </head>
 <body class="home">
 
-<audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
+<!-- Une ambiance par chapitre : un seul élément joué à la fois, fondu en douceur. -->
+<audio id="bgMusic" src="audio/amb-studio.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="1" src="audio/amb-about.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="2" src="audio/amb-materiel.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="3" src="audio/lofi-retouche.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="4" src="audio/amb-galerie.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="5" src="audio/amb-contact.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="6" src="audio/amb-contact.mp3" loop preload="auto"></audio>
 <div class="site-controls">
   <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
@@ -562,6 +573,10 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
           <div class="car-dots" id="carDots"></div>
           <div class="car-count" id="carCount"></div>
         </div>
+        <div class="univers-more">
+          <p class="univers-intro">Portraits, lumière sculptée et instants volés — bienvenue dans mon regard.</p>
+          <a href="portfolio.html?iris=1" class="btn btn-outline">Voir tout le portfolio</a>
+        </div>
       </div>
     </div>
   </section>
@@ -608,10 +623,10 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 
 <footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(201,212,227,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
-  <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Musique : <a href="https://pixabay.com/fr/users/kulakovka-47183261/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Alex Shulgin</a> — <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Pixabay</a></div>
+  <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Ambiances : Pixabay &nbsp;·&nbsp; Lo-fi retouche : <a href="https://pixabay.com/fr/users/bodleasons-28047609/" style="color:inherit;">BoDleasons</a> — <a href="https://pixabay.com/music/" style="color:inherit;">Pixabay</a></div>
 </footer>
 
-<script src="site.js?v=9"></script>
+<script src="site.js?v=11"></script>
 <script>
 (function () {
   'use strict';
@@ -965,11 +980,14 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
   var blocked = false;
-  if (audio) { audio.loop = true; audio.volume = 1; audio.muted = false; startMusic(); updateSoundUI(); }
+  var allTracks=[audio].concat([].slice.call(document.querySelectorAll('.amb-track'))).filter(Boolean);
+  if (audio) { audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;
-    var p = audio.play();
+    // Ne lancer que la piste active ; les autres restent prêtes à jouer.
+    var active=allTracks[window.__sayskoCurrentChapter||0]||audio;
+    var p=active.play();
     if (p && typeof p.catch === 'function') p.catch(function () {
       // Autoplay bloqué par le navigateur : on attend un clic utilisateur.
       blocked = true;
@@ -992,7 +1010,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     // On ne réactive jamais le son si l'utilisateur l'a coupé via le bouton.
     if (audio.muted) return;
     blocked = false;
-    audio.muted = false;
+    allTracks.forEach(function(t){ t.muted=false; });
     startMusic();
     updateSoundUI();
   }
@@ -1008,8 +1026,9 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
       started = true;
       blocked = false;
       // Si le son est coupé, on l'active ; sinon on le coupe.
-      audio.muted = !audio.muted;
-      if (!audio.muted) startMusic();
+      var off=!audio.muted;
+      allTracks.forEach(function(t){ t.muted=off; });
+      if (!off) startMusic();
       updateSoundUI();
     });
   }
@@ -1120,25 +1139,42 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     chapters[i].scrollTop=0;
     setAmbiance(i);
   }
-  /* Ambiances sonores : même morceau, filtrage et tempo adaptés à chaque chapitre */
+  /* Ambiances sonores : une piste par chapitre, fondu en douceur, sans Web Audio */
   var audio=document.getElementById('bgMusic');
-  var actx=null, src=null, gain=null, filter=null;
-  var ambiances=[
-    {rate:0.94, vol:0.55, freq:900, type:'lowpass', offset:0},      // 01 · Le studio : chaud, feutré
-    {rate:0.98, vol:0.55, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
-    {rate:0.96, vol:0.55, freq:1400, type:'lowpass', offset:31},    // 03 · Le matériel : mécanique, précis
-    {rate:0.9, vol:0.55, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
-    {rate:0.97, vol:0.55, freq:1800, type:'lowpass', offset:52},    // 05 · La formation : concentré
-    {rate:1.0, vol:0.55, freq:2600, type:'lowpass', offset:64},     // 06 · La galerie : lumineux
-    {rate:0.96, vol:0.55, freq:1500, type:'lowpass', offset:86}     // 07 · Contact : calme, feutré
-  ];
-  // Volume piloté uniquement par audio.volume : aucun Web Audio (source d'instabilité)
+  var tracks=[audio].concat([].slice.call(document.querySelectorAll('.amb-track')));
+  var MASTER=0.55, current=0;
+  var fades=new WeakMap();
+  tracks.forEach(function(t){ t.volume=0; t.loop=true; });
+  // Première piste audible dès l'ouverture.
+  tracks[0].volume=MASTER;
   function ensureAudio(){ /* conservé pour compatibilité, sans effet */ }
+  function fadeTo(a, target, done){
+    var t0=performance.now();
+    var old=fades.get(a);
+    if(old) cancelAnimationFrame(old);
+    (function tick(now){
+      var k=Math.min(1,(now-t0)/350);
+      a.volume=Math.max(0,Math.min(1,target*k));
+      if(k<1){ fades.set(a,requestAnimationFrame(tick)); }
+      else { fades.delete(a); if(done) done(); }
+    })(t0);
+  }
   function setAmbiance(n){
-    var a=ambiances[n]||ambiances[0];
-    if(!audio) return;
-    // Lecture continue : ni saut dans le morceau, ni changement de vitesse (source du "trou")
-    audio.volume=a.vol;
+    if(!tracks.length) return;
+    n=Math.max(0,Math.min(tracks.length-1,n));
+    window.__sayskoCurrentChapter=n;
+    if(n===current) return;
+    var next=tracks[n], prev=tracks[current];
+    current=n;
+    // La nouvelle piste démarre à zéro puis monte ; l'ancienne descend puis se met en pause.
+    next.volume=0;
+    var p=next.play();
+    if(p&&typeof p.catch==='function') p.catch(function(){});
+    fadeTo(next,MASTER);
+    if(prev && prev!==next){
+      fadeTo(prev,0,function(){ if(prev!==tracks[current]) prev.pause(); });
+    }
+    if(prev===next) next.volume=MASTER;
   }
   document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
   document.addEventListener('keydown',function(){ensureAudio();setAmbiance(i);},{once:true});
@@ -1170,6 +1206,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 (function(){
   var a=document.getElementById('bgMusic');
   if(!a) return;
+  var tracks=[a].concat([].slice.call(document.querySelectorAll('.amb-track')));
   var players=[...document.querySelectorAll('.chapter-player')];
   function paint(){
     var on=!a.muted;
@@ -1180,12 +1217,16 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     if(!btn) return;
     btn.addEventListener('pointerdown',function(e){
       e.preventDefault(); e.stopPropagation();
-      a.muted=!a.muted;
-      if(!a.muted){var pl=a.play();if(pl&&pl.catch)pl.catch(function(){});}
+      var off=!a.muted;
+      tracks.forEach(function(t){t.muted=off;});
+      if(!off){
+        var active=tracks[window.__sayskoCurrentChapter||0]||a;
+        var pl=active.play(); if(pl&&pl.catch)pl.catch(function(){});
+      }
       paint();
     });
   });
-  a.addEventListener('play',paint); a.addEventListener('pause',paint); a.addEventListener('volumechange',paint);
+  tracks.forEach(function(t){ t.addEventListener('play',paint); t.addEventListener('pause',paint); t.addEventListener('volumechange',paint); });
   paint();
   window.__sayskoPlayerPaint=paint;
 })();

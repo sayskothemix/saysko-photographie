@@ -196,7 +196,7 @@
 
   function radius() {
     var w = viewport ? viewport.clientWidth : 980;
-    return Math.max(Math.round(w * 0.38), 340);
+    return Math.max(Math.round(w * 0.48), 420);
   }
 
   function updateCarousel() {
