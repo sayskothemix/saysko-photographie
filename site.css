@@ -585,7 +585,9 @@
     }
     .about-wrap--centered { grid-template-columns: 1fr; max-width: 720px; text-align: center; }
     .about-wrap--centered .about-text { margin: 0 auto; }
+    #materiel .about-portrait img { aspect-ratio: 3/2; object-fit: contain; background: #0a0e16; }
     .about-portrait { position: relative; }
+    .photo-credit { margin-top: 10px; color: var(--muted); font-size: 0.6rem; letter-spacing: .5px; line-height: 1.4; opacity: .75; }
     .about-portrait::before {
       content: ''; position: absolute; inset: 14px -14px -14px 14px;
       border: 1px solid rgba(111,159,216,0.4); z-index: 0;
