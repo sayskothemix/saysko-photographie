@@ -1102,9 +1102,8 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   function setAmbiance(n){
     var a=ambiances[n]||ambiances[0];
     if(!audio) return;
-    audio.playbackRate=a.rate;
+    // Lecture continue : ni saut dans le morceau, ni changement de vitesse (source du "trou")
     audio.volume=a.vol;
-    if(Math.abs(audio.currentTime-a.offset)>8){ try{audio.currentTime=a.offset;}catch(e){} }
   }
   document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
   document.addEventListener('keydown',function(){ensureAudio();setAmbiance(i);},{once:true});
