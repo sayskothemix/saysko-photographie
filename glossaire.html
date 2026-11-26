@@ -146,6 +146,50 @@
 @media (max-width: 600px) {
   .gloss-index a { width: 32px; height: 32px; font-size: 0.72rem; }
 }
+
+/* ===== MODALE D'ILLUSTRATION DES FICHES ===== */
+.gloss-card { cursor: pointer; }
+.gloss-card::after {
+  content: '↗ voir'; position: absolute; top: 12px; right: 14px;
+  font-size: .62rem; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--accent); opacity: 0; transition: opacity .25s;
+}
+.gloss-card { position: relative; }
+.gloss-card:hover::after, .gloss-card:focus-visible::after { opacity: .75; }
+.gloss-card:hover { border-color: var(--accent); }
+.gloss-modal {
+  position: fixed; inset: 0; z-index: 1000; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+  background: rgba(4,5,9,.86); backdrop-filter: blur(8px);
+}
+.gloss-modal.open { display: flex; animation: glossIn .25s ease both; }
+.gloss-modal-inner {
+  position: relative; max-width: 960px; width: 100%;
+  background: #0d1017; border: 1px solid rgba(201,165,106,.45);
+  border-radius: 12px; padding: 22px; box-shadow: 0 30px 90px rgba(0,0,0,.7);
+}
+.gloss-modal-close {
+  position: absolute; top: 10px; right: 12px; width: 34px; height: 34px;
+  border-radius: 50%; border: 1px solid rgba(201,165,106,.4);
+  background: rgba(201,165,106,.08); color: var(--accent);
+  font-size: 1rem; cursor: pointer; line-height: 1;
+}
+.gloss-modal-close:hover { background: var(--accent); color: #0b0b0d; }
+.gloss-modal h3 {
+  margin: 0 0 4px; font-family: var(--serif, Georgia, serif);
+  font-size: 1.8rem; font-weight: 400; color: var(--accent-2, #e3eefc);
+}
+.gloss-modal .gm-en {
+  font-size: .72rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.gloss-modal img {
+  display: block; width: 100%; max-height: 60vh; object-fit: contain;
+  border-radius: 8px; border: 1px solid rgba(201,165,106,.2); background: #080b12;
+}
+.gloss-modal p { color: var(--muted); font-size: .9rem; line-height: 1.6; margin: 16px 0 0; }
+.gloss-modal .gm-note { font-size: .75rem; opacity: .7; }
+@media (max-width: 600px) { .gloss-modal h3 { font-size: 1.4rem; } }
 </style>
 </head>
 <body>
@@ -372,5 +416,71 @@
 
   <script src="site-music.js"></script>
   <script src="iris-transition.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+    // Associe chaque terme du glossaire à un schéma déjà présent sur le site.
+    var IMG = {
+      'key light': ['schemas/gemini/gm-key-light-45.jpg', 'La lumière principale à 45°, au-dessus du regard.'],
+      'fill light': ['schemas/gemini/gm-lumiere-douce.png', 'Un appoint doux qui relève les ombres sans les effacer.'],
+      'rim light': ['schemas/gemini/gm-rim-light.png', 'Le contre-jour qui dessine le contour du sujet.'],
+      'softbox': ['schemas/gemini/gm-lumiere-douce.png', 'Une grande source proche : ombres fondues, peau lisse.'],
+      'snoot': ['schemas/gemini/gm-lumiere-dure.jpg', 'Un faisceau resserré en spot précis.'],
+      'grille': ['schemas/gemini/gm-lumiere-dure.jpg', 'La grille canalise la lumière et évite la dispersion.'],
+      'flash': ['flash-cobra-illustration.png', 'Une impulsion brève et puissante, synchronisée avec l’obturateur.'],
+      'hss': ['schema-hss.png', 'La synchronisation haute vitesse : ouvrir en plein jour sans surexposer.'],
+      'carré inverse': ['schema-tiers.png', 'Éloigner le flash de deux fois divise sa lumière par quatre.'],
+      'ratio': ['schemas/gemini/gm-rembrandt-triangle.png', 'Le rapport d’intensité entre les sources contrôle le contraste.'],
+      'parapluie': ['bg-studio-softbox.jpg', 'Un diffuseur rond et peu coûteux qui élargit la lumière.']
+    };
+    var modal = document.createElement('div');
+    modal.className = 'gloss-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.innerHTML = '<div class="gloss-modal-inner">' +
+      '<button type="button" class="gloss-modal-close" aria-label="Fermer">✕</button>' +
+      '<h3></h3><div class="gm-en"></div><img alt=""><p></p>' +
+      '<p class="gm-note">Appuyez sur Échap ou cliquez hors de la fenêtre pour fermer.</p></div>';
+    document.body.appendChild(modal);
+    var h3 = modal.querySelector('h3'), en = modal.querySelector('.gm-en');
+    var img = modal.querySelector('img'), desc = modal.querySelector('p');
+
+    function open(term, sub, definition) {
+      var key = term.toLowerCase();
+      var found = IMG[key];
+      h3.textContent = term;
+      en.textContent = sub || '';
+      if (found) {
+        img.src = found[0]; img.alt = 'Illustration : ' + term; img.style.display = 'block';
+        desc.textContent = found[1];
+      } else {
+        img.removeAttribute('src'); img.style.display = 'none';
+        desc.textContent = definition + ' (illustration à venir)';
+      }
+      modal.classList.add('open');
+      modal.querySelector('.gloss-modal-close').focus();
+    }
+    function close() { modal.classList.remove('open'); }
+
+    document.querySelectorAll('.gloss-card').forEach(function (card) {
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.addEventListener('click', function () {
+        open(
+          (card.querySelector('.gloss-term') || {}).textContent || '',
+          (card.querySelector('.gloss-en') || {}).textContent || '',
+          (card.querySelector('p') || {}).textContent || ''
+        );
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+      });
+    });
+    modal.querySelector('.gloss-modal-close').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  })();
+  </script>
 </body>
 </html>
