@@ -333,26 +333,26 @@
     .slate-label { font-size: 0.55rem; letter-spacing: 3px; color: var(--accent); opacity: 0.7; }
     .slate-num {
       font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.6rem;
-      color: var(--text); line-height: 1; border: 1px solid rgba(111,159,216,0.4);
+      color: var(--text); line-height: 1; border: 1px solid rgba(224,189,133,0.35);
       padding: 2px 10px; background: rgba(11,11,13,0.5);
     }
     .slide {
       position: absolute; top: 50%; left: 50%;
       width: min(64%, 620px); height: 86%;
-      cursor: pointer; overflow: hidden; background: #0d1420;
+      cursor: pointer; overflow: hidden; background: #0c0c0e;
       backface-visibility: hidden;
       transform-origin: center center;
       padding: 10px; box-sizing: border-box;
-      border: 1px solid rgba(111,159,216,0.38);
+      border: 1px solid rgba(224,189,133,0.28);
       box-shadow: 0 18px 42px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.45);
       transition: transform 1.15s cubic-bezier(.2,.8,.2,1), opacity 1.05s ease,
                   filter 1.05s ease, border-color 0.5s ease, box-shadow 0.6s ease;
     }
     /* Épreuve photo : fine baguette dorée et ombre portée réaliste */
     .slide.is-active {
-      border-color: rgba(111,159,216,0.85);
+      border-color: rgba(224,189,133,0.75);
       box-shadow: 0 34px 80px rgba(0,0,0,0.78), 0 8px 22px rgba(0,0,0,0.5),
-                  0 0 55px rgba(111,159,216,0.16), inset 0 0 110px rgba(0,0,0,0.38);
+                  0 0 46px rgba(224,189,133,0.09), inset 0 0 110px rgba(0,0,0,0.38);
     }
     /* Reflet de softbox qui suit le curseur — rendu photo ultra-réaliste */
     .slide.is-active::before {
@@ -368,14 +368,14 @@
     .slide::after {
       content: ''; position: absolute; inset: 6px; pointer-events: none; z-index: 4;
       background:
-        linear-gradient(var(--accent), var(--accent)) left top / 16px 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left top / 1px 16px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right top / 16px 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right top / 1px 16px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left bottom / 16px 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) left bottom / 1px 16px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right bottom / 16px 1px no-repeat,
-        linear-gradient(var(--accent), var(--accent)) right bottom / 1px 16px no-repeat;
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) left top / 16px 1px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) left top / 1px 16px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) right top / 16px 1px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) right top / 1px 16px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) left bottom / 16px 1px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) left bottom / 1px 16px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) right bottom / 16px 1px no-repeat,
+        linear-gradient(rgba(224,189,133,0.75), rgba(224,189,133,0.75)) right bottom / 1px 16px no-repeat;
       opacity: 0.5;
     }
     .slide img {
