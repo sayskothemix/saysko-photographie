@@ -377,6 +377,22 @@ body { padding-bottom: 64px; }
   }
 
 
+/* ===== Salle de retouche : identité visuelle de la page Tutoriels ===== */
+.page-hero { position: relative; overflow: hidden; padding: 90px 0 50px; }
+.page-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: url('station-retouche-3ecrans.jpg');
+  background-size: cover; background-position: center 45%;
+  filter: blur(3px) brightness(0.42) saturate(0.9);
+  transform: scale(1.06); pointer-events: none;
+}
+.page-hero::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(7,10,18,0.55) 0%, rgba(7,10,18,0.35) 50%, var(--bg, #08070a) 100%);
+  pointer-events: none;
+}
+.page-hero > * { position: relative; z-index: 1; }
+
 /* ===== FOND STUDIO SEMI-FLOUTE (section A propos) ===== */
 #apropos { position: relative; overflow: hidden; }
 #apropos::before {
