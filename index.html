@@ -194,9 +194,8 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 .chapter::-webkit-scrollbar { display: none; }
 .chapter[data-ambiance="studio"] {
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(111,159,216,.08) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(8,11,18,.94) 0%, rgba(8,11,18,.72) 55%, rgba(8,11,18,.95) 100%),
-    url("studio-hero.jpg") center center / cover no-repeat;
+    radial-gradient(ellipse at 50% 45%, rgba(7,10,18,.18) 0%, rgba(7,10,18,.62) 100%),
+    url("bg-studio-softbox.jpg") center center / cover no-repeat;
 }
 .chapter[data-ambiance="about"] {
   background:
@@ -444,7 +443,6 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
         <div class="about-text reveal">
           <div class="about-kicker">Dans le boîtier</div>
           <p>Un <strong>Canon 5D Mark IV</strong> sur trépied, piloté depuis l'ordinateur en prise de vue connectée. Un seul flash déporté, une softbox, un réflecteur — et la lumière devient un langage.</p>
-          <p>Je shoote à la maison : pas de local, mais un coin de studio improvvisé, un fond sombre et la patience de chercher le bon angle. Le matériel reste simple ; c'est l'intention qui fait l'image.</p>
           <a class="btn" href="competences.html">Voir mes compétences</a>
           <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">
             <span class="live-dot"></span> Rejoindre le live 🎧
@@ -933,7 +931,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
   var blocked = false;
-  if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
+  if (audio) { audio.loop = true; audio.volume = 1; audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;
@@ -1092,12 +1090,12 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   var audio=document.getElementById('bgMusic');
   var actx=null, src=null, gain=null, filter=null;
   var ambiances=[
-    {rate:0.94, vol:0.42, freq:900, type:'lowpass', offset:0},      // 01 · Le studio : chaud, feutré
-    {rate:0.98, vol:0.38, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
-    {rate:0.96, vol:0.4, freq:1400, type:'lowpass', offset:31},     // 03 · Le matériel : mécanique, précis
-    {rate:0.9, vol:0.34, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
-    {rate:1.0, vol:0.44, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
-    {rate:0.92, vol:0.3, freq:1300, type:'lowpass', offset:86}      // 06 · Contact : calme, feutré
+    {rate:0.94, vol:0.55, freq:900, type:'lowpass', offset:0},      // 01 · Le studio : chaud, feutré
+    {rate:0.98, vol:0.55, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
+    {rate:0.96, vol:0.55, freq:1400, type:'lowpass', offset:31},    // 03 · Le matériel : mécanique, précis
+    {rate:0.9, vol:0.55, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
+    {rate:1.0, vol:0.55, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
+    {rate:0.96, vol:0.55, freq:1500, type:'lowpass', offset:86}     // 06 · Contact : calme, feutré
   ];
   function ensureAudio(){
     if(actx||!audio) return;
@@ -1114,8 +1112,8 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     var a=ambiances[n]||ambiances[0];
     if(!audio) return;
     audio.playbackRate=a.rate;
-    audio.volume=a.vol;
-    if(!actx) return;
+    // Un seul point de volume : le gain Web Audio (audio.volume reste à 1 pour éviter les conflits)
+    if(!actx){ audio.volume=a.vol; return; }
     if(actx.state==='suspended') actx.resume();
     gain.gain.setTargetAtTime(a.vol,actx.currentTime,0.25);
     filter.type=a.type;
