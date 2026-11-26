@@ -109,6 +109,20 @@
       <div class="msg" id="passMsg"></div>
     </div>
 
+    <div class="card adminOnly hidden" id="liveCard">
+      <h2>Annonce Live 🎧</h2>
+      <p style="color:var(--muted);font-size:.85rem">Prévient le serveur Discord « Saysko In The Mix » que tu passes en live. Le message apparaît dans le salon 🎧 Saysko Live 🥳.</p>
+      <div class="row">
+        <div><label for="liveTitle">Titre du live</label><input id="liveTitle" placeholder="🎧 Saysko en live — studio photo"></div>
+        <div><label for="liveUrl">Lien à partager (facultatif)</label><input id="liveUrl" placeholder="https://discord.gg/DeJSVe7xM"></div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem">
+        <button id="liveStart">🔴 Annoncer le live</button>
+        <button id="liveStop" class="ghost">■ Terminer le live</button>
+      </div>
+      <div class="msg" id="liveMsg"></div>
+    </div>
+
     <div class="card adminOnly hidden" id="resetCard">
       <h2>Zone sensible</h2>
       <p style="color:var(--muted);font-size:.85rem">Réinitialise la galerie et l’email avec les valeurs par défaut du serveur.</p>
@@ -178,6 +192,18 @@
     });
   };
   $('logoutBtn').onclick = function(){ api('/api/logout',{method:'POST'}).then(load); };
+
+  function announceLive(kind){
+    var title = ($('liveTitle').value || '').trim() || '🎧 Saysko en live — studio photo';
+    var link = ($('liveUrl').value || '').trim() || 'https://discord.gg/DeJSVe7xM';
+    msg('liveMsg', kind === 'start' ? 'Envoi de l’annonce…' : 'Envoi de la fin de live…');
+    api('/api/live', { method:'POST', body:{ kind:kind, title:title, url:link } }).then(function(d){
+      if (d && d.ok) msg('liveMsg', kind === 'start' ? '🔴 Live annoncé sur Discord.' : '■ Fin de live annoncée.', true);
+      else msg('liveMsg', (d && d.error) || 'Serveur live indisponible (lancez node server-live.js).', false);
+    }).catch(function(){ msg('liveMsg','Serveur live indisponible (lancez node server-live.js).',false); });
+  }
+  $('liveStart').onclick = function(){ announceLive('start'); };
+  $('liveStop').onclick = function(){ announceLive('stop'); };
 
   $('addPhoto').onclick = function(){
     var body = { title:$('npTitle').value.trim(), src:$('npSrc').value.trim(), desc:$('npDesc').value.trim() };
