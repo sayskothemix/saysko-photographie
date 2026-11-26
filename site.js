@@ -416,11 +416,16 @@
         }
         if (ok) { name.value = ''; email.value = ''; msg.value = ''; }
       }
-      fetch('/api/message', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.value.trim(), email: email.value.trim(), message: msg.value.trim() })
+      var body = new FormData();
+      body.append('name', name.value.trim());
+      body.append('email', email.value.trim());
+      body.append('message', msg.value.trim());
+      body.append('_subject', 'Message depuis le site — Saysko Photographie');
+      body.append('_replyto', email.value.trim());
+      fetch('https://formsubmit.co/ajax/sayskothemix%2Bcontact@gmail.com', {
+        method: 'POST', body: body
       }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).then(function (d) {
-        done(!!(d && d.ok));
+        done(!!(d && (d.success === 'true' || d.success === true)));
       }).catch(function () {
         done(false);
       });
