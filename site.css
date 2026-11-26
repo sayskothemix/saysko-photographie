@@ -1728,7 +1728,11 @@ body.has-cursor-halo::after { opacity: 1; }
 
 /* Respiration entre les sections de la page d'accueil */
 #apropos, #contact { padding-top: 140px; padding-bottom: 140px; }
-#portfolio { padding-top: 40px; padding-bottom: 40px; }
+#portfolio { padding-top: 34px; padding-bottom: 64px; }
+#portfolio .section-header { margin-bottom: 26px; }
+#portfolio .carousel { max-width: 760px; }
+#portfolio .carousel-viewport { aspect-ratio: 16 / 9; }
+#portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 14px; }
 @media (max-width: 600px) {
   #apropos, #contact { padding-top: 90px; padding-bottom: 90px; }
   #portfolio { padding-top: 24px; padding-bottom: 24px; }

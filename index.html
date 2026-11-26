@@ -33,7 +33,10 @@
 
   /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
   main { padding-top: 72px; }
-  #portfolio { padding: 90px 0 20px; }
+  #portfolio { padding: 34px 0 64px; }
+  #portfolio .section-header { margin-bottom: 26px; }
+  #portfolio .carousel { max-width: 760px; }
+  #portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 14px; }
   .about-wrap { padding-bottom: 10px; }
   #contact { padding-bottom: 90px; }
   /* ---------- MENU MOBILE ---------- */
@@ -213,7 +216,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 .chapter[data-ambiance="formation"] {
   background: linear-gradient(90deg, rgba(8,11,18,.86) 0%, rgba(8,11,18,.55) 45%, rgba(8,11,18,.86) 100%), url("station-retouche-3ecrans.jpg") center center / cover no-repeat;
 }
-.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.82) 0%, rgba(8,11,18,.48) 45%, rgba(8,11,18,.82) 100%), url("bg-galerie.jpg") center center / cover no-repeat; }
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.88) 0%, rgba(8,11,18,.72) 45%, rgba(8,11,18,.88) 100%), url("bg-galerie.png") center center / cover no-repeat; }
 .chapter[data-ambiance="contact"] { background: linear-gradient(90deg, rgba(8,11,18,.86) 0%, rgba(8,11,18,.55) 45%, rgba(8,11,18,.86) 100%), url("bg-contact.jpg") center center / cover no-repeat; }
 .chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
 /* Navigation */
@@ -253,7 +256,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 
 
 /* ===== FONDS ANIMÉS (CSS/SVG/Canvas) — galerie & contact ===== */
-.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.82) 0%, rgba(8,11,18,.48) 45%, rgba(8,11,18,.82) 100%), url("bg-galerie.jpg") center center / cover no-repeat; }
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.88) 0%, rgba(8,11,18,.72) 45%, rgba(8,11,18,.88) 100%), url("bg-galerie.png") center center / cover no-repeat; }
 .chapter[data-ambiance="contact"] { background: linear-gradient(90deg, rgba(8,11,18,.86) 0%, rgba(8,11,18,.55) 45%, rgba(8,11,18,.86) 100%), url("bg-contact.jpg") center center / cover no-repeat; }
 .fond-anime { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .fond-anime canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .85; }
