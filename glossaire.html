@@ -190,6 +190,62 @@
 .gloss-modal p { color: var(--muted); font-size: .9rem; line-height: 1.6; margin: 16px 0 0; }
 .gloss-modal .gm-note { font-size: .75rem; opacity: .7; }
 @media (max-width: 600px) { .gloss-modal h3 { font-size: 1.4rem; } }
+
+/* ===== VIGNETTES DYNAMIQUES : RETOURNEMENT PENDANT LE MOUVEMENT ===== */
+.gloss-grid { perspective: 1400px; }
+.gloss-card {
+  transform-style: preserve-3d;
+  min-height: 210px;
+  transition: border-color .4s, box-shadow .4s;
+}
+/* La carte entière garde son flottement (floatY dans site.css) et tourne en continu */
+.gloss-grid .gloss-card:nth-child(3n)     { animation: floatFlipA 11s ease-in-out infinite; }
+.gloss-grid .gloss-card:nth-child(3n+1)   { animation: floatFlipB 13s ease-in-out infinite; }
+.gloss-grid .gloss-card:nth-child(3n+2)   { animation: floatFlipC 15s ease-in-out infinite; }
+@keyframes floatFlipA {
+  0%   { transform: translateY(0) rotateY(0deg); }
+  35%  { transform: translateY(-8px) rotateY(0deg); }
+  50%  { transform: translateY(-10px) rotateY(180deg); }
+  65%  { transform: translateY(-8px) rotateY(180deg); }
+  100% { transform: translateY(0) rotateY(360deg); }
+}
+@keyframes floatFlipB {
+  0%   { transform: translateY(0) rotateY(0deg); }
+  30%  { transform: translateY(-6px) rotateY(0deg); }
+  50%  { transform: translateY(-9px) rotateY(-180deg); }
+  70%  { transform: translateY(-6px) rotateY(-180deg); }
+  100% { transform: translateY(0) rotateY(-360deg); }
+}
+@keyframes floatFlipC {
+  0%   { transform: translateY(0) rotateY(0deg); }
+  40%  { transform: translateY(-7px) rotateY(0deg); }
+  55%  { transform: translateY(-9px) rotateY(180deg); }
+  75%  { transform: translateY(-5px) rotateY(180deg); }
+  100% { transform: translateY(0) rotateY(360deg); }
+}
+/* Deux faces : texte devant, illustration derrière */
+.gloss-card .gloss-face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; padding: 14px; text-align: center;
+}
+.gloss-card .gloss-back { transform: rotateY(180deg); }
+.gloss-card .gloss-back img {
+  width: 100%; max-height: 150px; object-fit: cover;
+  border-radius: 6px; border: 1px solid rgba(201,165,106,.35);
+}
+.gloss-card .gloss-back span {
+  font-size: .62rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); opacity: .85;
+}
+.gloss-card .gloss-back.empty {
+  font-size: .72rem; color: var(--muted); font-style: italic; padding: 20px;
+}
+.gloss-card > .gloss-term, .gloss-card > .gloss-en, .gloss-card > p { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .gloss-grid .gloss-card { animation: none !important; }
+}
 </style>
 </head>
 <body>
@@ -429,6 +485,7 @@
       'snoot': ['schemas/gemini/gm-lumiere-dure.jpg', 'Un faisceau resserré en spot précis.'],
       'grille': ['schemas/gemini/gm-lumiere-dure.jpg', 'La grille canalise la lumière et évite la dispersion.'],
       'flash': ['flash-cobra-illustration.png', 'Une impulsion brève et puissante, synchronisée avec l’obturateur.'],
+      'flashmètre': ['sekonic-l858d.jpg', 'Un Sekonic Speedmaster L-858D : mesure la lumière du flash pour régler l’exposition.'],
       'hss': ['schema-hss.png', 'La synchronisation haute vitesse : ouvrir en plein jour sans surexposer.'],
       'carré inverse': ['schema-tiers.png', 'Éloigner le flash de deux fois divise sa lumière par quatre.'],
       'ratio': ['schemas/gemini/gm-rembrandt-triangle.png', 'Le rapport d’intensité entre les sources contrôle le contraste.'],
@@ -466,6 +523,22 @@
     document.querySelectorAll('.gloss-card').forEach(function (card) {
       card.setAttribute('tabindex', '0');
       card.setAttribute('role', 'button');
+      // Face arrière : illustration qui apparaît pendant le retournement
+      var term = (card.querySelector('.gloss-term') || {}).textContent || '';
+      var found = IMG[term.toLowerCase()];
+      var back = document.createElement('div');
+      back.className = 'gloss-face gloss-back' + (found ? '' : ' empty');
+      if (found) {
+        var pic = document.createElement('img');
+        pic.src = found[0]; pic.alt = 'Illustration : ' + term; pic.loading = 'lazy';
+        back.appendChild(pic);
+        var cap = document.createElement('span');
+        cap.textContent = term;
+        back.appendChild(cap);
+      } else {
+        back.textContent = 'Illustration à venir';
+      }
+      card.appendChild(back);
       card.addEventListener('click', function () {
         open(
           (card.querySelector('.gloss-term') || {}).textContent || '',
