@@ -1147,11 +1147,13 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   });
   var lock=false;
   window.addEventListener('wheel',function(e){
+    // Scroll horizontal bloqué sur la page d'accueil (molette / trackpad)
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); return; }
     if(lock) return;
     if(Math.abs(e.deltaY)<12) return;
     lock=true; go(i+(e.deltaY>0?1:-1));
     setTimeout(function(){lock=false;},900);
-  },{passive:true});
+  },{passive:false});
   var x0=null;
   window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
   window.addEventListener('touchend',function(e){
