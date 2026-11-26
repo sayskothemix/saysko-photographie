@@ -1146,14 +1146,8 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);}
   });
   var lock=false;
-  window.addEventListener('wheel',function(e){
-    e.preventDefault(); // la page d'accueil ne doit jamais défiler
-    if(Math.abs(e.deltaX)>1) return; // horizontal ignoré
-    if(lock) return;
-    if(Math.abs(e.deltaY)<12) return;
-    lock=true; go(i+(e.deltaY>0?1:-1));
-    setTimeout(function(){lock=false;},900);
-  },{passive:false});
+  // Roulette désactivée sur l'accueil : navigation uniquement par flèches / boutons / dots
+  window.addEventListener('wheel',function(e){ e.preventDefault(); },{passive:false});
   var x0=null;
   window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
   window.addEventListener('touchmove',function(e){ e.preventDefault(); },{passive:false});
