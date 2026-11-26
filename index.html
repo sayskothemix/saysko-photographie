@@ -10,7 +10,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="stylesheet" href="site.css?v=23">
 <script>
   try {
     if (localStorage.getItem("saysko_intro_seen") === "1") {
@@ -185,6 +185,78 @@
 }
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+/* ========== CHAPITRES HORIZONTAUX ========== */
+html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
+.chapters { position: fixed; inset: 0; overflow: hidden; }
+.chapters-track { display: flex; height: 100%; width: 100%; transition: transform .8s cubic-bezier(.76,0,.24,1); }
+.chapter { flex: 0 0 100vw; width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding: 100px 0 90px; position: relative; }
+.chapter::-webkit-scrollbar { display: none; }
+.chapter[data-ambiance="studio"] { background: radial-gradient(ellipse at 50% 30%, #1a1714 0%, #0a0908 70%); }
+.chapter[data-ambiance="about"] { background: radial-gradient(ellipse at 30% 40%, #17161b 0%, #09090c 70%); }
+.live-btn { display:inline-flex; align-items:center; gap:9px; margin-left:10px; border-color:rgba(224,189,133,.55); background:rgba(224,189,133,.08); color:var(--accent); }
+.live-btn:hover { background:rgba(224,189,133,.18); }
+.live-dot { width:8px; height:8px; border-radius:50%; background:#ff4d5e; box-shadow:0 0 0 0 rgba(255,77,94,.6); animation:livePulse 1.8s infinite; }
+@keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(255,77,94,.55)} 70%{box-shadow:0 0 0 8px rgba(255,77,94,0)} 100%{box-shadow:0 0 0 0 rgba(255,77,94,0)} }
+.chapter[data-ambiance="retouche"] {
+  background: linear-gradient(90deg, rgba(8,11,18,.88) 0%, rgba(8,11,18,.58) 45%, rgba(8,11,18,.88) 100%), url("bg-retouche.png") center center / cover no-repeat;
+}
+.chapter[data-ambiance="galerie"] { background: radial-gradient(ellipse at 50% 40%, #1a150f 0%, #080706 72%); }
+.chapter[data-ambiance="contact"] { background: radial-gradient(ellipse at 50% 60%, #181512 0%, #070707 72%); }
+.chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
+/* Navigation */
+.chapter-nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; align-items: center; gap: 16px; }
+.chapter-arrow { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,9,11,.7); border: 1px solid rgba(224,189,133,.45); color: var(--accent); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: .25s; }
+.chapter-arrow:hover { background: var(--accent); color: #0b0b0d; }
+.chapter-arrow:disabled { opacity: .25; cursor: default; }
+.chapter-dots { display: flex; gap: 10px; }
+.chapter-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(224,189,133,.55); background: transparent; cursor: pointer; padding: 0; transition: .25s; }
+.chapter-dot.active { background: var(--accent); box-shadow: 0 0 12px rgba(224,189,133,.6); }
+.chapter-label { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); z-index: 300; color: var(--accent); font-family: "Montserrat",sans-serif; font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
+/* Retouche */
+.retouche-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; max-width: 1100px; margin: 40px auto 0; }
+.retouche-img img { width: 100%; border-radius: 4px; border: 1px solid rgba(224,189,133,.25); display: block; }
+.retouche-text .about-kicker { color: var(--accent); font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+.retouche-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+.retouche-text .btn { display: inline-block; margin-top: 10px; }
+@media (max-width: 900px) { .retouche-wrap { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .chapter-nav { bottom: 12px; } .chapter-label { bottom: 62px; } }
+
+
+/* Lecteur d'ambiance dans chaque chapitre */
+.chapter-player { position: absolute; top: 96px; right: 5%; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: rgba(10,9,11,.55); border: 1px solid rgba(224,189,133,.3); border-radius: 40px; backdrop-filter: blur(6px); }
+.player-toggle { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: .9rem; cursor: pointer; transition: .25s; }
+.player-toggle:hover { background: var(--accent); color: #0b0b0d; }
+.player-info { display: flex; flex-direction: column; line-height: 1.3; }
+.player-title { color: var(--text); font-family: "Montserrat",sans-serif; font-size: .66rem; letter-spacing: 1.2px; text-transform: uppercase; }
+.player-sub { color: var(--muted); font-size: .58rem; letter-spacing: .6px; }
+.player-bars { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.player-bars i { display: block; width: 3px; height: 5px; background: var(--accent); border-radius: 2px; opacity: .5; }
+.chapter-player.playing .player-bars i { animation: eq .9s ease-in-out infinite alternate; opacity: 1; }
+.chapter-player.playing .player-bars i:nth-child(2) { animation-delay: .2s; }
+.chapter-player.playing .player-bars i:nth-child(3) { animation-delay: .4s; }
+.chapter-player.playing .player-bars i:nth-child(4) { animation-delay: .15s; }
+@keyframes eq { from { height: 4px; } to { height: 17px; } }
+@media (max-width: 700px) { .chapter-player { top: 74px; right: 14px; padding: 6px 10px; } .player-bars { display: none; } }
+
+
+/* ===== FONDS ANIMÉS (CSS/SVG/Canvas) — galerie & contact ===== */
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.85) 0%, rgba(8,11,18,.5) 45%, rgba(8,11,18,.85) 100%), url("bg-galerie.png") center center / cover no-repeat; }
+.chapter[data-ambiance="contact"] { background: #080706; }
+.fond-anime { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.fond-anime canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .85; }
+.fond-anime::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(8,7,6,.92) 0%, rgba(8,7,6,.86) 38%, rgba(8,7,6,.45) 72%, rgba(8,7,6,.85) 100%);
+}
+.fond-anime::before {
+  content:''; position:absolute; inset:0; z-index:2; opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift .6s steps(3) infinite;
+}
+@keyframes grainShift { 0%{transform:translate(0,0)} 33%{transform:translate(-2%,1%)} 66%{transform:translate(1%,-2%)} 100%{transform:translate(0,0)} }
+.chapter[data-ambiance="galerie"] > .container, .chapter[data-ambiance="contact"] > .container { position: relative; z-index: 3; }
+
 </style>
 </head>
 <body class="home">
@@ -287,19 +359,34 @@
   </div>
 </header>
 
-<main>
+<main class="chapters" id="chapters">
+  <div class="chapters-track" id="chaptersTrack">
   <!-- ================= HERO ================= -->
-  <section class="hero">
+  <section class="chapter hero" data-chapter="01 · Le studio" data-ambiance="studio">
+    <div class="chapter-player" data-player="studio">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Studio</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="kicker">Photo de studio &amp; strobisme</div>
     <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
     <div class="slogan">La lumière sculpte vos émotions au cœur de chaque image.</div>
     <p>Des portraits travaillés au flash, une lumière maîtrisée et des images qui racontent une histoire. Bienvenue dans mon studio.</p>
-    <a class="btn" id="visitBtn" href="portfolio.html?iris=1">Visite</a>
+    <a class="btn btn-outline" id="visitBtn" href="portfolio.html?iris=1">Visite</a>
     <div class="scroll-indicator"><span class="mouse"></span>Défiler</div>
   </section>
 
   <!-- ================= A PROPOS ================= -->
-  <section id="apropos">
+  <section class="chapter" id="apropos" data-chapter="02 · Qui suis-je" data-ambiance="about">
+    <div class="chapter-player" data-player="about">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · portrait</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <h2>Qui <span>suis-je</span></h2>
@@ -323,8 +410,73 @@
     </div>
   </section>
 
+
+  <!-- ================= RETOUCHE (chapitre) ================= -->
+  <!-- ================= MATERIEL ================= -->
+  <section class="chapter" id="materiel" data-chapter="03 · Le matériel" data-ambiance="materiel">
+    <div class="chapter-player" data-player="materiel">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Matériel</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Le <span>matériel</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="about-wrap">
+        <div class="about-portrait reveal">
+          <img src="studio-hero.jpg" alt="Le studio photo de Saysko : boîtier sur trépied et fond de studio" loading="lazy">
+        </div>
+        <div class="about-text reveal">
+          <div class="about-kicker">Dans le boîtier</div>
+          <p>Un <strong>Canon 5D Mark IV</strong> sur trépied, piloté depuis l'ordinateur en prise de vue connectée. Un seul flash déporté, une softbox, un réflecteur — et la lumière devient un langage.</p>
+          <p>Je shoote à la maison : pas de local, mais un coin de studio improvvisé, un fond sombre et la patience de chercher le bon angle. Le matériel reste simple ; c'est l'intention qui fait l'image.</p>
+          <a class="btn" href="competences.html">Voir mes compétences</a>
+          <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">
+            <span class="live-dot"></span> Rejoindre le live 🎧
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="retouche" data-chapter="04 · La retouche" data-ambiance="retouche">
+    <div class="chapter-player" data-player="retouche">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Retouche</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>La <span>retouche</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="retouche-wrap">
+        <div class="retouche-img reveal">
+          <img src="avant-apres.jpg" alt="Avant / après retouche photo" loading="lazy">
+        </div>
+        <div class="retouche-text reveal">
+          <div class="about-kicker">Le travail de l'image</div>
+          <p>La prise de vue n'est que la moitié du chemin. La retouche révèle ce que l'œil a vu au moment du déclenchement : les couleurs, les contrastes, la texture de la peau.</p>
+          <p>De Lightroom à Capture One, chaque réglage sert une intention — jamais l'inverse.</p>
+          <a class="btn" href="cours.html">Voir les tutoriels</a>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ================= PORTFOLIO ================= -->
-  <section id="portfolio">
+  <section class="chapter" id="portfolio" data-chapter="05 · La galerie" data-ambiance="galerie">
+    <div class="chapter-player" data-player="galerie">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Galerie</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <h2>Entrez dans <span>mon univers</span></h2>
@@ -372,7 +524,15 @@
   </section>
 
   <!-- ================= CONTACT ================= -->
-  <section id="contact">
+  <section class="chapter" id="contact" data-chapter="06 · Contact" data-ambiance="contact">
+    <div class="fond-anime" data-fond="contact"><canvas></canvas></div>
+    <div class="chapter-player" data-player="contact">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Contact</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container contact">
       <div class="section-header reveal">
         <h2>Me <span>contacter</span></h2>
@@ -394,6 +554,13 @@
       </form>
     </div>
   </section>
+  </div>
+  <!-- Navigation des chapitres -->
+  <nav class="chapter-nav" id="chapterNav" aria-label="Navigation des chapitres">
+    <button class="chapter-arrow chapter-prev" id="chapterPrev" aria-label="Chapitre précédent">‹</button>
+    <div class="chapter-dots" id="chapterDots"></div>
+    <button class="chapter-arrow chapter-next" id="chapterNext" aria-label="Chapitre suivant">›</button>
+  </nav>
 </main>
 
 <footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
@@ -880,5 +1047,189 @@
   </script>
 
   <script src="iris-transition.js"></script>
+
+<div class="chapter-label" id="chapterLabel"></div>
+<script>
+(function(){
+  var track=document.getElementById('chaptersTrack');
+  if(!track) return;
+  document.documentElement.classList.add('chapters-mode');
+  var chapters=[...track.querySelectorAll('.chapter')];
+  var dots=document.getElementById('chapterDots');
+  var label=document.getElementById('chapterLabel');
+  var prev=document.getElementById('chapterPrev');
+  var next=document.getElementById('chapterNext');
+  var i=0;
+  chapters.forEach(function(c,n){
+    var b=document.createElement('button');
+    b.className='chapter-dot'+(n===0?' active':'');
+    b.setAttribute('aria-label','Chapitre '+(n+1));
+    b.addEventListener('click',function(){go(n);});
+    dots.appendChild(b);
+  });
+  var dotEls=[...dots.children];
+  function go(n){
+    i=Math.max(0,Math.min(chapters.length-1,n));
+    track.style.transform='translateX(-'+(i*100)+'vw)';
+    dotEls.forEach(function(d,k){d.classList.toggle('active',k===i);});
+    label.textContent=chapters[i].dataset.chapter||'';
+    prev.disabled=i===0; next.disabled=i===chapters.length-1;
+    chapters[i].scrollTop=0;
+    setAmbiance(i);
+  }
+  /* Ambiances sonores : même morceau, filtrage et tempo adaptés à chaque chapitre */
+  var audio=document.getElementById('bgMusic');
+  var actx=null, src=null, gain=null, filter=null;
+  var ambiances=[
+    {rate:0.94, vol:0.42, freq:900, type:'lowpass', offset:0},      // 01 · Le studio : chaud, feutré
+    {rate:0.98, vol:0.38, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
+    {rate:0.96, vol:0.4, freq:1400, type:'lowpass', offset:31},     // 03 · Le matériel : mécanique, précis
+    {rate:0.9, vol:0.34, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
+    {rate:1.0, vol:0.44, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
+    {rate:0.92, vol:0.3, freq:1300, type:'lowpass', offset:86}      // 06 · Contact : calme, feutré
+  ];
+  function ensureAudio(){
+    if(actx||!audio) return;
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    actx=new AC();
+    try{
+      src=actx.createMediaElementSource(audio);
+      gain=actx.createGain(); filter=actx.createBiquadFilter();
+      src.connect(filter); filter.connect(gain); gain.connect(actx.destination);
+    }catch(e){ actx=null; }
+  }
+  function setAmbiance(n){
+    var a=ambiances[n]||ambiances[0];
+    if(!audio) return;
+    audio.playbackRate=a.rate;
+    audio.volume=a.vol;
+    if(!actx) return;
+    if(actx.state==='suspended') actx.resume();
+    gain.gain.setTargetAtTime(a.vol,actx.currentTime,0.25);
+    filter.type=a.type;
+    filter.frequency.setTargetAtTime(a.freq,actx.currentTime,0.3);
+    if(Math.abs(audio.currentTime-a.offset)>8){ try{audio.currentTime=a.offset;}catch(e){} }
+  }
+  document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  document.addEventListener('keydown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  prev.addEventListener('click',function(){go(i-1);});
+  next.addEventListener('click',function(){go(i+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'){go(i+1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);}
+  });
+  var lock=false;
+  window.addEventListener('wheel',function(e){
+    if(lock) return;
+    if(Math.abs(e.deltaY)<12) return;
+    lock=true; go(i+(e.deltaY>0?1:-1));
+    setTimeout(function(){lock=false;},900);
+  },{passive:true});
+  var x0=null;
+  window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  window.addEventListener('touchend',function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>60) go(i+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+  go(0);
+})();
+</script>
+
+
+<script>
+/* Lecteurs d'ambiance synchronisés avec la musique globale */
+(function(){
+  var a=document.getElementById('bgMusic');
+  if(!a) return;
+  var players=[...document.querySelectorAll('.chapter-player')];
+  function paint(){
+    var on=!a.muted;
+    players.forEach(function(p){p.classList.toggle('playing',on);var t=p.querySelector('.player-toggle');if(t)t.setAttribute('aria-label',on?'Couper la musique':'Activer la musique');});
+  }
+  players.forEach(function(p){
+    var btn=p.querySelector('.player-toggle');
+    if(!btn) return;
+    btn.addEventListener('pointerdown',function(e){
+      e.preventDefault(); e.stopPropagation();
+      a.muted=!a.muted;
+      if(!a.muted){var pl=a.play();if(pl&&pl.catch)pl.catch(function(){});}
+      paint();
+    });
+  });
+  a.addEventListener('play',paint); a.addEventListener('pause',paint); a.addEventListener('volumechange',paint);
+  paint();
+  window.__sayskoPlayerPaint=paint;
+})();
+</script>
+
+
+<script>
+/* Fonds animés Canvas : reflets champagne + bokeh doux, zone centrale sombre */
+(function(){
+  var boxes=[...document.querySelectorAll('.fond-anime')];
+  if(!boxes.length) return;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  function setup(box){
+    var c=box.querySelector('canvas');
+    if(!c) return null;
+    var ctx=c.getContext('2d');
+    if(!ctx) return null;
+    var w=box.clientWidth||window.innerWidth, h=box.clientHeight||window.innerHeight;
+    c.width=w*dpr; c.height=h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var dark=box.dataset.fond==='contact';
+    var orbs=[];
+    var n=dark?7:13;
+    for(var i=0;i<n;i++){
+      orbs.push({
+        x:Math.random()*w, y:Math.random()*h,
+        r:(dark?80:60)+Math.random()*(dark?180:160),
+        vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12,
+        a:(dark?.05:.09)+Math.random()*(dark?.06:.12),
+        hue: Math.random()<.5?'212,175,55':'240,217,140',
+        ph:Math.random()*Math.PI*2
+      });
+    }
+    return {c:c,ctx:ctx,w:w,h:h,orbs:orbs,dark:dark,t:0};
+  }
+  var states=boxes.map(setup).filter(Boolean);
+  function draw(st){
+    var ctx=st.ctx,w=st.w,h=st.h;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#080706'; ctx.fillRect(0,0,w,h);
+    //.reflets champagne en travers
+    var g=ctx.createLinearGradient(w*(st.dark?.55:.1),0,w, h*.4);
+    g.addColorStop(0,'rgba(212,175,55,0)');
+    g.addColorStop(.45,st.dark?'rgba(212,175,55,.045)':'rgba(212,175,55,.07)');
+    g.addColorStop(1,'rgba(240,217,140,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // bokeh
+    ctx.globalCompositeOperation='screen';
+    st.orbs.forEach(function(o){
+      o.x+=o.vx; o.y+=o.vy;
+      if(o.x<-o.r)o.x=w+o.r; if(o.x>w+o.r)o.x=-o.r;
+      if(o.y<-o.r)o.y=h+o.r; if(o.y>h+o.r)o.y=-o.r;
+      var pulse=o.a*(.7+.3*Math.sin(st.t*.01+o.ph));
+      var rg=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      rg.addColorStop(0,'rgba('+o.hue+','+pulse+')');
+      rg.addColorStop(1,'rgba('+o.hue+',0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalCompositeOperation='source-over';
+    // zone centrale sombre pour le texte
+    var v=ctx.createRadialGradient(w/2,h/2,h*.08,w/2,h/2,h*.62);
+    v.addColorStop(0,'rgba(8,7,6,.94)'); v.addColorStop(1,'rgba(8,7,6,0)');
+    ctx.fillStyle=v; ctx.fillRect(0,0,w,h);
+    st.t++;
+  }
+  function loop(){ states.forEach(draw); requestAnimationFrame(loop); }
+  loop();
+  window.addEventListener('resize',function(){ states=boxes.map(setup).filter(Boolean); });
+})();
+</script>
+
 </body>
 </html>
