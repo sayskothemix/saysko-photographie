@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="stylesheet" href="site.css?v=24">
 <style>
 /* Menu mobile */
 .menu-toggle {
@@ -31,23 +31,27 @@
 
 /* Filtres de catégories */
 .course-filters-wrap {
-  text-align: center; margin: 30px auto 45px; max-width: 1050px;
+  text-align: center; margin: 10px auto 50px; max-width: 100%;
 }
 .course-filters {
-  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  display: flex; flex-wrap: nowrap; gap: 12px; justify-content: center;
 }
 .filter-btn {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(224,189,133,0.22);
   color: var(--text);
-  padding: 10px 18px;
+  padding: 13px 16px;
   border-radius: 30px;
   font-family: "Montserrat", sans-serif;
-  font-size: 0.78rem;
-  letter-spacing: 1px;
+  font-size: 0.74rem;
+  letter-spacing: 0.6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  text-decoration: none; white-space: nowrap; flex: 0 0 auto;
+}
+@media (max-width: 900px) {
+  .course-filters { flex-wrap: wrap; }
 }
 .filter-btn:hover {
   border-color: var(--accent); background: rgba(224,189,133,0.1);
@@ -405,8 +409,6 @@
 }
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
-
-    .course-filters,.filter-bar { display: none !important; }
 </style>
 </head>
 <body>
@@ -468,34 +470,25 @@
   </div>
 </header>
 
-<div class="page-hero container">
-  <div class="breadcrumb"><a href="index.html">Accueil</a> / Tutoriels</div>
+<div class="page-hero container" style="padding:55px 0 20px;">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Tutoriels</a> / Lightroom Classic</div>
   <div class="kicker">Centre de Formation & Post-Production</div>
-  <h1>Tutoriels Pratiques</h1>
-  <p>Lightroom Classic, Capture One Pro, Strobisme studio et prise de vue — cliquez sur une rubrique pour dérouler les explications et vidéos.</p>
+  <h1>Lightroom Classic</h1>
+  <p><a href="cours.html" style="color:var(--accent);text-decoration:none;">← Tous les tutoriels</a></p>
 </div>
 
 <main class="page-main container">
   <!-- Filtres par catégorie -->
-  <div class="course-filters-wrap">
-    <div class="course-filters">
-      <button class="filter-btn active" data-filter="all">Tous les tutoriels <span class="badge-tag">18</span></button>
-      <button class="filter-btn" data-filter="lr"><span class="badge-tag lr-tag">LR</span> Lightroom Classic <span class="badge-tag">13</span></button>
-      <button class="filter-btn" data-filter="c1"><span class="badge-tag c1-tag">C1</span> Capture One Pro <span class="badge-tag">8</span></button>
-      <button class="filter-btn" data-filter="strobe"><span class="badge-tag strobe-tag">⚡</span> Strobisme & Studio <span class="badge-tag">8</span></button>
-      <button class="filter-btn" data-filter="basics"><span class="badge-tag basics-tag">📷</span> Prise de Vue & RAW <span class="badge-tag">12</span></button>
-    </div>
+  
   </div>
 
   <!-- ==============================================
        SECTION 1 : LIGHTROOM CLASSIC
        ============================================== -->
-  <div class="cat-group" data-category="lr">
-    <div class="cat-divider">
-      <h2><span class="badge-tag lr-tag" style="font-size:1.15rem;padding:4px 11px;">LR</span> Lightroom Classic</h2>
-      <div class="line"></div>
+  <div class="cat-group" data-category="lr" style="margin-top:0;">
+    
     </div>
-    <p class="cat-desc">Le moteur de développement le plus utilisé au monde. Cliquez sur une fiche ci-dessous pour faire glisser le cours écrit approfondi, les étapes techniques, les raccourcis et la vidéo de démonstration en français.</p>
+    
 
     <!-- LR 01 : Retouche Portrait Express (AVEC VIDÉO JOANNIE THERRIEN) -->
     <article class="cours-section reveal" data-category="lr" id="lr-1">

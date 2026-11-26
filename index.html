@@ -10,7 +10,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="site.css?v=23">
+<link rel="stylesheet" href="site.css?v=24">
 <script>
   try {
     if (localStorage.getItem("saysko_intro_seen") === "1") {
@@ -25,7 +25,7 @@
   .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
   .site-controls button {
     width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
-    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    background: rgba(8,7,10,0.72); border: 1px solid rgba(201,212,227,0.45);
     color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
     transition: background 0.25s, color 0.25s, transform 0.25s;
   }
@@ -37,13 +37,13 @@
   .about-wrap { padding-bottom: 10px; }
   #contact { padding-bottom: 90px; }
   /* ---------- MENU MOBILE ---------- */
-  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(201,212,227,0.4); background: rgba(201,212,227,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
   @media (max-width: 780px) {
     .menu-toggle { display: flex; align-items: center; justify-content: center; }
     nav {
       position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
       flex-direction: column; align-items: stretch; gap: 0;
-      background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+      background: #08070a; border-bottom: 1px solid rgba(201,212,227,0.2);
       padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
       transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
     }
@@ -149,13 +149,13 @@
 .saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
 .bot-bubble {
   width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
-  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  background: rgba(13,12,15,0.97); border: 1px solid rgba(201,212,227,0.35);
   box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
   transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
   transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
 }
 .saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
-.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(201,212,227,0.18); }
 .bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
 .bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
 .bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
@@ -174,16 +174,16 @@
 .bot-accordion.open .bot-q::after { transform: rotate(45deg); }
 .bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
 .bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
-.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(201,212,227,.35); }
 @keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(201,212,227,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
 .bot-launch {
   width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
   box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
 }
-.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(201,212,227,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
 
 /* ========== CHAPITRES HORIZONTAUX ========== */
@@ -192,10 +192,20 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 .chapters-track { display: flex; height: 100%; width: 100%; transition: transform .8s cubic-bezier(.76,0,.24,1); }
 .chapter { flex: 0 0 100vw; width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding: 100px 0 90px; position: relative; }
 .chapter::-webkit-scrollbar { display: none; }
-.chapter[data-ambiance="studio"] { background: radial-gradient(ellipse at 50% 30%, #1a1714 0%, #0a0908 70%); }
-.chapter[data-ambiance="about"] { background: radial-gradient(ellipse at 30% 40%, #17161b 0%, #09090c 70%); }
-.live-btn { display:inline-flex; align-items:center; gap:9px; margin-left:10px; border-color:rgba(224,189,133,.55); background:rgba(224,189,133,.08); color:var(--accent); }
-.live-btn:hover { background:rgba(224,189,133,.18); }
+.chapter[data-ambiance="studio"] {
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(111,159,216,.08) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(8,11,18,.94) 0%, rgba(8,11,18,.72) 55%, rgba(8,11,18,.95) 100%),
+    url("studio-hero.jpg") center center / cover no-repeat;
+}
+.chapter[data-ambiance="about"] {
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(201,212,227,.06) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(8,11,18,.92) 0%, rgba(8,11,18,.7) 100%),
+    url("bg-about.jpg") center center / cover no-repeat;
+}
+.live-btn { display:inline-flex; align-items:center; gap:9px; margin-left:10px; border-color:rgba(201,212,227,.55); background:rgba(201,212,227,.08); color:var(--accent); }
+.live-btn:hover { background:rgba(201,212,227,.18); }
 .live-dot { width:8px; height:8px; border-radius:50%; background:#ff4d5e; box-shadow:0 0 0 0 rgba(255,77,94,.6); animation:livePulse 1.8s infinite; }
 @keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(255,77,94,.55)} 70%{box-shadow:0 0 0 8px rgba(255,77,94,0)} 100%{box-shadow:0 0 0 0 rgba(255,77,94,0)} }
 .chapter[data-ambiance="retouche"] {
@@ -206,16 +216,16 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 .chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
 /* Navigation */
 .chapter-nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; align-items: center; gap: 16px; }
-.chapter-arrow { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,9,11,.7); border: 1px solid rgba(224,189,133,.45); color: var(--accent); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: .25s; }
+.chapter-arrow { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,9,11,.7); border: 1px solid rgba(201,212,227,.45); color: var(--accent); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: .25s; }
 .chapter-arrow:hover { background: var(--accent); color: #0b0b0d; }
 .chapter-arrow:disabled { opacity: .25; cursor: default; }
 .chapter-dots { display: flex; gap: 10px; }
-.chapter-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(224,189,133,.55); background: transparent; cursor: pointer; padding: 0; transition: .25s; }
-.chapter-dot.active { background: var(--accent); box-shadow: 0 0 12px rgba(224,189,133,.6); }
+.chapter-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(201,212,227,.55); background: transparent; cursor: pointer; padding: 0; transition: .25s; }
+.chapter-dot.active { background: var(--accent); box-shadow: 0 0 12px rgba(201,212,227,.6); }
 .chapter-label { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); z-index: 300; color: var(--accent); font-family: "Montserrat",sans-serif; font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
 /* Retouche */
 .retouche-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; max-width: 1100px; margin: 40px auto 0; }
-.retouche-img img { width: 100%; border-radius: 4px; border: 1px solid rgba(224,189,133,.25); display: block; }
+.retouche-img img { width: 100%; border-radius: 4px; border: 1px solid rgba(201,212,227,.25); display: block; }
 .retouche-text .about-kicker { color: var(--accent); font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
 .retouche-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
 .retouche-text .btn { display: inline-block; margin-top: 10px; }
@@ -224,7 +234,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 
 
 /* Lecteur d'ambiance dans chaque chapitre */
-.chapter-player { position: absolute; top: 96px; right: 5%; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: rgba(10,9,11,.55); border: 1px solid rgba(224,189,133,.3); border-radius: 40px; backdrop-filter: blur(6px); }
+.chapter-player { position: absolute; top: 96px; right: 5%; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: rgba(10,9,11,.55); border: 1px solid rgba(201,212,227,.3); border-radius: 40px; backdrop-filter: blur(6px); }
 .player-toggle { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: .9rem; cursor: pointer; transition: .25s; }
 .player-toggle:hover { background: var(--accent); color: #0b0b0d; }
 .player-info { display: flex; flex-direction: column; line-height: 1.3; }
@@ -563,7 +573,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   </nav>
 </main>
 
-<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(201,212,227,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
   <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Musique : <a href="https://pixabay.com/fr/users/kulakovka-47183261/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Alex Shulgin</a> — <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Pixabay</a></div>
 </footer>

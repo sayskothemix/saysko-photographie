@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="stylesheet" href="site.css?v=24">
 <style>
 /* Menu mobile */
 .menu-toggle {
@@ -29,25 +29,34 @@
   .admin-btn { margin: 14px 0 0; width: 100%; }
 }
 
+
+/* Vignette visible dans l'en-tête des fiches */
+.cours-thumb { width: 92px; height: 62px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(224,189,133,.35); flex: 0 0 auto; }
+@media (max-width: 700px) { .cours-thumb { display: none; } }
+
 /* Filtres de catégories */
 .course-filters-wrap {
-  text-align: center; margin: 30px auto 45px; max-width: 1050px;
+  text-align: center; margin: 10px auto 50px; max-width: 100%;
 }
 .course-filters {
-  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  display: flex; flex-wrap: nowrap; gap: 12px; justify-content: center;
 }
 .filter-btn {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(224,189,133,0.22);
   color: var(--text);
-  padding: 10px 18px;
+  padding: 13px 16px;
   border-radius: 30px;
   font-family: "Montserrat", sans-serif;
-  font-size: 0.78rem;
-  letter-spacing: 1px;
+  font-size: 0.74rem;
+  letter-spacing: 0.6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  text-decoration: none; white-space: nowrap; flex: 0 0 auto;
+}
+@media (max-width: 900px) {
+  .course-filters { flex-wrap: wrap; }
 }
 .filter-btn:hover {
   border-color: var(--accent); background: rgba(224,189,133,0.1);
@@ -405,8 +414,6 @@
 }
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
-
-    .course-filters,.filter-bar { display: none !important; }
 </style>
 </head>
 <body>
@@ -468,39 +475,31 @@
   </div>
 </header>
 
-<div class="page-hero container">
-  <div class="breadcrumb"><a href="index.html">Accueil</a> / Tutoriels</div>
+<div class="page-hero container" style="padding:55px 0 20px;">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Tutoriels</a> / Strobisme &amp; Studio</div>
   <div class="kicker">Centre de Formation & Post-Production</div>
-  <h1>Tutoriels Pratiques</h1>
-  <p>Lightroom Classic, Capture One Pro, Strobisme studio et prise de vue — cliquez sur une rubrique pour dérouler les explications et vidéos.</p>
+  <h1>Strobisme & Studio</h1>
+  <p><a href="cours.html" style="color:var(--accent);text-decoration:none;">← Tous les tutoriels</a></p>
 </div>
 
 <main class="page-main container">
   <!-- Filtres par catégorie -->
-  <div class="course-filters-wrap">
-    <div class="course-filters">
-      <button class="filter-btn active" data-filter="all">Tous les tutoriels <span class="badge-tag">18</span></button>
-      <button class="filter-btn" data-filter="lr"><span class="badge-tag lr-tag">LR</span> Lightroom Classic <span class="badge-tag">13</span></button>
-      <button class="filter-btn" data-filter="c1"><span class="badge-tag c1-tag">C1</span> Capture One Pro <span class="badge-tag">8</span></button>
-      <button class="filter-btn" data-filter="strobe"><span class="badge-tag strobe-tag">⚡</span> Strobisme & Studio <span class="badge-tag">8</span></button>
-      <button class="filter-btn" data-filter="basics"><span class="badge-tag basics-tag">📷</span> Prise de Vue & RAW <span class="badge-tag">12</span></button>
-    </div>
+  
   </div>
 
   <!-- ==============================================
        SECTION 1 : LIGHTROOM CLASSIC
        ============================================== -->
-  <div class="cat-group" data-category="strobe">
-    <div class="cat-divider">
-      <h2><span class="badge-tag strobe-tag" style="font-size:1.15rem;padding:4px 11px;">⚡</span> Strobisme & Éclairage Studio</h2>
-      <div class="line"></div>
+  <div class="cat-group" data-category="strobe" style="margin-top:0;">
+    
     </div>
-    <p class="cat-desc">Apprenez à maîtriser le flash déporté, sculpter la lumière au millimètre et construire des ambiances cinématiques saisissantes avec du vrai matériel de studio.</p>
+    
 
     <!-- ST 01 : Bases du Flash Déporté (AVEC VIDÉO FLASH STUDIO) -->
     <article class="cours-section reveal" data-category="strobe" id="strobe-1">
       <div class="cours-section-head">
         <div class="cours-num">ST-01</div>
+        <img class="cours-thumb" src="flash-cobra-illustration.png" alt="Flash déporté studio" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Fondations du Flash</div>
           <h3>Les bases du flash déporté : Vitesse, Ouverture & Synchronisation</h3>
@@ -513,6 +512,7 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+            <div class="reglages-table"><img src="flash-cobra-illustration.png" alt="Flash déporté Canon Speedlite : écran TTL et tête orientable" loading="lazy"></div>
             <p class="cours-lead">Sortir le flash de la griffe de l'appareil change tout. Comprenez la règle sacrée du strobisme : l'ouverture contrôle le flash, la vitesse contrôle la lumière ambiante.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : La double exposition en strobisme</span></div>
@@ -553,6 +553,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-2">
       <div class="cours-section-head">
         <div class="cours-num">ST-02</div>
+        <img class="cours-thumb" src="schemas-eclairage-9.png" alt="Schémas d’éclairage" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Modeleurs & Diffusion</div>
           <h3>Modeler la lumière : Softbox, Parapluie & Réflecteurs</h3>
@@ -565,6 +566,7 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+            <div class="reglages-table"><img src="schemas-eclairage-9.png" alt="Schémas d’éclairage studio : frontal, 45°, latéral, rembrandt, boucle" loading="lazy"></div>
             <p class="cours-lead">La taille de la source définit la douceur des ombres. Découvrez l'impact de chaque modeleur pour donner du volume et du modelé à vos visages.</p>
             
             <div class="cours-subsep"><span>Texte explicatif : Lumière dure vs Lumière douce</span></div>
@@ -595,6 +597,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-3">
       <div class="cours-section-head">
         <div class="cours-num">ST-03</div>
+        <img class="cours-thumb" src="guide-eclairage-portrait-12.png" alt="Éclairage créatif" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Créativité & Ambiance</div>
           <h3>Strobisme créatif : Gélatines de couleur & Effet Nuit en plein jour</h3>
@@ -607,6 +610,7 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+            <div class="reglages-table"><img src="guide-eclairage-portrait-12.png" alt="Guide des schémas d’éclairage portrait et gélatines colorées" loading="lazy"></div>
               <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
               <div class="cours-video-frame">
                 <iframe src="https://www.youtube-nocookie.com/embed/AMG48xzYP_8" title="Strobisme créatif : Gélatines de couleur & Effet Nuit en plein jour" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -627,6 +631,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-4">
       <div class="cours-section-head">
         <div class="cours-num">ST-04</div>
+        <img class="cours-thumb" src="schema-light-3.jpg" alt="Setup multi-flashs" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Setup Multi-Flashs</div>
           <h3>Photographier à plusieurs flashs : Key, Fill, Rim & Background Light</h3>
@@ -639,6 +644,7 @@
       <div class="cours-accordion-drawer">
         <div class="cours-accordion-inner">
           <div class="cours-body">
+            <div class="reglages-table"><img src="schema-light-3.jpg" alt="Installation studio avec plusieurs flashes et réflecteurs" loading="lazy"></div>
               <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
               <div class="cours-video-frame">
                 <iframe src="https://www.youtube-nocookie.com/embed/l3bP2peT5F4" title="Photographier à plusieurs flashs : Key, Fill, Rim & Background Light" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -665,6 +671,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-hss">
       <div class="cours-section-head">
         <div class="cours-num">ST-05</div>
+        <img class="cours-thumb" src="schema-hss.png" alt="Synchro HSS" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Synchronisation & Vitesse</div>
           <h3>Synchronisation Haute Vitesse (HSS) : figer l'action au flash</h3>
@@ -688,6 +695,7 @@
       <article class="cours-section reveal" data-category="strobe" id="strobe-produit">
       <div class="cours-section-head">
         <div class="cours-num">ST-06</div>
+        <img class="cours-thumb" src="schema-lumiere-produit.png" alt="Éclairage produit" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Studio · Photo de produit</div>
           <h3>Photo de produit et catalogue : fond blanc, dégradé et ombres</h3>
@@ -709,6 +717,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-light-painting">
       <div class="cours-section-head">
         <div class="cours-num">ST-07</div>
+        <img class="cours-thumb" src="schema-light-painting.png" alt="Light painting" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Strobisme · Longue pose</div>
           <h3>Light painting, slow sync et synchronisation au 2e rideau</h3>
@@ -730,6 +739,7 @@
     <article class="cours-section reveal" data-category="strobe" id="strobe-portrait-flash">
       <div class="cours-section-head">
         <div class="cours-num">ST-08</div>
+        <img class="cours-thumb" src="galerie-AB9A7835.jpg" alt="Portrait au flash" loading="lazy">
         <div>
           <div class="cours-kicker">Catégorie : Strobisme · Portrait au flash</div>
           <h3>Réussir un portrait au flash avec un seul speedlight</h3>
@@ -738,6 +748,7 @@
         <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
       </div>
       <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+            <div class="reglages-table"><img src="galerie-AB9A7835.jpg" alt="Portrait studio éclairé au flash, fond sombre" loading="lazy"></div>
         <p class="cours-lead">Six techniques simples pour obtenir un rendu « studio » en intérieur avec un seul flash, même dans un petit espace. Une méthode présentée par Mark Wallace avec Amy, à adapter à ton Canon 5D Mark IV.</p>
         <div class="cours-expl-text">
           <p><strong>1. Deux expositions distinctes :</strong> la lumière ambiante se contrôle par la vitesse, l'ouverture et l'ISO ; la lumière du flash uniquement par l'ouverture et sa puissance. Pour isoler le sujet : mode Manuel, vitesse au maximum de synchro (1/200s), ISO bas et diaphragme fermé jusqu'à ce que l'image soit noire sans flash.</p>

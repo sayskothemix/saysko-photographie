@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="stylesheet" href="site.css?v=24">
 <style>
 .menu-toggle {
   display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
@@ -53,6 +53,13 @@
 .lc-card:hover { border-color: rgba(224,189,133,0.55); transform: translateY(-6px); box-shadow: 0 26px 60px rgba(0,0,0,.55); }
 .lc-diagram { position: relative; aspect-ratio: 4/3; background: #0c0c10; overflow: hidden; }
 .lc-diagram img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Annotations directement sur la photo — lumière continue */
+.photo-annotee::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 35%,transparent 60%,rgba(0,0,0,.6)); pointer-events:none; }
+.photo-note { position:absolute; z-index:2; background:rgba(8,7,10,.82); border:1px solid rgba(224,189,133,.55); color:var(--accent); font-family:"Montserrat",sans-serif; font-size:.66rem; letter-spacing:.6px; text-transform:uppercase; padding:6px 10px; border-radius:3px; }
+.photo-note::before { content:'●'; color:var(--accent); margin-right:6px; font-size:.55rem; }
+.note-1 { top:12%; left:8%; }
+.note-2 { top:28%; right:7%; }
+.note-3 { bottom:12%; left:8%; }
 .lc-diagram svg { width: 100%; height: 100%; display: block; }
 /* Cartes photo : hauteur d'image fixe pour une grille alignée */
 .lc-grid > .lc-card .lc-diagram { aspect-ratio: 16/10; height: auto; }
@@ -90,6 +97,22 @@
 @keyframes lcDust { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .8; transform: translateY(-14px); } }
 .lc-video { position: relative; margin: 32px auto 8px; max-width: 760px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; border: 1px solid rgba(201,160,94,.35); box-shadow: 0 24px 60px rgba(0,0,0,.45); background: #000; }
 .lc-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* Vidéos intégrées dans la grille « En images et en vidéo » */
+.lc-videos .lc-card .lc-video { margin: 0; max-width: none; width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 0; box-shadow: none; background: #000; }
+/* Crédits des vidéos intégrées */
+.lc-video-figure { margin: 0 auto 34px; max-width: 760px; }
+.lc-video-figure .lc-video { margin: 0; }
+.lc-video-figure figcaption { margin-top: 12px; color: var(--muted); font-size: .78rem; line-height: 1.7; }
+.lc-video-figure figcaption strong { color: var(--text); font-weight: 500; }
+.lc-video-figure figcaption a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.4); }
+.lc-video-figure figcaption a:hover { border-bottom-color: var(--accent); }
+/* Crédit et liens vers le Studio de rue de Blaise (Fotoloco) */
+.lc-credit-blaisefielder { max-width: 760px; margin: 12px auto 40px; padding: 20px 24px; background: rgba(224,189,133,.05); border: 1px solid rgba(224,189,133,.25); border-radius: 4px; }
+.lc-credit-blaisefielder h4 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.25rem; color: var(--accent); margin-bottom: 10px; }
+.lc-credit-blaisefielder p { color: var(--muted); font-size: .82rem; line-height: 1.75; margin-bottom: 10px; }
+.lc-credit-blaisefielder a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.4); font-size: .82rem; line-height: 2; }
+.lc-credit-blaisefielder a:hover { border-bottom-color: var(--accent); }
+.lc-credit-blaisefielder small { display: block; margin-top: 10px; color: var(--muted); font-size: .7rem; font-style: italic; }
 @media (prefers-reduced-motion: reduce) {
   .lc-beam,.lc-beam2,.lc-ray,.lc-bulb,.lc-sunrays,.lc-haze,.lc-sweep,.lc-dust { animation: none; }
 }
@@ -233,19 +256,33 @@
     <h3 class="lc-subtitle reveal">En images et en vidéo</h3>
     <div class="lc-grid">
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="schemas/gemini/gm-lumiere-douce-bonne.png" alt="Portrait en lumière continue douce" style="display:block"></div>
+        <div class="lc-diagram photo-annotee">
+          <img src="galerie-AB9A7833_2.jpg" alt="Portrait en lumière continue douce" style="filter:brightness(.9)">
+          <span class="photo-note note-1">Source large · 45°</span>
+          <span class="photo-note note-2">Lumière douce · peau lisse</span>
+        </div>
         <figcaption class="lc-body"><h4>LED en lumière douce</h4><p>Une grande source LED proche enveloppe le visage : ce que tu vois est ce que tu obtiens. Parfait pour la vidéo et pour apprendre à lire la lumière.</p><span class="lc-spec">LED + softbox 90 cm · 45° · 1/200</span></figcaption>
       </figure>
       <figure class="lc-card reveal">
-        <div class="lc-diagram"><img src="studio-hero.jpg" alt="Setup studio lumière continue" style="filter:brightness(.85)"></div>
-        <figcaption class="lc-body"><h4>Le setup continu</h4><p>Panneau LED ou softbox : on règle la température de couleur et on visualise les ombres en direct, sans attendre le flash.</p><span class="lc-spec">Panneau LED · 5600 K · grande surface</span></figcaption>
+        <div class="lc-diagram photo-annotee">
+          <img src="galerie-AB9A7835.jpg" alt="Portrait en lumière continue — setup studio" style="filter:brightness(.82)">
+          <span class="photo-note note-1">Softbox 90 cm · 45°</span>
+          <span class="photo-note note-2">5600 K · lumière continue</span>
+          <span class="photo-note note-3">Ombres visibles en direct</span>
+        </div>
+        <figcaption class="lc-body"><h4>Le setup continu</h4><p>Panneau LED ou softbox : on règle la température de couleur et on visualise les ombres en direct, sans attendre le flash. Ce que tu vois dans le viseur est ce que tu obtiens sur la photo.</p><span class="lc-spec">Panneau LED · 5600 K · grande surface</span></figcaption>
       </figure>
     </div>
-    <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/qXh_phavnL0?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait studio en lumière continue — éclairage noir & blanc (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/_cng2ncDtfQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait créatif en lumière continue — Le Tech' de la photo (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <h3 class="lc-subtitle reveal">À voir en vidéo</h3>
+    <div class="lc-grid lc-videos">
+      <figure class="lc-card reveal">
+        <div class="lc-video"><iframe src="https://www.youtube.com/embed/qXh_phavnL0?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait studio en lumière continue — éclairage noir & blanc (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <figcaption class="lc-body"><h4>Portrait noir &amp; blanc</h4><p>Éclairage studio en lumière continue : voir le rendu en direct et construire un portrait noir &amp; blanc.</p><span class="lc-spec">Vidéo · français</span></figcaption>
+      </figure>
+      <figure class="lc-card reveal">
+        <div class="lc-video"><iframe src="https://www.youtube.com/embed/_cng2ncDtfQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Portrait créatif en lumière continue — Le Tech' de la photo (français)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <figcaption class="lc-body"><h4>Portrait créatif</h4><p>Une autre façon d'utiliser la lumière continue, avec le Tech' de la photo : mise en place et rendu.</p><span class="lc-spec">Vidéo · français</span></figcaption>
+      </figure>
     </div>
   </section>
 
@@ -307,15 +344,29 @@
         <div class="lc-body"><h4>6. Le matériel minimal</h4><p>Un cobra, un transmetteur, un pied et un diffuseur suffisent pour commencer. Le strobisme est nomade : on fait du studio partout, sans secteur ni grande valise.</p><span class="lc-spec">Cobra + transmetteur + pied + diffuseur</span></div>
       </figure>
     </div>
-    <h3 class="lc-subtitle reveal">Vidéos : les bases avec Blaisefielder</h3>
-    <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/QXnVqx5j4rY?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Les bases de la photo au flash déporté (strobisme) — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <h3 class="lc-subtitle reveal">Vidéos : les bases avec Benjamin Tantot</h3>
+    <div class="lc-videos-stack">
+      <figure class="lc-video-figure reveal">
+        <div class="lc-video"><iframe src="https://www.youtube.com/embed/QXnVqx5j4rY?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Les bases de la photo au flash déporté (strobisme) — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <figcaption><strong>Les bases de la photo au flash déporté</strong> — vidéo de <a href="https://www.youtube.com/watch?v=QXnVqx5j4rY" target="_blank" rel="noopener">Benjamin Tantot · Derrière La Caméra</a> (YouTube, 2023). Intégrée ici à titre de ressource pédagogique ; tous droits à l'auteur.</figcaption>
+      </figure>
+      <figure class="lc-video-figure reveal">
+        <div class="lc-video"><iframe src="https://www.youtube.com/embed/_mUONHe0wlQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Comment utiliser un flash en extérieur — guide débutant — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <figcaption><strong>Comment utiliser un flash en extérieur</strong> — vidéo de <a href="https://www.youtube.com/watch?v=_mUONHe0wlQ" target="_blank" rel="noopener">Benjamin Tantot · Derrière La Caméra</a> (YouTube, collaboration rémunérée). Intégrée ici à titre de ressource pédagogique ; tous droits à l'auteur.</figcaption>
+      </figure>
+      <figure class="lc-video-figure reveal">
+        <div class="lc-video"><iframe src="https://www.youtube.com/embed/0sn31OZy2CU?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Guide débutant : comprendre et utiliser un flash — Derrière La Caméra" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <figcaption><strong>Guide débutant : comprendre et utiliser un flash</strong> — vidéo de <a href="https://www.youtube.com/watch?v=0sn31OZy2CU" target="_blank" rel="noopener">Benjamin Tantot · Derrière La Caméra</a> (YouTube). Intégrée ici à titre de ressource pédagogique ; tous droits à l'auteur.</figcaption>
+      </figure>
     </div>
-    <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/_mUONHe0wlQ?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Comment utiliser un flash en extérieur — guide débutant" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <div class="lc-video reveal">
-      <iframe src="https://www.youtube.com/embed/0sn31OZy2CU?hl=fr&amp;cc_lang_pref=fr&amp;cc_load_policy=1" title="Guide débutant : comprendre et utiliser un flash" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="lc-credit-blaisefielder reveal">
+      <h4>À découvrir aussi : le Studio de rue de Blaise (Fotoloco)</h4>
+      <p>C'est au Salon de la photo, en découvrant ses vidéos, que je me suis intéressé au studio de rue. Blaise est l'auteur de la série <em>Studio de rue / Strobist</em>, une référence pour créer de la lumière de studio en extérieur avec de petits flashes déportés. Ses vidéos sont protégées par le droit d'auteur : je ne les intègre pas ici, mais tu peux les regarder directement chez lui.</p>
+      <p>
+        <a href="https://www.youtube.com/watch?v=syNsk5G2g2k" target="_blank" rel="noopener">→ 7 schémas d'éclairage pour débuter (YouTube · Fotoloco)</a><br>
+        <a href="https://www.youtube.com/@photographe06" target="_blank" rel="noopener">→ Chaîne YouTube de Blaise · Fotoloco</a>
+      </p>
+      <small>Merci à Blaise pour le partage de son savoir — tous droits réservés à l'auteur.</small>
     </div>
   </section>
 
