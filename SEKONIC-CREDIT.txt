@@ -1,7 +1,17 @@
+Crédits des images ajoutées au glossaire
+
+1) Flashmètre — sekonic-l858d.jpg
 Image : Sekonic Speedmaster L-858D.jpg
 Source : Wikimedia Commons — https://commons.wikimedia.org/wiki/File:Sekonic_Speedmaster_L-858D.jpg
 Auteur : DYVER (https://commons.wikimedia.org/wiki/User:DYVER)
 Licence : Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
          https://creativecommons.org/licenses/by-sa/4.0/
-Modification : redimensionnement à 1280 px de large (version originale 2851 x 1901).
-Utilisée dans le glossaire pour le terme « Flashmètre ».
+Modification : redimensionnement à 1280 px de large (original 2851 x 1901).
+
+2) Snoot — snoot-walimex.jpg
+Image : 130902 Kominek Walimex PRO VC 600 0007b.jpg
+Source : Wikimedia Commons — https://commons.wikimedia.org/wiki/File:130902_Kominek_Walimex_PRO_VC_600_0007b.jpg
+Auteur : Vít Švajcr — Dobré světlo.com (https://commons.wikimedia.org/wiki/User:Svajcr)
+Licence : Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+         https://creativecommons.org/licenses/by-sa/3.0/
+Modification : redimensionnement à 960 px de large (original 3677 x 5516).
