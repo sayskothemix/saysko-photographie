@@ -92,6 +92,30 @@
 }
 
 /* Accordéon glissant ultra-fluide */
+/* Navigation par chapitres des tutoriels */
+.chapter-nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 900;
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  padding: 12px 18px; background: rgba(7,10,18,0.92);
+  border-top: 1px solid rgba(224,189,133,0.3);
+  backdrop-filter: blur(10px);
+}
+.chapter-nav-bar button {
+  min-width: 120px; padding: 9px 18px; cursor: pointer;
+  background: transparent; color: var(--accent, #e0bd85);
+  border: 1px solid rgba(224,189,133,0.45); border-radius: 3px;
+  font-size: 0.85rem; letter-spacing: 0.05em; transition: 0.25s;
+}
+.chapter-nav-bar button:hover:not(:disabled) { background: rgba(224,189,133,0.15); }
+.chapter-nav-bar button:disabled { opacity: 0.3; cursor: default; }
+.chapter-nav-bar .chapter-counter { color: #c9d4e3; font-size: 0.9rem; min-width: 130px; text-align: center; }
+.chapter-nav-bar .chapter-title { color: #c9d4e3; font-size: 0.8rem; opacity: 0.7; max-width: 38vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+body { padding-bottom: 64px; }
+@media (max-width: 700px) {
+  .chapter-nav-bar .chapter-title { display: none; }
+  .chapter-nav-bar button { min-width: 90px; }
+}
+
 .cours-section {
   max-width: 1000px; margin: 0 auto 16px;
   background: rgba(255,255,255,0.02);
@@ -2066,6 +2090,60 @@
         if (!wasOpen) item.classList.add('open');
       });
     });
+  })();
+  </script>
+
+  <!-- Navigation par chapitres (les accordéons restent actifs) -->
+  <div class="chapter-nav-bar" role="navigation" aria-label="Navigation des tutoriels">
+    <button type="button" id="chapPrev">‹ Précédent</button>
+    <span class="chapter-counter" id="chapCounter">Chapitre 1 / 41</span>
+    <span class="chapter-title" id="chapTitle"></span>
+    <button type="button" id="chapNext">Suivant ›</button>
+  </div>
+  <script>
+  (function () {
+    var sections = [].slice.call(document.querySelectorAll('.cours-section'));
+    if (!sections.length) return;
+    var i = 0;
+    var prev = document.getElementById('chapPrev');
+    var next = document.getElementById('chapNext');
+    var counter = document.getElementById('chapCounter');
+    var title = document.getElementById('chapTitle');
+
+    function show(n, open) {
+      i = Math.max(0, Math.min(sections.length - 1, n));
+      sections.forEach(function (s, idx) {
+        var isCurrent = idx === i;
+        if (isCurrent && open) {
+          s.classList.add('open');
+          var head = s.querySelector('.cours-section-head');
+          if (head) head.setAttribute('aria-expanded', 'true');
+          var lbl = s.querySelector('.btn-lbl');
+          if (lbl) lbl.textContent = 'Fermer';
+        } else if (!isCurrent) {
+          s.classList.remove('open');
+          var h = s.querySelector('.cours-section-head');
+          if (h) h.setAttribute('aria-expanded', 'false');
+          var l = s.querySelector('.btn-lbl');
+          if (l) l.textContent = 'Ouvrir';
+        }
+      });
+      var cur = sections[i];
+      cur.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      counter.textContent = 'Chapitre ' + (i + 1) + ' / ' + sections.length;
+      var h3 = cur.querySelector('h3');
+      title.textContent = h3 ? h3.textContent.trim() : '';
+      prev.disabled = i === 0;
+      next.disabled = i === sections.length - 1;
+    }
+    prev.addEventListener('click', function () { show(i - 1, true); });
+    next.addEventListener('click', function () { show(i + 1, true); });
+    document.addEventListener('keydown', function (e) {
+      if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+      if (e.key === 'ArrowRight') show(i + 1, true);
+      if (e.key === 'ArrowLeft') show(i - 1, true);
+    });
+    show(0, false);
   })();
   </script>
 
