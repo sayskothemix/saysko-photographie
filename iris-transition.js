@@ -8,18 +8,20 @@
 
   var css = document.createElement('style');
   css.textContent =
-    '.iris-page{position:fixed;inset:0;z-index:10001;background:#000;opacity:1;transition:opacity .3s ease}' +
+    '.iris-page{position:fixed;inset:0;z-index:10001;background:#000;opacity:1;transition:opacity .28s ease}' +
     '.iris-page.is-fading{opacity:0}' +
     '.iris-page svg{display:block;width:100%;height:100%}' +
-    '.iris-page .blades{opacity:1}' +
-    '.iris-page.is-opening .blades{opacity:0;transition:opacity .1s linear}';
+    '.iris-page .blades{opacity:1;transition:opacity .55s ease}' +
+    '.iris-page.is-opening .blades{opacity:0}' +
+    '.iris-page .iris-anim{transition:transform .85s cubic-bezier(.76,0,.24,1),opacity .7s ease}' +
+    '.iris-page.is-opening .iris-anim{transform:scale(2.4);opacity:0}';
   document.head.appendChild(css);
 
   var wrap = document.createElement('div');
   wrap.className = 'iris-page';
   wrap.setAttribute('aria-hidden', 'true');
   wrap.innerHTML =
-    '<svg viewBox="0 0 100 100" preserveAspectRatio="none">' +
+    '<svg class="iris-anim" viewBox="0 0 100 100" preserveAspectRatio="none">' +
       '<defs>' +
         '<linearGradient id="ip-metal" x1="0" y1="0" x2="1" y2="1">' +
           '<stop offset="0" stop-color="#29282d"/><stop offset=".18" stop-color="#111114"/>' +
@@ -167,26 +169,22 @@
   }
 
   resize();
-  // Petit délai : l'iris reste visible le temps que la page s'installe.
+  function finish() {
+    if (!wrap.parentNode) return;
+    wrap.classList.add('is-fading');
+    setTimeout(function () {
+      if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      if (css.parentNode) css.parentNode.removeChild(css);
+    }, 300);
+  }
+  // Ouverture animée en CSS, puis retrait garanti du voile.
   setTimeout(function () {
-    requestAnimationFrame(function () {
-      mirror();
-      wrap.classList.add('is-opening');
-      var start = performance.now();
-      function frame(now) {
-        var p = Math.min(1, (now - start) / 1400);
-        var e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-        render(e);
-        if (p < 1) requestAnimationFrame(frame);
-        else {
-          wrap.classList.add('is-fading');
-          setTimeout(function () {
-            wrap.remove();
-            css.remove();
-          }, 320);
-        }
-      }
-      requestAnimationFrame(frame);
-    });
-  });
+    mirror();
+    wrap.classList.add('is-opening');
+    setTimeout(finish, 900);
+  }, 80);
+  // Filet de sécurité : le voile ne doit jamais rester bloqué.
+  setTimeout(function () {
+    if (wrap.parentNode) finish();
+  }, 1800);
 })();
