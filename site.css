@@ -1730,11 +1730,20 @@ body.has-cursor-halo::after { opacity: 1; }
 
 /* Respiration entre les sections de la page d'accueil */
 #apropos, #contact { padding-top: 140px; padding-bottom: 140px; }
-#portfolio { padding-top: 34px; padding-bottom: 64px; }
-#portfolio .section-header { margin-bottom: 26px; }
-#portfolio .carousel { max-width: 760px; }
-#portfolio .carousel-viewport { aspect-ratio: 16 / 9; }
-#portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 14px; }
+#portfolio { padding-top: 26px; padding-bottom: 34px; }
+#portfolio .section-header { margin-bottom: 22px; }
+#portfolio .section-header .univers-intro {
+  margin: 12px auto 0; max-width: 620px;
+  color: var(--muted); font-size: 0.95rem; line-height: 1.6; font-style: italic;
+}
+#portfolio .carousel { max-width: 900px; }
+#portfolio .carousel-viewport { aspect-ratio: 16 / 8.2; }
+#portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 18px; }
+#portfolio .univers-more { display: flex; justify-content: center; margin-top: 12px; }
+#portfolio .univers-more .btn { font-size: 0.85rem; letter-spacing: 1px; }
+/* Carrousel plus aéré : slides secondaires plus petites et plus espacées */
+#portfolio .slide { width: min(56%, 540px); height: 80%; }
+#portfolio .car-bottom { margin-top: 14px; }
 @media (max-width: 600px) {
   #apropos, #contact { padding-top: 90px; padding-bottom: 90px; }
   #portfolio { padding-top: 24px; padding-bottom: 24px; }
