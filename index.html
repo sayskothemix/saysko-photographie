@@ -1215,7 +1215,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
         r:(dark?80:60)+Math.random()*(dark?180:160),
         vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12,
         a:(dark?.05:.09)+Math.random()*(dark?.06:.12),
-        hue: Math.random()<.5?'212,175,55':'240,217,140',
+        hue: Math.random()<.5?'169,199,232':'201,212,227',
         ph:Math.random()*Math.PI*2
       });
     }
@@ -1225,12 +1225,12 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   function draw(st){
     var ctx=st.ctx,w=st.w,h=st.h;
     ctx.clearRect(0,0,w,h);
-    ctx.fillStyle='#080706'; ctx.fillRect(0,0,w,h);
-    //.reflets champagne en travers
+    ctx.fillStyle='#080b12'; ctx.fillRect(0,0,w,h);
+    // reflets argentés en travers
     var g=ctx.createLinearGradient(w*(st.dark?.55:.1),0,w, h*.4);
-    g.addColorStop(0,'rgba(212,175,55,0)');
-    g.addColorStop(.45,st.dark?'rgba(212,175,55,.045)':'rgba(212,175,55,.07)');
-    g.addColorStop(1,'rgba(240,217,140,0)');
+    g.addColorStop(0,'rgba(169,199,232,0)');
+    g.addColorStop(.45,st.dark?'rgba(169,199,232,.045)':'rgba(169,199,232,.07)');
+    g.addColorStop(1,'rgba(201,212,227,0)');
     ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
     // bokeh
     ctx.globalCompositeOperation='screen';

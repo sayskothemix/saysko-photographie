@@ -264,7 +264,7 @@
     visiblePhotos.forEach(function (p, i) {
       var slide = document.createElement('div');
       slide.className = 'slide';
-      slide.innerHTML = '<img src="' + p.src + '" alt="' + p.title + '">' +
+      slide.innerHTML = '<img src="' + p.src + '" alt="">' +
         '<div class="overlay"><h3>' + p.title + '</h3><p>' + (p.desc || 'Photographie · Studio') + '</p><div class="view">Agrandir ↗</div></div>' +
         '<div class="photo-watermark"><span class="wm-mark">◆</span>SAYSKO<span class="wm-dot">·</span>STUDIO</div>';
       slide.addEventListener('click', function () { if (slide.classList.contains('is-active')) lightbox(p.src, p.title); });
