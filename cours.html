@@ -113,8 +113,11 @@
 body { padding-bottom: 64px; }
 @media (max-width: 700px) {
   .chapter-nav-bar .chapter-title { display: none; }
-  .chapter-nav-bar button { min-width: 90px; }
+  .chapter-nav-bar { gap: 6px; padding: 8px 8px; }
+  .chapter-nav-bar button { min-width: 0; flex: 1; padding: 10px 4px; font-size: .72rem; }
+  .chapter-nav-bar .chapter-counter { min-width: 0; flex: 1.2; font-size: .7rem; }
 }
+body { padding-bottom: 76px; }
 
 .cours-section {
   max-width: 1000px; margin: 0 auto 16px;
@@ -320,6 +323,9 @@ body { padding-bottom: 64px; }
 .cours-video-caption a {
   color: var(--accent); text-decoration: underline; margin-left: 6px;
 }
+.voir-en-grand{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;margin:10px 0 4px;border:1px solid var(--accent);border-radius:3px;background:rgba(169,199,232,.12);color:var(--accent);font:600 .72rem Montserrat,sans-serif;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.voir-en-grand:active{background:var(--accent);color:#080b12}
+@media (max-width:700px){.cours-video-frame{max-width:100%}.cours-video-caption a{min-height:44px;display:inline-flex;align-items:center;padding:0 8px}}
 .video-key-points {
   margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
   font-size: 0.82rem; color: #ccc;
@@ -370,7 +376,7 @@ body { padding-bottom: 64px; }
     .logo { font-size: 0.95rem; letter-spacing: 3px; }
     .logo::before { width: 16px; }
     .logo span { display: none; }
-    .site-controls { top: auto; bottom: 16px; right: 12px; }
+    .site-controls { top: 12px; bottom: auto; right: 12px; }
     .site-controls svg { width: 15px; height: 15px; }
     .nav { height: 64px; }
     header .admin-btn { padding: 8px 14px; }
@@ -2160,6 +2166,39 @@ body { padding-bottom: 64px; }
       if (e.key === 'ArrowLeft') show(i - 1, true);
     });
     show(0, false);
+  })();
+  </script>
+
+  <script>
+  /* Bouton « Voir en grand » fiable sur mobile : ouvre la vidéo dans YouTube. */
+  (function(){
+    var IDS=['hF5knxWfWKA','fG24M7ifWeE','5Br5TEqfJVM','-sJ93tPU7lY','AL9Cs1uOBwI','e_HsdswGIg0','hreNgaQZYC4','IlSbPIe5_mA','Ju1jozJy-y0','d9FWrKMu11Q','vbvb0FlEc7k','QXnVqx5j4rY','yll2nS6t0DY','AMG48xzYP_8','l3bP2peT5F4','E3KXAL5jxLY','MszeJgjfZb4','xh1SICnw4tI','0GR9p9SEfoU'];
+    function addButtons(){
+      var k=0;
+      document.querySelectorAll('.cours-video-frame').forEach(function(frame){
+        if (frame.dataset.bigAdded) { k++; return; }
+        frame.dataset.bigAdded='1';
+        var id=null, ifr=frame.querySelector('iframe');
+        if(ifr){ var m=(ifr.getAttribute('src')||'').match(/embed\/([A-Za-z0-9_-]+)/); if(m) id=m[1]; }
+        if(!id){
+          var s=frame.closest('.cours-video');
+          var a=s&&s.querySelector('a[href*="youtube.com/watch?v="]');
+          if(a){ var m2=(a.getAttribute('href')||'').match(/[?&]v=([A-Za-z0-9_-]+)/); if(m2) id=m2[1]; }
+        }
+        if(!id) id=IDS[k];
+        k++;
+        if(!id) return;
+        var btn=document.createElement('a');
+        btn.className='voir-en-grand';
+        btn.href='https://www.youtube.com/watch?v='+id;
+        btn.target='_blank';
+        btn.rel='noopener';
+        btn.textContent='▶ Voir en grand';
+        frame.parentNode.insertBefore(btn, frame.nextSibling);
+      });
+    }
+    addButtons();
+    window.addEventListener('load', addButtons);
   })();
   </script>
 
