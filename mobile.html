@@ -211,11 +211,14 @@ a.desktop-link{display:inline-flex;margin-top:18px;font-size:.62rem;letter-spaci
   // Son : un seul morceau, pas de bug de fondu.
   var a=document.getElementById('bgMusic'), btn=document.getElementById('sound');
   a.volume=0.5;
-  function play(){ var p=a.play(); if(p&&p.catch)p.catch(function(){}); }
+  function play(){ var p=a.play(); if(p&&p.catch)p.catch(function(){ setTimeout(play,250); }); }
   try{ if(sessionStorage.getItem('saysko_mobile_muted')==='1') a.muted=true; }catch(e){}
   function paint(){ btn.classList.toggle('off',a.muted); btn.setAttribute('aria-label',a.muted?'Activer la musique':'Couper la musique'); }
-  function unlock(){ if(!a.muted) play(); document.removeEventListener('pointerdown',unlock); }
+  function unlock(){ if(!a.muted){ a.muted=false; play(); }
+    document.removeEventListener('pointerdown',unlock); document.removeEventListener('touchstart',unlock); document.removeEventListener('click',unlock); }
   document.addEventListener('pointerdown',unlock);
+  document.addEventListener('touchstart',unlock,{passive:true});
+  document.addEventListener('click',unlock);
   btn.addEventListener('click',function(){
     a.muted=!a.muted;
     try{ sessionStorage.setItem('saysko_mobile_muted',a.muted?'1':'0'); }catch(e){}
