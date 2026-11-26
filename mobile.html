@@ -178,17 +178,28 @@ a.desktop-link{display:inline-flex;margin-top:18px;font-size:.62rem;letter-spaci
     this.hidden = true;
   });
 
+  // Protection dissuasive des photos (clic droit / glisser / sélection).
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('dragstart', function (e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('selectstart', function (e) {
+    if (e.target && (e.target.tagName === 'IMG' || e.target.closest('#gallery'))) e.preventDefault();
+  });
+
   // Garder un fil mobile dans les pages internes ouvertes depuis ici.
   try{ sessionStorage.setItem('saysko_from_mobile','1'); }catch(e){}
 
   // Galerie
   var photos=[
-    {src:'galerie-AB9A7835.jpg',title:'Lumière dorée'},
-    {src:'galerie-AB9A7833_2.jpg',title:'Noir & blanc'},
-    {src:'galerie-portrait_nette.jpg',title:'Portrait studio'},
-    {src:'galerie-AB9A7956.jpg',title:'Shooting couple'},
-    {src:'galerie-AB9A7830.jpg',title:'Denim'},
-    {src:'shooting-exterieur.jpg',title:'Extérieur'}
+    {src:'signees/galerie-AB9A7835.jpg',title:'Lumière dorée'},
+    {src:'signees/galerie-AB9A7833_2.jpg',title:'Noir & blanc'},
+    {src:'signees/galerie-portrait_nette.jpg',title:'Portrait studio'},
+    {src:'signees/galerie-AB9A7956.jpg',title:'Shooting couple'},
+    {src:'signees/galerie-AB9A7830.jpg',title:'Denim'},
+    {src:'signees/shooting-exterieur.jpg',title:'Extérieur'}
   ];
   var g=document.getElementById('gallery');
   photos.forEach(function(p){
