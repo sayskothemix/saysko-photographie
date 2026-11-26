@@ -469,7 +469,9 @@
       .trig-icon { width: 34px; height: 34px; font-size: 1.2rem; }
       .trig-label { display: none; }
       .slide { width: 80%; height: 80%; }
-      .slide .overlay { padding: 18px 16px 52px; }
+      /* Mobile : seul le titre de la photo active est visible */
+      .slide .overlay { padding: 18px 16px 52px; opacity: 0; transition: opacity .4s ease; }
+      .slide.is-active .overlay { opacity: 1; }
       .overlay h3 { font-size: 1.5rem; }
       .photo-watermark { display: none; }
       .car-slate { top: 10px; left: 12px; }
