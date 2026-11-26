@@ -210,6 +210,9 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
 .chapter[data-ambiance="retouche"] {
   background: linear-gradient(90deg, rgba(8,11,18,.82) 0%, rgba(8,11,18,.5) 45%, rgba(8,11,18,.82) 100%), url("bg-retouche.jpg") center center / cover no-repeat;
 }
+.chapter[data-ambiance="formation"] {
+  background: linear-gradient(90deg, rgba(8,11,18,.86) 0%, rgba(8,11,18,.55) 45%, rgba(8,11,18,.86) 100%), url("station-retouche-3ecrans.jpg") center center / cover no-repeat;
+}
 .chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.82) 0%, rgba(8,11,18,.48) 45%, rgba(8,11,18,.82) 100%), url("bg-galerie.jpg") center center / cover no-repeat; }
 .chapter[data-ambiance="contact"] { background: linear-gradient(90deg, rgba(8,11,18,.86) 0%, rgba(8,11,18,.55) 45%, rgba(8,11,18,.86) 100%), url("bg-contact.jpg") center center / cover no-repeat; }
 .chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
@@ -477,8 +480,36 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
       </div>
     </div>
   </section>
+  <!-- ================= FORMATION ================= -->
+  <section class="chapter" id="formation" data-chapter="05 · La formation" data-ambiance="formation">
+    <div class="chapter-player" data-player="formation">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Formation</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Apprendre la <span>retouche</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="retouche-wrap">
+        <div class="retouche-img reveal">
+          <img src="station-retouche-3ecrans.jpg" alt="Station de retouche avec trois écrans : catalogue, développement et colorimétrie" loading="lazy">
+        </div>
+        <div class="retouche-text reveal">
+          <div class="about-kicker">Salle de formation</div>
+          <p>De Lightroom Classic à Capture One, apprenez à construire une lumière maîtrisée puis à révéler chaque image au post-traitement.</p>
+          <p>Des tutoriels pas à pas, en français, avec le matériel et les réglages que j'utilise en studio.</p>
+          <a class="btn" href="cours.html">Accéder aux tutoriels</a>
+          <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">Rejoindre le live 🎧</a>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ================= PORTFOLIO ================= -->
-  <section class="chapter" id="portfolio" data-chapter="05 · La galerie" data-ambiance="galerie">
+  <section class="chapter" id="portfolio" data-chapter="06 · La galerie" data-ambiance="galerie">
     <div class="chapter-player" data-player="galerie">
       <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
         <span class="player-icon">♫</span>
@@ -533,7 +564,7 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
   </section>
 
   <!-- ================= CONTACT ================= -->
-  <section class="chapter" id="contact" data-chapter="06 · Contact" data-ambiance="contact">
+  <section class="chapter" id="contact" data-chapter="07 · Contact" data-ambiance="contact">
     <div class="fond-anime" data-fond="contact"><canvas></canvas></div>
     <div class="chapter-player" data-player="contact">
       <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
@@ -1094,8 +1125,9 @@ html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
     {rate:0.98, vol:0.55, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
     {rate:0.96, vol:0.55, freq:1400, type:'lowpass', offset:31},    // 03 · Le matériel : mécanique, précis
     {rate:0.9, vol:0.55, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
-    {rate:1.0, vol:0.55, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
-    {rate:0.96, vol:0.55, freq:1500, type:'lowpass', offset:86}     // 06 · Contact : calme, feutré
+    {rate:0.97, vol:0.55, freq:1800, type:'lowpass', offset:52},    // 05 · La formation : concentré
+    {rate:1.0, vol:0.55, freq:2600, type:'lowpass', offset:64},     // 06 · La galerie : lumineux
+    {rate:0.96, vol:0.55, freq:1500, type:'lowpass', offset:86}     // 07 · Contact : calme, feutré
   ];
   // Volume piloté uniquement par audio.volume : aucun Web Audio (source d'instabilité)
   function ensureAudio(){ /* conservé pour compatibilité, sans effet */ }
