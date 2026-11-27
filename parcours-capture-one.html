@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Le parcours interactif Capture One : de l'import à l'export, chapitres dynamiques, simulateur de réglages, défi chronométré et quiz.">
+<title>Capture One — Le Parcours Interactif | Saysko Photographie</title>
+<style>
+:root{--bg:#070a12;--surface:#0d1420;--surface2:#111a29;--txt:#f5f7fb;--muted:#9eacc0;--or:#c9a56a;--or-clair:#e8c98f;--vert:#7ec8a0;--rouge:#e07a6a;--line:rgba(201,165,106,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.7 "Segoe UI",system-ui,Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 8% -6%,rgba(201,165,106,.10),transparent 62%),radial-gradient(900px 560px at 96% 8%,rgba(111,168,201,.08),transparent 60%),linear-gradient(180deg,#080d17 0%,var(--bg) 60%);background-attachment:fixed}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;letter-spacing:.01em}
+a{color:var(--or-clair)}
+code{font-family:Consolas,monospace;font-size:.86em;color:var(--or-clair);background:rgba(201,165,106,.08);padding:2px 6px;border-radius:4px}
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,32,.9),rgba(7,10,18,.2))}
+.kicker{display:inline-block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+h1{margin:0;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.12;background:linear-gradient(100deg,#f5f7fb 10%,var(--or-clair) 70%,var(--or));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 em{font-style:italic;color:var(--or-clair)}
+.hero p{max-width:640px;margin:18px auto 0;color:var(--muted)}
+.stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.8rem;color:var(--or-clair);font-weight:500}
+.stat span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px;display:grid;grid-template-columns:230px 1fr;gap:28px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}nav.sommaire{position:static!important;max-height:none!important}}
+nav.sommaire{position:sticky;top:16px;align-self:start;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;max-height:calc(100vh - 32px);overflow:auto}
+nav.sommaire h2{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin:0 0 14px}
+.progression{height:3px;background:rgba(255,255,255,.08);margin:0 0 14px}
+.progression i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .4s}
+.etape{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;color:var(--muted);padding:7px 8px;cursor:pointer;font:inherit;font-size:.86rem;border-radius:2px;transition:.2s}
+.etape:hover{color:var(--txt);background:rgba(201,165,106,.05)}
+.etape.actif{color:var(--or-clair);border-left-color:var(--or)}
+.etape.fait{color:var(--vert)}
+.puce{width:18px;height:18px;flex:none;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center;font-size:.65rem}
+.barre{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:10;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:10px}
+.barre button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:8px 14px;cursor:pointer;font:inherit;font-size:.85rem;transition:.2s}
+.barre button:hover{color:var(--or-clair);border-color:var(--or)}
+.timer{margin-left:auto;color:var(--or-clair);font-variant-numeric:tabular-nums;font-size:.95rem}
+.timer.enCours{color:var(--vert)}
+.chapitre{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-bottom:12px;overflow:hidden;scroll-margin-top:60px;transition:border-color .25s}
+.chapitre:hover{border-color:rgba(201,165,106,.4)}
+.chapitre.ouvert{border-color:var(--or)}
+.chapitre>button.titre{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:none;border:0;color:var(--txt);padding:17px 20px;cursor:pointer;font:inherit;font-size:1.05rem;text-align:left}
+.chapitre>button.titre:hover{color:var(--or-clair)}
+.num{background:linear-gradient(135deg,var(--or),var(--or-clair));-webkit-background-clip:text;background-clip:text;color:transparent;margin-right:10px;font-variant-numeric:tabular-nums;font-weight:600}
+.fleche{color:var(--or);transition:transform .3s}
+.chapitre.ouvert .fleche{transform:rotate(90deg)}
+.contenu{max-height:0;overflow:hidden;transition:max-height .5s ease;padding:0 20px}
+.chapitre.ouvert .contenu{max-height:2000px;padding-bottom:20px}
+.contenu ol,.contenu ul{padding-left:20px;margin:8px 0}
+.contenu li{margin:6px 0;color:var(--txt)}
+.contenu li::marker{color:var(--or)}
+.contenu strong{color:var(--or-clair)}
+.badge{display:inline-block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--or);border:1px solid var(--line);border-radius:3px;padding:2px 8px;margin-left:8px;font-weight:400}
+.encadrer{border-left:2px solid var(--or);background:rgba(201,165,106,.04);padding:12px 16px;margin:14px 0}
+.encadrer h3{font-size:1rem;color:var(--or-clair);margin:0 0 6px}
+.encadrer p{font-size:.88rem;color:var(--muted);margin:0}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+@media(max-width:600px){.sim{grid-template-columns:1fr}}
+.sim label{display:block;font-size:.82rem;color:var(--muted);margin:8px 0 3px}
+.sim label span{color:var(--or-clair);font-variant-numeric:tabular-nums}
+.sim input[type=range]{width:100%;accent-color:var(--or);cursor:pointer}
+.apercu{border-radius:4px;min-height:170px;display:grid;place-items:center;text-align:center;padding:14px;color:#fff;font-size:.85rem;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.lecture{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.lecture button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:5px 11px;cursor:pointer;font:inherit;font-size:.8rem}
+.lecture button:hover{color:var(--or-clair);border-color:var(--or)}
+.conseil{font-size:.85rem;color:var(--vert);min-height:20px;margin:10px 0 0}
+.quiz button{display:block;width:100%;text-align:left;background:transparent;color:var(--txt);border:1px solid var(--line);border-radius:4px;padding:9px 12px;margin:6px 0;cursor:pointer;font:inherit;font-size:.86rem;transition:.2s}
+.quiz button:hover:not(:disabled){border-color:var(--or)}
+.quiz button.bon{border-color:var(--vert);color:var(--vert)}
+.quiz button.mauvais{border-color:var(--rouge);color:var(--rouge)}
+.quiz button:disabled{cursor:default}
+.memo{color:var(--or-clair);font-size:1.05rem;border-left:2px solid var(--or);padding-left:14px}
+.note{font-size:.84rem;color:var(--muted);border-top:1px solid var(--line);margin-top:20px;padding-top:14px}
+.jeu{background:rgba(201,165,106,.03);border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:14px}
+.score{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:.85rem;color:var(--muted)}
+.score b{color:var(--or-clair);font-weight:600}
+.vies,.combo{letter-spacing:1px}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.duel{grid-template-columns:1fr}}
+.vignette{border:1px solid var(--line);border-radius:5px;padding:12px;cursor:pointer;transition:.2s;background:var(--surface2);text-align:center}
+.vignette:hover{border-color:var(--or)}
+.vignette .cadre{height:110px;border-radius:3px;display:grid;place-items:center;color:#fff;font-size:.8rem;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.vignette .legende{margin-top:8px;font-size:.8rem;color:var(--muted)}
+.vignette.choisie-bonne{border-color:var(--vert)}
+.vignette.choisie-mauvaise{border-color:var(--rouge)}
+.vignette.revelee{border-color:var(--or)}
+.debrief{font-size:.86rem;color:var(--vert);margin:12px 0 0;min-height:22px}
+.indice{background:none;border:1px solid var(--line);color:var(--muted);border-radius:3px;padding:6px 12px;cursor:pointer;font:inherit;font-size:.8rem;margin-top:8px}
+.indice:hover{color:var(--or-clair);border-color:var(--or)}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.badge-obtenu,.badge-verrouille{border-radius:3px;padding:3px 10px;font-size:.74rem}
+.badge-obtenu{color:var(--or-clair);border:1px solid var(--or)}
+.badge-verrouille{color:var(--muted);border:1px solid var(--line);opacity:.6}
+.jeu button.rejouer{background:transparent;color:var(--or);border:1px solid var(--or);border-radius:3px;padding:8px 16px;cursor:pointer;font:inherit;font-size:.84rem;margin-top:10px}
+.corner{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--surface2);color:var(--or);border:1px solid var(--or);font-size:1.1rem;cursor:pointer;z-index:20}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,12px);background:var(--surface2);color:var(--or-clair);border:1px solid var(--or);padding:10px 20px;border-radius:3px;font-size:.85rem;opacity:0;pointer-events:none;transition:.3s;z-index:50}
+.toast.visible{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em;padding:30px 16px;border-top:1px solid var(--line)}
+@media print{.barre,.corner,.toast,.quiz{display:none!important}nav.sommaire{display:none}.wrap{display:block;max-width:none}.chapitre .contenu{max-height:none!important;padding-bottom:10px!important}.chapitre{background:#fff;color:#111;border-color:#ccc;break-inside:avoid}.contenu strong,.num,.memo{color:#8a6a2f}body{background:#fff;color:#111}code{background:#eee;color:#8a6a2f}}
+
+/* Transitions discretes et classe */
+.niveau{transition:border-color .35s ease,background .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.niveau:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(201,165,106,.06),var(--surface) 60%);box-shadow:0 12px 34px rgba(0,0,0,.25)}
+.onglets button,.chapitre,.etape,.quiz button,.lecture button,.barre button{transition:all .3s cubic-bezier(.2,.8,.2,1)}
+.onglets button:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(201,165,106,.08),var(--surface2) 70%)}
+.voie.actif{animation:voieEntree .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes voieEntree{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.chapitre>button.titre{transition:color .3s,background .3s}
+.chapitre>button.titre:hover{background:linear-gradient(90deg,rgba(201,165,106,.06),transparent)}
+.contenu{transition:max-height .55s cubic-bezier(.22,1,.36,1),padding .45s ease}
+.vignette{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .35s}
+.vignette:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.vignette .cadre{transition:filter .5s ease,transform .5s ease}
+.vignette:hover .cadre{transform:scale(1.03)}
+.jeu button,.niveau>button,.corner{transition:all .3s cubic-bezier(.2,.8,.2,1)}
+.jeu button:hover,.niveau>button:hover,.corner:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.progression i,.barre-prog i{transition:width .7s cubic-bezier(.22,1,.36,1)}
+.toast{transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.etape:hover{transform:translateX(3px)}
+.apercu{transition:background .45s ease,filter .45s ease}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
+<header class="hero">
+  <span class="kicker">Saysko Photographie · Formation express</span>
+  <h1>Maîtrisez Capture One<br>en un seul parcours</h1>
+  <p>Du RAW brut au JPG prêt à publier. Un tuto vivant : chapitres qui s'ouvrent à votre rythme, simulateur de réglages en direct, quiz de validation et défi chronométré de 10 minutes.</p>
+  <div class="hero-stats">
+    <div class="stat"><b>11</b><span>étapes</span></div>
+    <div class="stat"><b>10 min</b><span>défi chrono</span></div>
+    <div class="stat"><b>8</b><span>questions</span></div>
+    <div class="stat"><b>∞</b><span>essais simulateur</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="sommaire" id="sommaire">
+    <h2>Les étapes</h2>
+    <div class="progression"><i id="avancement"></i></div>
+    <div id="listeChapitres"></div>
+  </nav>
+  <main>
+    <div class="barre">
+      <button onclick="toutOuvrir()">Tout ouvrir</button>
+      <button onclick="toutFermer()">Tout fermer</button>
+      <button onclick="etapeSuivante()">Étape suivante</button>
+      <button id="boutonChrono" onclick="basculerChrono()">Défi 10 min</button>
+      <span class="timer" id="chrono">10:00</span>
+    </div>
+    <div class="encadrer" id="defi" style="display:none">
+      <h3>Défi 10 minutes — en condition réelle</h3>
+      <p style="margin:0;font-size:.9rem">Ouvre un RAW de <code>Photo Saysko</code> et suis les étapes 01 à 07 sans t'arrêter. Le chrono tourne pendant que tu travailles dans Capture One. À la fin, compare ton export avec la fiche mémo (étape 08).</p>
+    </div>
+
+    <section class="chapitre" data-titre="Préparation">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">00</span>Préparation <span class="badge">avant de cliquer</span></span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li><strong>Choisis le fichier source</strong> : travaille de préférence sur le RAW (<code>.CR2</code> de ton 600D / 5D Mark IV) — tu récupères bien plus d'infos dans les ombres et hautes lumières qu'avec un JPG.</li>
+        <li><strong>Localise tes RAW</strong> : <code>G:\STOKAGE IMAGES\Photo Saysko</code>.</li>
+        <li><strong>Ferme Capture One avant d'utiliser tes caméras Canon dans OBS</strong> (EOS Webcam Utility) : Capture One verrouille les connexions USB.</li>
+        <li><strong>Ne supprime jamais un RAW</strong>, même après export — l'export est une copie.</li>
+      </ol></div>
+    </section>
+
+    <section class="chapitre" data-titre="Importer">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">01</span>Importer la photo</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li>Ouvre Capture One, clique sur <strong>Importer</strong> (en haut à gauche, ou <code>Ctrl+I</code>).</li>
+        <li>Va dans <code>G:\STOKAGE IMAGES\Photo Saysko</code>, sélectionne <strong>une seule photo</strong> pour commencer.</li>
+        <li>Choisis <strong>Référencer</strong> (recommandé : Capture One lit le fichier sur place, pas de doublon) plutôt que <strong>Copier</strong>.</li>
+        <li>Clique sur <strong>Importer</strong>.</li>
+        <li>Dans la bibliothèque (icône dossier), double-clique sur la photo pour passer en mode <strong>Développement</strong> (onglet en haut à droite).</li>
+      </ol>
+      <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : pour éviter les doublons, tu choisis…</p>
+        <button onclick="repondre(this,true)">Référencer</button>
+        <button onclick="repondre(this,false)">Copier</button>
+      </div></div>
+    </section>
+
+    <section class="chapitre" data-titre="Réglages de base">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">02</span>Réglages de base <span class="badge">simulateur</span></span><span class="fleche">▶</span></button>
+      <div class="contenu"><p>Panneau de droite, onglet <strong>Ajuster</strong>. L'ordre compte. Essaye les curseurs : l'aperçu réagit en direct et te prévient en cas d'excès.</p>
+        <ol>
+          <li><strong>Exposition</strong> — jusqu'à ce que l'image ne soit ni trop sombre ni trop claire. L'histogramme ne doit pas toucher les bords.</li>
+          <li><strong>Contraste</strong> — +10 à +25 en général, donne du « punch ».</li>
+          <li><strong>Plage dynamique</strong> — récupère les détails dans les ombres et hautes lumières (RAW Canon).</li>
+          <li><strong>Balance des blancs</strong> — pipette sur une zone grise neutre, puis Température / Teinte.</li>
+          <li><strong>Vibrance</strong> — +10 à +30. Saturation prudente : +10 à +15 max.</li>
+          <li><strong>Bruit</strong> — onglet Détails, réduction au minimum si ISO élevé.</li>
+        </ol>
+        <div class="sim">
+          <div>
+            <label>Exposition : <span id="vExp">0</span></label><input type="range" id="exp" min="-100" max="100" value="0" oninput="simuler()">
+            <label>Contraste : <span id="vCon">0</span></label><input type="range" id="con" min="-100" max="100" value="0" oninput="simuler()">
+            <label>Vibrance : <span id="vVib">0</span></label><input type="range" id="vib" min="-100" max="100" value="0" oninput="simuler()">
+            <div class="lecture"><button onclick="preset('neutre')">Neutre</button><button onclick="preset('chaud')">Chaud</button><button onclick="preset('froid')">Froid</button><button onclick="preset('punch')">Punch</button></div>
+          </div>
+          <div class="apercu" id="apercu">apercu RAW</div>
+        </div>
+        <p class="conseil" id="conseil"></p>
+      </div>
+    </section>
+
+    <section class="chapitre" data-titre="Retouche locale">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">03</span>Retouche locale</span><span class="fleche">▶</span></button>
+      <div class="contenu"><p>Règle : l'œil va où c'est le plus clair et le plus net.</p><ol>
+        <li><strong>Zone de dégradé</strong> (touche <code>G</code>) — glisse du haut vers le centre pour assombrir le ciel (Exposition -0,3 à -1), idem par le bas pour éclaircir le premier plan.</li>
+        <li><strong>Pinceau</strong> (touche <code>B</code>) — peins sur le visage pour éclaircir légèrement (+0,2 à +0,5), sur les yeux pour plus de clarté. Ajuste Taille et Dureté en haut.</li>
+        <li><strong>Ajuster</strong> (touche <code>A</code>) — clique sur une couleur puis glisse vers le haut pour l'intensifier, vers le bas pour l'atténuer (ex. ciel plus bleu).</li>
+      </ol>
+      <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : pour assombrir un ciel trop clair, tu utilises…</p>
+        <button onclick="repondre(this,true)">Zone de dégradé, Exposition négative</button>
+        <button onclick="repondre(this,false)">Saturation à +50 partout</button>
+      </div></div>
+    </section>
+
+    <section class="chapitre" data-titre="Cadrage">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">04</span>Cadrage</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li>Outil <strong>Rognage</strong> (<code>C</code>) — choisis un ratio (3:2, 4:5 pour Instagram, 16:9) et déplace les poignées.</li>
+        <li>Horizon penché : avec l'outil rognage, utilise <strong>Rotation</strong> (ou clique-glisse sur la ligne d'horizon avec l'outil niveau).</li>
+      </ol></div>
+    </section>
+
+    <section class="chapitre" data-titre="Finition">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">05</span>Finition</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li>Onglet <strong>Effets</strong> → <strong>Vignettage</strong> léger (-0,2 à -0,5) pour concentrer le regard.</li>
+        <li>Compare avant/après : maintiens la <strong>barre Espace</strong> ou clique sur l'icône œil en bas de la photo.</li>
+        <li>Plusieurs photos du même shooting : copie les réglages (<code>Ctrl+C</code>) puis colle (<code>Ctrl+V</code>) sur les autres, ou passe par l'outil <strong>Styles</strong>.</li>
+      </ol></div>
+    </section>
+
+    <section class="chapitre" data-titre="Exporter">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">06</span>Exporter</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li>Sélectionne la photo dans la bibliothèque.</li>
+        <li>Menu <strong>Fichier → Exporter</strong> (ou <code>Ctrl+Maj+E</code>).</li>
+        <li>Dans la fenêtre : <strong>Format JPEG</strong> qualité 85–95 (web / Discord), ou <strong>TIFF/PSD</strong> si tu continues dans Photoshop ; <strong>Destination</strong> <code>G:\STOKAGE IMAGES\_EN_COURS</code> puis <code>foto terminer</code> une fois finie ; <strong>Nom</strong> d'origine ou suffixe <code>_retouche</code> ; coche <strong>Inclure les métadonnées</strong> pour garder l'EXIF.</li>
+        <li>Clique sur <strong>Exporter</strong>.</li>
+      </ol>
+      <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : qualité JPEG recommandée pour Discord / web ?</p>
+        <button onclick="repondre(this,true)">85–95</button>
+        <button onclick="repondre(this,false)">20–30</button>
+      </div></div>
+    </section>
+
+    <section class="chapitre" data-titre="Rangement">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">07</span>Rangement</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ul>
+        <li>Déplace le JPG fini de <code>_EN_COURS</code> vers <code>foto terminer</code> (sans <code>?</code> dans le nom), et garde le RAW intact dans <code>Photo Saysko</code>.</li>
+        <li>N'utilise jamais de <code>?</code> ni <code>*</code> dans un nom de dossier Windows : ce sont des jokers et ont déjà causé une suppression accidentelle par le passé.</li>
+      </ul></div>
+    </section>
+
+    <section class="chapitre" data-titre="Fiche mémo">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">08</span>Fiche mémo <span class="badge">à retenir</span></span><span class="fleche">▶</span></button>
+      <div class="contenu"><p class="memo">Import → Exposition → Contraste → Balance des blancs → Vibrance → Zones locales → Rognage → Finition → Export.</p>
+      <p>En respectant cet ordre, une photo est prête en moins de 10 minutes. Le simulateur de l'étape 02 montre l'effet de chaque curseur sans toucher à tes photos. Le bouton ⎙ en bas à droite imprime ce parcours en fiche propre.</p></div>
+    </section>
+
+    <section class="chapitre" data-titre="Jeu photo">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">09</span>Jeu photo <span class="badge">5 manches · score</span></span><span class="fleche">▶</span></button>
+      <div class="contenu">
+        <p>Regarde les deux rendus et choisis <strong>le meilleur traitement</strong>. Chaque manche illustre un réglage du parcours. Débriefing et score à la fin.</p>
+        <div class="jeu" id="jeuPhoto">
+          <div class="score"><b id="score">Score : 0 / 5</b><span class="vies" id="vies">•••</span><span class="combo" id="combo"></span><span class="etat" id="etatJeu">Manche 1 sur 5</span></div>
+          <div class="duel" id="duel"></div>
+          <p class="debrief" id="debrief"></p>
+          <button class="indice" onclick="donnerIndice()">Indice</button>
+          <div class="badges" id="badges"></div>
+          <button class="rejouer" id="rejouer" style="display:none" onclick="demarrerJeu()">Rejouer</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapitre" data-titre="Vidéos">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">10</span>Vidéos classées par étape</span><span class="fleche">▶</span></button>
+      <div class="contenu"><ol>
+        <li><strong>Import → export, prise en main complète (étapes 01 à 06)</strong> — <a href="https://www.youtube.com/watch?v=zOLZXRbXz4s" target="_blank">Débuter dans CAPTURE ONE</a></li>
+        <li><strong>Réglages de base : histogramme, exposition, contraste, luminosité, saturation (étapes 02–03)</strong> — 10 min, Stéphane Simon : <a href="https://www.nikonpassion.com/capture-one-pro-post-traitement-retouches-base-tutoriel/" target="_blank">Nikon Passion</a></li>
+        <li><strong>Parcours complet en français, toutes les étapes</strong> — <a href="https://www.youtube.com/playlist?list=PLY6DmgGcwkJ4MB430bhWxFzqURAbe_Su1" target="_blank">Playlist Tutoriels Capture One Pro en Français</a></li>
+        <li><strong>Approfondissement (3h25, extraits gratuits)</strong> — <a href="https://www.tuto.com/photo/tutoriels-video/capture-one-pro.html" target="_blank">tuto.com</a></li>
+        <li><strong>Cours officiels Capture One</strong> — <a href="https://www.captureone.com/fr/learn/courses" target="_blank">captureone.com</a></li>
+      </ol>
+      <p class="note">Je n'ai pas pu lire les vidéos image par image (YouTube ne renvoie que le titre) : les étapes viennent de la documentation et des extraits de formation consultables. Les liens de la playlist et de Nikon Passion sont actifs. Rien n'a été modifié dans tes photos ni sur le site.</p></div>
+    </section>
+  </main>
+</div>
+<button class="corner" onclick="window.print()" title="Imprimer ou sauvegarder en PDF">⎙</button>
+<div class="toast" id="toast"></div>
+<footer>Saysko Photographie · Tuto Capture One interactif · Fait pour Rodri</footer>
+<script>
+const chapitres=[...document.querySelectorAll('.chapitre')];
+const liste=document.getElementById('listeChapitres');
+chapitres.forEach((c,i)=>{
+  const b=document.createElement('button');b.className='etape';
+  b.innerHTML='<span class="puce">'+(i<10?'0':'')+i+'</span><span>'+c.dataset.titre+'</span>';
+  b.onclick=()=>{c.classList.add('ouvert');c.scrollIntoView({behavior:'smooth',block:'start'});maj()};
+  liste.appendChild(b);
+});
+function maj(){
+  [...liste.children].forEach((b,i)=>{
+    const ouvert=chapitres[i].classList.contains('ouvert');
+    b.classList.toggle('actif',ouvert);
+    b.classList.toggle('fait',ouvert&&i<8);
+    b.querySelector('.puce').textContent=ouvert?'✓':(i<10?'0':'')+i;
+  });
+  document.getElementById('avancement').style.width=(chapitres.filter(c=>c.classList.contains('ouvert')).length/chapitres.length*100)+'%';
+}
+function basculer(b){b.parentElement.classList.toggle('ouvert');maj()}
+function toutOuvrir(){chapitres.forEach(c=>c.classList.add('ouvert'));maj();toast('Toutes les étapes sont ouvertes')}
+function toutFermer(){chapitres.forEach(c=>c.classList.remove('ouvert'));maj()}
+let secondes=600,chronoActif=false,intervalle=null;
+function afficherChrono(){document.getElementById('chrono').textContent=Math.floor(secondes/60)+':'+String(secondes%60).padStart(2,'0')}
+function basculerChrono(){
+  chronoActif=!chronoActif;const b=document.getElementById('boutonChrono');
+  b.textContent=chronoActif?'Pause':(secondes<600?'▶ Reprendre':'Défi 10 min');
+  b.style.background=chronoActif?'var(--vert)':'var(--or)';
+  document.getElementById('chrono').classList.toggle('enCours',chronoActif);
+  document.getElementById('defi').style.display=chronoActif?'block':'none';
+  if(chronoActif){
+    if(secondes<=0)secondes=600;
+    intervalle=setInterval(()=>{secondes--;afficherChrono();
+      if(secondes<=0){clearInterval(intervalle);chronoActif=false;document.getElementById('chrono').textContent='FINI';
+        document.getElementById('boutonChrono').textContent='↻ Recommencer';document.getElementById('defi').style.display='none';toast('Défi terminé ! Vérifie la fiche mémo');secondes=600;}
+    },1000);
+  } else clearInterval(intervalle);
+}
+function etapeSuivante(){
+  const i=chapitres.findIndex(c=>!c.classList.contains('ouvert'));
+  if(i<0){toutFermer();toast('Parcours terminé — bravo !');return}
+  chapitres[i].classList.add('ouvert');chapitres[i].scrollIntoView({behavior:'smooth',block:'start'});maj();
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('visible');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('visible'),2600)}
+function repondre(b,bon){
+  b.classList.add(bon?'bon':'mauvais');
+  b.parentElement.querySelectorAll('button').forEach(x=>{if(x!==b)x.disabled=true});
+  b.textContent=(bon?'✓ Bonne réponse — ':'✗ Non — ')+b.textContent;
+  toast(bon?'Bonne réponse !':'Pas tout à fait — lis la consigne ci-dessus');
+}
+function simuler(){
+  const e=+exp.value,c=+con.value,v=+vib.value;
+  vExp.textContent=e;vCon.textContent=c;vVib.textContent=v;
+  const lumi=Math.max(18,Math.min(95,52+e*0.35));
+  const sat=Math.max(0,Math.min(100,35+v*0.5));
+  const ap=document.getElementById('apercu');
+  ap.style.background='linear-gradient(155deg,hsl('+(28+v*0.15)+' '+sat+'% '+Math.min(96,lumi+26)+'%),hsl('+(205+v*0.1)+' '+sat+'% '+lumi+'%))';
+  ap.style.filter='contrast('+(100+c)+'%)';
+  ap.innerHTML='aperçu RAW<br><small style="font-weight:400;opacity:.85">Exp '+(e>0?'+':'')+e+' · Contras '+(c>0?'+':'')+c+' · Vibrance '+(v>0?'+':'')+v+'</small>';
+  const conseil=document.getElementById('conseil');
+  conseil.textContent=e>50?'Exposition haute : vérifie que le blanc n est pas brûlé à droite de l histogramme.'
+    :e<-50?'Exposition basse : attention aux noirs écrasés à gauche.'
+    :v>60?'Vibrance élevée : surveille la peau, elle vire à l orange.'
+    :c>60?'Contraste fort : les ombres peuvent perdre des détails.'
+    :'Réglage équilibré — bonne base pour continuer.';
+}
+function preset(n){const p={neutre:[0,0,0],chaud:[20,20,30],froid:[-10,25,10],punch:[10,45,40]}[n];
+  exp.value=p[0];con.value=p[1];vib.value=p[2];simuler();toast('Preset « '+n+' » appliqué à l aperçu');}
+const manches=[
+  {titre:"Exposition",question:"Quel rendu est le mieux exposé ?",a:{txt:"Trop clair, blanc brûlé",bg:"linear-gradient(160deg,#fdf6e8,#f2ede0)",filtre:""},b:{txt:"Tons équilibrés",bg:"linear-gradient(160deg,#d9b98d,#5c7f9e)",filtre:""},bon:1,explication:"Le rendu B garde des détails dans le ciel et les ombres : l'histogramme ne touche aucun bord."},
+  {titre:"Contraste",question:"Quel rendu a du punch sans écraser les ombres ?",a:{txt:"Contraste doux et plat",bg:"linear-gradient(160deg,#b9a99a,#8b8078)",filtre:""},b:{txt:"Contraste maîtrisé",bg:"linear-gradient(160deg,#e8c98f,#2e3d52)",filtre:""},bon:1,explication:"Le rendu B a du contraste tout en gardant des détails dans les zones sombres."},
+  {titre:"Balance des blancs",question:"Quel rendu a une balance des blancs neutre ?",a:{txt:"Teinte verdâtre",bg:"linear-gradient(160deg,#b8c9a8,#6b7a5e)",filtre:""},b:{txt:"Neutre / légèrement chaud",bg:"linear-gradient(160deg,#e3d5c0,#7a6b5c)",filtre:""},bon:1,explication:"La pipette sur une zone grise neutre corrige la dominante : le rendu B est naturel."},
+  {titre:"Vibrance",question:"Quel rendu boosted les couleurs sans abîmer la peau ?",a:{txt:"Peau orange, saturation excessive",bg:"linear-gradient(160deg,#e89a4a,#c25a20)",filtre:""},b:{txt:"Couleurs douces et naturelles",bg:"linear-gradient(160deg,#e8c2a0,#6b8fa8)",filtre:""},bon:1,explication:"La Vibrance agit sur les couleurs douces sans rendre la peau orange, contrairement à une Saturation trop forte."},
+  {titre:"Cadrage",question:"Quel cadrage respecte la règle des tiers ?",a:{txt:"Sujet au centre, horizon coupé",bg:"linear-gradient(160deg,#c9b89a,#6d7a5c)",filtre:"grayscale(1)"},b:{txt:"Sujet sur un tiers",bg:"linear-gradient(160deg,#d9c2a0,#425f7a)",filtre:""},bon:1,explication:"Le sujet placé sur une ligne de tiers et un horizon droit rendent l'image plus dynamique."}
+];
+let manche=0,score=0,vies=3,combo=0,indiceUtilise=false;
+function dessinerJeu(){
+  const m=manches[manche];
+  etatJeu.textContent='Manche '+(manche+1)+' sur '+manches.length+' · '+m.titre;
+  score.textContent='Score : '+score+' / '+manches.length;
+  vies.textContent='•'.repeat(vies)+'·'.repeat(3-vies);
+  combo.textContent=combo>=2?'Combo x'+combo:'';
+  debrief.textContent=m.question;
+  rejouer.style.display='none';indiceUtilise=false;
+  duel.innerHTML='';
+  [0,1].forEach(i=>{
+    const d=document.createElement('div');d.className='vignette';
+    d.innerHTML='<div class="cadre" style="background:'+m[i].bg+';filter:'+m[i].filtre+'">'+m[i].txt+'</div><div class="legende">Rendu '+(i===0?'A':'B')+'</div>';
+    d.onclick=()=>choisir(i,d);duel.appendChild(d);
+  });
+  afficherBadges();
+}
+function donnerIndice(){
+  if(indiceUtilise){toast('Indice déjà utilisé pour cette manche');return}
+  const m=manches[manche];
+  debrief.textContent='Indice : '+m.explication.split(':')[0]+' — '+(m.bon===0?'regarde le rendu A.':'regarde le rendu B.');
+  indiceUtilise=true;
+}
+function afficherBadges(){
+  const liste=[
+    ['-premier','Premier essai',manche>0],
+    ['sansfaute','Sans faute',score===manche+1&&vies===3],
+    ['combo','Combo x3',combo>=3],
+    ['expert','Expert Capture One',score===manches.length],
+    ['indice','Curieux',indiceUtilise]
+  ];
+  badges.innerHTML=liste.map(([cle,texte,ok])=>'<span class="'+(ok?'badge-obtenu':'badge-verrouille')+'">'+texte+'</span>').join('');
+}
+function choisir(i,el){
+  const m=manches[manche],bon=i===m.bon;
+  [...duel.children].forEach((v,j)=>{v.style.pointerEvents='none';if(j===m.bon)v.classList.add('revelee');});
+  el.classList.add(bon?'choisie-bonne':'choisie-mauvaise');
+  if(bon){score++;combo++;toast('Correct — combo x'+combo)}
+  else{vies--;combo=0;toast('Incorrect — '+(vies>0?'il te reste '+vies+' vie(s)':'plus de vies'))}
+  score.textContent='Score : '+score+' / '+manches.length;
+  debrief.textContent=(bon?'✓ Correct — ':'✗ Pas tout à fait — ')+m.explication;
+  afficherBadges();
+  manche++;
+  if(vies<=0){etatJeu.textContent='Partie terminée — plus de vies';rejouer.style.display='inline-block';return}
+  if(manche<manches.length)setTimeout(dessinerJeu,1600);
+  else{etatJeu.textContent='Partie terminée';rejouer.style.display='inline-block';
+    toast(score===manches.length?'Score parfait — Expert Capture One !':'Score : '+score+' / '+manches.length);}
+}
+function demarrerJeu(){manche=0;score=0;vies=3;combo=0;indiceUtilise=false;dessinerJeu()}
+chapitres[0].classList.add('ouvert');maj();simuler();afficherChrono();demarrerJeu();
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'&&e.altKey){e.preventDefault();etapeSuivante()}
+});
+</script>
+</body>
+</html>

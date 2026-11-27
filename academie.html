@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Académie photo interactive : devenez pro sur Lightroom Classic, Capture One et Photoshop avec parcours, niveaux, quiz et exercices.">
+<title>Académie Photo — Devenir pro sur Lightroom, Capture One et Photoshop</title>
+<style>
+:root{--bg:#070a12;--surface:#0d1420;--surface2:#111a29;--txt:#f5f7fb;--muted:#9eacc0;--or:#c9a56a;--or-clair:#e8c98f;--vert:#7ec8a0;--rouge:#e07a6a;--line:rgba(201,165,106,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.7 "Segoe UI",system-ui,Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 8% -6%,rgba(201,165,106,.10),transparent 62%),radial-gradient(900px 560px at 96% 8%,rgba(111,168,201,.08),transparent 60%),linear-gradient(180deg,#080d17 0%,var(--bg) 60%);background-attachment:fixed}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;letter-spacing:.01em}
+a{color:var(--or-clair)}
+code{font-family:Consolas,monospace;font-size:.86em;color:var(--or-clair);background:rgba(201,165,106,.08);padding:2px 6px;border-radius:4px}
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,32,.9),rgba(7,10,18,.2))}
+.kicker{display:inline-block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+h1{margin:0;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.12;background:linear-gradient(100deg,#f5f7fb 10%,var(--or-clair) 70%,var(--or));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 em{font-style:italic;color:var(--or-clair)}
+.hero p{max-width:640px;margin:18px auto 0;color:var(--muted);font-size:1rem}
+.stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.8rem;color:var(--or-clair);font-weight:500}
+.stat span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
+.barre{display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:10;background:rgba(7,10,18,.94);border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:8px}
+.barre button{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:8px 16px;cursor:pointer;font:inherit;font-size:.85rem;transition:.2s}
+.barre button:hover{color:var(--or-clair);border-color:var(--or)}
+.niveau-global{margin-left:auto;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.8rem;letter-spacing:.06em}
+.barre-prog{width:150px;height:3px;background:rgba(255,255,255,.08)}
+.barre-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .4s}
+.onglets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 34px}
+@media(max-width:700px){.onglets{grid-template-columns:1fr}}
+.onglets button{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;color:var(--txt);cursor:pointer;text-align:left;font:inherit;transition:.25s}
+.onglets button:hover{border-color:rgba(201,165,106,.5)}
+.onglets button.actif{border-color:var(--or);background:var(--surface2)}
+.onglets button b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.25rem;color:var(--txt);font-weight:500}
+.onglets button small{display:block;margin-top:5px;color:var(--muted);font-size:.8rem}
+.voie{display:none}
+.voie.actif{display:block}
+.titre-voie{font-size:1.9rem;background:linear-gradient(90deg,var(--txt),var(--or-clair));-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 6px}
+.titre-voie .logo{display:inline-grid;place-items:center;width:38px;height:38px;border:1px solid var(--or);border-radius:4px;font:600 .9rem "Segoe UI",sans-serif;color:var(--or-clair);vertical-align:middle;margin-right:10px}
+.sous-titre{color:var(--muted);margin:0 0 22px;font-size:.9rem}
+.grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.niveau{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;transition:border-color .25s}
+.niveau:hover{border-color:rgba(201,165,106,.45)}
+.niveau .niv{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or)}
+.niveau h3{margin:8px 0 12px;font-size:1.25rem;color:var(--txt)}
+.niveau ul{padding-left:18px;margin:0;color:var(--muted);font-size:.9rem}
+.niveau li{margin:5px 0}
+.niveau li::marker{color:var(--or)}
+.exercice{margin-top:16px;padding:12px 14px;border-left:2px solid var(--or);background:rgba(201,165,106,.05);font-size:.86rem;color:var(--muted)}
+.exercice b{color:var(--or-clair)}
+.quiz-bloc{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:6px}
+.quiz-bloc>b{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or)}
+.quiz-bloc p{font-size:.9rem;margin:8px 0}
+.quiz-bloc button{display:block;width:100%;text-align:left;background:transparent;color:var(--txt);border:1px solid var(--line);border-radius:4px;padding:9px 12px;margin:5px 0;cursor:pointer;font:inherit;font-size:.86rem;transition:.2s}
+.quiz-bloc button:hover:not(:disabled){border-color:var(--or);background:rgba(201,165,106,.06)}
+.quiz-bloc button.bon{border-color:var(--vert);color:var(--vert);background:rgba(126,200,160,.08)}
+.quiz-bloc button.mauvais{border-color:var(--rouge);color:var(--rouge);background:rgba(224,122,106,.08)}
+.quiz-bloc button:disabled{cursor:default}
+.niveau>button{width:100%;margin-top:14px;background:transparent;color:var(--or);border:1px solid var(--or);border-radius:4px;padding:10px;cursor:pointer;font:inherit;font-size:.85rem;transition:.2s}
+.niveau>button:hover{background:rgba(201,165,106,.1)}
+.niveau button.termine{color:var(--vert);border-color:var(--vert)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,12px);background:var(--or);color:#070a12;padding:10px 22px;border-radius:3px;font-size:.85rem;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:50}
+.toast.visible{opacity:1;transform:translate(-50%,0)}
+.corner{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--surface2);color:var(--or);border:1px solid var(--or);font-size:1.1rem;cursor:pointer;z-index:20}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em;padding:30px 16px;border-top:1px solid var(--line)}
+@media print{.onglets,.barre,.corner,.toast{display:none!important}.voie{display:block!important}.niveau{break-inside:avoid;background:#fff;color:#111;border-color:#ccc}.niveau h3{color:#111}body{background:#fff;color:#111}}
+
+/* Transitions discretes et classe */
+.niveau{transition:border-color .35s ease,background .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.niveau:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(201,165,106,.06),var(--surface) 60%);box-shadow:0 12px 34px rgba(0,0,0,.25)}
+.onglets button,.chapitre,.etape,.quiz button,.lecture button,.barre button{transition:all .3s cubic-bezier(.2,.8,.2,1)}
+.onglets button:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(201,165,106,.08),var(--surface2) 70%)}
+.voie.actif{animation:voieEntree .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes voieEntree{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.chapitre>button.titre{transition:color .3s,background .3s}
+.chapitre>button.titre:hover{background:linear-gradient(90deg,rgba(201,165,106,.06),transparent)}
+.contenu{transition:max-height .55s cubic-bezier(.22,1,.36,1),padding .45s ease}
+.vignette{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .35s}
+.vignette:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.vignette .cadre{transition:filter .5s ease,transform .5s ease}
+.vignette:hover .cadre{transform:scale(1.03)}
+.jeu button,.niveau>button,.corner{transition:all .3s cubic-bezier(.2,.8,.2,1)}
+.jeu button:hover,.niveau>button:hover,.corner:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.progression i,.barre-prog i{transition:width .7s cubic-bezier(.22,1,.36,1)}
+.toast{transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.etape:hover{transform:translateX(3px)}
+.apercu{transition:background .45s ease,filter .45s ease}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
+<header class="hero">
+  <span class="kicker">Saysko Photographie · Académie</span>
+  <h1>Deviens pro.<br>Lightroom · Capture One · Photoshop</h1>
+  <p>Trois voies, cinq niveaux chacune, des exercices à faire sur tes propres photos et des quiz pour valider. Ta progression est sauvegardée dans ce navigateur.</p>
+  <div class="stats">
+    <div class="stat"><b>3</b><span>logiciels</span></div>
+    <div class="stat"><b>15</b><span>niveaux</span></div>
+    <div class="stat"><b>15</b><span>quiz</span></div>
+    <div class="stat"><b>∞</b><span>exercices</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="barre">
+    <button onclick="toutValider()">Tout valider</button>
+    <button onclick="reinitialiser()">Réinitialiser</button>
+    <div class="niveau-global"><span>Progression</span><div class="barre-prog"><i id="progGlobale"></i></div><b id="txtProg">0 / 15</b></div>
+  </div>
+
+  <div class="onglets">
+    <button class="actif" onclick="afficher('lr',this)"><b>Lightroom Classic</b><small>Bibliothèque, catalogage, retouche, export</small></button>
+    <button onclick="afficher('co',this)"><b>Capture One</b><small>RAW Canon, calques, couleurs, styles</small></button>
+    <button onclick="afficher('ps',this)"><b>Photoshop</b><small>Détourage, masques, retouche avancée</small></button>
+  </div>
+
+  <section class="voie actif" id="lr">
+    <h2 class="titre-voie"><span class="logo" style="background:#31a8ff">Lr</span> Lightroom Classic — du Rush au Pro</h2>
+    <p style="color:var(--dim)">Tes RAW sont dans <code>G:\STOKAGE IMAGES\Photo Saysko</code> et ton catalogue dans <code>catalogue Lightroom\Lightroom Catalog-4.lrcat</code>.</p>
+    <div class="grille" id="grille-lr"></div>
+  </section>
+
+  <section class="voie" id="co">
+    <h2 class="titre-voie"><span class="logo" style="background:#c9a56a">C1</span> Capture One — du RAW au rendu pro</h2>
+    <p style="color:var(--dim)">Parcours détaillé disponible dans le fichier <code>TUTO_CAPTURE_ONE_RETouche_RAPIDE.html</code>.</p>
+    <div class="grille" id="grille-co"></div>
+  </section>
+
+  <section class="voie" id="ps">
+    <h2 class="titre-voie"><span class="logo" style="background:#31a8ff">Ps</span> Photoshop — la retouche sans limites</h2>
+    <p style="color:var(--dim)">Passe du JPG exporté à la retouche fine : détourage, masques, fréquences et finitions.</p>
+    <div class="grille" id="grille-ps"></div>
+  </section>
+</div>
+<button class="corner" onclick="window.print()" title="Imprimer">⎙</button>
+<div class="toast" id="toast"></div>
+<footer>Saysko Photographie · Académie Photo · Fait pour Rodri</footer>
+<script>
+const programmes={
+ lr:[
+  {titre:"Niveau 1 — Importer et cataloguer",niv:"Débutant",points:["Créer un catalogue et le sauvegarder","Importer les CR2 de Photo Saysko","Utiliser les collections et les mots-clés","Comprendre le dossier source"],exercice:"Importe 10 CR2 de Photo Saysko dans un nouveau catalogue et crée une collection « À retoucher ».",quiz:{q:"Où faut-il importer les RAW pour ne pas casser les liens ?",bon:0,rep:["Depuis Photo Saysko, sans déplacer les fichiers","En copiant les RAW sur le Bureau","En supprimant les originaux après import"]}},
+  {titre:"Niveau 2 — Bibliothèque et tri",niv:"Débutant",points:["Drapeaux blancs et rejets","Étiquettes de couleur","Notes 1 à 5 étoiles","Collection rapide et filtres"],exercice:"Trie 20 photos en une passe : sélectionne les meilleures, rejette les ratées, pose 5 étoiles sur les 3 préférées.",quiz:{q:"Quel outil sert à écarter rapidement les ratés ?",bon:1,rep:["L'étiquette verte","Le drapeau rouge / touche R","Le tampon de duplication"]}},
+  {titre:"Niveau 3 — Retouche de base",niv:"Intermédiaire",points:["Module Développement","Exposition, contraste, blancs, noirs","Balance des blancs et pipette","Histogramme sans écrêtage"],exercice:"Retouche 3 RAW : corrige exposition, balance des blancs, puis vérifie que l'histogramme ne touche pas les bords.",quiz:{q:"Que signifie un histogramme collé au bord droit ?",bon:2,rep:["Trop de noirs écrasés","Une balance des blancs neutre","Des hautes lumières brûlées"]}},
+  {titre:"Niveau 4 — Retouche locale et courbes",niv:"Avancé",points:["Pinceau et dégradé","Masque de luminance / plage de couleurs","Courbe de ton et courbe HSL","Vignettage et grain"],exercice:"Sur un portrait, éclaircis le visage au pinceau, assombris le fond au dégradé et ajuste la courbe HSL des bleus.",quiz:{q:"Quel masque permet d'éclaircir seulement les zones claires d'une peau ?",bon:0,rep:["Masque de plage de luminance","Dégradé linéaire","Filtre radial inverse"]}},
+  {titre:"Niveau 5 — Export et flux de travail",niv:"Pro",points:["Préréglages d'export","JPEG/TIFF, qualité, espace couleur","Export avec watermark et métadonnées","Process _EN_COURS → foto terminer"],exercice:"Crée un préréglage d'export JPEG qualité 90 vers _EN_COURS, exporte 5 photos puis range les JPG finis dans foto terminer.",quiz:{q:"Quelle qualité JPEG recommander pour un envoi Discord ?",bon:1,rep:["20–30","85–95","100 avec TIFF"]}}
+ ],
+ co:[
+  {titre:"Niveau 1 — Session et import",niv:"Débutant",points:["Session vs catalogue","Importer un RAW Canon","Référencer plutôt que copier","Passer en mode Développement"],exercice:"Crée une session Capture One pointant sur Photo Saysko et importe un CR2 en Référençant.",quiz:{q:"Pourquoi Référencer plutôt que Copier ?",bon:0,rep:["Éviter les doublons de RAW","Pour exporter plus vite","Pour supprimer l'original"]}},
+  {titre:"Niveau 2 — Réglages de base",niv:"Débutant",points:["Exposition et contraste","Plage dynamique","Balance des blancs à la pipette","Vibrance avant saturation"],exercice:"Sur un CR2, suis l'ordre Exposition → Contraste → Balance → Vibrance et note tes valeurs.",quiz:{q:"Quel réglage récupère les détails dans les ombres RAW Canon ?",bon:1,rep:["Saturation","Plage dynamique","Rognage"]}},
+  {titre:"Niveau 3 — Couleur et calques",niv:"Intermédiaire",points:["Éditeur de couleur avancé","Courbes et HSL","Calques de ajustement","Masques de calque"],exercice:"Ajoute un calque d'ajustement sur le ciel, corrige le bleu puis compare avec/sans calque.",quiz:{q:"À quoi sert un calque d'ajustement ?",bon:2,rep:["À rogner la photo","À supprimer le bruit","À corriger une zone sans détruire l'original"]}},
+  {titre:"Niveau 4 — Retouche locale et styles",niv:"Avancé",points:["Zone de dégradé et pinceau","Outil Ajuster","Créer un style","Appliquer en lot"],exercice:"Crée un style « Base Saysko » avec tes réglages préférés et applique-le à 5 photos d'un même shooting.",quiz:{q:"Quel outil corrige une couleur en cliquant-glissant dessus ?",bon:0,rep:["Ajuster (touche A)","Rognage (touche C)","Pinceau (touche B)"]}},
+  {titre:"Niveau 5 — Export et pro",niv:"Pro",points:["Recettes d'export","JPEG qualité 85–95","Nommer et ranger","Fermer avant OBS"],exercice:"Exporte une photo finie vers _EN_COURS puis déplace-la dans foto terminer. Vérifie que le RAW est intact.",quiz:{q:"Que faut-il faire avant d'utiliser le 600D dans OBS ?",bon:1,rep:["Laisser Capture One ouvert","Fermer Capture One (verrouille l'USB)","Redémarrer Lightroom"]}}
+ ],
+ ps:[
+  {titre:"Niveau 1 — Prise en main",niv:"Débutant",points:["Ouvrir un JPG exporté","Panels et calques","Zoom et navigation","Enregistrer sous / PSD"],exercice:"Ouvre un JPG exporté, duplique le calque d'arrière-plan et enregistre en PSD.",quiz:{q:"Que fait la duplication du calque d'arrière-plan ?",bon:0,rep:["Garde une copie intacte sous la retouche","Supprime le bruit","Exporte en JPEG"]}},
+  {titre:"Niveau 2 — Sélections et masques",niv:"Débutant",points:["Bagette magique et sélection rapide","Travailler avec les bords","Masque de fusion","Gommer la sélection"],exercice:"Détoure grossièrement un sujet avec la sélection rapide et ajoute un masque de fusion.",quiz:{q:"À quoi sert un masque de fusion ?",bon:2,rep:["À colorer la photo","À exporter en PNG","À masquer une partie d'un calque sans l'effacer"]}},
+  {titre:"Niveau 3 — Détourage avancé",niv:"Intermédiaire",points:["Pinceau et lasso magnétique","Affiner les poils / cheveux","Passer au stand-alone","Décontaminer les couleurs"],exercice:"Détoure un cheveu ou un poil de chien avec Sélection et masque, puis affine le bord.",quiz:{q:"Quel espace de travail est dédié au détourage fin ?",bon:1,rep:["Filtre Gallery","Sélection et masque","Caméra RAW"]}},
+  {titre:"Niveau 4 — Retouche de peau",niv:"Avancé",points:["Fréquences séparées","Tampon et correcteur","Dodge & burn","Réduire le bruit sans plastique"],exercice:"Sur un portrait, crée deux calques de fréquences et corrige une imperfection sans effacer la texture.",quiz:{q:"Que sépare la technique des fréquences ?",bon:0,rep:["La texture et la couleur","Le ciel et le sol","Le RAW et le JPEG"]}},
+  {titre:"Niveau 5 — Finitions et livraison",niv:"Pro",points:["Curves et Color Balance","Sharpening ciblé","Exporter pour web / print","Archivage PSD + JPG"],exercice:"Termine un portrait : courbe, dodge & burn léger, netteté ciblée, puis exporte en JPEG quality 90.",quiz:{q:"Quand appliquer la netteté finale ?",bon:1,rep:["Avant le détourage","En toute fin, après les retouches","Jamais"]}}
+ ]
+};
+const couleurs={lr:'#31a8ff',co:'#c9a56a',ps:'#a98fd0'};
+let valides=new Set();
+try{valides=new Set(JSON.parse(localStorage.getItem('academie_saysko')||'[]'))}catch(e){}
+function enregistrer(){try{localStorage.setItem('academie_saysko',JSON.stringify([...valides]))}catch(e){}}
+function construire(){
+  Object.keys(programmes).forEach(v=>{
+    const g=document.getElementById('grille-'+v);
+    g.innerHTML=programmes[v].map((p,i)=>{
+      const id=v+'-'+i,ok=valides.has(id);
+      return '<article class="niveau" id="'+id+'"><span class="niv">'+p.niv+'</span><h3>'+p.titre+'</h3><ul>'+p.points.map(x=>'<li>'+x+'</li>').join('')+'</ul>'+
+        '<div class="exercice"><b>Exercice :</b> '+p.exercice+'</div>'+
+        '<div class="quiz-bloc"><b>Quiz de validation</b><p style="font-size:.88rem;margin:6px 0">'+p.quiz.q+'</p>'+
+        p.quiz.rep.map((r,j)=>'<button onclick="repondre(this,\''+id+'\','+(j===p.quiz.bon)+')">'+r+'</button>').join('')+'</div>'+
+        '<button class="'+(ok?'termine':'')+'" onclick="valider(\''+id+'\')">'+(ok?'✓ Niveau validé':'Marquer comme appris')+'</button></article>';
+    }).join('');
+  });
+  majProg();
+}
+function repondre(b,id,bon){
+  b.parentElement.querySelectorAll('button').forEach(x=>{if(x!==b)x.disabled=true});
+  b.classList.add(bon?'bon':'mauvais');
+  toast(bon?'Bonne réponse !':'Pas tout à fait — relis le cours');
+  if(bon)valider(id);
+}
+function valider(id){
+  if(!valides.has(id)){valides.add(id);enregistrer();toast('Niveau validé !')}
+  const el=document.getElementById(id);
+  if(el){const b=el.querySelector('button.termine,button:last-child');if(b){b.className='termine';b.textContent='✓ Niveau validé'}}
+  majProg();
+}
+function majProg(){const n=valides.size,total=15;progGlobale.style.width=(n/total*100)+'%';txtProg.textContent=n+' / '+total}
+function afficher(v,b){document.querySelectorAll('.voie').forEach(x=>x.classList.remove('actif'));document.getElementById(v).classList.add('actif');document.querySelectorAll('.onglets button').forEach(x=>x.classList.remove('actif'));b.classList.add('actif')}
+function toutValider(){Object.keys(programmes).forEach(v=>programmes[v].forEach((_,i)=>valider(v+'-'+i)));toast('Tous les niveaux sont validés — vous êtes Pro !')}
+function reinitialiser(){if(confirm('Effacer toute la progression ?')){valides.clear();enregistrer();construire();toast('Progression réinitialisée')}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('visible');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('visible'),2400)}
+construire();
+</script>
+</body>
+</html>
