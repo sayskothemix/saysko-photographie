@@ -15,14 +15,14 @@
   var add = document.createElement('button');
   add.className = 'owner-add-btn';
   add.textContent = '+ Ajouter une photo';
-  add.style.cssText = STYLE + ';bottom:88px;background:#e0bd85;color:#14100a';
+  add.style.cssText = STYLE + ';bottom:88px;background:#c9a56a;color:#14100a';
   add.hidden = !OK;
   document.body.appendChild(add);
 
   var publish = document.createElement('button');
   publish.className = 'owner-publish-btn';
   publish.textContent = '↑ Publier';
-  publish.style.cssText = STYLE + ';bottom:132px;background:#1d1a20;color:#e0bd85;border:1px solid rgba(224,189,133,.5)';
+  publish.style.cssText = STYLE + ';bottom:132px;background:#1d1a20;color:#c9a56a;border:1px solid rgba(201,165,106,.5)';
   publish.hidden = !OK;
   document.body.appendChild(publish);
 
@@ -38,7 +38,7 @@
     var lock = document.createElement('button');
     lock.textContent = '🔒';
     lock.title = 'Espace propriétaire';
-    lock.style.cssText = STYLE + ';bottom:88px;width:38px;height:38px;padding:0;background:rgba(224,189,133,.08);color:#e0bd85;border:1px solid rgba(224,189,133,.4);border-radius:50%';
+    lock.style.cssText = STYLE + ';bottom:88px;width:38px;height:38px;padding:0;background:rgba(201,165,106,.08);color:#c9a56a;border:1px solid rgba(201,165,106,.4);border-radius:50%';
     lock.addEventListener('click', askCode);
     document.body.appendChild(lock);
   }
