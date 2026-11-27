@@ -410,6 +410,12 @@
 .bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(143,196,255,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
 </style>
+<style>
+/* Correctif mobile : boutons son / plein ecran sous l'en-tete (<=768px uniquement, desktop inchange) */
+@media (max-width: 768px){
+  .site-controls { top: 72px !important; }
+}
+</style>
 </head>
 <body>
 <audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
