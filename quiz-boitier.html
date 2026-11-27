@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Quiz interactif pour maîtriser les réglages de votre boîtier : ouverture, vitesse, ISO, modes, balance des blancs et mise au point.">
+<title>Quiz Boîtier — Maîtrisez votre appareil | Saysko Photographie</title>
+<style>
+:root{--bg:#070a12;--surface:#0d1420;--surface2:#111a29;--txt:#f5f7fb;--muted:#9eacc0;--or:#c9a56a;--or-clair:#e8c98f;--vert:#7ec8a0;--rouge:#e07a6a;--line:rgba(201,165,106,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.7 "Segoe UI",system-ui,Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 8% -6%,rgba(201,165,106,.10),transparent 62%),radial-gradient(900px 560px at 96% 8%,rgba(111,168,201,.08),transparent 60%),linear-gradient(180deg,#080d17 0%,var(--bg) 60%);background-attachment:fixed}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;letter-spacing:.01em}
+a{color:var(--or-clair)}
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,32,.9),rgba(7,10,18,.2))}
+.kicker{display:inline-block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+h1{margin:0;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.12;background:linear-gradient(100deg,#f5f7fb 10%,var(--or-clair) 70%,var(--or));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;margin:18px auto 0;color:var(--muted)}
+.stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.8rem;color:var(--or-clair);font-weight:500}
+.stat span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:860px;margin:0 auto;padding:36px 20px 90px}
+.carrier{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.start{text-align:center;padding:40px 20px}
+.start h2{font-size:1.7rem;color:var(--or-clair);margin:0 0 10px}
+.start p{color:var(--muted);max-width:520px;margin:0 auto 24px}
+button{cursor:pointer;font-family:inherit}
+.btn-accueil{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#14100a;border:0;border-radius:4px;padding:13px 34px;font-size:.95rem;font-weight:600;letter-spacing:.04em;transition:.3s}
+.btn-accueil:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,165,106,.28)}
+.progress{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:22px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .5s cubic-bezier(.22,1,.36,1)}
+.motif{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.motif span{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--or)}
+.qnum{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.question{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.3;margin:10px 0 24px}
+.question em{color:var(--or-clair);font-style:italic}
+.choix{display:grid;gap:10px}
+.choix button{text-align:left;background:var(--surface2);color:var(--txt);border:1px solid var(--line);border-radius:5px;padding:13px 16px;font-size:.92rem;transition:.25s}
+.choix button:hover:not(:disabled){border-color:var(--or);transform:translateX(4px)}
+.choix button.bon{border-color:var(--vert);color:var(--vert);background:rgba(126,200,160,.06)}
+.choix button.mauvais{border-color:var(--rouge);color:var(--rouge);background:rgba(224,122,106,.06)}
+.choix button:disabled{cursor:default}
+.feedback{margin-top:18px;border-left:2px solid var(--or);background:rgba(201,165,106,.05);padding:14px 18px;border-radius:0 5px 5px 0;font-size:.88rem;color:var(--muted);display:none}
+.feedback.visible{display:block;animation:entree .4s ease}
+.feedback strong{color:var(--or-clair);display:block;margin-bottom:4px}
+@keyframes entree{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.suite{margin-top:20px;display:none}
+.suite.visible{display:block}
+.btn-suite{background:transparent;color:var(--or);border:1px solid var(--or);border-radius:4px;padding:9px 22px;font-size:.88rem;transition:.3s}
+.btn-suite:hover{background:rgba(201,165,106,.1);transform:translateY(-2px)}
+.sans-suite{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.serie{font-size:.8rem;color:var(--vert);letter-spacing:.05em}
+.result{text-align:center;padding:36px 16px}
+.result h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 6px}
+.result .score{font-family:"Cormorant Garamond",Georgia,serif;font-size:3rem;color:var(--or-clair);margin:12px 0 4px}
+.result .niveau{color:var(--or);font-size:.75rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:16px}
+.result p{color:var(--muted);max-width:520px;margin:0 auto 20px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.badge-obtenu,.badge-verrouille{border-radius:4px;padding:6px 14px;font-size:.78rem;border:1px solid var(--line)}
+.badge-obtenu{color:var(--or-clair);border-color:var(--or)}
+.badge-verrouille{color:var(--muted);opacity:.55}
+.rejouer{background:none;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:9px 20px;font-size:.85rem;margin-top:10px}
+.rejouer:hover{color:var(--or-clair);border-color:var(--or)}
+.retour{display:inline-block;margin-top:26px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.retour:hover{color:var(--or-clair)}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em;padding:30px 16px;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.suite,.retour,.btn-accueil,.rejouer{display:none}.carrier{background:#fff;color:#111;border-color:#ccc}.question,.result h2,.result .score{color:#111}.choix button{color:#111;border-color:#ccc}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
+<header class="hero">
+  <span class="kicker">Saysko Photographie · Apprendre</span>
+  <h1>Maîtrisez<br>votre boîtier</h1>
+  <p>Un quiz pour devenir autonome sur le terrain : triangle d'exposition, modes, balance des blancs, mise au point. 24 questions, une correction après chaque réponse.</p>
+  <div class="stats">
+    <div class="stat"><b>24</b><span>questions</span></div>
+    <div class="stat"><b>5</b><span>thèmes</span></div>
+    <div class="stat"><b>100%</b><span>pédagogique</span></div>
+    <div class="stat"><b>~8 min</b><span>durée</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="carrier" id="carrier">
+    <section class="start" id="ecranDebut">
+      <h2>Prêt à tester vos réglages ?</h2>
+      <p>Répondez aux 24 questions. Après chaque réponse, une explication courte vous dit pourquoi — c'est là que se joue la vraie progression. Le meilleur score est sauvegardé sur cet appareil.</p>
+      <button class="btn-accueil" onclick="commencer()">Commencer le quiz</button>
+      <div id="record" style="margin-top:18px;font-size:.82rem;color:var(--muted)"></div>
+      <div><a class="retour" href="academie.html">Voir aussi l'Académie photo</a> · <a class="retour" href="parcours-capture-one.html">Parcours Capture One</a></div>
+    </section>
+
+    <section id="ecranQuiz" style="display:none">
+      <div class="progress"><i id="barre"></i></div>
+      <div class="motif"><span id="theme">Triangle d'exposition</span><span class="qnum" id="qnum">Question 1 / 24</span></div>
+      <div class="question" id="question"></div>
+      <div class="choix" id="choix"></div>
+      <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span></div>
+      <div class="sans-suite"><span class="serie" id="serie"></span>
+        <div class="suite" id="suite"><button class="btn-suite" id="btnSuite" onclick="suivante()">Question suivante</button></div>
+      </div>
+    </section>
+
+    <section class="result" id="ecranResultat" style="display:none">
+      <h2>Résultat</h2>
+      <div class="score" id="scoreFinal">0/24</div>
+      <div class="niveau" id="niveau"></div>
+      <p id="commentaire"></p>
+      <div class="badges" id="badges"></div>
+      <button class="btn-accueil" onclick="commencer()">Rejouer</button>
+      <button class="rejouer" onclick="retourDebut()">Quitter</button>
+      <div><a class="retour" href="academie.html">Académie photo</a> · <a class="retour" href="parcours-capture-one.html">Parcours Capture One</a></div>
+    </section>
+  </div>
+</main>
+
+<footer>Saysko Photographie — Apprendre à voir, à régler, à créer.</footer>
+
+<script>
+const QUIZ=[
+{t:"Triangle d'exposition",q:"Vous photographiez un portrait en extérieur à 14h, soleil plein. L'image est <em>trop claire</em> (surexposée). Quel réglage corrige en priorité ?",
+ c:["Ouvrir le diaphragme (f/1.8)","Fermer le diaphragme (f/11)","Monter l'ISO à 6400","Allonger la pose à 1/30 s"],
+ b:1,
+ e:"Fermer le diaphragme réduit la quantité de lumière qui entre. Attention : f/11 donne une grande profondeur de champ. Une vitesse plus rapide ou un ISO plus bas font aussi le travail — l'essentiel est de laisser entrer moins de lumière."},
+{t:"Triangle d'exposition",q:"Quelle est la <em>vitesse d'obturation minimale</em> pour éviter le flou de bougé en main levée, en général ?",
+ c:["1/15 s","1/60 s","1/500 s","1/2000 s"],
+ b:1,
+ e:"1/60 s est la règle classique : en dessous, le mouvement du photographe se voit. Avec un stabilisateur ou un objectif plus long, on monte à 1/125 ou 1/250 s pour être tranquille."},
+{t:"Triangle d'exposition",q:"Vous montez l'ISO de 400 à 1600 dans une pièce sombre. Conséquence principale ?",
+ c:["La photo devient plus nette","Le capteur est plus sensible, mais le bruit numérique augmente","L'ouverture se ferme automatiquement","La balance des blancs change"],
+ b:1,
+ e:"L'ISO amplifie le signal : plus de sensibilité, mais aussi plus de bruit (grain numérique). Sur un boîtier moderne, ISO 1600-3200 reste propre ; au-delà, on privilégie une vitesse plus lente ou une lumière externe."},
+{t:"Triangle d'exposition",q:"En mode <em>Av</em> (priorité ouverture), vous choisissez f/2.8. Qui décide de la vitesse ?",
+ c:["Vous, toujours","Le boîtier, automatiquement","Le flash","Le logiciel de retouche"],
+ b:1,
+ e:"En Av, vous fixez l'ouverture (donc la profondeur de champ) et le boîtier calcule la vitesse pour une exposition correcte — tant qu'il ne dépasse pas ses limites. Idéal en portrait ou quand la lumière change souvent."},
+{t:"Triangle d'exposition",q:"Vous voulez figer un oiseau en vol. Quel couple ouverture/vitesse privilégier ?",
+ c:["f/8 et 1/250 s","f/2.8 et 1/250 s","f/16 et 1/1000 s","f/2.8 et 1/60 s"],
+ b:1,
+ e:"L'oiseau exige une vitesse rapide (1/1000 s idéalement, 1/500 minimum) pour être net, et une ouverture large (f/2.8-f/4) pour laisser entrer assez de lumière à cette vitesse. f/16 serait trop fermé et 1/60 s trop lent : flou garanti."},
+{t:"Modes & automatismes",q:"Vous débutez et voulez que le boîtier gère tout, mais en gardant le contrôle du flash. Quel mode ?",
+ c:["Mode P","Mode M","Mode A+ (auto) sans flash auto","Mode B"],
+ b:0,
+ e:"Le mode P (programme) laisse le boîtier choisir ouverture et vitesse tout en vous permettant de décaler le réglage et de gérer le flash manuellement. Le mode M (manuel) demande de tout régler soi-même — c'est l'étape suivante."},
+{t:"Modes & automatismes",q:"Pour un rendu créatif (ex. flou de filé sur une voiture), vous utilisez…",
+ c:["Le mode M, vitesse lente, flash synchronisé","Le mode P","Le mode Sport","Le mode Portrait"],
+ b:0,
+ e:"Le flou de filé demande une vitesse longue choisie à la main (mode M ou Tv) et un déclenchement au bon moment. Les modes automatiques et Sport chercheront à tout figer — l'inverse de ce que vous voulez."},
+{t:"Modes & automatismes",q:"En mode <em>portrait</em> sur un boîtier Canon/Nikon, l'appareil favorise automatiquement…",
+ c:["Une grande profondeur de champ","Une ouverture plus fermée","Une ouverture plus ouverte (arrière-plan flou)","Un ISO très bas"],
+ b:2,
+ e:"Le mode Portrait privilégie les grandes ouvertures (petit nombre f/) pour obtenir un arrière-plan flou qui détache le sujet — la fameuse « profondeur de champ réduite ». C'est un raccourci pratique du mode Av."},
+{t:"Balance des blancs",q:"Sous une ampoule tungstène (lumière chaude/orange), vos photos tirent au <em>jaune-orangé</em>. Quelle balance des blancs choisir ?",
+ c:["Balance « nuageux »","Balance « lumière du jour »","Balance « tungstène »","Balance « flash »"],
+ b:2,
+ e:"La balance tungstène (~2800 K) corrige le excès de chaud. Alternative : la pipette sur une zone blanche ou grise neutre — souvent plus fiable que les préréglages quand la lumière est mélangée."},
+{t:"Balance des blancs",q:"Vous photographiez en RAW. La balance des blancs…",
+ c:["Est gravée définitivement dans le fichier","Peut être changée en post-traitement sans perte","N'a aucun effet sur un RAW","Doit être réglée avant chaque rafale"],
+ b:1,
+ e:"Le RAW enregistre les données brutes du capteur : la balance des blancs est un réglage d'interprétation, modifiable à volonté dans Lightroom ou Capture One. En JPG en revanche, elle est figée."},
+{t:"Mise au point",q:"En portrait, vous voulez que <em>les yeux</em> soient nets et le reste flou. Où placez-vous le point AF ?",
+ c:["Au centre de l'image","Sur l'œil le plus proche","Sur le nez","En mise au point automatique sur toute la scène (AF continu)"],
+ b:1,
+ e:"L'œil le plus proche du photographe est la zone critique : c'est là que le regard se pose. Une grande ouverture (f/2.8) fait le reste. La règle : le point net sur l'œil, toujours."},
+{t:"Mise au point",q:"En sport ou wildlife, le sujet bouge sans arrêt. Quel mode AF choisir ?",
+ c:["AF ponctuel (One-Shot)","AF continu (AI Servo / AI Focus)","Mise au point manuelle uniquement","Aucun — le flash gère tout"],
+ b:1,
+ e:"L'AF continu suit le mouvement et recalcule la netteté en permanence pendant que vous maintenez le déclencheur à mi-course. Le mode ponctuel fige la distance au moment du déclenchement — le sujet sera flou s'il s'est déplacé."},
+{t:"Mise au point",q:"Votre sujet est net mais <em>tout le reste est flou</em>, y compris ce qui devrait l'être. Cause probable ?",
+ c:["L'ISO trop bas","L'ouverture trop grande (f/1.4)","Le format RAW","Le mode Live View"],
+ b:1,
+ e:"Une très grande ouverture (f/1.4, f/1.8) donne une profondeur de champ minuscule : seul un plan net. Pour plus de zone nette, fermez à f/4-f/8. En contrepartie, il faudra plus de lumière ou un ISO plus haut."},
+{t:"Lecture de l'image",q:"Sur l'histogramme de votre appareil, les pics touchent le bord <em>droit</em>. Cela signifie…",
+ c:["Sous-exposition","Surexposition (blancs cramés)","Balance des blancs incorrecte","Profondeur de champ trop faible"],
+ b:1,
+ e:"L'histogramme représente la répartition des tons de l'ombre (gauche) aux hautes lumières (droite). Des pics collés au bord droit = détails perdus dans les zones claires. L'histogramme ne ment pas, contrairement à l'écran."},
+{t:"Lecture de l'image",q:"Votre image est globalement trop sombre, même si l'écran de l'appareil semble correct. Le coupable le plus fréquent ?",
+ c:["La compensation d'exposition","Le capteur sale","Le trépied","Le mode silence"],
+ b:0,
+ e:"La compensation d'exposition (molette +/-) décale tout le résultat. Un réglage à -1 ou -2 EV assombrit systématiquement. Vérifiez-la en priorité — c'est le réglage le plus souvent oublié."},
+{t:"Scénarios",q:"Séance photo en <em>intérieur avec une seule fenêtre</em>, pas de flash. Quelle stratégie ?",
+ c:["ISO 100, f/16, 1/2000 s","ISO auto (3200-6400), grande ouverture, vitesse à main levée possible","Flash incorporé à fond","Mode sport"],
+ b:1,
+ e:"Peu de lumière = il faut laisser entrer un maximum : grande ouverture (f/1.8-f/2.8), ISO plus haut, et vitesse lente si besoin (trépied ou appui stable). C'est le scénario où l'ISO « sale » se justifie — et où le RAW sauve les détails."},
+{t:"Scénarios",q:"Vous photographiez un <em>feu d'artifice</em> la nuit. Réglage idéal ?",
+ c:["ISO 100, f/8, pose longue 2-15 s, trépied","ISO 6400, 1/1000 s","Flash + synchronisation lente","Mode auto"],
+ b:0,
+ e:"Les feux d'artifice demandent une pose longue pour tracer les gerbes : trépied obligatoire, ISO bas pour éviter le bruit, ouverture moyenne. La sensibilité ISO n'est pas votre amie ici — c'est le temps d'exposition qui travaille."},
+{t:"Scénarios",q:"Reportage en <em>mariage, réception faiblement éclairée</em>, vous ne pouvez pas utiliser de flash. Votre priorité ?",
+ c:["Geler l'instant à tout prix","Restaurer l'ambiance tout en gardant des visages lisibles","Avoir la plus petite profondeur de champ","Prendre en JPG pour aller vite"],
+ b:1,
+ e:"Sans flash, on joue sur ISO élevé + ouverture large + stabilisation. Le RAW aide à récupérer les ombres ensuite. La priorité est un visage net et exposé correctement — l'ambiance de la salle fait le reste."},
+{t:"Scénarios",q:"Photo de <em>paysage</em> au petit matin, tout est net du premier plan à l'horizon. Vous cherchez…",
+ c:["La plus grande profondeur de champ possible","La plus faible profondeur de champ","Le flou de bougé","La sous-exposition volontaire"],
+ b:0,
+ e:"Paysage = on veut tout net : ouverture fermée (f/8-f/11, le « sweet spot » de la plupart des objectifs), mise au point à l'hyperfocale ou focus stacking. f/22 est tentant mais la diffraction y gâte la netteté."},
+{t:"Détails techniques",q:"À quelle valeur ISO un boîtier récent (ex. Canon 5D, Nikon D850) reste généralement « propre » ?",
+ c:["ISO 100 uniquement","ISO 400-800","ISO 1600-3200","ISO 12800 et plus"],
+ b:2,
+ e:"Les capteurs modernes tiennent très bien jusqu'à 3200, parfois 6400 sur les très bons boîtiers. Le bruit dépend aussi de la taille du capteur : plein format > APS-C > micro 4/3 à ISO égal."},
+{t:"Détails techniques",q:"La <em>règle des 300</em> (focale × 1/ISO ≈ vitesse min) concerne…",
+ c:["La profondeur de champ","Le flou de bougé en main levée","La balance des blancs","La cadence de rafale"],
+ b:1,
+ e:"C'est une méthode simple pour estimer la vitesse min sans stabilisateur : à 300 mm, il faut ~1/300 s ; à 50 mm, ~1/50 s (puis arrondi à la valeur supérieure du boîtier). Le stabilisateur divise souvent ce besoin par 2 à 4."},
+{t:"Détails techniques",q:"Vous passez du JPG au <em>RAW</em>. Avantage concret en photo de portrait ?",
+ c:["Des fichiers plus légers","Une plage dynamique bien plus grande à récupérer en post-traitement","Des photos plus nettes sans retouche","Un déclenchement plus rapide"],
+ b:1,
+ e:"Le RAW garde ~2-3 stops de détails supplémentaires dans les hautes lumières et les ombres. Une robe blanche cramée ou un visage sous-exposé se récupèrent — impossible sur un JPG déjà compressé."},
+{t:"Détails techniques",q:"Le format <em>4:5 portrait</em> (1080×1350) est privilégié pour Instagram parce que…",
+ c:["C'est le format natif du capteur","Il prend plus de place dans le feed mobile","Il correspond mieux à la lecture verticale du téléphone","C'est une obligation d'Instagram"],
+ b:2,
+ e:"Sur mobile, on scrolle à la verticale : le 4:5 occupe plus d'écran qu'un 1:1 ou 3:2 et arrête le pouce plus longtemps. Ce n'est pas obligatoire, mais c'est le format qui performe le mieux."},
+{t:"Erreurs fréquentes",q:"Vos sujets ont les <em>yeux rouges</em> sur les photos au flash. Solution ?",
+ c:["Baisser l'ISO à 50","S'éloigner du sujet, utiliser le mode « yeux rouges » ou un diffuseur de flash","Passer en mode manuel","Augmenter la saturation"],
+ b:1,
+ e:"Les yeux rouges viennent du flash qui éclaire le fond de l'œil. Plus vous êtes loin, moins c'est visible ; un diffuseur ou un flash déporté change l'angle d'incidence ; la correction automatique existe aussi en post-traitement."},
+{t:"Erreurs fréquentes",q:"Toutes vos photos de groupe sont floues alors que vous étiez en mode auto. Explication la plus probable ?",
+ c:["L'objectif n'est pas compatible","Le boîtier a choisi une vitesse trop lente pour la faible lumière","Le trépied était mal réglé","Le RAW est défectueux"],
+ b:1,
+ e:"En mode auto, le boîtier privilégie une ouverture normale et peut descendre à des vitesses lentes (1/15 s, 1/30 s) si la lumière manque — d'où le flou. Solution : mode Av avec f/4-f/5.6, ISO plus haut, ou ouverture plus grande. Le mode Sport aide aussi."},
+{t:"Erreurs fréquentes",q:"Vous zoomez avec les <em>pieds</em> plutôt qu'avec le zoom pour isoler un sujet. Résultat ?",
+ c:["Image plus floue et perspective écrasée","Meilleure qualité, moins de bruit","Profondeur de champ identique","Fichiers plus lourds"],
+ b:0,
+ e:"Le zoom optique « compresse » la perspective et peut perdre en netteté aux extrêmes ; avancer change le rapport de taille et garde la qualité maximale de l'objectif. Avantage bonus : moins de déformations et un arrière-plan plus flou avec la même ouverture."}
+];
+
+let i=0,score=0,serie=0,maxSerie=0,parTheme={};
+const $=id=>document.getElementById(id);
+
+function melanger(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function ordre(){const idx=QUIZ.map((_,k)=>k);return melanger(idx)}
+let file=ordre();
+
+function afficherRecord(){
+  try{const r=JSON.parse(localStorage.getItem('quizBoitierRecord')||'null');
+    if(r)$('record').textContent='Meilleur score : '+r.score+'/'+r.total+' — '+r.date;
+  }catch(e){}
+}
+function sauvegarder(score){
+  try{
+    const r=JSON.parse(localStorage.getItem('quizBoitierRecord')||'null');
+    if(!r||score>r.score)localStorage.setItem('quizBoitierRecord',JSON.stringify({score:score,total:QUIZ.length,date:new Date().toLocaleDateString('fr-FR')}));
+  }catch(e){}
+}
+
+function commencer(){
+  file=ordre();i=0;score=0;serie=0;maxSerie=0;parTheme={};
+  $('ecranDebut').style.display='none';$('ecranResultat').style.display='none';$('ecranQuiz').style.display='block';
+  question();
+}
+function retourDebut(){$('ecranResultat').style.display='none';$('ecranQuiz').style.display='none';$('ecranDebut').style.display='block';afficherRecord()}
+
+function question(){
+  const q=QUIZ[file[i]];
+  $('theme').textContent=q.t;
+  $('qnum').textContent='Question '+(i+1)+' / '+QUIZ.length;
+  $('barre').style.width=(i/QUIZ.length*100)+'%';
+  $('question').innerHTML=q.q;
+  $('serie').textContent=serie>1?('Série : '+serie):'';
+  $('feedback').className='feedback';$('suite').className='suite';
+  $('choix').innerHTML='';
+  const ordreC=melanger(q.c.map((txt,k)=>({txt,k})));
+  ordreC.forEach(o=>{
+    const b=document.createElement('button');
+    b.innerHTML=o.txt;
+    b.onclick=()=>repondre(b,o.k===q.b,q);
+    $('choix').appendChild(b);
+  });
+}
+function repondre(btn,ok,q){
+  [...$('choix').children].forEach(b=>{b.disabled=true;if(b.innerHTML===q.c[q.b])b.classList.add('bon')});
+  if(!ok)btn.classList.add('mauvais');
+  if(ok){score++;serie++;maxSerie=Math.max(maxSerie,serie)}else serie=0;
+  parTheme[q.t]=parTheme[q.t]||{ok:0,tot:0};parTheme[q.t].tot++;if(ok)parTheme[q.t].ok++;
+  $('fbTitre').textContent=ok?'Correct':'Raté — la bonne réponse : « '+q.c[q.b]+' »';
+  $('fbTexte').textContent=q.e;
+  $('feedback').className='feedback visible';
+  $('suite').className='suite visible';
+  $('btnSuite').textContent=i<QUIZ.length-1?'Question suivante':'Voir le résultat';
+}
+function suivante(){i++;if(i>=QUIZ.length)resultat();else question()}
+
+function resultat(){
+  $('ecranQuiz').style.display='none';$('ecranResultat').style.display='block';
+  $('barre').style.width='100%';
+  const p=score/QUIZ.length*100;
+  $('scoreFinal').textContent=score+'/'+QUIZ.length;
+  let niv,com;
+  if(p>=90){niv='Niveau Or — Maître du boîtier';com='Impressionnant : vous maîtrisez le triangle d\'exposition et les automatismes. Vous pouvez passer à la lumière complexe (strobisme, multi-flash) en confiance.'}
+  else if(p>=75){niv='Niveau Argent — Autonome';com='Très bon niveau : les bases sont solides. Revoyez les thèmes où vous avez hésité — le quiz est rejouable à l\'infini.'}
+  else if(p>=55){niv='Niveau Bronze — En bonne voie';com='Vous avez les instincts, mais certains réflexes manquent encore. Refaites le quiz dans une semaine après avoir relu les explications.'}
+  else{niv='Niveau Explorateur — Les bases d\'abord';com='Normal au début : la photo technique se apprend. Commencez par le triangle d\'exposition (Academie photo), puis rejouez ce quiz.'}
+  $('niveau').textContent=niv;$('commentaire').textContent=com;
+  const themes=Object.entries(parTheme).map(([t,v])=>({t,pct:v.ok/v.tot*100}));
+  const tri=themes.sort((a,b)=>a.pct-b.pct);
+  const badges=[
+    {txt:'Sans faute sur l\'exposition',ok:themes.find(x=>x.t.includes('exposition'))&&themes.find(x=>x.t.includes('exposition')).pct===100},
+    {txt:'Zéro erreur en scénario',ok:themes.find(x=>x.t==='Scénarios')&&themes.find(x=>x.t==='Scénarios').pct===100},
+    {txt:'Théorie technique solide',ok:themes.find(x=>x.t==='Détails techniques')&&themes.find(x=>x.t==='Détails techniques').pct>=75},
+    {txt:'Série de 5+ bonnes réponses',ok:maxSerie>=5},
+    {txt:'Sans faute sur les erreurs fréquentes',ok:themes.find(x=>x.t==='Erreurs fréquentes')&&themes.find(x=>x.t==='Erreurs fréquentes').pct===100},
+  ];
+  $('badges').innerHTML=badges.map(b=>'<span class="'+(b.ok?'badge-obtenu':'badge-verrouille')+'">'+(b.ok?'✓ ':'')+b.txt+'</span>').join('');
+  sauvegarder(score);afficherRecord();
+}
+
+afficherRecord();
+</script>
+</body>
+</html>

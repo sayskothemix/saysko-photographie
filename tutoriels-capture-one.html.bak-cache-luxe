@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capture One Pro — Tutoriels | Saysko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=23">
+<style>
+/* Menu mobile */
+.menu-toggle {
+  display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4);
+  background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer;
+  border-radius: 2px; font-size: 1.2rem; line-height: 1;
+}
+@media (max-width: 780px) {
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  nav {
+    position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+    padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+    transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+  }
+  nav.open { transform: translateY(0); opacity: 1; }
+  nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-btn { margin: 14px 0 0; width: 100%; }
+}
+
+/* Filtres de catégories */
+.course-filters-wrap {
+  text-align: center; margin: 10px auto 50px; max-width: 100%;
+}
+.course-filters {
+  display: flex; flex-wrap: nowrap; gap: 12px; justify-content: center;
+}
+.filter-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(224,189,133,0.22);
+  color: var(--text);
+  padding: 13px 16px;
+  border-radius: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  text-decoration: none; white-space: nowrap; flex: 0 0 auto;
+}
+@media (max-width: 900px) {
+  .course-filters { flex-wrap: wrap; }
+}
+.filter-btn:hover {
+  border-color: var(--accent); background: rgba(224,189,133,0.1);
+  transform: translateY(-2px);
+}
+.filter-btn.active {
+  background: var(--accent); color: #000; font-weight: 600;
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(224,189,133,0.35);
+  transform: translateY(-2px);
+}
+.badge-tag {
+  font-size: 0.65rem; font-weight: 700; padding: 2px 7px;
+  border-radius: 12px; letter-spacing: 0.5px;
+}
+.lr-tag { background: #001e36; color: #38a9ff; border: 1px solid #38a9ff55; }
+.c1-tag { background: #2b1100; color: #ff9d42; border: 1px solid #ff9d4255; }
+.strobe-tag { background: #261e05; color: #ffd15c; border: 1px solid #ffd15c55; }
+.basics-tag { background: #1a1a24; color: #bca4f5; border: 1px solid #bca4f555; }
+.filter-btn.active .badge-tag {
+  background: rgba(0,0,0,0.25); color: #000; border-color: rgba(0,0,0,0.3);
+}
+
+/* En-tête de catégorie */
+.cat-divider {
+  display: flex; align-items: center; gap: 16px; margin: 55px auto 20px;
+  max-width: 1000px;
+}
+.cat-divider h2 {
+  font-family: "Cormorant Garamond", serif; font-size: 2rem;
+  color: var(--accent); margin: 0; white-space: nowrap; display: flex; align-items: center; gap: 12px;
+}
+.cat-divider .line {
+  flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,189,133,0.4), transparent);
+}
+.cat-desc {
+  max-width: 1000px; margin: 0 auto 30px; color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+}
+
+/* Accordéon glissant ultra-fluide */
+.cours-section {
+  max-width: 1000px; margin: 0 auto 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(224,189,133,0.18);
+  border-radius: 4px;
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;
+  overflow: hidden;
+}
+.cours-section:hover {
+  border-color: rgba(224,189,133,0.45);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+.cours-section.open {
+  border-color: rgba(224,189,133,0.7);
+  background: rgba(255,255,255,0.035);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.55), 0 0 25px rgba(224,189,133,0.15);
+}
+.cours-section-head {
+  padding: 22px 28px;
+  display: flex; align-items: center; gap: 20px;
+  cursor: pointer; user-select: none;
+  background: rgba(255,255,255,0.01);
+  transition: background 0.3s;
+}
+.cours-section-head:hover {
+  background: rgba(224,189,133,0.04);
+}
+@media (max-width: 600px) {
+  .cours-section-head {
+    padding: 16px 18px; gap: 14px; flex-wrap: wrap;
+  }
+}
+.cours-num {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2.2rem; font-weight: 300; line-height: 1;
+  color: var(--accent); flex: none;
+}
+.cours-kicker {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 4px;
+}
+.cours-section-head h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.45rem; font-weight: 400; color: #fff; margin: 0;
+  line-height: 1.25;
+}
+.cours-badge {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 12px;
+  background: rgba(224,189,133,0.08); border: 1px solid rgba(224,189,133,0.3);
+  color: var(--accent); flex: none; margin-left: 10px;
+}
+@media (max-width: 700px) {
+  .cours-badge { display: none; }
+}
+
+.cours-toggle-btn {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 20px;
+  border: 1px solid rgba(224,189,133,0.35);
+  background: rgba(224,189,133,0.06);
+  color: var(--accent); font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+  transition: all 0.3s ease;
+  flex: none;
+}
+.cours-section.open .cours-toggle-btn {
+  background: var(--accent); color: #0b0b0d; font-weight: 600;
+  border-color: var(--accent);
+}
+.cours-toggle-arrow {
+  display: inline-block; font-size: 0.75rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cours-section.open .cours-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* Le tiroir glissant (CSS Grid 0fr -> 1fr) */
+.cours-accordion-drawer {
+  display: grid !important;
+  grid-template-rows: 0fr !important;
+  transition: grid-template-rows 0.48s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.cours-section.open .cours-accordion-drawer {
+  grid-template-rows: 1fr !important;
+}
+.cours-accordion-inner {
+  overflow: hidden !important;
+  min-height: 0 !important;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.38s ease 0.1s, transform 0.38s ease 0.1s;
+}
+.cours-section.open .cours-accordion-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cours-body {
+  display: block !important;
+  padding: 16px 30px 34px !important;
+  border-top: 1px solid rgba(224,189,133,0.12);
+  margin-top: 0 !important;
+}
+@media (max-width: 600px) {
+  .cours-body { padding: 14px 18px 26px !important; }
+}
+
+.reglages-table { margin: 18px 0 8px; }
+.reglages-table img { width: 100%; max-width: 720px; height: auto; display: block; border: 1px solid rgba(224,189,133,0.25); border-radius: 4px; }
+.cours-lead {
+  color: var(--accent-2); font-size: 1.05rem; line-height: 1.7;
+  margin-bottom: 20px; font-style: italic; font-family: "Cormorant Garamond", serif;
+}
+
+/* Texte explicatif riche */
+.cours-expl-text {
+  color: #d6d3ce; font-size: 0.95rem; line-height: 1.85; margin: 20px 0 25px;
+}
+.cours-expl-text p { margin-bottom: 14px; }
+.cours-expl-text strong { color: #fff; font-weight: 600; }
+.cours-expl-text em { color: var(--accent-2); font-style: normal; }
+
+.cours-expl-highlight {
+  border-left: 3px solid var(--accent);
+  background: rgba(224,189,133,0.05);
+  padding: 14px 20px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.92rem; color: #f0ebe1;
+}
+
+/* Raccourcis et Astuces studio */
+.shortcut-box {
+  background: rgba(224,189,133,0.04);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px; margin: 18px 0; border-radius: 0 4px 4px 0;
+  font-size: 0.88rem; color: #e8e6e3;
+}
+.shortcut-box strong { color: var(--accent); display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+.shortcut-box kbd {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(224,189,133,0.35);
+  color: var(--accent); padding: 2px 7px; border-radius: 3px;
+  font-family: monospace; font-size: 0.82rem; margin: 0 2px;
+}
+.tip-box {
+  background: rgba(142,68,173,0.09);
+  border: 1px dashed rgba(188,164,245,0.38);
+  padding: 14px 18px; margin: 18px 0; border-radius: 4px;
+  font-size: 0.88rem; color: #ded4f5;
+}
+.tip-box strong { color: #caa6ff; display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Bloc Vidéo pédagogique */
+.cours-video {
+  margin: 26px 0 20px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(224,189,133,0.25);
+  padding: 18px;
+  border-radius: 4px;
+}
+.cours-video-label {
+  font-family: "Montserrat", sans-serif; font-size: 0.65rem;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+}
+.cours-video-label::before {
+  content: ''; width: 20px; height: 2px; background: var(--accent);
+}
+.cours-video-frame {
+  position: relative; width: 100%; max-width: 800px;
+  aspect-ratio: 16 / 9; background: #000;
+  border: 1px solid rgba(224,189,133,0.2); overflow: hidden;
+  border-radius: 3px; margin-bottom: 12px;
+}
+.cours-video-frame iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}
+.cours-video-lazy {
+  position: absolute; inset: 0; width: 100%; border: 0; cursor: pointer;
+  background: #08070a center / cover no-repeat;
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+}
+.cours-video-play {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(224,189,133,.94); color: #09090b;
+  box-shadow: 0 10px 35px rgba(0,0,0,.55);
+  transition: transform .25s ease, background .25s ease;
+}
+.cours-video-lazy:hover .cours-video-play {
+  transform: scale(1.08); background: #fff0be;
+}
+.cours-video-play span {
+  margin-left: 5px; font-size: 1.45rem; line-height: 1;
+}
+.cours-video-caption {
+  color: var(--muted); font-size: 0.85rem; line-height: 1.6;
+}
+.cours-video-caption a {
+  color: var(--accent); text-decoration: underline; margin-left: 6px;
+}
+.video-key-points {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.82rem; color: #ccc;
+}
+.video-key-points strong { color: var(--accent-2); }
+
+/* Filtres Masquage */
+.cours-section.filtered-out, .cat-group.filtered-out {
+  display: none !important;
+}
+/* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
+  .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
+  .site-controls button {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+  }
+  .site-controls button:hover { background: var(--accent); color: var(--bg); transform: translateY(-1px); }
+
+  /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
+  main { padding-top: 72px; }
+  #portfolio { padding: 90px 0 20px; }
+  .about-wrap { padding-bottom: 10px; }
+  #contact { padding-bottom: 90px; }
+  /* ---------- MENU MOBILE ---------- */
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  @media (max-width: 780px) {
+    .menu-toggle { display: flex; align-items: center; justify-content: center; }
+    nav {
+      position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+      padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+      transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+    }
+    nav.open { transform: translateY(0); opacity: 1; }
+    nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .admin-btn { margin: 14px 0 0; width: 100%; }
+  }
+
+  @media (max-width: 760px) {
+    .intro-frame { display: none; }
+    .site-controls { top: 12px; right: 12px; }
+    .site-controls button { width: 38px; height: 38px; }
+  }
+  @media (max-width: 600px) {
+    .logo { font-size: 0.95rem; letter-spacing: 3px; }
+    .logo::before { width: 16px; }
+    .logo span { display: none; }
+    .site-controls { top: auto; bottom: 16px; right: 12px; }
+    .site-controls svg { width: 15px; height: 15px; }
+    .nav { height: 64px; }
+    header .admin-btn { padding: 8px 14px; }
+  }
+
+
+/* ===== FOND STUDIO SEMI-FLOUTE (section A propos) ===== */
+#apropos { position: relative; overflow: hidden; }
+#apropos::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: url('studio-hero.jpg');
+  background-size: cover; background-position: center;
+  filter: blur(9px) brightness(0.5) saturate(0.85);
+  transform: scale(1.08); pointer-events: none;
+}
+#apropos::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(8,7,10,0.82) 0%, rgba(8,7,10,0.88) 55%, rgba(8,7,10,0.96) 100%);
+  pointer-events: none;
+}
+#apropos > .container { position: relative; z-index: 1; }
+
+/* ===== BOT LATERAL DROIT (assistant) ===== */
+.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
+.bot-bubble {
+  width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
+  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
+  transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
+}
+.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
+.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
+.bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
+.bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
+.bot-close { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px; }
+.bot-close:hover { color: var(--text); }
+.bot-body { padding: 12px 14px; }
+.bot-intro { color: var(--muted); font-size: .75rem; line-height: 1.7; margin: 0 0 10px; }
+.bot-accordion { border-bottom: 1px solid rgba(255,255,255,.06); }
+.bot-accordion:last-child { border-bottom: 0; }
+.bot-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: none; border: 0; color: var(--text); cursor: pointer; text-align: left;
+  padding: 10px 2px; font-size: .74rem; letter-spacing: .4px; font-family: inherit;
+}
+.bot-q::after { content: '+'; color: var(--accent); font-size: .9rem; transition: transform .2s; }
+.bot-accordion.open .bot-q::after { transform: rotate(45deg); }
+.bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
+.bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+@keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-launch {
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
+}
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+@media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+</style>
+</head>
+<body>
+<audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
+<div class="site-controls">
+  <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
+  </button>
+  <button id="fsBtn" type="button" aria-label="Passer en plein écran" title="Plein écran">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <svg class="nav-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-8h6v8"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
+  <symbol id="i-bookopen" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-5a4 4 0 0 0-4 4 4 4 0 0 0-4-4H3Z"/></symbol>
+  <symbol id="i-booktext" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-clapper" viewBox="0 0 24 24"><path d="M20 11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"/><path d="m2 11 20 0"/><path d="m5 11 2-5 3 5"/><path d="m12 11 2-5 3 5"/></symbol>
+</svg>
+    <nav>
+      <a href="index.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="house"><use href="#i-house"/></svg><span>Accueil</span></a>
+      <a href="portfolio.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="images"><use href="#i-images"/></svg><span>Galerie</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="graduation"><use href="#i-graduation"/></svg><span class="nav-lbl">Apprendre</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="eclairage.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="lightbulb"><use href="#i-lightbulb"/></svg><span>Éclairage</span><span class="nav-count" data-count="eclairage"></span></a>
+          <a href="cours.html" class="active"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="bookopen"><use href="#i-bookopen"/></svg><span>Tutoriels</span><span class="nav-count" data-count="cours"></span></a>
+          <a href="glossaire.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="booktext"><use href="#i-booktext"/></svg><span>Glossaire</span><span class="nav-count" data-count="glossaire"></span></a>
+          <a href="competences.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="award"><use href="#i-award"/></svg><span>Compétences</span></a>
+          <a href="shorts.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="clapper"><use href="#i-clapper"/></svg><span>Shorts</span></a>
+        </div>
+      </div>
+      <a href="modeles.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Modèles</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span class="nav-lbl">Qui suis-je</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="apropos.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span>Présentation</span></a>
+          <a href="collaborations.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Collaborations</span></a>
+          <a href="commentaires.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Avis &amp; Commentaires</span></a>
+        </div>
+      </div>
+      <a href="recherche.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="search"><use href="#i-search"/></svg><span>Recherche</span></a>
+      <a href="contact.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Contact</span></a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<div class="page-hero container" style="padding:55px 0 20px;">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> / <a href="cours.html">Tutoriels</a> / Capture One Pro</div>
+  <div class="kicker">Centre de Formation & Post-Production</div>
+  <h1>Capture One Pro</h1>
+  <p><a href="cours.html" style="color:var(--accent);text-decoration:none;">← Tous les tutoriels</a></p>
+</div>
+
+<main class="page-main container">
+  <!-- Filtres par catégorie -->
+  
+  </div>
+
+  <!-- ==============================================
+       SECTION 1 : LIGHTROOM CLASSIC
+       ============================================== -->
+  <div class="cat-group" data-category="c1" style="margin-top:0;">
+    
+    </div>
+    
+
+    <!-- C1 01 : Outil Teinte de Peau (AVEC VIDÉO QUENTIN DÉCAILLET) -->
+    <article class="cours-section reveal" data-category="c1" id="c1-1">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-01</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Rendu Couleur & Teint de Peau</div>
+          <h3>L'outil Teinte de Peau (Skin Tone) : L'arme secrète de Capture One</h3>
+        </div>
+        <div class="cours-badge">Le Must Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Tutoriel Capture One étape par étape : préparez l’exposition, corrigez les tons chair, appliquez les masques, harmonisez localement puis vérifiez le résultat à 100 %.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La science du teint chez Capture One</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Étape 1 — Créez un calque de retouche :</strong> Cliquez sur <em>Calque de réglage</em>, nommez-le « Peau – retouche », puis passez uniquement les réglages suivants sur ce calque. Désactivez temporairement toutes les autres modifications locales pour travailler proprement.</p>
+              <p><strong>Étape 2 — Corrigez d’abord la balance générale :</strong> Dans l’onglet <em>Blanc équilibré</em>, utilisez une zone neutre du vêtement ou une référence grise. Ajustez ensuite la balance manuellement si les tons chair restent trop jaunes ou trop verts.</p>
+              <p><strong>Étape 3 — Équilibre la luminance :</strong> Ajustez l’exposition entre -0.10 et +0.25 EV, les hautes lumières autour de -20 et les ombres autour de +10. Le visage doit rester détaillé : pas de joues entièrement blanches ni de mâchoire complètement noire.</p>
+              <p><strong>Étape 4 — Ouvrez Teinte de Peau :</strong> Dans les outils couleur, activez <em>Uniformité</em>. Prenez la pipette sur une zone homogène du front ou de la joue, à côté des rides et des rougeurs.</p>
+              <p><strong>Étape 5 — Échantillonnez plusieurs zones :</strong> Ajoutez deux ou trois points si le visage présente plusieurs types d’éclairage. Chaque point doit représenter une carnation saine, pas une ombre très bleue ni une zone brûlée.</p>
+              <p><strong>Étape 6 — Réglez l’uniformité avec prudence :</strong> Commencez avec <strong>Uniformité de teinte 25–45 %</strong> et <strong>Uniformité de saturation 10–25 %</strong>. N’utilisez pas 100 % : Capture One doit conserver les couleurs naturelles des joues, des lèvres et des ombres.</p>
+              <p><strong>Étape 7 — Protégez les détails :</strong> Sur le calque peau, baissez légèrement le bruit chromatique si nécessaire, sans appliquer de flou excessif. Gardez la netteté entre +10 et +20 pour éviter un effet de plastique.</p>
+              <p><strong>Étape 8 — Affinez yeux, sourcils et lèvres :</strong> Créez un nouveau calque nommé « Yeux et lèvres ». Avec un masque précis, augmentez légèrement l’exposition des yeux, récupérez les détails des sourcils, puis diminuez la luminance des lèvres si elles paraissent trop brillantes. Ne modifiez pas les dents en même temps que les yeux.</p>
+              <p><strong>Étape 9 — Vérifiez les couleurs extrêmes :</strong> Zoomez à 100 %, désactivez puis réactivez chaque calque et passez à l’aperçu noir sur blanc si nécessaire. Si une zone jaune ou rouge paraît artificielle, réduisez l’uniformité avant d’élargir le masque.</p>
+              <p><strong>Étape 10 — Finalisez l’opacité :</strong> Ramenez la visibilité du calque peau entre 70 et 100 % selon le résultat. Prenez une vue complète, puis exportez une copie JPEG pour comparer sur un autre écran.</p>
+
+              <div class="cours-expl-highlight">
+                <strong>Contrôle qualité :</strong> Une peau bien retouchée conserve les pores, les ombres naturelles, les bordures du visage et les variations légères de couleur. La main, les vêtements et l’arrière-plan doivent rester identiques.
+              </div>
+            </div>
+
+            <!-- VIDÉO QUENTIN DÉCAILLET -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/hreNgaQZYC4" title="Unifier les tons chair dans Capture One Pro" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Unifier les TONS CHAIR dans CAPTURE ONE PRO » par <strong>Quentin Décaillet</strong>.
+                <a href="https://www.youtube.com/watch?v=hreNgaQZYC4" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> La méthode professionnelle pour échantillonner la couleur de peau, ajuster la tolérance du secteur colorimétrique et doser l'uniformité pour un teint parfait sans effet artificiel.
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis</strong>
+              <kbd>Q</kbd> : Activer la pipette de couleur active · <kbd>Alt</kbd> + clic sur la flèche de réinitialisation pour annuler uniquement ce réglage précis.
+            </div>
+
+            <div class="tip-box">
+              <strong>L'astuce Studio Saysko</strong>
+              Créez toujours un <strong>Calque de réglage</strong> dédié nommé « Retouche Peau » avant d'utiliser l'outil Teinte de peau. Vous pouvez ainsi ajuster l'opacité générale du calque (par exemple à 75%) si vous trouvez que l'effet gomme trop les particularités du modèle.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 02 : Prise de Vue Connectée Tethering (AVEC VIDÉO TETHERING) -->
+    <article class="cours-section reveal" data-category="c1" id="c1-2">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-02</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Prise de Vue Studio & Tethering</div>
+          <h3>Tethering en direct : Brancher son Canon 5D Mark IV & Sessions Studio</h3>
+        </div>
+        <div class="cours-badge">Le Standard Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+            <p class="cours-lead">Le workflow studio par excellence : shooter relié par câble USB 3.0 à l'ordinateur, affichage plein écran instantané en 1 seconde et validation de la netteté en direct.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Pourquoi shooter connecté transforme vos séances</span></div>
+            <div class="cours-expl-text">
+              <p><strong>L'écran arrière de l'appareil est un menteur :</strong> Sur le petit écran LCD de 3 pouces de votre boîtier, une photo paraît toujours nette et bien exposée. Mais une fois rentré au studio sur grand écran, vous découvrez souvent que la mise au point était sur le nez au lieu de la pupille, ou qu'un pli de vêtement disgracieux gâche la pose. En travaillant connecté (<em>Tethered</em>) avec Capture One, chaque photo apparaît instantanément sur votre grand écran calibré en 1 seconde chrono.</p>
+
+              <p><strong>La structure en « Session » :</strong> Contrairement à Lightroom qui mise tout sur un catalogue unique, Capture One utilise le concept de <strong>Session</strong> pour les shootings. Une Session est un dossier autonome contenant 4 répertoires automatiques : <em>Capture</em> (où arrivent les photos brutes), <em>Selects</em> (les photos retenues), <em>Output</em> (les exports finaux) et <em>Trash</em>. Vous pouvez déplacer tout le dossier de la Session sur n'importe quel ordinateur ou disque dur sans jamais perdre aucun réglage !</p>
+            </div>
+
+            <!-- VIDÉO CAPTURE ONE TETHERING -->
+            <div class="cours-video">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/IlSbPIe5_mA" title="Prise de vue connectée avec Capture One" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="cours-video-caption">
+                « Prise de vue connectée (Tethering) dans Capture One » — Tutoriel complet en français.
+                <a href="https://www.youtube.com/watch?v=IlSbPIe5_mA" target="_blank" rel="noopener">Ouvrir sur YouTube ↗</a>
+              </div>
+              <div class="video-key-points">
+                <strong>Ce que montre la vidéo :</strong> Comment connecter son appareil en USB, paramétrer le dossier de capture, déclencher depuis l'ordinateur et appliquer automatiquement le look sur les photos suivantes (Next Capture Adjustments).
+              </div>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Tethering</strong>
+              <kbd>Ctrl</kbd> + <kbd>K</kbd> : Déclencher le boîtier depuis le clavier · <kbd>F10</kbd> : Mode plein écran Viewer pour montrer l'image au modèle en direct.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 03 : Calques & Plage Luma -->
+    <article class="cours-section reveal" data-category="c1" id="c1-3">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-03</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Masquage & Calques</div>
+          <h3>Calques de réglage & Masquage par Plage Luma (Luma Range)</h3>
+        </div>
+        <div class="cours-badge">Technique Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/Ju1jozJy-y0" title="Calques de réglage & Masquage par Plage Luma (Luma Range)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Procédure Capture One : créez un calque, testez une plage de luminance, réduisez sa sélection aux hautes lumières utiles, appliquez un réglage limité puis vérifiez bordures et texture.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : La puissance de la Plage Luma</span></div>
+            <div class="cours-expl-text">
+              <p><strong>Étape 1 — Créez un calque :</strong> Dans le panneau Ajustements locaux, ajoutez un calque nommé « Plage de lumières ». Travaillez toujours sur un calque séparé pour pouvoir désactiver l’effet en un clic.</p>
+              <p><strong>Étape 2 — Activez Plage Luma :</strong> Ouvrez l’outil de masque, choisissez <em>Luma Range</em>, puis cliquez sur une zone lumineuse du portrait : une joue éclairée, une épaule ou un reflet produit.</p>
+              <p><strong>Étape 3 — Étendez ou réduisez la plage :</strong> Déplacez les curseurs pour inclure seulement les pixels du niveau de lumière visé. La zone active doit couvrir les hautes lumières utiles, pas toute la peau ni le fond clair.</p>
+              <p><strong>Étape 4 — Affinez avec le pointeur :</strong> Cliquez sur plusieurs zones pour ajouter des niveaux similaires, puis utilisez la soustraction si les lèvres, les dents ou les parties trop sombres sont sélectionnées.</p>
+              <p><strong>Étape 5 — Appliquez un réglage modéré :</strong> Pour récupérer des flashs trop durs, baissez les hautes lumières de -15 à -35. Pour sculpter un rim light, montez légèrement la luminosité ou ajoutez une teinte très légère.</p>
+              <p><strong>Étape 6 — Conservez les ombres :</strong> Vérifiez que les ombres profondes restent hors du masque. Si elles sont incluses, déplacez le seuil minimum vers une luminance plus élevée.</p>
+              <p><strong>Étape 7 — Protégez les détails du visage :</strong> Combinez la plage avec un masque géométrique si nécessaire : ajoutez uniquement les pommettes, les épaules ou les cheveux, jamais toute la tête.</p>
+              <p><strong>Étape 8 — Contrôlez la surimpression :</strong> Affichez le masque rouge. Désactivez les réglages du calque pour isoler la sélection elle-même et vérifier les contours pixel par pixel.</p>
+              <p><strong>Étape 9 — Comparez à l’image complète :</strong> Zoomez à 100 %, puis revenez à la vue entière. Une sélection réussie ne crée pas de halo lumineux autour du visage ou du corps.</p>
+              <p><strong>Étape 10 — Finalisez ou supprimez :</strong> Si l’effet reste naturel, baissez l’opacité locale à 70–90 %. Sinon, réduisez les réglages plutôt que d’élargir encore le masque.</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourcis Calques</strong>
+              <kbd>B</kbd> : Pinceau de dessin · <kbd>E</kbd> : Gomme de masque · <kbd>M</kbd> : Afficher/masquer le masque rouge en surimpression.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 04 : Éditeur de couleur avancé -->
+    <article class="cours-section reveal" data-category="c1" id="c1-4">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-04</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Colorimétrie Haute Précision</div>
+          <h3>Éditeur de couleur avancé & Profils ICC capteur Canon</h3>
+        </div>
+        <div class="cours-badge">Science des Couleurs</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/d9FWrKMu11Q" title="Éditeur de couleur avancé & Profils ICC capteur Canon" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Isoler chirurgicalement une nuance dans la roue chromatique 2D/3D pour modifier une teinte sans créer aucun artéfact de contour.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : Pourquoi les couleurs de Capture One sont inégalées</span></div>
+            <div class="cours-expl-text">
+              <p>L'équipe de Capture One mesure physiquement chaque capteur photo en laboratoire avec des mires de haute précision pour créer des profils ICC sur-mesure (notamment le célèbre profil <em>ProStandard</em> pour Canon 5D Mark IV). Dans l'éditeur de couleur avancé, vous pouvez cocher <em>« Voir la plage de couleurs sélectionnée »</em> : le reste de la photo passe instantanément en noir et blanc, ce qui vous permet de vérifier avec une précision chirurgicale que votre sélection ne déborde pas sur le modèle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- C1 05 : Process Recipes -->
+    <article class="cours-section reveal" data-category="c1" id="c1-5">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-05</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Exportation & Workflow Studio</div>
+          <h3>Formules d'Export (Process Recipes) : Tout exporter en 1 clic</h3>
+        </div>
+        <div class="cours-badge">Finition Studio</div>
+        <div class="cours-toggle-btn">
+          <span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span>
+        </div>
+      </div>
+      <div class="cours-accordion-drawer">
+        <div class="cours-accordion-inner">
+          <div class="cours-body">
+              <div class="cours-video-label">Vidéo Tutoriel Recommandée · En Français</div>
+              <div class="cours-video-frame">
+                <iframe src="https://www.youtube-nocookie.com/embed/vbvb0FlEc7k" title="Formules d'Export (Process Recipes) : Tout exporter en 1 clic" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+
+            <p class="cours-lead">Générez simultanément en appuyant sur une seule touche : les JPEG Web pour le client, les planches de contact filigranées et les TIFF 16 bits de tirage d'art.</p>
+            
+            <div class="cours-subsep"><span>Texte explicatif : L'export multi-formats simultané</span></div>
+            <div class="cours-expl-text">
+              <p>Dans la plupart des logiciels, si vous devez exporter vos photos en haute définition pour impression, puis en petit format pour les réseaux sociaux, vous devez lancer les opérations l'une après l'autre. Capture One propose les <strong>Formules de traitement (Process Recipes)</strong> : vous cochez plusieurs formules à la fois, et Capture One calcule tous les fichiers en parallèle en tâche de fond avec nommage dynamique automatique (tokens).</p>
+            </div>
+
+            <div class="shortcut-box">
+              <strong>Raccourci magique</strong>
+              <kbd>Ctrl</kbd> + <kbd>D</kbd> : Lancer immédiatement le traitement des images sélectionnées selon toutes les formules cochées.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+      <article class="cours-section reveal" data-category="c1" id="c1-6-organisation">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-06</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Capture One · Organisation</div>
+          <h3>Catalogue ou Session : organiser ses shootings dans Capture One</h3>
+        </div>
+        <div class="cours-badge">Workflow</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Capture One propose deux logiques : le <strong>Catalogue</strong> pour une bibliothèque unique et pérenne, la <strong>Session</strong> pour un shooting autonome et transportable.</p>
+        <div class="cours-expl-text">
+          <p><strong>La Session :</strong> un dossier autonome créé par shooting, avec quatre sous-dossiers automatiques — Capture (les brutes), Selects (les retenues), Output (les exports) et Trash. Vous pouvez déplacer toute la Session sur un autre disque sans perdre un seul réglage : les ajustements sont stockés dans le dossier avec les images. C'est le choix idéal en studio et pour les shootings client.</p>
+          <p><strong>Le Catalogue :</strong> une base unique qui référence toutes vos photos, comme Lightroom. Utile pour retrouver une image vieille de trois ans par mots-clés, notes ou couleurs. Contrairement à Lightroom, vous pouvez travailler sur plusieurs catalogues et basculer entre eux.</p>
+          <p><strong>Le bon réflexe :</strong> shooter en Session, puis importer les Selects dans un Catalogue annuel une fois le projet livré. On garde ainsi la portabilité pendant le travail et la puissance de recherche sur le long terme.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> Session = dossier autonome par shooting · Catalogue = recherche à long terme.</div>
+      </div></div></div>
+    </article>
+    <article class="cours-section reveal" data-category="c1" id="c1-7-styles">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-07</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Capture One · Styles</div>
+          <h3>Les Styles Capture One : appliquer une signature en un clic</h3>
+        </div>
+        <div class="cours-badge">Créatif</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Un Style est un enchaînement de réglages enregistré — courbe de ton, balance des couleurs, grain, vignetage — que l'on applique à une ou plusieurs photos.</p>
+        <div class="cours-expl-text">
+          <p><strong>Appliquer :</strong> onglet Styles, double-clic sur un style pour l'appliquer à la photo courante. Le panneau « Édition des styles » permet de cocher ou décocher chaque réglage : utile pour garder la courbe mais ignorer la saturation, par exemple.</p>
+          <p><strong>Créer le sien :</strong> retouchez une photo de référence jusqu'au rendu voulu, puis clic sur « + » dans l'onglet Styles. Nommez-le (ex. « Saysko – Doré Studio ») et gardez-le dans une catégorie personnelle. C'est le moyen le plus simple d'avoir une signature cohérente sur toute une série.</p>
+          <p><strong>Avec les calques :</strong> appliquez un Style sur un calque rempli à 50 % pour en doser l'intensité, ou masquez certaines zones au pinceau. Un style n'est pas une fatalité : il reste toujours ajustable.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> double-clic pour appliquer · réglages sélectifs · style maison pour la cohérence.</div>
+      </div></div></div>
+    </article>
+    <article class="cours-section reveal" data-category="c1" id="c1-8-keystone">
+      <div class="cours-section-head">
+        <div class="cours-num">C1-08</div>
+        <div>
+          <div class="cours-kicker">Catégorie : Capture One · Perspective</div>
+          <h3>Keystone : corriger la perspective en architecture et en studio</h3>
+        </div>
+        <div class="cours-badge">Avancé</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">L'outil Keystone corrige la convergence des lignes : quand on photographie un bâtiment en penchant l'appareil vers le haut, les verticales se rejoignent. Le studio est concerné aussi — un fond cyclorama mal parallèle à l'appareil se redresse ici.</p>
+        <div class="cours-expl-text">
+          <p><strong>Méthode :</strong> outil Keystone (raccourci K), réglez d'abord la quantité pour redresser les verticales, puis la plaque tournante pour ajuster l'angle, et enfin les curseurs de taille pour récupérer les bords rognés par la transformation.</p>
+          <p><strong>Version simple :</strong> pour un paysage urbain, essayez d'abord les préréglages de redressement automatique de l'outil : ils donnent souvent 90 % du résultat en un clic.</p>
+          <p><strong>Modération :</strong> trop de correction étire les bords et déforme les personnes. En portrait, on corrige surtout le fond ; gardez le visage naturel. Un léger redressement « faux » la photo moins qu'une déformation visible.</p>
+        </div>
+        <div class="video-key-points"><strong>À retenir :</strong> quantité puis rotation puis récupération des bords · correction modérée en portrait.</div>
+      </div></div></div>
+    </article>
+</div>
+
+    <!-- C1 06 : Organisation catalogue/session -->
+
+    <!-- C1 07 : Styles -->
+
+    <!-- C1 08 : Keystone -->
+
+  <!-- ==============================================
+       SECTION 3 : STROBISME & STUDIO
+       ============================================== -->
+    <div style="text-align:center;margin:3rem 0 1rem;"><a href="cours.html" class="btn">← Tous les tutoriels</a></div>
+</div>
+<footer> SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. · Saysko © 2026 · Musique : Alex Shulgin — Pixabay</footer>
+<script src="site.js?v=7"></script>
+</body>
+</html>

@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saysko Photographie — Photo de studio & strobisme</title>
+<meta name="description" content="Portfolio de Saysko, photographe spécialisé en photo de studio et strobisme : portraits, lumière sculptée, cours gratuits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="site.css?v=23">
+<script>
+  try {
+    if (localStorage.getItem("saysko_intro_seen") === "1") {
+      document.documentElement.classList.add("intro-seen");
+    }
+  } catch (e) {}
+</script>
+<style>
+  html.intro-open, html.intro-open body { overflow: hidden; }
+
+  /* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
+  .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
+  .site-controls button {
+    width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+  }
+  .site-controls button:hover { background: var(--accent); color: var(--bg); transform: translateY(-1px); }
+
+  /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
+  main { padding-top: 72px; }
+  #portfolio { padding: 90px 0 20px; }
+  .about-wrap { padding-bottom: 10px; }
+  #contact { padding-bottom: 90px; }
+  /* ---------- MENU MOBILE ---------- */
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  @media (max-width: 780px) {
+    .menu-toggle { display: flex; align-items: center; justify-content: center; }
+    nav {
+      position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
+      flex-direction: column; align-items: stretch; gap: 0;
+      background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+      padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
+      transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
+    }
+    nav.open { transform: translateY(0); opacity: 1; }
+    nav a { display: block; padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .admin-btn { margin: 14px 0 0; width: 100%; }
+  }
+
+  @media (max-width: 760px) {
+    .site-controls { top: 12px; right: 12px; }
+    .site-controls button { width: 38px; height: 38px; }
+  }
+  @media (max-width: 600px) {
+    .logo { font-size: 0.95rem; letter-spacing: 3px; }
+    .logo::before { width: 16px; }
+    .logo span { display: none; }
+    .site-controls { top: 12px; right: 12px; bottom: auto; }
+    .site-controls svg { width: 15px; height: 15px; }
+    .saysko-bot { bottom: 74px; }
+    .nav { height: 64px; }
+    header .admin-btn { padding: 8px 14px; }
+  }
+
+  /* Introduction photo et iris mecanique SVG */
+  html.intro-open, html.intro-open body { overflow: hidden; }
+  html.intro-seen .intro, html.intro-seen .iris-transition:not(.is-active) { display: none; }
+  html.intro-open .site-controls { display: none; }
+  .intro {
+    position: fixed; inset: 0; z-index: 9000;
+    display: grid; place-items: center; overflow: hidden;
+    width: 100%; height: 100%; cursor: pointer; background: #050506;
+  }
+  .intro-photo {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 28%;
+    transform: scale(1.015); will-change: transform, filter;
+  }
+  .intro::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.06) 34%, rgba(0,0,0,.52) 100%);
+    pointer-events: none;
+  }
+  .intro-enter {
+    position: relative; z-index: 2; align-self: end;
+    margin: 0 0 clamp(34px, 7vh, 72px);
+    color: rgba(255,255,255,.94); font-family: "Montserrat", sans-serif;
+    font-size: .67rem; letter-spacing: 4px; text-transform: uppercase;
+    text-shadow: 0 2px 18px rgba(0,0,0,.75);
+    transition: opacity .25s ease;
+  }
+  .intro-enter::after {
+    content: ""; display: block; width: 34px; height: 1px;
+    margin: 12px auto 0; background: rgba(255,255,255,.82);
+  }
+  .intro.entering .intro-photo { animation: introPush 2.8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .intro.entering .intro-enter { opacity: 0; }
+  @keyframes introPush {
+    0% { transform: scale(1.015); filter: brightness(1); }
+    100% { transform: scale(1.13); filter: brightness(.68); }
+  }
+  .iris-transition {
+    position: fixed; inset: 0; z-index: 10001;
+    display: none; width: 100vw; height: 100vh; height: 100dvh;
+    opacity: 1; pointer-events: none; background: #000;
+  }
+  .iris-transition.is-active { display: block; }
+  .iris-transition.is-fading { opacity: 0; transition: opacity .22s ease; }
+  .iris-transition svg { display: block; width: 100%; height: 100%; }
+  .iris-metal {
+    fill: url(#iris-metal);
+    stroke: rgba(138,138,150,.52); stroke-width: .18;
+    vector-effect: non-scaling-stroke;
+  }
+  .iris-blades { opacity: 1; transition: opacity .06s linear; }
+  .iris-transition.is-closed .iris-blades { opacity: 0; }
+  .iris-edge { fill: none; stroke: url(#irisEdge); stroke-width: .55; vector-effect: non-scaling-stroke; opacity: .7; }
+  #irisRing { pointer-events: none; }
+  #irisPivots circle, #irisPivots line { pointer-events: none; }
+  @media (max-width: 600px) {
+    .intro-enter { font-size: .62rem; letter-spacing: 3px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .intro.entering .intro-photo { animation-duration: 2.2s; }
+  }
+
+/* ===== FOND STUDIO SEMI-FLOUTE (section A propos) ===== */
+#apropos { position: relative; overflow: hidden; }
+#apropos::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: url('fond-site.png');
+  background-size: cover; background-position: center;
+  filter: blur(9px) brightness(0.5) saturate(0.85);
+  transform: scale(1.08); pointer-events: none;
+}
+#apropos::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(8,7,10,0.82) 0%, rgba(8,7,10,0.88) 55%, rgba(8,7,10,0.96) 100%);
+  pointer-events: none;
+}
+#apropos > .container { position: relative; z-index: 1; }
+
+/* ===== BOT LATERAL DROIT (assistant) ===== */
+.saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
+.bot-bubble {
+  width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
+  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
+  transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
+}
+.saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
+.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
+.bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
+.bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
+.bot-close { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px; }
+.bot-close:hover { color: var(--text); }
+.bot-body { padding: 12px 14px; }
+.bot-intro { color: var(--muted); font-size: .75rem; line-height: 1.7; margin: 0 0 10px; }
+.bot-accordion { border-bottom: 1px solid rgba(255,255,255,.06); }
+.bot-accordion:last-child { border-bottom: 0; }
+.bot-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: none; border: 0; color: var(--text); cursor: pointer; text-align: left;
+  padding: 10px 2px; font-size: .74rem; letter-spacing: .4px; font-family: inherit;
+}
+.bot-q::after { content: '+'; color: var(--accent); font-size: .9rem; transition: transform .2s; }
+.bot-accordion.open .bot-q::after { transform: rotate(45deg); }
+.bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
+.bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+@keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-launch {
+  width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
+}
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+@media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+/* ========== CHAPITRES HORIZONTAUX ========== */
+html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
+.chapters { position: fixed; inset: 0; overflow: hidden; }
+.chapters-track { display: flex; height: 100%; width: 100%; transition: transform .8s cubic-bezier(.76,0,.24,1); }
+.chapter { flex: 0 0 100vw; width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding: 100px 0 90px; position: relative; }
+.chapter::-webkit-scrollbar { display: none; }
+.chapter[data-ambiance="studio"] { background: radial-gradient(ellipse at 50% 30%, #1a1714 0%, #0a0908 70%); }
+.chapter[data-ambiance="about"] { background: radial-gradient(ellipse at 30% 40%, #17161b 0%, #09090c 70%); }
+.live-btn { display:inline-flex; align-items:center; gap:9px; margin-left:10px; border-color:rgba(224,189,133,.55); background:rgba(224,189,133,.08); color:var(--accent); }
+.live-btn:hover { background:rgba(224,189,133,.18); }
+.live-dot { width:8px; height:8px; border-radius:50%; background:#ff4d5e; box-shadow:0 0 0 0 rgba(255,77,94,.6); animation:livePulse 1.8s infinite; }
+@keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(255,77,94,.55)} 70%{box-shadow:0 0 0 8px rgba(255,77,94,0)} 100%{box-shadow:0 0 0 0 rgba(255,77,94,0)} }
+.chapter[data-ambiance="retouche"] {
+  background: linear-gradient(90deg, rgba(8,11,18,.88) 0%, rgba(8,11,18,.58) 45%, rgba(8,11,18,.88) 100%), url("bg-retouche.png") center center / cover no-repeat;
+}
+.chapter[data-ambiance="galerie"] { background: radial-gradient(ellipse at 50% 40%, #1a150f 0%, #080706 72%); }
+.chapter[data-ambiance="contact"] { background: radial-gradient(ellipse at 50% 60%, #181512 0%, #070707 72%); }
+.chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
+/* Navigation */
+.chapter-nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; align-items: center; gap: 16px; }
+.chapter-arrow { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,9,11,.7); border: 1px solid rgba(224,189,133,.45); color: var(--accent); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: .25s; }
+.chapter-arrow:hover { background: var(--accent); color: #0b0b0d; }
+.chapter-arrow:disabled { opacity: .25; cursor: default; }
+.chapter-dots { display: flex; gap: 10px; }
+.chapter-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(224,189,133,.55); background: transparent; cursor: pointer; padding: 0; transition: .25s; }
+.chapter-dot.active { background: var(--accent); box-shadow: 0 0 12px rgba(224,189,133,.6); }
+.chapter-label { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); z-index: 300; color: var(--accent); font-family: "Montserrat",sans-serif; font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
+/* Retouche */
+.retouche-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; max-width: 1100px; margin: 40px auto 0; }
+.retouche-img img { width: 100%; border-radius: 4px; border: 1px solid rgba(224,189,133,.25); display: block; }
+.retouche-text .about-kicker { color: var(--accent); font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+.retouche-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+.retouche-text .btn { display: inline-block; margin-top: 10px; }
+@media (max-width: 900px) { .retouche-wrap { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .chapter-nav { bottom: 12px; } .chapter-label { bottom: 62px; } }
+
+
+/* Lecteur d'ambiance dans chaque chapitre */
+.chapter-player { position: absolute; top: 96px; right: 5%; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: rgba(10,9,11,.55); border: 1px solid rgba(224,189,133,.3); border-radius: 40px; backdrop-filter: blur(6px); }
+.player-toggle { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: .9rem; cursor: pointer; transition: .25s; }
+.player-toggle:hover { background: var(--accent); color: #0b0b0d; }
+.player-info { display: flex; flex-direction: column; line-height: 1.3; }
+.player-title { color: var(--text); font-family: "Montserrat",sans-serif; font-size: .66rem; letter-spacing: 1.2px; text-transform: uppercase; }
+.player-sub { color: var(--muted); font-size: .58rem; letter-spacing: .6px; }
+.player-bars { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.player-bars i { display: block; width: 3px; height: 5px; background: var(--accent); border-radius: 2px; opacity: .5; }
+.chapter-player.playing .player-bars i { animation: eq .9s ease-in-out infinite alternate; opacity: 1; }
+.chapter-player.playing .player-bars i:nth-child(2) { animation-delay: .2s; }
+.chapter-player.playing .player-bars i:nth-child(3) { animation-delay: .4s; }
+.chapter-player.playing .player-bars i:nth-child(4) { animation-delay: .15s; }
+@keyframes eq { from { height: 4px; } to { height: 17px; } }
+@media (max-width: 700px) { .chapter-player { top: 74px; right: 14px; padding: 6px 10px; } .player-bars { display: none; } }
+
+
+/* ===== FONDS ANIMÉS (CSS/SVG/Canvas) — galerie & contact ===== */
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(8,11,18,.85) 0%, rgba(8,11,18,.5) 45%, rgba(8,11,18,.85) 100%), url("bg-galerie.png") center center / cover no-repeat; }
+.chapter[data-ambiance="contact"] { background: #080706; }
+.fond-anime { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.fond-anime canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .85; }
+.fond-anime::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(8,7,6,.92) 0%, rgba(8,7,6,.86) 38%, rgba(8,7,6,.45) 72%, rgba(8,7,6,.85) 100%);
+}
+.fond-anime::before {
+  content:''; position:absolute; inset:0; z-index:2; opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift .6s steps(3) infinite;
+}
+@keyframes grainShift { 0%{transform:translate(0,0)} 33%{transform:translate(-2%,1%)} 66%{transform:translate(1%,-2%)} 100%{transform:translate(0,0)} }
+.chapter[data-ambiance="galerie"] > .container, .chapter[data-ambiance="contact"] > .container { position: relative; z-index: 3; }
+
+</style>
+</head>
+<body class="home">
+
+<audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
+<div class="site-controls">
+  <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
+  </button>
+  <button id="fsBtn" type="button" aria-label="Passer en plein écran" title="Plein écran">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
+<div class="flash-overlay"></div>
+
+<!-- ================= INTRO ================= -->
+<div class="intro" id="intro" role="button" tabindex="0" aria-label="Entrer sur le site Saysko Photographie">
+  <img class="intro-photo" src="fond-site.png" alt="" aria-hidden="true">
+  <div class="intro-enter">Cliquez pour entrer</div>
+</div>
+<div class="iris-transition" id="irisTransition" aria-hidden="true">
+  <svg id="irisSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="iris-metal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#29282d"></stop>
+        <stop offset=".18" stop-color="#111114"></stop>
+        <stop offset=".48" stop-color="#08080a"></stop>
+        <stop offset=".72" stop-color="#1b1a1f"></stop>
+        <stop offset="1" stop-color="#050506"></stop>
+      </linearGradient>
+      <radialGradient id="irisScrew" cx="35%" cy="30%" r="80%">
+        <stop offset="0" stop-color="#9a9aa2"></stop>
+        <stop offset=".55" stop-color="#3a3a41"></stop>
+        <stop offset="1" stop-color="#0a0a0c"></stop>
+      </radialGradient>
+      <linearGradient id="irisEdge" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#7a7a82" stop-opacity="0"></stop>
+        <stop offset=".5" stop-color="#e6e6ec" stop-opacity=".5"></stop>
+        <stop offset="1" stop-color="#7a7a82" stop-opacity="0"></stop>
+      </linearGradient>
+      <mask id="iris-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+        <rect id="irisMaskRect" x="0" y="0" width="100" height="100" fill="#fff"></rect>
+        <path id="irisHole" fill="#000" d=""></path>
+      </mask>
+    </defs>
+    <rect id="irisCover" x="0" y="0" width="100" height="100" fill="#000" mask="url(#iris-mask)"></rect>
+    <g class="iris-blades" id="irisBlades"></g>
+    <circle id="irisRing" cx="50" cy="50" r="0" fill="none" stroke="#4a4a52" stroke-width=".7" opacity=".85"></circle>
+    <g id="irisPivots"></g>
+  </svg>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="container nav">
+    <a class="logo" href="index.html">SAYSKO <span>PHOTOGRAPHIE</span></a>
+    <svg class="nav-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22v-8h6v8"/></symbol>
+  <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
+  <symbol id="i-bookopen" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-5a4 4 0 0 0-4 4 4 4 0 0 0-4-4H3Z"/></symbol>
+  <symbol id="i-booktext" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-clapper" viewBox="0 0 24 24"><path d="M20 11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"/><path d="m2 11 20 0"/><path d="m5 11 2-5 3 5"/><path d="m12 11 2-5 3 5"/></symbol>
+</svg>
+    <nav>
+      <a href="index.html" class="active"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="house"><use href="#i-house"/></svg><span>Accueil</span></a>
+      <a href="portfolio.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="images"><use href="#i-images"/></svg><span>Galerie</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="graduation"><use href="#i-graduation"/></svg><span class="nav-lbl">Apprendre</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="eclairage.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="lightbulb"><use href="#i-lightbulb"/></svg><span>Éclairage</span><span class="nav-count" data-count="eclairage"></span></a>
+          <a href="cours.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="bookopen"><use href="#i-bookopen"/></svg><span>Tutoriels</span><span class="nav-count" data-count="cours"></span></a>
+          <a href="glossaire.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="booktext"><use href="#i-booktext"/></svg><span>Glossaire</span><span class="nav-count" data-count="glossaire"></span></a>
+          <a href="competences.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="award"><use href="#i-award"/></svg><span>Compétences</span></a>
+          <a href="shorts.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="clapper"><use href="#i-clapper"/></svg><span>Shorts</span></a>
+        </div>
+      </div>
+      <a href="modeles.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Modèles</span></a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span class="nav-lbl">Qui suis-je</span> <span aria-hidden="true">&#9662;</span></button>
+        <div class="nav-drop-menu">
+          <a href="apropos.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span>Présentation</span></a>
+          <a href="collaborations.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Collaborations</span></a>
+          <a href="commentaires.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Avis &amp; Commentaires</span></a>
+        </div>
+      </div>
+      <a href="recherche.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="search"><use href="#i-search"/></svg><span>Recherche</span></a>
+      <a href="contact.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Contact</span></a>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <button class="admin-btn" id="adminBtn">Admin</button>
+    </nav>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+  </div>
+</header>
+
+<main class="chapters" id="chapters">
+  <div class="chapters-track" id="chaptersTrack">
+  <!-- ================= HERO ================= -->
+  <section class="chapter hero" data-chapter="01 · Le studio" data-ambiance="studio">
+    <div class="chapter-player" data-player="studio">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Studio</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="kicker">Photo de studio &amp; strobisme</div>
+    <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
+    <div class="slogan">La lumière sculpte vos émotions au cœur de chaque image.</div>
+    <p>Des portraits travaillés au flash, une lumière maîtrisée et des images qui racontent une histoire. Bienvenue dans mon studio.</p>
+    <a class="btn btn-outline" id="visitBtn" href="portfolio.html?iris=1">Visite</a>
+    <div class="scroll-indicator"><span class="mouse"></span>Défiler</div>
+  </section>
+
+  <!-- ================= A PROPOS ================= -->
+  <section class="chapter" id="apropos" data-chapter="02 · Qui suis-je" data-ambiance="about">
+    <div class="chapter-player" data-player="about">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · portrait</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Qui <span>suis-je</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="about-wrap">
+        <div class="about-portrait reveal">
+          <img src="saysko.jpg" alt="Saysko, photographe en studio" loading="lazy">
+          <div class="tag">Le photographe</div>
+        </div>
+        <div class="about-text reveal">
+          <div class="about-kicker">Derrière l'objectif</div>
+          <p>Spécialisé en <strong style="color:var(--accent)">photo de studio</strong> et en <strong style="color:var(--accent)">strobisme</strong>, je construis chaque image avec une lumière maîtrisée : flash, réflecteurs, ombres portées et contrastes travaillés pour donner du relief et du caractère au sujet.</p>
+          <p>Du réglage de l'éclairage à la retouche finale, chaque étape vise une seule chose : transformer une prise de vue en une image qui raconte une histoire.</p>
+          <div class="signature reveal" aria-label="Signature manuscrite Saysko">
+            <span class="sig-written">Saysko</span>
+            <span class="sig-role">Photographie · Studio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= RETOUCHE (chapitre) ================= -->
+  <!-- ================= MATERIEL ================= -->
+  <section class="chapter" id="materiel" data-chapter="03 · Le matériel" data-ambiance="materiel">
+    <div class="chapter-player" data-player="materiel">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Matériel</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Le <span>matériel</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="about-wrap">
+        <div class="about-portrait reveal">
+          <img src="studio-hero.jpg" alt="Le studio photo de Saysko : boîtier sur trépied et fond de studio" loading="lazy">
+        </div>
+        <div class="about-text reveal">
+          <div class="about-kicker">Dans le boîtier</div>
+          <p>Un <strong>Canon 5D Mark IV</strong> sur trépied, piloté depuis l'ordinateur en prise de vue connectée. Un seul flash déporté, une softbox, un réflecteur — et la lumière devient un langage.</p>
+          <p>Je shoote à la maison : pas de local, mais un coin de studio improvvisé, un fond sombre et la patience de chercher le bon angle. Le matériel reste simple ; c'est l'intention qui fait l'image.</p>
+          <a class="btn" href="competences.html">Voir mes compétences</a>
+          <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">
+            <span class="live-dot"></span> Rejoindre le live 🎧
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="retouche" data-chapter="04 · La retouche" data-ambiance="retouche">
+    <div class="chapter-player" data-player="retouche">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Retouche</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>La <span>retouche</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="retouche-wrap">
+        <div class="retouche-img reveal">
+          <img src="avant-apres.jpg" alt="Avant / après retouche photo" loading="lazy">
+        </div>
+        <div class="retouche-text reveal">
+          <div class="about-kicker">Le travail de l'image</div>
+          <p>La prise de vue n'est que la moitié du chemin. La retouche révèle ce que l'œil a vu au moment du déclenchement : les couleurs, les contrastes, la texture de la peau.</p>
+          <p>De Lightroom à Capture One, chaque réglage sert une intention — jamais l'inverse.</p>
+          <a class="btn" href="cours.html">Voir les tutoriels</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ================= PORTFOLIO ================= -->
+  <section class="chapter" id="portfolio" data-chapter="05 · La galerie" data-ambiance="galerie">
+    <div class="chapter-player" data-player="galerie">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Galerie</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Entrez dans <span>mon univers</span></h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="view-modes reveal" id="viewModes">
+        <button class="view-mode active" data-mode="carousel" title="Diaporama">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 9h20"/></svg> Carrousel
+        </button>
+        <button class="view-mode" data-mode="grid" title="Grille">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Grille
+        </button>
+        <button class="view-mode" data-mode="story" title="Plein écran">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg> Plein écran
+        </button>
+      </div>
+
+      <div class="filter-bar reveal" id="filterBar" role="group" aria-label="Filtrer les photos par catégorie">
+        <button class="filter-chip active" data-filter="all">Tout</button>
+        <button class="filter-chip" data-filter="Portrait">Portraits</button>
+        <button class="filter-chip" data-filter="Strobisme">Strobisme</button>
+        <button class="filter-chip" data-filter="Lifestyle">Lifestyle</button>
+      </div>
+
+      <div class="grid-view" id="gridView"></div>
+      <div class="story-view" id="storyView"></div>
+
+      <div class="carousel" id="carousel">
+        <div class="carousel-viewport" id="carouselViewport">
+          <div class="carousel-track" id="carouselTrack"></div>
+          <button class="car-trigger car-trigger-prev" id="carPrev" aria-label="Photo précédente">
+            <span class="trig-icon">&#8249;</span><span class="trig-label">PLAN PRÉC.</span>
+          </button>
+          <button class="car-trigger car-trigger-next" id="carNext" aria-label="Photo suivante">
+            <span class="trig-icon">&#8250;</span><span class="trig-label">PLAN SUIV.</span>
+          </button>
+        </div>
+        <div class="car-bottom">
+          <div class="car-dots" id="carDots"></div>
+          <div class="car-count" id="carCount"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="chapter" id="contact" data-chapter="06 · Contact" data-ambiance="contact">
+    <div class="fond-anime" data-fond="contact"><canvas></canvas></div>
+    <div class="chapter-player" data-player="contact">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Contact</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container contact">
+      <div class="section-header reveal">
+        <h2>Me <span>contacter</span></h2>
+        <div class="line"></div>
+      </div>
+      <p>Une collaboration, une commande ou simplement un bonjour ?</p>
+      <a href="mailto:sayskothemix+contact@gmail.com" class="email" id="contactEmail">sayskothemix+contact@gmail.com</a>
+
+      <form class="contact-form" id="contactForm">
+        <h3>Ou envoyez-moi un message</h3>
+        <label for="cfName">Votre nom</label>
+        <input type="text" id="cfName" placeholder="Votre nom" required>
+        <label for="cfEmail">Votre email</label>
+        <input type="email" id="cfEmail" placeholder="vous@exemple.com" required>
+        <label for="cfMessage">Votre message</label>
+        <textarea id="cfMessage" placeholder="Votre message..." required></textarea>
+        <button type="submit" class="btn-admin">Envoyer le message</button>
+        <div class="status" id="cfStatus"></div>
+      </form>
+    </div>
+  </section>
+  </div>
+  <!-- Navigation des chapitres -->
+  <nav class="chapter-nav" id="chapterNav" aria-label="Navigation des chapitres">
+    <button class="chapter-arrow chapter-prev" id="chapterPrev" aria-label="Chapitre précédent">‹</button>
+    <div class="chapter-dots" id="chapterDots"></div>
+    <button class="chapter-arrow chapter-next" id="chapterNext" aria-label="Chapitre suivant">›</button>
+  </nav>
+</main>
+
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+  SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
+  <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Musique : <a href="https://pixabay.com/fr/users/kulakovka-47183261/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Alex Shulgin</a> — <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Pixabay</a></div>
+</footer>
+
+<script src="site.js?v=6"></script>
+<script>
+(function () {
+  'use strict';
+  var intro = document.getElementById('intro');
+  var overlay = document.getElementById('irisTransition');
+  var svg = document.getElementById('irisSvg');
+  var bladeGroup = document.getElementById('irisBlades');
+  var irisHole = document.getElementById('irisHole');
+  var cover = document.getElementById('irisCover');
+  var maskRect = document.getElementById('irisMaskRect');
+  var bladeCount = 9;
+  var blades = [];
+  var edgeBlades = [];
+  var pivotGroup = document.getElementById('irisPivots');
+  var ring = document.getElementById('irisRing');
+  var centerX = 50;
+  var centerY = 50;
+  var maxRadius = 80;
+  var pivotRadius = 0;
+  var bladeLength = 0;
+  var followerX = 0;
+  var followerY = 0;
+  var bladeOpenAngle = -40 * Math.PI / 180;
+  var openAmount = 1;
+  var busy = false;
+  var audioContext = null;
+
+  var introSeen = document.documentElement.classList.contains('intro-seen');
+  var visitBtn = document.getElementById('visitBtn');
+
+  if (!intro || !overlay || introSeen) {
+    document.documentElement.classList.remove('intro-open');
+    if (intro) intro.remove();
+  } else {
+    document.documentElement.classList.add('intro-open');
+  }
+
+  function point(value) {
+    return value[0].toFixed(3) + ' ' + value[1].toFixed(3);
+  }
+
+  function format(value) {
+    return value.toFixed(3);
+  }
+
+  function bladePath() {
+    var r = maxRadius;
+    var length = bladeLength;
+    return 'M ' + format(-length) + ' 0' +
+      ' C ' + format(-length * .94) + ' ' + format(-r * .055) +
+      ', ' + format(-length * .69) + ' ' + format(-r * .31) +
+      ', ' + format(-r * .22) + ' ' + format(-r * .37) +
+      ' C ' + format(-r * .01) + ' ' + format(-r * .44) +
+      ', ' + format(r * .26) + ' ' + format(-r * .32) +
+      ', ' + format(r * .37) + ' ' + format(-r * .08) +
+      ' C ' + format(r * .45) + ' ' + format(r * .12) +
+      ', ' + format(r * .25) + ' ' + format(r * .33) +
+      ', ' + format(-r * .05) + ' ' + format(r * .29) +
+      ' C ' + format(-length * .42) + ' ' + format(r * .25) +
+      ', ' + format(-length * .86) + ' ' + format(r * .12) +
+      ', ' + format(-length) + ' 0 Z';
+  }
+
+  function slotAngleForBlade(angle) {
+    var x = pivotRadius + followerX * Math.cos(angle) - followerY * Math.sin(angle);
+    var y = followerX * Math.sin(angle) + followerY * Math.cos(angle);
+    return Math.atan2(y, x);
+  }
+
+  function bladeAngleForAmount(amount) {
+    var closedSlotAngle = slotAngleForBlade(0);
+    var openSlotAngle = slotAngleForBlade(bladeOpenAngle);
+    var targetSlotAngle = closedSlotAngle + (openSlotAngle - closedSlotAngle) * amount;
+    var low = bladeOpenAngle;
+    var high = 0;
+
+    for (var i = 0; i < 24; i++) {
+      var middle = (low + high) / 2;
+      if (slotAngleForBlade(middle) > targetSlotAngle) low = middle;
+      else high = middle;
+    }
+    return (low + high) / 2;
+  }
+
+  function aperturePath(tips) {
+    var path = 'M ' + point(tips[0]);
+    var halfSectorRadius = Math.cos(Math.PI / bladeCount);
+
+    for (var i = 0; i < bladeCount; i++) {
+      var start = tips[i];
+      var end = tips[(i + 1) % bladeCount];
+      var startAngle = Math.atan2(start[1] - centerY, start[0] - centerX);
+      var endAngle = Math.atan2(end[1] - centerY, end[0] - centerX);
+      if (endAngle <= startAngle) endAngle += Math.PI * 2;
+
+      var radius = Math.sqrt(
+        Math.pow(start[0] - centerX, 2) + Math.pow(start[1] - centerY, 2)
+      );
+      var middleAngle = (startAngle + endAngle) / 2;
+      var middleRadius = radius * (halfSectorRadius + .035);
+      var middle = [
+        centerX + Math.cos(middleAngle) * middleRadius,
+        centerY + Math.sin(middleAngle) * middleRadius
+      ];
+      var control1 = [
+        start[0] + (middle[0] - start[0]) * (2 / 3),
+        start[1] + (middle[1] - start[1]) * (2 / 3)
+      ];
+      var control2 = [
+        end[0] + (middle[0] - end[0]) * (2 / 3),
+        end[1] + (middle[1] - end[1]) * (2 / 3)
+      ];
+      path += ' C ' + point(control1) + ', ' + point(control2) + ', ' + point(end);
+    }
+
+    return path + ' Z';
+  }
+
+  for (var bladeIndex = 0; bladeIndex < bladeCount; bladeIndex++) {
+    var blade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    blade.setAttribute('class', 'iris-metal');
+    bladeGroup.appendChild(blade);
+    blades.push(blade);
+    var edge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    edge.setAttribute('class', 'iris-edge');
+    bladeGroup.appendChild(edge);
+    edgeBlades.push(edge);
+  }
+
+  function renderIris(amount) {
+    openAmount = amount;
+    var bladeAngle = bladeAngleForAmount(amount);
+    var tips = [];
+    var holeRadiusSum = 0;
+
+    blades.forEach(function (blade, index) {
+      var pivotAngle = index * Math.PI * 2 / bladeCount;
+      var bladeRotation = pivotAngle + bladeAngle;
+      var pivotX = centerX + pivotRadius * Math.cos(pivotAngle);
+      var pivotY = centerY + pivotRadius * Math.sin(pivotAngle);
+      var transform = 'translate(' + format(pivotX) + ' ' + format(pivotY) + ') rotate(' +
+        format(bladeRotation * 180 / Math.PI) + ')';
+      blade.setAttribute('transform', transform);
+      edgeBlades[index].setAttribute('transform', transform);
+      var tipX = pivotX - bladeLength * Math.cos(bladeRotation);
+      var tipY = pivotY - bladeLength * Math.sin(bladeRotation);
+      tips.push([tipX, tipY]);
+      holeRadiusSum += Math.sqrt(Math.pow(tipX - centerX, 2) + Math.pow(tipY - centerY, 2));
+    });
+
+    irisHole.setAttribute('d', aperturePath(tips));
+    if (ring) {
+      var holeRadius = holeRadiusSum / bladeCount;
+      ring.setAttribute('cx', format(centerX));
+      ring.setAttribute('cy', format(centerY));
+      ring.setAttribute('r', format(Math.max(0, holeRadius + .9)));
+    }
+  }
+
+  function resizeIris() {
+    var scale = 100 / Math.max(1, Math.min(window.innerWidth, window.innerHeight));
+    var viewWidth = window.innerWidth * scale;
+    var viewHeight = window.innerHeight * scale;
+    centerX = viewWidth / 2;
+    centerY = viewHeight / 2;
+    maxRadius = Math.sqrt(centerX * centerX + centerY * centerY) + 2;
+    pivotRadius = maxRadius * 1.6;
+    bladeLength = pivotRadius;
+    followerX = -maxRadius * .52;
+    followerY = maxRadius * .16;
+    svg.setAttribute('viewBox', '0 0 ' + viewWidth + ' ' + viewHeight);
+    [cover, maskRect].forEach(function (rect) {
+      rect.setAttribute('width', viewWidth);
+      rect.setAttribute('height', viewHeight);
+    });
+    document.getElementById('iris-mask').setAttribute('width', viewWidth);
+    document.getElementById('iris-mask').setAttribute('height', viewHeight);
+    blades.forEach(function (blade) {
+      blade.setAttribute('d', bladePath());
+    });
+    edgeBlades.forEach(function (edge) {
+      edge.setAttribute('d', bladePath());
+    });
+    if (pivotGroup) {
+      pivotGroup.innerHTML = '';
+      for (var screwIndex = 0; screwIndex < bladeCount; screwIndex++) {
+        var screwAngle = screwIndex * Math.PI * 2 / bladeCount;
+        var screwX = centerX + pivotRadius * Math.cos(screwAngle);
+        var screwY = centerY + pivotRadius * Math.sin(screwAngle);
+        var screw = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        screw.setAttribute('cx', format(screwX));
+        screw.setAttribute('cy', format(screwY));
+        screw.setAttribute('r', '1.7');
+        screw.setAttribute('fill', 'url(#irisScrew)');
+        screw.setAttribute('stroke', 'rgba(0,0,0,.65)');
+        screw.setAttribute('stroke-width', '.28');
+        pivotGroup.appendChild(screw);
+        var slot = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        slot.setAttribute('x1', format(screwX - .75));
+        slot.setAttribute('y1', format(screwY));
+        slot.setAttribute('x2', format(screwX + .75));
+        slot.setAttribute('y2', format(screwY));
+        slot.setAttribute('stroke', 'rgba(0,0,0,.55)');
+        slot.setAttribute('stroke-width', '.32');
+        pivotGroup.appendChild(slot);
+      }
+    }
+    renderIris(openAmount);
+  }
+
+  function animateIris(from, to, duration) {
+    return new Promise(function (resolve) {
+      var start = performance.now();
+      function frame(now) {
+        var progress = Math.min(1, (now - start) / duration);
+        var eased = progress < .5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        renderIris(from + (to - from) * eased);
+        if (progress < 1) requestAnimationFrame(frame);
+        else resolve();
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  window.addEventListener('resize', resizeIris, { passive: true });
+  resizeIris();
+
+  function prepareShutter() {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      return Promise.resolve({ error: new Error('Web Audio is not supported in this browser.') });
+    }
+    if (!audioContext) audioContext = new AudioContext();
+
+    var resume = audioContext.state === 'suspended'
+      ? Promise.race([
+          audioContext.resume(),
+          new Promise(function (resolve) { setTimeout(resolve, 500); })
+        ])
+      : Promise.resolve();
+    var audioFile = fetch('reflex-shutter.mp3').then(function (response) {
+      if (!response.ok) throw new Error('The shutter sound could not be loaded.');
+      return response.arrayBuffer();
+    });
+
+    return Promise.all([resume, audioFile]).then(function (results) {
+      return audioContext.decodeAudioData(results[1]);
+    }).then(function (buffer) {
+      return { buffer: buffer };
+    }, function (error) {
+      return { error: error };
+    });
+  }
+
+  function playShutter(audioState, volume) {
+    return audioState.then(function (result) {
+      if (result.error) throw result.error;
+      var source = audioContext.createBufferSource();
+      source.buffer = result.buffer;
+      var gain = audioContext.createGain();
+      gain.gain.value = volume == null ? 2 : volume;
+      source.connect(gain);
+      gain.connect(audioContext.destination);
+      return new Promise(function (resolve, reject) {
+        source.onended = resolve;
+        try {
+          source.start(0);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  async function enterSite() {
+    if (busy || !intro) return;
+    busy = true;
+    var shutterReady = prepareShutter();
+    intro.classList.add('entering');
+    overlay.classList.add('is-active');
+    await new Promise(function (resolve) { setTimeout(resolve, 350); });
+    var shutterDone = playShutter(shutterReady).catch(function (error) {
+      console.error('The reflex shutter sound could not be played.', error);
+    });
+    await animateIris(1, 0, 1400);
+    overlay.classList.add('is-closed');
+    await shutterDone;
+
+    intro.remove();
+    overlay.classList.remove('is-closed');
+    var mirrorBack = playShutter(shutterReady, 0.35).catch(function (error) {
+      console.error('The reflex mirror return sound could not be played.', error);
+    });
+    await animateIris(0, 1, 1500);
+    overlay.classList.add('is-fading');
+    await new Promise(function (resolve) { setTimeout(resolve, 420); });
+    overlay.classList.remove('is-active', 'is-fading');
+    document.documentElement.classList.remove('intro-open');
+    document.documentElement.classList.add('intro-seen');
+    try { localStorage.setItem('saysko_intro_seen', '1'); } catch (e) {}
+    busy = false;
+  }
+
+  intro.addEventListener('click', enterSite);
+  intro.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      enterSite();
+    }
+  });
+  if (intro && document.contains(intro)) intro.focus({ preventScroll: true });
+
+  // --- Transition iris synchronisée sur le bouton "Visite" ---
+  (function () {
+    var visitBtn = document.getElementById('visitBtn');
+    if (!visitBtn) return;
+
+    var visiting = false;
+    var shutterReady = prepareShutter();
+    var audioState = shutterReady.catch(function (error) {
+      return { error: error };
+    });
+
+    visitBtn.addEventListener('click', function (event) {
+      if (visiting || document.documentElement.classList.contains('intro-open')) return;
+      event.preventDefault();
+      visiting = true;
+
+      // Un seul iris : il se ferme ici, la page de destination le réouvre.
+      playShutter(audioState).catch(function (error) {
+        console.error('The reflex shutter sound could not be played.', error);
+      });
+      overlay.classList.add('is-active');
+      animateIris(1, 0, 800).then(function () {
+        overlay.classList.add('is-closed');
+        window.location.href = visitBtn.getAttribute('href');
+        return new Promise(function (resolve) { setTimeout(resolve, 500); });
+      });
+    });
+  })();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var audio = document.getElementById('bgMusic');
+  var soundBtn = document.getElementById('soundBtn');
+  var soundWaves = document.getElementById('soundWaves');
+  var fsBtn = document.getElementById('fsBtn');
+  var started = false;
+  var blocked = false;
+  if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
+
+  function startMusic() {
+    if (!audio) return;
+    var p = audio.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {
+      // Autoplay bloqué par le navigateur : on attend un clic utilisateur.
+      blocked = true;
+      updateSoundUI();
+    });
+  }
+
+  function updateSoundUI() {
+    if (!audio || !soundBtn) return;
+    var off = audio.muted || blocked;
+    soundBtn.setAttribute('aria-label', off ? 'Activer la musique' : 'Couper la musique');
+    soundBtn.title = off ? 'Activer la musique' : 'Couper la musique';
+    if (soundWaves) soundWaves.style.opacity = off ? '0.15' : '1';
+    soundBtn.dataset.muted = off ? '1' : '0';
+  }
+
+  function startOnFirstInteraction() {
+    if (!audio || started) return;
+    started = true;
+    // On ne réactive jamais le son si l'utilisateur l'a coupé via le bouton.
+    if (audio.muted) return;
+    blocked = false;
+    audio.muted = false;
+    startMusic();
+    updateSoundUI();
+  }
+
+  document.addEventListener('pointerdown', startOnFirstInteraction, { once: true });
+  document.addEventListener('keydown', startOnFirstInteraction, { once: true });
+
+  if (soundBtn) {
+    soundBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!audio) return;
+      started = true;
+      blocked = false;
+      // Si le son est coupé, on l'active ; sinon on le coupe.
+      audio.muted = !audio.muted;
+      if (!audio.muted) startMusic();
+      updateSoundUI();
+    });
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var d = document;
+      if (!d.fullscreenElement && !d.webkitFullscreenElement) {
+        var el = d.documentElement;
+        var req = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (req) req.call(el);
+      } else {
+        var exit = d.exitFullscreen || d.webkitExitFullscreen;
+        if (exit) exit.call(d);
+      }
+    });
+  }
+  updateSoundUI();
+})();
+</script>
+
+
+  <!-- ===== BOT LATERAL DROIT ===== -->
+  <aside class="saysko-bot" id="sayskoBot" aria-label="Assistant du site">
+    <div class="bot-bubble" role="dialog" aria-label="Assistant Saysko">
+      <div class="bot-head">
+        <div class="bot-avatar">S</div>
+        <div><strong>Assistant Saysko</strong><small>En ligne · comment puis-je aider ?</small></div>
+        <button class="bot-close" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div class="bot-body">
+        <p class="bot-intro">Bonjour 👋 Choisis une question, je te réponds tout de suite.</p>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Quels services proposes-tu ?</button>
+          <div class="bot-a">Portrait, mariage, événementiel, produit et lifestyle — en studio ou en extérieur, avec une lumière travaillée au flash.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Comment réserver une séance ?</button>
+          <div class="bot-a">Écris-moi via la <a href="contact.html">page Contact</a> ou directement à sayskothemix+contact@gmail.com. On convient ensemble de la date et du lieu.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Où voir la galerie ?</button>
+          <div class="bot-a">Dans la rubrique <a href="portfolio.html">Galerie</a> : carrousel, grille ou plein écran. Des avant/après et des shootings couple, portrait et extérieur.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Proposes-tu des cours ?</button>
+          <div class="bot-a">Oui, des <a href="cours.html">tutoriels gratuits</a> : Lightroom Classic, Capture One, strobisme et retouche. Et un <a href="glossaire.html">glossaire</a> pour comprendre la lumière.</div>
+        </div>
+        <div class="bot-accordion">
+          <button class="bot-q" type="button">Quel matériel utilises-tu ?</button>
+          <div class="bot-a">Studio avec flashs, réflecteurs et lumière maîtrisée — boîtier Canon 5D Mark IV et objectifs L. Le détail est sur la page <a href="competences.html">Compétences</a>.</div>
+        </div>
+      </div>
+      <div class="bot-foot">Saysko Photographie · Assistant rapide</div>
+    </div>
+    <button class="bot-launch" type="button" aria-label="Ouvrir l'assistant">✦</button>
+  </aside>
+
+  <script>
+  (function () {
+    var bot = document.getElementById('sayskoBot');
+    if (!bot) return;
+    var launch = bot.querySelector('.bot-launch');
+    var close = bot.querySelector('.bot-close');
+    launch.addEventListener('click', function () { bot.classList.toggle('open'); });
+    close.addEventListener('click', function () { bot.classList.remove('open'); });
+    bot.querySelectorAll('.bot-q').forEach(function (q) {
+      q.addEventListener('click', function () {
+        var item = q.parentElement;
+        var wasOpen = item.classList.contains('open');
+        bot.querySelectorAll('.bot-accordion').forEach(function (a) { a.classList.remove('open'); });
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  })();
+  </script>
+
+  <script src="iris-transition.js"></script>
+
+<div class="chapter-label" id="chapterLabel"></div>
+<script>
+(function(){
+  var track=document.getElementById('chaptersTrack');
+  if(!track) return;
+  document.documentElement.classList.add('chapters-mode');
+  var chapters=[...track.querySelectorAll('.chapter')];
+  var dots=document.getElementById('chapterDots');
+  var label=document.getElementById('chapterLabel');
+  var prev=document.getElementById('chapterPrev');
+  var next=document.getElementById('chapterNext');
+  var i=0;
+  chapters.forEach(function(c,n){
+    var b=document.createElement('button');
+    b.className='chapter-dot'+(n===0?' active':'');
+    b.setAttribute('aria-label','Chapitre '+(n+1));
+    b.addEventListener('click',function(){go(n);});
+    dots.appendChild(b);
+  });
+  var dotEls=[...dots.children];
+  function go(n){
+    i=Math.max(0,Math.min(chapters.length-1,n));
+    track.style.transform='translateX(-'+(i*100)+'vw)';
+    dotEls.forEach(function(d,k){d.classList.toggle('active',k===i);});
+    label.textContent=chapters[i].dataset.chapter||'';
+    prev.disabled=i===0; next.disabled=i===chapters.length-1;
+    chapters[i].scrollTop=0;
+    setAmbiance(i);
+  }
+  /* Ambiances sonores : même morceau, filtrage et tempo adaptés à chaque chapitre */
+  var audio=document.getElementById('bgMusic');
+  var actx=null, src=null, gain=null, filter=null;
+  var ambiances=[
+    {rate:0.94, vol:0.42, freq:900, type:'lowpass', offset:0},      // 01 · Le studio : chaud, feutré
+    {rate:0.98, vol:0.38, freq:1600, type:'lowpass', offset:20},    // 02 · Qui suis-je : intime
+    {rate:0.96, vol:0.4, freq:1400, type:'lowpass', offset:31},     // 03 · Le matériel : mécanique, précis
+    {rate:0.9, vol:0.34, freq:1100, type:'lowpass', offset:42},     // 04 · La retouche : froid, calculé
+    {rate:1.0, vol:0.44, freq:2600, type:'lowpass', offset:64},     // 05 · La galerie : lumineux
+    {rate:0.92, vol:0.3, freq:1300, type:'lowpass', offset:86}      // 06 · Contact : calme, feutré
+  ];
+  function ensureAudio(){
+    if(actx||!audio) return;
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    actx=new AC();
+    try{
+      src=actx.createMediaElementSource(audio);
+      gain=actx.createGain(); filter=actx.createBiquadFilter();
+      src.connect(filter); filter.connect(gain); gain.connect(actx.destination);
+    }catch(e){ actx=null; }
+  }
+  function setAmbiance(n){
+    var a=ambiances[n]||ambiances[0];
+    if(!audio) return;
+    audio.playbackRate=a.rate;
+    audio.volume=a.vol;
+    if(!actx) return;
+    if(actx.state==='suspended') actx.resume();
+    gain.gain.setTargetAtTime(a.vol,actx.currentTime,0.25);
+    filter.type=a.type;
+    filter.frequency.setTargetAtTime(a.freq,actx.currentTime,0.3);
+    if(Math.abs(audio.currentTime-a.offset)>8){ try{audio.currentTime=a.offset;}catch(e){} }
+  }
+  document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  document.addEventListener('keydown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  prev.addEventListener('click',function(){go(i-1);});
+  next.addEventListener('click',function(){go(i+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'){go(i+1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);}
+  });
+  var lock=false;
+  window.addEventListener('wheel',function(e){
+    if(lock) return;
+    if(Math.abs(e.deltaY)<12) return;
+    lock=true; go(i+(e.deltaY>0?1:-1));
+    setTimeout(function(){lock=false;},900);
+  },{passive:true});
+  var x0=null;
+  window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  window.addEventListener('touchend',function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>60) go(i+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+  go(0);
+})();
+</script>
+
+
+<script>
+/* Lecteurs d'ambiance synchronisés avec la musique globale */
+(function(){
+  var a=document.getElementById('bgMusic');
+  if(!a) return;
+  var players=[...document.querySelectorAll('.chapter-player')];
+  function paint(){
+    var on=!a.muted;
+    players.forEach(function(p){p.classList.toggle('playing',on);var t=p.querySelector('.player-toggle');if(t)t.setAttribute('aria-label',on?'Couper la musique':'Activer la musique');});
+  }
+  players.forEach(function(p){
+    var btn=p.querySelector('.player-toggle');
+    if(!btn) return;
+    btn.addEventListener('pointerdown',function(e){
+      e.preventDefault(); e.stopPropagation();
+      a.muted=!a.muted;
+      if(!a.muted){var pl=a.play();if(pl&&pl.catch)pl.catch(function(){});}
+      paint();
+    });
+  });
+  a.addEventListener('play',paint); a.addEventListener('pause',paint); a.addEventListener('volumechange',paint);
+  paint();
+  window.__sayskoPlayerPaint=paint;
+})();
+</script>
+
+
+<script>
+/* Fonds animés Canvas : reflets champagne + bokeh doux, zone centrale sombre */
+(function(){
+  var boxes=[...document.querySelectorAll('.fond-anime')];
+  if(!boxes.length) return;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  function setup(box){
+    var c=box.querySelector('canvas');
+    if(!c) return null;
+    var ctx=c.getContext('2d');
+    if(!ctx) return null;
+    var w=box.clientWidth||window.innerWidth, h=box.clientHeight||window.innerHeight;
+    c.width=w*dpr; c.height=h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var dark=box.dataset.fond==='contact';
+    var orbs=[];
+    var n=dark?7:13;
+    for(var i=0;i<n;i++){
+      orbs.push({
+        x:Math.random()*w, y:Math.random()*h,
+        r:(dark?80:60)+Math.random()*(dark?180:160),
+        vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12,
+        a:(dark?.05:.09)+Math.random()*(dark?.06:.12),
+        hue: Math.random()<.5?'212,175,55':'240,217,140',
+        ph:Math.random()*Math.PI*2
+      });
+    }
+    return {c:c,ctx:ctx,w:w,h:h,orbs:orbs,dark:dark,t:0};
+  }
+  var states=boxes.map(setup).filter(Boolean);
+  function draw(st){
+    var ctx=st.ctx,w=st.w,h=st.h;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#080706'; ctx.fillRect(0,0,w,h);
+    //.reflets champagne en travers
+    var g=ctx.createLinearGradient(w*(st.dark?.55:.1),0,w, h*.4);
+    g.addColorStop(0,'rgba(212,175,55,0)');
+    g.addColorStop(.45,st.dark?'rgba(212,175,55,.045)':'rgba(212,175,55,.07)');
+    g.addColorStop(1,'rgba(240,217,140,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // bokeh
+    ctx.globalCompositeOperation='screen';
+    st.orbs.forEach(function(o){
+      o.x+=o.vx; o.y+=o.vy;
+      if(o.x<-o.r)o.x=w+o.r; if(o.x>w+o.r)o.x=-o.r;
+      if(o.y<-o.r)o.y=h+o.r; if(o.y>h+o.r)o.y=-o.r;
+      var pulse=o.a*(.7+.3*Math.sin(st.t*.01+o.ph));
+      var rg=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      rg.addColorStop(0,'rgba('+o.hue+','+pulse+')');
+      rg.addColorStop(1,'rgba('+o.hue+',0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalCompositeOperation='source-over';
+    // zone centrale sombre pour le texte
+    var v=ctx.createRadialGradient(w/2,h/2,h*.08,w/2,h/2,h*.62);
+    v.addColorStop(0,'rgba(8,7,6,.94)'); v.addColorStop(1,'rgba(8,7,6,0)');
+    ctx.fillStyle=v; ctx.fillRect(0,0,w,h);
+    st.t++;
+  }
+  function loop(){ states.forEach(draw); requestAnimationFrame(loop); }
+  loop();
+  window.addEventListener('resize',function(){ states=boxes.map(setup).filter(Boolean); });
+})();
+</script>
+
+</body>
+</html>
