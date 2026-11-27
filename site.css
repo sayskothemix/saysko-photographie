@@ -215,9 +215,21 @@
       letter-spacing: -0.035em;
     }
     .hero h1 strong {
+      position: relative; display: inline-block;
       font-weight: 500; font-style: italic;
       background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent));
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero h1 strong::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(100deg, transparent 20%, rgba(255,246,228,0.55) 45%, rgba(224,189,133,0.35) 55%, transparent 80%);
+      background-size: 250% 100%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: titleLightFlow 7s linear infinite;
+    }
+    @keyframes titleLightFlow {
+      0% { background-position: -150% 50%; }
+      100% { background-position: 250% 50%; }
     }
     .hero .slogan {
       font-family: "Cormorant Garamond", Georgia, serif; font-style: italic;
