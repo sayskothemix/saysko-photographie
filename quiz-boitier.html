@@ -73,10 +73,10 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 <header class="hero">
   <span class="kicker">Saysko Photographie · Apprendre</span>
   <h1>Maîtrisez<br>votre boîtier</h1>
-  <p>Un quiz pour devenir autonome sur le terrain : triangle d'exposition, modes, balance des blancs, mise au point. 26 questions, une correction après chaque réponse.</p>
+  <p>Un quiz pour devenir autonome sur le terrain : triangle d'exposition, modes, balance des blancs, mise au point. 20 questions, une correction après chaque réponse.</p>
   <div class="stats">
-    <div class="stat"><b>26</b><span>questions</span></div>
-    <div class="stat"><b>5</b><span>thèmes</span></div>
+    <div class="stat"><b>20</b><span>questions</span></div>
+    <div class="stat"><b>7</b><span>thèmes</span></div>
     <div class="stat"><b>100%</b><span>pédagogique</span></div>
     <div class="stat"><b>~8 min</b><span>durée</span></div>
   </div>
@@ -86,7 +86,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
   <div class="carrier" id="carrier">
     <section class="start" id="ecranDebut">
       <h2>Prêt à tester vos réglages ?</h2>
-      <p>Répondez aux 26 questions. Après chaque réponse, une explication courte vous dit pourquoi — c'est là que se joue la vraie progression. Le meilleur score est sauvegardé sur cet appareil.</p>
+      <p>Répondez aux 20 questions. Après chaque réponse, une explication courte vous dit pourquoi — c'est là que se joue la vraie progression. Le meilleur score est sauvegardé sur cet appareil.</p>
       <button class="btn-accueil" onclick="commencer()">Commencer le quiz</button>
       <div id="record" style="margin-top:18px;font-size:.82rem;color:var(--muted)"></div>
       <div><a class="retour" href="academie.html">Voir aussi l'Académie photo</a> · <a class="retour" href="parcours-capture-one.html">Parcours Capture One</a></div>
@@ -94,7 +94,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 
     <section id="ecranQuiz" style="display:none">
       <div class="progress"><i id="barre"></i></div>
-      <div class="motif"><span id="theme">Triangle d'exposition</span><span class="qnum" id="qnum">Question 1 / 26</span></div>
+      <div class="motif"><span id="theme">Triangle d'exposition</span><span class="qnum" id="qnum">Question 1 / 20</span></div>
       <div class="question" id="question"></div>
       <div class="choix" id="choix"></div>
       <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span></div>
@@ -105,7 +105,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 
     <section class="result" id="ecranResultat" style="display:none">
       <h2>Résultat</h2>
-      <div class="score" id="scoreFinal">0/26</div>
+      <div class="score" id="scoreFinal">0/20</div>
       <div class="niveau" id="niveau"></div>
       <p id="commentaire"></p>
       <div class="badges" id="badges"></div>
@@ -148,18 +148,10 @@ const QUIZ=[
  c:["Le mode M, vitesse lente, flash synchronisé","Le mode P","Le mode Sport","Le mode Portrait"],
  b:0,
  e:"Le flou de filé demande une vitesse longue choisie à la main (mode M ou Tv) et un déclenchement au bon moment. Les modes automatiques et Sport chercheront à tout figer — l'inverse de ce que vous voulez."},
-{t:"Modes & automatismes",q:"En mode <em>portrait</em> sur un boîtier Canon/Nikon, l'appareil favorise automatiquement…",
- c:["Une grande profondeur de champ","Une ouverture plus fermée","Une ouverture plus ouverte (arrière-plan flou)","Un ISO très bas"],
- b:2,
- e:"Le mode Portrait privilégie les grandes ouvertures (petit nombre f/) pour obtenir un arrière-plan flou qui détache le sujet — la fameuse « profondeur de champ réduite ». C'est un raccourci pratique du mode Av."},
 {t:"Balance des blancs",q:"Sous une ampoule tungstène (lumière chaude/orange), vos photos tirent au <em>jaune-orangé</em>. Quelle balance des blancs choisir ?",
  c:["Balance « nuageux »","Balance « lumière du jour »","Balance « tungstène »","Balance « flash »"],
  b:2,
  e:"La balance tungstène (~2800 K) corrige le excès de chaud. Alternative : la pipette sur une zone blanche ou grise neutre — souvent plus fiable que les préréglages quand la lumière est mélangée."},
-{t:"Balance des blancs",q:"Vous photographiez en RAW. La balance des blancs…",
- c:["Est gravée définitivement dans le fichier","Peut être changée en post-traitement sans perte","N'a aucun effet sur un RAW","Doit être réglée avant chaque rafale"],
- b:1,
- e:"Le RAW enregistre les données brutes du capteur : la balance des blancs est un réglage d'interprétation, modifiable à volonté dans Lightroom ou Capture One. En JPG en revanche, elle est figée."},
 {t:"Mise au point",q:"En portrait, vous voulez que <em>les yeux</em> soient nets et le reste flou. Où placez-vous le point AF ?",
  c:["Au centre de l'image","Sur l'œil le plus proche","Sur le nez","En mise au point automatique sur toute la scène (AF continu)"],
  b:1,
@@ -196,22 +188,6 @@ const QUIZ=[
  c:["La plus grande profondeur de champ possible","La plus faible profondeur de champ","Le flou de bougé","La sous-exposition volontaire"],
  b:0,
  e:"Paysage = on veut tout net : ouverture fermée (f/8-f/11, le « sweet spot » de la plupart des objectifs), mise au point à l'hyperfocale ou focus stacking. f/22 est tentant mais la diffraction y gâte la netteté."},
-{t:"Détails techniques",q:"À quelle valeur ISO un boîtier récent (ex. Canon 5D, Nikon D850) reste généralement « propre » ?",
- c:["ISO 100 uniquement","ISO 400-800","ISO 1600-3200","ISO 12800 et plus"],
- b:2,
- e:"Les capteurs modernes tiennent très bien jusqu'à 3200, parfois 6400 sur les très bons boîtiers. Le bruit dépend aussi de la taille du capteur : plein format > APS-C > micro 4/3 à ISO égal."},
-{t:"Détails techniques",q:"La <em>règle des 300</em> (focale × 1/ISO ≈ vitesse min) concerne…",
- c:["La profondeur de champ","Le flou de bougé en main levée","La balance des blancs","La cadence de rafale"],
- b:1,
- e:"C'est une méthode simple pour estimer la vitesse min sans stabilisateur : à 300 mm, il faut ~1/300 s ; à 50 mm, ~1/50 s (puis arrondi à la valeur supérieure du boîtier). Le stabilisateur divise souvent ce besoin par 2 à 4."},
-{t:"Détails techniques",q:"Vous passez du JPG au <em>RAW</em>. Avantage concret en photo de portrait ?",
- c:["Des fichiers plus légers","Une plage dynamique bien plus grande à récupérer en post-traitement","Des photos plus nettes sans retouche","Un déclenchement plus rapide"],
- b:1,
- e:"Le RAW garde ~2-3 stops de détails supplémentaires dans les hautes lumières et les ombres. Une robe blanche cramée ou un visage sous-exposé se récupèrent — impossible sur un JPG déjà compressé."},
-{t:"Détails techniques",q:"Le format <em>4:5 portrait</em> (1080×1350) est privilégié pour Instagram parce que…",
- c:["C'est le format natif du capteur","Il prend plus de place dans le feed mobile","Il correspond mieux à la lecture verticale du téléphone","C'est une obligation d'Instagram"],
- b:2,
- e:"Sur mobile, on scrolle à la verticale : le 4:5 occupe plus d'écran qu'un 1:1 ou 3:2 et arrête le pouce plus longtemps. Ce n'est pas obligatoire, mais c'est le format qui performe le mieux."},
 {t:"Erreurs fréquentes",q:"Vos sujets ont les <em>yeux rouges</em> sur les photos au flash. Solution ?",
  c:["Baisser l'ISO à 50","S'éloigner du sujet, utiliser le mode « yeux rouges » ou un diffuseur de flash","Passer en mode manuel","Augmenter la saturation"],
  b:1,
