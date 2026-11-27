@@ -103,11 +103,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 <header class="hero">
   <span class="kicker">Saysko Photographie · Académie</span>
   <h1>Deviens pro.<br>Lightroom · Capture One · Photoshop</h1>
-  <p>Trois voies, cinq niveaux chacune, des exercices à faire sur tes propres photos et des quiz pour valider. Ta progression est sauvegardée dans ce navigateur.</p>
+  <p>Trois voies, seize niveaux, des exercices à faire sur tes propres photos et des quiz pour valider. Ta progression est sauvegardée dans ce navigateur.</p>
   <div class="stats">
     <div class="stat"><b>3</b><span>logiciels</span></div>
-    <div class="stat"><b>15</b><span>niveaux</span></div>
-    <div class="stat"><b>20</b><span>quiz</span></div>
+    <div class="stat"><b>16</b><span>niveaux</span></div>
+    <div class="stat"><b>22</b><span>quiz</span></div>
     <div class="stat"><b>∞</b><span>exercices</span></div>
   </div>
 </header>
@@ -116,7 +116,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
   <div class="barre">
     <button onclick="toutValider()">Tout valider</button>
     <button onclick="reinitialiser()">Réinitialiser</button>
-    <div class="niveau-global"><span>Progression</span><div class="barre-prog"><i id="progGlobale"></i></div><b id="txtProg">0 / 15</b></div>
+    <div class="niveau-global"><span>Progression</span><div class="barre-prog"><i id="progGlobale"></i></div><b id="txtProg">0 / 16</b></div>
   </div>
 
   <div class="onglets">
@@ -177,7 +177,8 @@ const programmes={
   {titre:"Niveau 2 — Sélections et masques",niv:"Débutant",points:["Bagette magique et sélection rapide","Travailler avec les bords","Masque de fusion","Gommer la sélection"],exercice:"Détoure grossièrement un sujet avec la sélection rapide et ajoute un masque de fusion.",quiz:{q:"À quoi sert un masque de fusion ?",bon:2,rep:["À colorer la photo","À exporter en PNG","À masquer une partie d'un calque sans l'effacer"],exp:"Le masque de fusion cache une partie d'un calque sans l'effacer : tu peux corriger le fond sur un calque séparé et garder le sujet intact en dessous."}},
   {titre:"Niveau 3 — Détourage avancé",niv:"Intermédiaire",points:["Pinceau et lasso magnétique","Affiner les poils / cheveux","Passer au stand-alone","Décontaminer les couleurs"],exercice:"Détoure un cheveu ou un poil de chien avec Sélection et masque, puis affine le bord.",quiz:{q:"Quel espace de travail est dédié au détourage fin ?",bon:1,rep:["Filtre Gallery","Sélection et masque","Caméra RAW"],exp:"« Sélection et masque » est l'espace dédié aux contours complexes (cheveux, poils) : il offre les outils d'affinage de bord absents du filtre Gallery."}},
   {titre:"Niveau 4 — Retouche de peau",niv:"Avancé",points:["Fréquences séparées","Tampon et correcteur","Dodge & burn","Réduire le bruit sans plastique"],exercice:"Sur un portrait, crée deux calques de fréquences et corrige une imperfection sans effacer la texture.",quiz:{q:"Que sépare la technique des fréquences ?",bon:0,rep:["La texture et la couleur","Le ciel et le sol","Le RAW et le JPEG"],exp:"Les fréquences séparent la texture (grain de peau) de la couleur (imperfections) sur deux calques : tu lisses la couleur sans rendre la peau plastique."}},
-  {titre:"Niveau 5 — Finitions et livraison",niv:"Pro",points:["Curves et Color Balance","Sharpening ciblé","Exporter pour web / print","Archivage PSD + JPG"],exercice:"Termine un portrait : courbe, dodge & burn léger, netteté ciblée, puis exporte en JPEG quality 90.",quiz:{q:"Quand appliquer la netteté finale ?",bon:1,rep:["Avant le détourage","En toute fin, après les retouches","Jamais"],exp:"La netteté se pose en toute fin, après les retouches : l'appliquer avant le détourage ou les courbes amplifierait aussi les défauts."},quiz2:{q:"Pourquoi garder le PSD en plus du JPEG final ?",bon:1,rep:["Pour le poids du fichier","Pour conserver les calques et retoucher plus tard","Pour Instagram"],exp:"Le PSD garde toute la structure de calques : une retouche future (demande client, nouvelle utilisation) repart de là sans tout refaire."}}
+  {titre:"Niveau 5 — Finitions et livraison",niv:"Pro",points:["Curves et Color Balance","Sharpening ciblé","Exporter pour web / print","Archivage PSD + JPG"],exercice:"Termine un portrait : courbe, dodge & burn léger, netteté ciblée, puis exporte en JPEG quality 90.",quiz:{q:"Quand appliquer la netteté finale ?",bon:1,rep:["Avant le détourage","En toute fin, après les retouches","Jamais"],exp:"La netteté se pose en toute fin, après les retouches : l'appliquer avant le détourage ou les courbes amplifierait aussi les défauts."},quiz2:{q:"Pourquoi garder le PSD en plus du JPEG final ?",bon:1,rep:["Pour le poids du fichier","Pour conserver les calques et retoucher plus tard","Pour Instagram"],exp:"Le PSD garde toute la structure de calques : une retouche future (demande client, nouvelle utilisation) repart de là sans tout refaire."}},
+  {titre:"Niveau 6 — Production et automatisation",niv:"Expert",points:["Objets intelligents pour retouches non destructives","Actions : enregistrer et rejouer les réglages","Traitement par lots et export multiple","Sauvegarde versionnée PSD + JPEG"],exercice:"Crée une action qui duplique le calque, applique un filtre léger, redimensionne pour web et exporte en JPEG ; teste-la sur 5 photos.",quiz:{q:"Pourquoi passer un calque en objet intelligent avant de retoucher ?",bon:1,rep:["Pour supprimer les métadonnées","Pour garder la source modifiable et appliquer des filtres non destructifs","Pour compresser le fichier PSD"],exp:"L'objet intelligent conserve les pixels d'origine : les filtres et transformations restent modifiables, sans accumuler de dégradation ni de retouche définitive."},quiz2:{q:"Quel outil Photoshop permet de rejouer automatiquement une série de retouches ?",bon:0,rep:["Les actions","Le navigateur de fichiers","Le panneau Propriétés"],exp:"Une action enregistre tes étapes (recadrage, réglages, export) et les rejoue en un clic : c'est la base du traitement par lots pour gagner du temps sur un shooting."}}
  ]
 };
 const couleurs={lr:'#31a8ff',co:'#c9a56a',ps:'#a98fd0'};
@@ -219,7 +220,7 @@ function valider(id){
   if(el){const b=el.querySelector('button.termine,button:last-child');if(b){b.className='termine';b.textContent='✓ Niveau validé'}}
   majProg();
 }
-function majProg(){const n=valides.size,total=15;progGlobale.style.width=(n/total*100)+'%';txtProg.textContent=n+' / '+total}
+function majProg(){const n=valides.size,total=16;progGlobale.style.width=(n/total*100)+'%';txtProg.textContent=n+' / '+total}
 function afficher(v,b){document.querySelectorAll('.voie').forEach(x=>x.classList.remove('actif'));document.getElementById(v).classList.add('actif');document.querySelectorAll('.onglets button').forEach(x=>x.classList.remove('actif'));b.classList.add('actif')}
 function toutValider(){Object.keys(programmes).forEach(v=>programmes[v].forEach((_,i)=>valider(v+'-'+i)));toast('Tous les niveaux sont validés — vous êtes Pro !')}
 function reinitialiser(){if(confirm('Effacer toute la progression ?')){valides.clear();enregistrer();construire();toast('Progression réinitialisée')}}
