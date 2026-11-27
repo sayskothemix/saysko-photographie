@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:#05070c}
+.stage{width:1024px;height:1024px;display:flex;align-items:center;justify-content:center}
+.logo{width:1024px;height:1024px;position:relative;overflow:hidden;background:radial-gradient(120% 90% at 30% 10%,#18243d 0%,#0b1020 45%,#05070c 100%)}
+.glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(201,165,106,.12) 0%,rgba(201,165,106,0) 68%);top:-8%;left:50%;transform:translateX(-50%);filter:blur(10px)}
+.ring{position:absolute;width:820px;height:820px;border-radius:50%;border:1px solid rgba(201,165,106,.10);top:100px;left:102px}
+.ring.two{width:740px;height:740px;top:140px;left:142px;border-color:rgba(201,165,106,.06)}
+/* platine pleine largeur, opacite modulee 1-2-1-2 */
+.impulse{position:absolute;top:300px;left:50%;width:980px;transform:translateX(-50%);opacity:.72;filter:drop-shadow(0 22px 36px rgba(0,0,0,.85));z-index:1}
+.impulse img{width:100%;display:block}
+/* texte au centre de la platine */
+.name{position:absolute;top:420px;left:0;width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-size:116px;font-weight:500;letter-spacing:.28em;color:#f8f1e4;padding-left:.28em;z-index:4;text-shadow:1px 2px 2px rgba(0,0,0,.95),2px 5px 12px rgba(0,0,0,.85)}
+.name:after{content:'';display:block;width:210px;height:1px;margin:14px auto 0;background:linear-gradient(90deg,transparent,#e0bd85,transparent)}
+.sub{position:absolute;top:556px;left:50%;transform:translateX(-50%);padding:6px 22px 6px 30px;font-size:32px;font-weight:600;letter-spacing:.52em;color:#ffffff;padding-left:.52em;background:rgba(6,9,15,.82);z-index:5;white-space:nowrap}
+/* onde sonore : trait fin et régulier, dégradé ivoire-or */
+.wave{position:absolute;top:616px;left:50%;transform:translateX(-50%);width:360px;height:28px;z-index:4}
+.wave svg{width:100%;height:100%;overflow:visible}
+/* equaliseur : barres fines, sommets ronds, dégradé luxe */
+.eq{position:absolute;top:650px;left:50%;transform:translateX(-50%);display:flex;align-items:flex-end;gap:7px;height:26px;z-index:4}
+.eq i{display:block;width:4px;border-radius:4px;background:linear-gradient(180deg,#f8f1e4 0%,#e0bd85 50%,#8a6d3f 100%)}
+.eq i:nth-child(1){height:8px}.eq i:nth-child(2){height:15px}.eq i:nth-child(3){height:24px}.eq i:nth-child(4){height:13px}.eq i:nth-child(5){height:21px}.eq i:nth-child(6){height:11px}.eq i:nth-child(7){height:17px}.eq i:nth-child(8){height:7px}
+</style></head><body><div class="stage"><div class="logo">
+<div class="glow"></div><div class="ring"></div><div class="ring two"></div>
+<div class="impulse"><img src="impulse500-harmo.png" alt="Hercules Impulse 500"></div>
+<div class="name">SAYSKO</div><div class="sub">IN THE MIX</div>
+<div class="wave"><svg viewBox="0 0 560 56" preserveAspectRatio="none">
+<defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6d3f" stop-opacity="0"/><stop offset="0.2" stop-color="#e0bd85"/><stop offset="0.5" stop-color="#f6e0b8"/><stop offset="0.8" stop-color="#e0bd85"/><stop offset="1" stop-color="#8a6d3f" stop-opacity="0"/></linearGradient></defs>
+<path d="M0 28 C 35 28, 45 6, 70 6 S 105 50, 135 50 S 175 10, 205 10 S 245 46, 275 46 S 315 14, 345 14 S 385 42, 415 42 S 455 20, 485 20 S 525 28, 560 28" fill="none" stroke="url(#wg)" stroke-width="1.6" stroke-linecap="round"/>
+</svg></div>
+<div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div></div></body></html>
