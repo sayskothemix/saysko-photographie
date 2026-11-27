@@ -128,9 +128,9 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
   <h1>Maîtrisez Capture One<br>en un seul parcours</h1>
   <p>Du RAW brut au JPG prêt à publier. Un tuto vivant : chapitres qui s'ouvrent à votre rythme, simulateur de réglages en direct, quiz de validation et défi chronométré de 10 minutes.</p>
   <div class="hero-stats">
-    <div class="stat"><b>11</b><span>étapes</span></div>
+    <div class="stat"><b>12</b><span>étapes</span></div>
     <div class="stat"><b>10 min</b><span>défi chrono</span></div>
-    <div class="stat"><b>8</b><span>questions</span></div>
+    <div class="stat"><b>20</b><span>questions</span></div>
     <div class="stat"><b>∞</b><span>essais simulateur</span></div>
   </div>
 </header>
@@ -176,7 +176,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
       <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : pour éviter les doublons, tu choisis…</p>
         <button onclick="repondre(this,true)">Référencer</button>
         <button onclick="repondre(this,false)">Copier</button>
-      </div></div>
+      </div><p style="font-size:.82rem;color:var(--muted);margin:8px 0 0">Référencer pointe vers le RAW existant : pas de doublon, catalogue léger. Copier crée une seconde version du fichier sur le disque.</p></div>
     </section>
 
     <section class="chapitre" data-titre="Réglages de base">
@@ -213,7 +213,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
       <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : pour assombrir un ciel trop clair, tu utilises…</p>
         <button onclick="repondre(this,true)">Zone de dégradé, Exposition négative</button>
         <button onclick="repondre(this,false)">Saturation à +50 partout</button>
-      </div></div>
+      </div><p style="font-size:.82rem;color:var(--muted);margin:8px 0 0">Le dégradé masque le ciel seul : tu baisses son exposition sans toucher au reste. La saturation globale aurait tout jauni, pas seulement le ciel.</p></div>
     </section>
 
     <section class="chapitre" data-titre="Cadrage">
@@ -244,7 +244,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
       <div class="quiz"><p style="font-size:.85rem;color:var(--dim)">Mini-check : qualité JPEG recommandée pour Discord / web ?</p>
         <button onclick="repondre(this,true)">85–95</button>
         <button onclick="repondre(this,false)">20–30</button>
-      </div></div>
+      </div><p style="font-size:.82rem;color:var(--muted);margin:8px 0 0">85–95 est le sweet spot web : en dessous l'image se dégrade visiblement, au-delà le poids grimpe sans gain visible à l'écran.</p></div>
     </section>
 
     <section class="chapitre" data-titre="Rangement">
@@ -261,8 +261,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
       <p>En respectant cet ordre, une photo est prête en moins de 10 minutes. Le simulateur de l'étape 02 montre l'effet de chaque curseur sans toucher à tes photos. Le bouton ⎙ en bas à droite imprime ce parcours en fiche propre.</p></div>
     </section>
 
+    <section class="chapitre" data-titre="Quiz Capture One">
+      <button class="titre" onclick="basculer(this)"><span><span class="num">09</span>Quiz Capture One <span class="badge">12 questions</span></span><span class="fleche">▶</span></button>
+      <div class="contenu">
+        <p>Vingt questions au total dans ce parcours : 3 mini-checks, ces 12 questions et le jeu photo en 5 manches. Après chaque réponse, l'explication s'affiche — c'est elle qui fait progresser.</p>
+        <div id="quizC1"></div>
+      </div>
+    </section>
+
     <section class="chapitre" data-titre="Jeu photo">
-      <button class="titre" onclick="basculer(this)"><span><span class="num">09</span>Jeu photo <span class="badge">5 manches · score</span></span><span class="fleche">▶</span></button>
+      <button class="titre" onclick="basculer(this)"><span><span class="num">10</span>Jeu photo <span class="badge">5 manches · score</span></span><span class="fleche">▶</span></button>
       <div class="contenu">
         <p>Regarde les deux rendus et choisis <strong>le meilleur traitement</strong>. Chaque manche illustre un réglage du parcours. Débriefing et score à la fin.</p>
         <div class="jeu" id="jeuPhoto">
@@ -277,7 +285,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
     </section>
 
     <section class="chapitre" data-titre="Vidéos">
-      <button class="titre" onclick="basculer(this)"><span><span class="num">10</span>Vidéos classées par étape</span><span class="fleche">▶</span></button>
+      <button class="titre" onclick="basculer(this)"><span><span class="num">11</span>Vidéos classées par étape</span><span class="fleche">▶</span></button>
       <div class="contenu"><ol>
         <li><strong>Import → export, prise en main complète (étapes 01 à 06)</strong> — <a href="https://www.youtube.com/watch?v=zOLZXRbXz4s" target="_blank">Débuter dans CAPTURE ONE</a></li>
         <li><strong>Réglages de base : histogramme, exposition, contraste, luminosité, saturation (étapes 02–03)</strong> — 10 min, Stéphane Simon : <a href="https://www.nikonpassion.com/capture-one-pro-post-traitement-retouches-base-tutoriel/" target="_blank">Nikon Passion</a></li>
@@ -415,7 +423,36 @@ function choisir(i,el){
     toast(score===manches.length?'Score parfait — Expert Capture One !':'Score : '+score+' / '+manches.length);}
 }
 function demarrerJeu(){manche=0;score=0;vies=3;combo=0;indiceUtilise=false;dessinerJeu()}
-chapitres[0].classList.add('ouvert');maj();simuler();afficherChrono();demarrerJeu();
+const QUIZ_C1=[
+{q:"Pour un essai rapide sans toucher ton catalogue principal, tu crées…",rep:["Un catalogue","Une session","Un album","Un instantané"],bon:1,exp:"Une session est un fichier temporaire léger : parfaite pour tester ou pour un petit job, tu la convertis en catalogue si le travail devient important."},
+{q:"Référencer plutôt que Copier évite…",rep:["Les doublons de RAW sur le disque","Les exports plus lents","Les calques de retouche"],bon:0,exp:"Référencer pointe vers le fichier existant : un seul exemplaire du RAW, catalogue plus léger, sauvegarde simplifiée."},
+{q:"Premier curseur à régler sur un RAW ?",rep:["Vibrance","Exposition","Rognage","Netteté"],bon:1,exp:"L'exposition d'abord : tant que la lumière n'est pas juste, juger la couleur ou les détails est faussé. On règle ensuite contraste, balance, vibrance."},
+{q:"La balance des blancs à la pipette se pose sur…",rep:["Le visage","Une zone grise neutre ou blanche","Le ciel","Un noir profond"],bon:1,exp:"La pipette mesure une surface neutre pour calculer la température réelle de la scène. Sur une couleur (visage, ciel), elle se trompe."},
+{q:"Vibrance vs Saturation :",rep:["Vibrance agit sur les couleurs douces, Saturation sur tout","Ce sont deux noms du même curseur","Vibrance = tout, Saturation = rien"],bon:0,exp:"La Vibrance booste les couleurs fades sans pousser les tons déjà saturés (la peau reste naturelle). La Saturation agit globalement et fait vite virer au orange."},
+{q:"Assombrir un ciel sans toucher le reste de l'image :",rep:["La zone de dégradé","Le curseur Saturation","Le rognage","Une recette flash"],bon:0,exp:"Le dégradé (touche G) va du foncé au transparent : tu le glisses sur le ciel et tu baisses l'exposition du calque. Le reste de la photo n'est pas touché."},
+{q:"Éclaircir uniquement le visage :",rep:["Le pinceau (B)","Le rognage (C)","L'outil Ajuster (A)"],bon:0,exp:"Le pinceau peint un masque local : tu augmentes légèrement l'exposition sur le visage. La touche A corrige une couleur, pas une zone."},
+{q:"L'outil Ajuster (touche A) sert à…",rep:["Rogner la photo","Corriger une couleur en cliquant-glissant dessus","Exporter en masse","Créer un style"],bon:1,exp:"Tu cliques sur une couleur puis tu glisses : vers le haut pour l'intensifier, vers le bas pour l'atténuer. Parfait pour un ciel plus bleu ou une peau moins rouge."},
+{q:"Pour un post Instagram, le ratio conseillé est…",rep:["16:9","4:5","1:1","21:9"],bon:1,exp:"Le 4:5 portrait (1080×1350) prend plus de place dans le feed mobile et arrête le scroll plus longtemps que le carré ou le paysage."},
+{q:"Le vignettage (Effets) sert à…",rep:["Éclaircir le centre","Assombrir les bords pour concentrer le regard","Ajouter du grain","Flouter le sujet"],bon:1,exp:"Un léger vignettage (-0,2 à -0,5) guide l'œil vers le sujet. Trop fort, il fait tache — reste subtil."},
+{q:"Export web : format et espace couleur ?",rep:["TIFF 16 bits / Adobe RGB","JPEG 85–95 / sRGB","PSD / ProPhoto RGB"],bon:1,exp:"Pour le web et les réseaux : JPEG qualité 85–95 en sRGB. TIFF et les grands espaces colorimétriques sont pour l'impression ou l'archivage."},
+{q:"Avant d'utiliser le 600D dans OBS (EOS Webcam) :",rep:["Ouvrir une nouvelle session","Fermer Capture One","Supprimer le catalogue"],bon:1,exp:"Capture One verrouille les connexions USB de l'appareil : OBS ne peut pas l'utiliser tant que C1 reste ouvert. Ferme C1, puis lance la webcam."}
+];
+function rendreQuizC1(){
+  const qc=document.getElementById('quizC1');if(!qc)return;
+  qc.innerHTML=QUIZ_C1.map((q,i)=>'<div class="quiz"><p style="font-size:.85rem;color:var(--dim);margin:10px 0 4px">Q'+(i+1)+' — '+q.q+'</p>'+
+    q.rep.map((r,j)=>'<button onclick="repondreQ(this,'+i+','+j+')">'+r+'</button>').join('')+
+    '<p class="explication" style="display:none;font-size:.85rem;color:var(--vert);margin:8px 0 0;border-left:2px solid var(--or);padding:6px 10px"></p>'+
+    '<a href="https://www.youtube.com/results?search_query='+encodeURIComponent('capture one '+q.q.slice(0,40).toLowerCase())+'" target="_blank" rel="noopener" style="display:inline-block;margin:6px 0 12px;font-size:.8rem;color:var(--or-clair)">Voir la leçon vidéo →</a></div>').join('');
+}
+function repondreQ(b,i,j){
+  const q=QUIZ_C1[i],bloc=b.closest('.quiz'),ok=j===q.bon;
+  bloc.querySelectorAll('button').forEach((x,k)=>{x.disabled=true;if(k===q.bon)x.classList.add('bon')});
+  b.classList.add(ok?'bon':'mauvais');
+  const ex=bloc.querySelector('.explication');
+  if(ex){ex.textContent=(ok?'':'La bonne réponse : « '+q.rep[q.bon]+' » — ')+q.exp;ex.style.display='block'}
+  toast(ok?'Bonne réponse !':'Mauvaise réponse — lis l\'explication ci-dessous');
+}
+chapitres[0].classList.add('ouvert');maj();simuler();afficherChrono();demarrerJeu();rendreQuizC1();
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
   if(e.key==='ArrowRight'&&e.altKey){e.preventDefault();etapeSuivante()}

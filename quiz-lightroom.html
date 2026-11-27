@@ -97,7 +97,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
       <div class="motif"><span id="theme">Réglages de base</span><span class="qnum" id="qnum">Question 1 / 20</span></div>
       <div class="question" id="question"></div>
       <div class="choix" id="choix"></div>
-      <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span></div>
+      <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span><br><a id="fbVideo" href="#" target="_blank" rel="noopener" style="display:none;color:var(--or-clair);font-size:.85rem;margin-top:8px">Voir la leçon vidéo →</a></div>
       <div class="sans-suite"><span class="serie" id="serie"></span>
         <div class="suite" id="suite"><button class="btn-suite" id="btnSuite" onclick="suivante()">Question suivante</button></div>
       </div>
@@ -203,6 +203,15 @@ const QUIZ=[
 ];
 
 let i=0,score=0,serie=0,maxSerie=0,parTheme={};
+const VIDEO={
+"Réglages de base":"https://www.youtube.com/results?search_query=lightroom+developpement+curseurs+exposition+contraste+tutoriel",
+"Histogramme & courbes":"https://www.youtube.com/results?search_query=lightroom+histogramme+courbes+tutoriel+francais",
+"HSL & couleur":"https://www.youtube.com/results?search_query=lightroom+HSL+balance+des+blancs+tutoriel",
+"Masques & retouche locale":"https://www.youtube.com/results?search_query=lightroom+masque+pinceau+degrade+tutoriel",
+"Organisation":"https://www.youtube.com/results?search_query=lightroom+collections+catalogue+organisation+tutoriel",
+"Export":"https://www.youtube.com/results?search_query=lightroom+export+jpeg+sRGB+tutoriel",
+"Workflow":"https://www.youtube.com/results?search_query=lightroom+workflow+copier+parametres+tutoriel"
+};
 const $=id=>document.getElementById(id);
 
 function melanger(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
@@ -252,6 +261,8 @@ function repondre(btn,ok,q){
   parTheme[q.t]=parTheme[q.t]||{ok:0,tot:0};parTheme[q.t].tot++;if(ok)parTheme[q.t].ok++;
   $('fbTitre').textContent=ok?'Correct':'Raté — la bonne réponse : « '+q.c[q.b]+' »';
   $('fbTexte').textContent=q.e;
+  const fv=$('fbVideo'),vq=VIDEO[q.t];
+  if(vq){fv.href=vq;fv.style.display='inline'}else fv.style.display='none';
   $('feedback').className='feedback visible';
   $('suite').className='suite visible';
   $('btnSuite').textContent=i<QUIZ.length-1?'Question suivante':'Voir le résultat';
