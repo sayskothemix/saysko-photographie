@@ -87,7 +87,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 .toast{transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
 .etape:hover{transform:translateX(3px)}
 .apercu{transition:background .45s ease,filter .45s ease}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.memo{margin-top:44px;border-top:1px solid var(--line);padding-top:28px}
+.memo h2{font-size:1.8rem;margin:0 0 8px;color:var(--or-clair)}
+.memo p{color:var(--muted);max-width:680px;margin:0 0 18px}
+.memo figure{margin:0;max-width:480px}
+.memo img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
+.memo figcaption{color:var(--muted);font-size:.82rem;margin-top:10px}
+.memo-download{display:inline-block;margin-top:14px;padding:10px 18px;border:1px solid var(--or);border-radius:4px;color:var(--or-clair);text-decoration:none;font-size:.86rem}
+.memo-download:hover{background:rgba(201,165,106,.1)}
+@media print{.memo figure{max-width:100%}.memo-download{display:none}}</style>
 </head>
 <body>
 <a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
@@ -124,7 +133,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 
   <section class="voie" id="co">
     <h2 class="titre-voie"><span class="logo" style="background:#c9a56a">C1</span> Capture One — du RAW au rendu pro</h2>
-    <p style="color:var(--dim)">Parcours détaillé disponible dans le fichier <code>TUTO_CAPTURE_ONE_RETouche_RAPIDE.html</code>.</p>
+    <p style="color:var(--dim)">Parcours détaillé : <a href="parcours-capture-one.html">ouvrir le parcours Capture One interactif</a>.</p>
     <div class="grille" id="grille-co"></div>
   </section>
 
@@ -132,6 +141,16 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
     <h2 class="titre-voie"><span class="logo" style="background:#31a8ff">Ps</span> Photoshop — la retouche sans limites</h2>
     <p style="color:var(--dim)">Passe du JPG exporté à la retouche fine : détourage, masques, fréquences et finitions.</p>
     <div class="grille" id="grille-ps"></div>
+  </section>
+
+  <section class="memo" aria-labelledby="memo-titre">
+    <h2 id="memo-titre">Fiche mémo · Les 3 réglages clés</h2>
+    <p>Ouverture, vitesse d'obturation, ISO : l'essentiel à garder sous les yeux quand tu règles ton boîtier. Imprime-la ou télécharge-la.</p>
+    <figure>
+      <img src="fiche-memo-photo.jpg" alt="Fiche mémo photo : ouverture, vitesse d'obturation et ISO avec leurs valeurs et conseils" width="462" height="701" loading="lazy">
+      <figcaption>Ouverture (profondeur de champ) · Vitesse (mouvement) · ISO (sensibilité à la lumière).</figcaption>
+    </figure>
+    <a class="memo-download" href="fiche-memo-photo.jpg" download>Télécharger la fiche</a>
   </section>
 </div>
 <button class="corner" onclick="window.print()" title="Imprimer">⎙</button>
