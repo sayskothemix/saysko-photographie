@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Quiz interactif éclairage photo : lumière naturelle, flash, softbox, direction et scénarios réels — apprenez à diriger la lumière comme un pro.">
+<title>Quiz Éclairage — Dirigez la lumière | Saysko Photographie</title>
+<style>
+:root{--bg:#070a12;--surface:#0d1420;--surface2:#111a29;--txt:#f5f7fb;--muted:#9eacc0;--or:#c9a56a;--or-clair:#e8c98f;--vert:#7ec8a0;--rouge:#e07a6a;--line:rgba(201,165,106,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.7 "Segoe UI",system-ui,Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 8% -6%,rgba(201,165,106,.10),transparent 62%),radial-gradient(900px 560px at 96% 8%,rgba(111,168,201,.08),transparent 60%),linear-gradient(180deg,#080d17 0%,var(--bg) 60%);background-attachment:fixed}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;letter-spacing:.01em}
+a{color:var(--or-clair)}
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,32,.9),rgba(7,10,18,.2))}
+.kicker{display:inline-block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+h1{margin:0;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.12;background:linear-gradient(100deg,#f5f7fb 10%,var(--or-clair) 70%,var(--or));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;margin:18px auto 0;color:var(--muted)}
+.stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.8rem;color:var(--or-clair);font-weight:500}
+.stat span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:860px;margin:0 auto;padding:36px 20px 90px}
+.carrier{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.start{text-align:center;padding:40px 20px}
+.start h2{font-size:1.7rem;color:var(--or-clair);margin:0 0 10px}
+.start p{color:var(--muted);max-width:520px;margin:0 auto 24px}
+button{cursor:pointer;font-family:inherit}
+.btn-accueil{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#14100a;border:0;border-radius:4px;padding:13px 34px;font-size:.95rem;font-weight:600;letter-spacing:.04em;transition:.3s}
+.btn-accueil:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,165,106,.28)}
+.progress{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:22px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .5s cubic-bezier(.22,1,.36,1)}
+.motif{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.motif span{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--or)}
+.qnum{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.question{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.3;margin:10px 0 24px}
+.question em{color:var(--or-clair);font-style:italic}
+.choix{display:grid;gap:10px}
+.choix button{text-align:left;background:var(--surface2);color:var(--txt);border:1px solid var(--line);border-radius:5px;padding:13px 16px;font-size:.92rem;transition:.25s}
+.choix button:hover:not(:disabled){border-color:var(--or);transform:translateX(4px)}
+.choix button.bon{border-color:var(--vert);color:var(--vert);background:rgba(126,200,160,.06)}
+.choix button.mauvais{border-color:var(--rouge);color:var(--rouge);background:rgba(224,122,106,.06)}
+.choix button:disabled{cursor:default}
+.feedback{margin-top:18px;border-left:2px solid var(--or);background:rgba(201,165,106,.05);padding:14px 18px;border-radius:0 5px 5px 0;font-size:.88rem;color:var(--muted);display:none}
+.feedback.visible{display:block;animation:entree .4s ease}
+.feedback strong{color:var(--or-clair);display:block;margin-bottom:4px}
+@keyframes entree{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.suite{margin-top:20px;display:none}
+.suite.visible{display:block}
+.btn-suite{background:transparent;color:var(--or);border:1px solid var(--or);border-radius:4px;padding:9px 22px;font-size:.88rem;transition:.3s}
+.btn-suite:hover{background:rgba(201,165,106,.1);transform:translateY(-2px)}
+.sans-suite{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.serie{font-size:.8rem;color:var(--vert);letter-spacing:.05em}
+.result{text-align:center;padding:36px 16px}
+.result h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 6px}
+.result .score{font-family:"Cormorant Garamond",Georgia,serif;font-size:3rem;color:var(--or-clair);margin:12px 0 4px}
+.result .niveau{color:var(--or);font-size:.75rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:16px}
+.result p{color:var(--muted);max-width:520px;margin:0 auto 20px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.badge-obtenu,.badge-verrouille{border-radius:4px;padding:6px 14px;font-size:.78rem;border:1px solid var(--line)}
+.badge-obtenu{color:var(--or-clair);border-color:var(--or)}
+.badge-verrouille{color:var(--muted);opacity:.55}
+.rejouer{background:none;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:9px 20px;font-size:.85rem;margin-top:10px}
+.rejouer:hover{color:var(--or-clair);border-color:var(--or)}
+.retour{display:inline-block;margin-top:26px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.retour:hover{color:var(--or-clair)}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em;padding:30px 16px;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.suite,.retour,.btn-accueil,.rejouer{display:none}.carrier{background:#fff;color:#111;border-color:#ccc}.question,.result h2,.result .score{color:#111}.choix button{color:#111;border-color:#ccc}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
+<header class="hero">
+  <span class="kicker">Saysko Photographie · Apprendre</span>
+  <h1>Dirigez<br>la lumière</h1>
+  <p>Un quiz pour maîtriser l'éclairage : lumière naturelle, flash, softbox, direction et scénarios réels. 20 questions, une correction après chaque réponse.</p>
+  <div class="stats">
+    <div class="stat"><b>20</b><span>questions</span></div>
+    <div class="stat"><b>5</b><span>thèmes</span></div>
+    <div class="stat"><b>100%</b><span>pédagogique</span></div>
+    <div class="stat"><b>~7 min</b><span>durée</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="carrier" id="carrier">
+    <section class="start" id="ecranDebut">
+      <h2>Prêt à tester votre œil lumière ?</h2>
+      <p>Répondez aux 20 questions sur l'éclairage. Après chaque réponse, une explication courte vous dit pourquoi — c'est là que se joue la vraie progression. Le meilleur score est sauvegardé sur cet appareil.</p>
+      <button class="btn-accueil" onclick="commencer()">Commencer le quiz</button>
+      <div id="record" style="margin-top:18px;font-size:.82rem;color:var(--muted)"></div>
+      <div><a class="retour" href="eclairage.html">Voir la leçon Éclairage</a> · <a class="retour" href="quiz-lightroom.html">Quiz Lightroom</a></div>
+    </section>
+
+    <section id="ecranQuiz" style="display:none">
+      <div class="progress"><i id="barre"></i></div>
+      <div class="motif"><span id="theme">Lumière naturelle</span><span class="qnum" id="qnum">Question 1 / 20</span></div>
+      <div class="question" id="question"></div>
+      <div class="choix" id="choix"></div>
+      <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span><br><a id="fbVideo" href="#" target="_blank" rel="noopener" style="display:none;color:var(--or-clair);font-size:.85rem;margin-top:8px">Voir la leçon vidéo →</a></div>
+      <div class="sans-suite"><span class="serie" id="serie"></span>
+        <div class="suite" id="suite"><button class="btn-suite" id="btnSuite" onclick="suivante()">Question suivante</button></div>
+      </div>
+    </section>
+
+    <section class="result" id="ecranResultat" style="display:none">
+      <h2>Résultat</h2>
+      <div class="score" id="scoreFinal">0/20</div>
+      <div class="niveau" id="niveau"></div>
+      <p id="commentaire"></p>
+      <div class="badges" id="badges"></div>
+      <button class="btn-accueil" onclick="commencer()">Rejouer</button>
+      <button class="rejouer" onclick="retourDebut()">Quitter</button>
+      <div><a class="retour" href="eclairage.html">Leçon Éclairage</a> · <a class="retour" href="quiz-lightroom.html">Quiz Lightroom</a></div>
+    </section>
+  </div>
+</main>
+
+<footer>Saysko Photographie — Apprendre à voir, à régler, à créer.</footer>
+
+<script>
+const QUIZ=[
+{t:"Lumière naturelle",q:"En plein <em>soleil de midi</em>, les ombres sous le nez d'un portrait sont dures et marquées. Quelle solution en priorité ?",
+ c:["Photographier à l'ombre d'un bâtiment ou sous un parasol","Monter l'ISO au maximum","Ouvrir à f/1.2","Changer pour un objectif plus long"],
+ b:0,
+ e:"Le problème n'est pas technique, il est lumineux : le soleil de midi frappe verticalement et crée des ombres dures sous les yeux, le nez, le menton. La solution : bouger le sujet dans une zone ombragée ou utiliser un diffuseur/parasoll — la lumière devient douce et enveloppante."},
+{t:"Lumière naturelle",q:"La fameuse « <em>golden hour</em> » (heure dorée) correspond à…",
+ c:["Le milieu de la journée","Une heure après le lever et avant le coucher du soleil","Uniquement en hiver","Les jours de pluie"],
+ b:1,
+ e:"Quand le soleil est bas sur l'horizon, sa lumière traverse plus d'atmosphère : elle devient chaude (tons dorés/orangés), douce et directionnelle — elle sculpte les visages au lieu de les écraser."},
+{t:"Lumière naturelle",q:"Une journée <em>couverte (ciel gris)</em> offre en portrait une lumière…",
+ c:["Très dure avec ombres marquées","Douce et diffuse, quasi sans ombres","Trop faible, inutilisable","Uniquement bonne pour les silhouettes"],
+ b:1,
+ e:"Le nuage agit comme un immense diffuseur naturel : la lumière est douce, uniforme, sans ombres dures. Idéale pour les portraits débutants — le visage est parfaitement exposé partout."},
+{t:"Lumière naturelle",q:"Vous photographiez un portrait <em>contre-jour</em> (sujet dos au soleil). Résultat typique :",
+ c:["Un portrait parfaitement exposé","Une silhouette noire ou un visage sous-exposé avec halo","Un flash automatique","Une image floue"],
+ b:1,
+ e:"L'exposimètre mesure la lumière globale, souvent le ciel clair : le sujet devient sombre. Solutions : mesurer sur le visage (+1 à +2 EV), utiliser un reflecteur, ou assumer la silhouette volontairement."},
+{t:"Flash & artificielle",q:"Le <em>flash intégré</em> (boîtier ou téléphone) utilisé en direct produit…",
+ c:["Une lumière douce et enveloppante","Une lumière dure de face : ombre dure derrière le sujet, regard plat","Un effet studio professionnel","Rien de visible en extérieur"],
+ b:1,
+ e:"Le flash intégré est petit et frontal : il crée une ombre dure directement derrière la tête et un éclairage plat qui tue le relief. Pour l'adoucir : faire ricocher sur un mur/blanc, utiliser un diffuseur, ou porter le flash à distance."},
+{t:"Flash & artificielle",q:"Pour adoucir un flash direct, la meilleure astuce gratuite est…",
+ c:["Augmenter la puissance du flash","Le faire ricocher sur un mur blanc ou un plafond","Rapprocher le sujet du flash","Passer en mode manuel"],
+ b:1,
+ e:"Le rebond augmente la surface de la source lumineuse : la lumière devient plus grande et diffuse → ombres douces. Visez le mur/ plafond derrière ou au-dessus de vous, jamais vers le sujet directement."},
+{t:"Flash & artificielle",q:"Un flash positionné <em>loin du sujet</em> (grande distance) donne une lumière…",
+ c:["Plus douce","Plus dure (comme le soleil de midi)","Impossible","Plus colorée"],
+ b:1,
+ e:"La douceur d'une lumière dépend de sa taille apparente par rapport au sujet. Un flash loin devient une « petite » source → lumière dure avec ombres nettes. C'est le même principe que le soleil : petit et lointain = dur."},
+{t:"Flash & artificielle",q:"En portrait, un léger flash d'appoint (« <em>fill flash</em> ») en extérieur sert à…",
+ c:["Créer une silhouette","Réduire le contraste et déboucher les ombres dures du soleil","Éclaircir uniquement le fond","Remplacer la lumière du soleil"],
+ b:1,
+ e:"En plein soleil, les ombres sont dures. Un flash d'appoint à faible puissance (-1 à -2 EV) adoucit les ombres sous le menton et les yeux sans écraser la lumière naturelle — l'image garde son caractère mais devient lisible."},
+{t:"Studio & accessoires",q:"Deux softboxes identiques : l'une à <em>1 mètre</em> du sujet, l'autre à 3 mètres. Laquelle donne la lumière la plus douce ?",
+ c:["Celle à 3 mètres","Celle à 1 mètre","Identique, la softbox est la même","C'est la puissance qui compte, pas la distance"],
+ b:1,
+ e:"La douceur dépend de la taille apparente de la source. Plus la softbox est proche, plus elle « couvre » le sujet sous un grand angle → lumière douce et enveloppante. Eloignée, elle rétrécit → lumière plus dure."},
+{t:"Studio & accessoires",q:"Un <em>diffuseur (voile, parapluie, softbox)</em> sert à…",
+ c:["Colorer la lumière","Rendre la lumière plus douce en l'étalant sur une plus grande surface","Augmenter la portée du flash","Créer des ombres dures"],
+ b:1,
+ e:"Le diffuseur transforme une source petite et dure en grande surface lumineuse. Règle d'or : plus la source est grande par rapport au sujet, plus la lumière est douce. Voile de mariée + flash = softbox improvisée."},
+{t:"Studio & accessoires",q:"Un <em>réflecteur</em> (blanc, argent, doré) en photo portrait sert à…",
+ c:["Bloquer la lumière","Rebattre la lumière vers le sujet pour remplir les ombres","Créer le fond","Mesurer l'exposition"],
+ b:1,
+ e:"Le réflecteur renvoie la lumière existante (soleil, flash, fenêtre) vers les zones sombres du visage : sous le menton, les yeux, le côté opposé à la source. Blanc = neutre, argent = plus brillant, doré = teinte chaude."},
+{t:"Studio & accessoires",q:"Pour <em>isoler le sujet de son arrière-plan</em> en extérieur, le meilleur outil est…",
+ c:["Un objectif plus grand","Un fond (cyclorama, tissu, panneau) placé derrière le sujet","Un flash plus puissant","Une ouverture plus fermée"],
+ b:1,
+ e:"Un fond uni placé derrière le sujet crée un « studio » en extérieur : on voit moins le décor, l'attention reste sur le portrait. Tissu noir/ gris/ blanc selon l'effet voulu. L'ouverture large + distance sujet/fond aide aussi."},
+{t:"Direction & qualité",q:"Une lumière qui <em>ras le sujet par le côté</em> (lumière rasante) produit…",
+ c:["Un portrait plat sans relief","Des textures marquées, des ombres longues et un fort contraste","Une lumière uniforme","Un effet de contre-jour"],
+ b:1,
+ e:"La lumière rasante glisse le long des surfaces : elle révèle les textures (barbe, peau, tissu) et allonge les ombres. C'est la lumière du drama et du caractère — idéale pour un portrait expressif."},
+{t:"Direction & qualité",q:"Une lumière <em>frontale</em> (face au sujet) donne un portrait…",
+ c:["Très dramatique","Uniforme et plat : les ombres se cachent derrière les reliefs","Avec un effet Rembrandt","Trop sombre"],
+ b:1,
+ e:"La lumière frontale frappe le sujet dans l'axe de la caméra : les ombres tombent derrière le nez, les joues, les cheveux — invisibles depuis l'objectif. L'image est lumineuse mais manque de relief et de dimension."},
+{t:"Direction & qualité",q:"L'<em>éclairage Rembrandt</em> se reconnaît à…",
+ c:["Un triangle de lumière sous l'œil du côté opposé à la source","Un cercle de lumière au centre du visage","Des ombres symétriques","Un halo autour de la tête"],
+ b:0,
+ e:"Quand la lumière vient du côté et légèrement au-dessus, un petit triangle de lumière apparaît sous l'œil côté opposé. Signature classique du portrait dramatique — utilisé depuis des siècles en peinture."},
+{t:"Direction & qualité",q:"Un <em>ratio d'éclairage de 1:4</em> signifie…",
+ c:["Une image 4× plus grande","Le côté éclairé est 4 fois plus lumineux que le côté ombré — fort contraste","4 sources lumineuses","Une ouverture f/4"],
+ b:1,
+ e:"Le ratio mesure le contraste entre le côté lumière et le côté ombre du sujet. 1:2 = contrast modéré (beaucoup de portrait), 1:4 ou plus = dramatique. C'est la différence entre un portrait doux et un portrait cinéma."},
+{t:"Scénarios réels",q:"Mariage en <em>église sombre</em>, pas de flash autorisé. Votre stratégie ?",
+ c:["ISO 6400 + grande ouverture + lumière ambiante, ou flash indirect si permis","Flash direct en plein puissance","Tout annuler, c'est impossible","Passer en mode pose longue uniquement"],
+ b:0,
+ e:"En basse lumière sans flash : ISO élevé (3200-6400 selon boîtier), ouverture max (f/1.8-f/2.8), vitesse min pour éviter le flou (~1/80-1/125 stabilisé). Les boîtiers récents gèrent bien le bruit. Flash indirect/depuis le côté reste une option si le lieu l'autorise."},
+{t:"Scénarios réels",q:"Séance portrait en <em>intérieur sans fenêtre</em> (pièce aveugle). Options réalistes :",
+ c:["Photographier à l'aveugle en mode auto","Flash (adouci/rebond) ou éclairage artificiel : softbox, LED, lampes","Attendre la nuit","Utiliser uniquement la lumière du smartphone"],
+ b:1,
+ e:"Sans lumière naturelle, il faut créer la source : flash avec diffuseur/rebond, softbox, lampes LED ou même une lampe de bureau dirigée. Le flash reste l'option la plus simple et la plus puissante pour un intérieur sombre."},
+{t:"Scénarios réels",q:"Le client veut un portrait <em>sombre et dramatique</em> en extérieur en plein jour. Comment ?",
+ c:["Photographier en plein soleil face au sujet","Chercher une zone d'ombre, un contre-jour partiel, ou créer de l'ombre avec un panneau/ parasol","Augmenter l'exposition de 2 EV","Utiliser uniquement le flash"],
+ b:1,
+ e:"Le drama vient de la pénombre maîtrisée : ombre portée, contre-jour avec mesure sur le visage, ou parasol/panneau pour créer une zone sombre. On ne peut pas « inventer » l'ombre en plein soleil, il faut la chercher ou la fabriquer."},
+{t:"Scénarios réels",q:"Séance <em>newborn/bébé qui dort</em> : la lumière idéale est…",
+ c:["Flash direct pour figer","Lumière naturelle douce d'une fenêtre (jamais de flash direct sur un bébé)","Plein soleil de midi","N'importe laquelle, l'enfant dort"],
+ b:1,
+ e:"Pour un bébé, on privilégie toujours la lumière naturelle : fenêtre nord ou lumière indirecte, douce et sans flash. Le flash peut réveiller et n'est pas adapté à la peau fragile. ISO plus élevé si besoin — le confort du bébé passe avant tout."}
+];
+
+let i=0,score=0,serie=0,maxSerie=0,parTheme={};
+const VIDEO={
+"Lumière naturelle":"https://www.youtube.com/results?search_query=lumiere+naturelle+photo+tutoriel+golden+hour",
+"Flash & artificielle":"https://www.youtube.com/results?search_query=flash+photo+rebond+diffuseur+tutoriel",
+"Studio & accessoires":"https://www.youtube.com/results?search_query=softbox+eclairage+studio+photo+tutoriel",
+"Direction & qualité":"https://www.youtube.com/results?search_query=direction+lumiere+portrait+rembrandt+tutoriel",
+"Scénarios réels":"https://www.youtube.com/results?search_query=eclairage+photo+scenario+reel+tutoriel+francais"
+};
+const $=id=>document.getElementById(id);
+
+function melanger(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function ordre(){const idx=QUIZ.map((_,k)=>k);return melanger(idx)}
+let file=ordre();
+
+function afficherRecord(){
+  try{const r=JSON.parse(localStorage.getItem('quizEclairageRecord')||'null');
+    if(r)$('record').textContent='Meilleur score : '+r.score+'/'+r.total+' — '+r.date;
+  }catch(e){}
+}
+function sauvegarder(score){
+  try{
+    const r=JSON.parse(localStorage.getItem('quizEclairageRecord')||'null');
+    if(!r||score>r.score)localStorage.setItem('quizEclairageRecord',JSON.stringify({score:score,total:QUIZ.length,date:new Date().toLocaleDateString('fr-FR')}));
+  }catch(e){}
+}
+
+function commencer(){
+  file=ordre();i=0;score=0;serie=0;maxSerie=0;parTheme={};
+  $('ecranDebut').style.display='none';$('ecranResultat').style.display='none';$('ecranQuiz').style.display='block';
+  question();
+}
+function retourDebut(){$('ecranResultat').style.display='none';$('ecranQuiz').style.display='none';$('ecranDebut').style.display='block';afficherRecord()}
+
+function question(){
+  const q=QUIZ[file[i]];
+  $('theme').textContent=q.t;
+  $('qnum').textContent='Question '+(i+1)+' / '+QUIZ.length;
+  $('barre').style.width=(i/QUIZ.length*100)+'%';
+  $('question').innerHTML=q.q;
+  $('serie').textContent=serie>1?('Série : '+serie):'';
+  $('feedback').className='feedback';$('suite').className='suite';
+  $('choix').innerHTML='';
+  const ordreC=melanger(q.c.map((txt,k)=>({txt,k})));
+  ordreC.forEach(o=>{
+    const b=document.createElement('button');
+    b.innerHTML=o.txt;
+    b.onclick=()=>repondre(b,o.k===q.b,q);
+    $('choix').appendChild(b);
+  });
+}
+function repondre(btn,ok,q){
+  [...$('choix').children].forEach(b=>{b.disabled=true;if(b.innerHTML===q.c[q.b])b.classList.add('bon')});
+  if(!ok)btn.classList.add('mauvais');
+  if(ok){score++;serie++;maxSerie=Math.max(maxSerie,serie)}else serie=0;
+  parTheme[q.t]=parTheme[q.t]||{ok:0,tot:0};parTheme[q.t].tot++;if(ok)parTheme[q.t].ok++;
+  $('fbTitre').textContent=ok?'Correct':'Raté — la bonne réponse : « '+q.c[q.b]+' »';
+  $('fbTexte').textContent=q.e;
+  const fv=$('fbVideo'),vq=VIDEO[q.t];
+  if(vq){fv.href=vq;fv.style.display='inline'}else fv.style.display='none';
+  $('feedback').className='feedback visible';
+  $('suite').className='suite visible';
+  $('btnSuite').textContent=i<QUIZ.length-1?'Question suivante':'Voir le résultat';
+}
+function suivante(){i++;if(i>=QUIZ.length)resultat();else question()}
+
+function resultat(){
+  $('ecranQuiz').style.display='none';$('ecranResultat').style.display='block';
+  $('barre').style.width='100%';
+  const p=score/QUIZ.length*100;
+  $('scoreFinal').textContent=score+'/'+QUIZ.length;
+  let niv,com;
+  if(p>=90){niv='Niveau Or — Directeur lumière';com='Impressionnant : vous lisez la lumière comme un pro. Vous pouvez créer n\'importe quel mood — doux, dramatique, cinéma — et le justifier techniquement.'}
+  else if(p>=75){niv='Niveau Argent — Œil exercé';com='Très bon niveau : les bases de l\'éclairage sont solides. Revoyez les thèmes où vous avez hésité — le quiz est rejouable à l\'infini.'}
+  else if(p>=55){niv='Niveau Bronze — Sensibilité en marche';com='Vous avez les instincts, mais certains réflexes manquent encore. Refaites le quiz dans une semaine après avoir relu les explications.'}
+  else{niv='Niveau Explorateur — Apprendre à voir';com='Normal au début : l\'éclairage se apprend en regardant la lumière partout. Commencez par repérer la direction du soleil et les ombres, puis rejouez ce quiz.'}
+  $('niveau').textContent=niv;$('commentaire').textContent=com;
+  const themes=Object.entries(parTheme).map(([t,v])=>({t,pct:v.ok/v.tot*100}));
+  const badges=[
+    {txt:'Lumière naturelle parfaite',ok:themes.find(x=>x.t==='Lumière naturelle')&&themes.find(x=>x.t==='Lumière naturelle').pct===100},
+    {txt:'Maîtrise du flash',ok:themes.find(x=>x.t==='Flash & artificielle')&&themes.find(x=>x.t==='Flash & artificielle').pct>=75},
+    {txt:'Scénarios réels sans faute',ok:themes.find(x=>x.t==='Scénarios réels')&&themes.find(x=>x.t==='Scénarios réels').pct===100},
+    {txt:'Série de 5+ bonnes réponses',ok:maxSerie>=5},
+    {txt:'Direction & qualité solide',ok:themes.find(x=>x.t==='Direction & qualité')&&themes.find(x=>x.t==='Direction & qualité').pct>=75},
+  ];
+  $('badges').innerHTML=badges.map(b=>'<span class="'+(b.ok?'badge-obtenu':'badge-verrouille')+'">'+(b.ok?'✓ ':'')+b.txt+'</span>').join('');
+  sauvegarder(score);afficherRecord();
+}
+
+afficherRecord();
+</script>
+</body>
+</html>

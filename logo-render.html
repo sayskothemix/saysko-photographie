@@ -7,10 +7,10 @@
 .ring{position:absolute;width:820px;height:820px;border-radius:50%;border:1px solid rgba(201,165,106,.10);top:100px;left:102px}
 .ring.two{width:740px;height:740px;top:140px;left:142px;border-color:rgba(201,165,106,.06)}
 /* platine pleine largeur, opacite modulee 1-2-1-2 */
-.impulse{position:absolute;top:300px;left:50%;width:980px;transform:translateX(-50%);opacity:.72;filter:drop-shadow(0 22px 36px rgba(0,0,0,.85));z-index:1}
+.impulse{position:absolute;top:300px;left:50%;width:980px;transform:translateX(-50%);filter:drop-shadow(0 22px 36px rgba(0,0,0,.85));z-index:1}
 .impulse img{width:100%;display:block}
 /* texte au centre de la platine */
-.name{position:absolute;top:420px;left:0;width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-size:116px;font-weight:500;letter-spacing:.28em;color:#f8f1e4;padding-left:.28em;z-index:4;text-shadow:1px 2px 2px rgba(0,0,0,.95),2px 5px 12px rgba(0,0,0,.85)}
+.name{position:absolute;top:420px;left:0;width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-size:116px;font-weight:500;letter-spacing:.28em;color:#f8f1e4;padding-left:.28em;z-index:4;-webkit-text-stroke:1px #c9a56a;text-shadow:1px 2px 2px rgba(0,0,0,.95),2px 5px 12px rgba(0,0,0,.85)}
 .name:after{content:'';display:block;width:210px;height:1px;margin:14px auto 0;background:linear-gradient(90deg,transparent,#e0bd85,transparent)}
 .sub{position:absolute;top:556px;left:50%;transform:translateX(-50%);padding:6px 22px 6px 30px;font-size:32px;font-weight:600;letter-spacing:.52em;color:#ffffff;padding-left:.52em;background:rgba(6,9,15,.82);z-index:5;white-space:nowrap}
 /* onde sonore : trait fin et régulier, dégradé ivoire-or */
@@ -22,7 +22,7 @@
 .eq i:nth-child(1){height:8px}.eq i:nth-child(2){height:15px}.eq i:nth-child(3){height:24px}.eq i:nth-child(4){height:13px}.eq i:nth-child(5){height:21px}.eq i:nth-child(6){height:11px}.eq i:nth-child(7){height:17px}.eq i:nth-child(8){height:7px}
 </style></head><body><div class="stage"><div class="logo">
 <div class="glow"></div><div class="ring"></div><div class="ring two"></div>
-<div class="impulse"><img src="impulse500-harmo.png" alt="Hercules Impulse 500"></div>
+<div class="impulse"><img src="impulse500-opacity.png" alt="Hercules Impulse 500"></div>
 <div class="name">SAYSKO</div><div class="sub">IN THE MIX</div>
 <div class="wave"><svg viewBox="0 0 560 56" preserveAspectRatio="none">
 <defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6d3f" stop-opacity="0"/><stop offset="0.2" stop-color="#e0bd85"/><stop offset="0.5" stop-color="#f6e0b8"/><stop offset="0.8" stop-color="#e0bd85"/><stop offset="1" stop-color="#8a6d3f" stop-opacity="0"/></linearGradient></defs>

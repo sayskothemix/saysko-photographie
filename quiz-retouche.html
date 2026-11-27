@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Quiz interactif retouche photo : exposition, balance des blancs, retouche locale, workflow et export — distinguez un retouche amateur d'un pro.">
+<title>Quiz Retouche — L'œil du pro | Saysko Photographie</title>
+<style>
+:root{--bg:#070a12;--surface:#0d1420;--surface2:#111a29;--txt:#f5f7fb;--muted:#9eacc0;--or:#c9a56a;--or-clair:#e8c98f;--vert:#7ec8a0;--rouge:#e07a6a;--line:rgba(201,165,106,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.7 "Segoe UI",system-ui,Roboto,sans-serif;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1100px 620px at 8% -6%,rgba(201,165,106,.10),transparent 62%),radial-gradient(900px 560px at 96% 8%,rgba(111,168,201,.08),transparent 60%),linear-gradient(180deg,#080d17 0%,var(--bg) 60%);background-attachment:fixed}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;letter-spacing:.01em}
+a{color:var(--or-clair)}
+.hero{padding:72px 24px 56px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,20,32,.9),rgba(7,10,18,.2))}
+.kicker{display:inline-block;font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+h1{margin:0;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.12;background:linear-gradient(100deg,#f5f7fb 10%,var(--or-clair) 70%,var(--or));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;margin:18px auto 0;color:var(--muted)}
+.stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.stat b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.8rem;color:var(--or-clair);font-weight:500}
+.stat span{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wrap{max-width:860px;margin:0 auto;padding:36px 20px 90px}
+.carrier{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.start{text-align:center;padding:40px 20px}
+.start h2{font-size:1.7rem;color:var(--or-clair);margin:0 0 10px}
+.start p{color:var(--muted);max-width:520px;margin:0 auto 24px}
+button{cursor:pointer;font-family:inherit}
+.btn-accueil{background:linear-gradient(135deg,var(--or),var(--or-clair));color:#14100a;border:0;border-radius:4px;padding:13px 34px;font-size:.95rem;font-weight:600;letter-spacing:.04em;transition:.3s}
+.btn-accueil:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,165,106,.28)}
+.progress{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:22px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--or),var(--or-clair));transition:width .5s cubic-bezier(.22,1,.36,1)}
+.motif{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.motif span{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--or)}
+.qnum{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.question{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.3;margin:10px 0 24px}
+.question em{color:var(--or-clair);font-style:italic}
+.choix{display:grid;gap:10px}
+.choix button{text-align:left;background:var(--surface2);color:var(--txt);border:1px solid var(--line);border-radius:5px;padding:13px 16px;font-size:.92rem;transition:.25s}
+.choix button:hover:not(:disabled){border-color:var(--or);transform:translateX(4px)}
+.choix button.bon{border-color:var(--vert);color:var(--vert);background:rgba(126,200,160,.06)}
+.choix button.mauvais{border-color:var(--rouge);color:var(--rouge);background:rgba(224,122,106,.06)}
+.choix button:disabled{cursor:default}
+.feedback{margin-top:18px;border-left:2px solid var(--or);background:rgba(201,165,106,.05);padding:14px 18px;border-radius:0 5px 5px 0;font-size:.88rem;color:var(--muted);display:none}
+.feedback.visible{display:block;animation:entree .4s ease}
+.feedback strong{color:var(--or-clair);display:block;margin-bottom:4px}
+@keyframes entree{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.suite{margin-top:20px;display:none}
+.suite.visible{display:block}
+.btn-suite{background:transparent;color:var(--or);border:1px solid var(--or);border-radius:4px;padding:9px 22px;font-size:.88rem;transition:.3s}
+.btn-suite:hover{background:rgba(201,165,106,.1);transform:translateY(-2px)}
+.sans-suite{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.serie{font-size:.8rem;color:var(--vert);letter-spacing:.05em}
+.result{text-align:center;padding:36px 16px}
+.result h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 6px}
+.result .score{font-family:"Cormorant Garamond",Georgia,serif;font-size:3rem;color:var(--or-clair);margin:12px 0 4px}
+.result .niveau{color:var(--or);font-size:.75rem;letter-spacing:.26em;text-transform:uppercase;margin-bottom:16px}
+.result p{color:var(--muted);max-width:520px;margin:0 auto 20px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.badge-obtenu,.badge-verrouille{border-radius:4px;padding:6px 14px;font-size:.78rem;border:1px solid var(--line)}
+.badge-obtenu{color:var(--or-clair);border-color:var(--or)}
+.badge-verrouille{color:var(--muted);opacity:.55}
+.rejouer{background:none;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:9px 20px;font-size:.85rem;margin-top:10px}
+.rejouer:hover{color:var(--or-clair);border-color:var(--or)}
+.retour{display:inline-block;margin-top:26px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.retour:hover{color:var(--or-clair)}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em;padding:30px 16px;border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.suite,.retour,.btn-accueil,.rejouer{display:none}.carrier{background:#fff;color:#111;border-color:#ccc}.question,.result h2,.result .score{color:#111}.choix button{color:#111;border-color:#ccc}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
+<header class="hero">
+  <span class="kicker">Saysko Photographie · Apprendre</span>
+  <h1>L'œil du<br>retoucheur</h1>
+  <p>Un quiz pour distinguer un retouche amateur d'un pro : exposition, couleurs, retouche locale, workflow et export. 20 questions, une correction après chaque réponse.</p>
+  <div class="stats">
+    <div class="stat"><b>20</b><span>questions</span></div>
+    <div class="stat"><b>5</b><span>thèmes</span></div>
+    <div class="stat"><b>100%</b><span>pédagogique</span></div>
+    <div class="stat"><b>~7 min</b><span>durée</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="carrier" id="carrier">
+    <section class="start" id="ecranDebut">
+      <h2>Prêt à tester votre œil de retouche ?</h2>
+      <p>Répondez aux 20 questions sur la retouche photo. Après chaque réponse, une explication courte vous dit pourquoi — c'est là que se joue la vraie progression. Le meilleur score est sauvegardé sur cet appareil.</p>
+      <button class="btn-accueil" onclick="commencer()">Commencer le quiz</button>
+      <div id="record" style="margin-top:18px;font-size:.82rem;color:var(--muted)"></div>
+      <div><a class="retour" href="quiz-lightroom.html">Quiz Lightroom</a> · <a class="retour" href="tutoriels-lightroom.html">Tutoriels Lightroom</a></div>
+    </section>
+
+    <section id="ecranQuiz" style="display:none">
+      <div class="progress"><i id="barre"></i></div>
+      <div class="motif"><span id="theme">Tons & exposition</span><span class="qnum" id="qnum">Question 1 / 20</span></div>
+      <div class="question" id="question"></div>
+      <div class="choix" id="choix"></div>
+      <div class="feedback" id="feedback"><strong id="fbTitre"></strong><span id="fbTexte"></span><br><a id="fbVideo" href="#" target="_blank" rel="noopener" style="display:none;color:var(--or-clair);font-size:.85rem;margin-top:8px">Voir la leçon vidéo →</a></div>
+      <div class="sans-suite"><span class="serie" id="serie"></span>
+        <div class="suite" id="suite"><button class="btn-suite" id="btnSuite" onclick="suivante()">Question suivante</button></div>
+      </div>
+    </section>
+
+    <section class="result" id="ecranResultat" style="display:none">
+      <h2>Résultat</h2>
+      <div class="score" id="scoreFinal">0/20</div>
+      <div class="niveau" id="niveau"></div>
+      <p id="commentaire"></p>
+      <div class="badges" id="badges"></div>
+      <button class="btn-accueil" onclick="commencer()">Rejouer</button>
+      <button class="rejouer" onclick="retourDebut()">Quitter</button>
+      <div><a class="retour" href="quiz-lightroom.html">Quiz Lightroom</a> · <a class="retour" href="tutoriels-lightroom.html">Tutoriels Lightroom</a></div>
+    </section>
+  </div>
+</main>
+
+<footer>Saysko Photographie — Apprendre à voir, à régler, à créer.</footer>
+
+<script>
+const QUIZ=[
+{t:"Tons & exposition",q:"Sur l'histogramme, les <em>hautes lumières sont collées au bord droit</em>. Que risque-t-on ?",
+ c:["Une image trop sombre","Des hautes lumières cramées : détails irrécupérables dans les zones claires","Un problème de netteté","Rien, c'est normal en RAW"],
+ b:1,
+ e:"Les tons clairs ont touché le bord droit : le ciel, les murs blancs, les cheveux clairs perdent leurs détails. En RAW, on récupère souvent une partie, mais si c'est écrasé au capteur, c'est définitif. Exposez pour les hautes lumières."},
+{t:"Tons & exposition",q:"Une photo <em>sous-exposée en RAW</em> se rattrape mieux qu'une photo <em>surexposée</em> parce que…",
+ c:["Le RAW est symétrique","Les capteurs enregistrent plus de détails dans les zones sombres que dans les zones cramées","Le JPEG est meilleur en sous-expo","C'est faux, les deux sont identiques"],
+ b:1,
+ e:"Les capteurs photos ont une plage dynamique asymétrique : on récupère typiquement 4-6 stops dans les ombres contre 1-2 dans les hautes lumières. Règle pro : en doute, sous-exposez légèrement — les ombres se rattrapent, les hautes lumières cramées non."},
+{t:"Tons & exposition",q:"La différence entre le curseur <em>Contraste</em> et <em>Clarté/Texture</em> :",
+ c:["Aucune, ce sont deux noms","Contraste = tons globaux (ombres plus sombres, lumières plus claires) ; Clarté = détails locaux (micro-contraste)","Contraste est automatique, Clarté manuel","Clarté ne sert qu'en RAW"],
+ b:1,
+ e:"Le contraste agit sur l'écart global entre tons clairs et sombres. La clarté (Texture/Clarté/Structure selon le logiciel) agit sur les détails fins : elle accentue les textures sans toucher aux grandes zones. Trop de clarté = effet « HDR » plastique."},
+{t:"Tons & exposition",q:"Vous voulez une image <em>plus « punchy » et contrastée</em> sans écraser les tons extrêmes. Outil idéal :",
+ c:["Exposition +2 EV","Curseur Contraste ou courbe en S douce","Saturation +50","Recadrage serré"],
+ b:1,
+ e:"Le contraste ou une courbe en S modérée élargit l'écart tonal sans pousser les extrêmes dans le rouge. Attention : +2 EV d'exposition va cramper les hautes lumières. Le contraste travaille sur la répartition, pas sur la quantité de lumière."},
+{t:"Couleur & balance des blancs",q:"La méthode la plus fiable pour régler la <em>balance des blancs</em> :",
+ c:["À l'œil jusqu'à ce que ça plaise","La pipette sur une zone neutre (blanc/gris) dans l'image","Toujours 5500K en extérieur","Laisser l'automatique"],
+ b:1,
+ e:"Un blanc ou gris neutre éclairé par la même lumière que le sujet donne la référence parfaite. La pipette « Échantillonner une couleur » (ou la Balance des blancs dans C1) lit cette zone et corrige Température + Teinte d'un coup."},
+{t:"Couleur & balance des blancs",q:"Un portrait a la peau <em>trop orange</em>. Vous corrigez avec…",
+ c:["Température vers le bleu + Teinte vers le vert","Température vers le bleu uniquement","Saturation +20","Exposition -1 EV"],
+ b:0,
+ e:"Température contrôle orange↔bleu : descendez-la pour refroidir. Teinte contrôle vert↔magenta : si la peau tire vers le rouge/magenta, ajoutez un peu de vert. Les deux curseurs ensemble = chair naturelle."},
+{t:"Couleur & balance des blancs",q:"<em>Vibrance</em> vs <em>Saturation</em> : la différence clé est que la Vibrance…",
+ c:["Sature tout pareil","Protège les couleurs déjà saturées et privilégie les tons ternes (peau)","Ne marche qu'en RAW","Est automatique"],
+ b:1,
+ e:"La saturation +30 pousse aussi le rouge des lèvres et le bleu du ciel déjà forts → aspect criard. La vibrance agit d'abord sur les couleurs faibles et épargne les zones saturées — beaucoup plus sûr pour un portrait."},
+{t:"Couleur & balance des blancs",q:"Pour un <em>ciel plus bleu</em> sans toucher au reste, l'outil ciblé est…",
+ c:["Le curseur Exposition","HSL : sélectionnez la plage « Bleu » et ajustez Teinte/Saturation","Le vignettage","Le filtre gradué noir"],
+ b:1,
+ e:"L'onglet HSL (ou la plage de couleurs dans C1) permet de modifier une famille de couleurs isolément. Vous augmentez la saturation des Bleus ou déplacez leur teinte vers le cyan/bleu pur — le reste de l'image ne bouge pas."},
+{t:"Retouche locale",q:"Éclaircir <em>uniquement le visage</em> sans toucher au fond : l'outil est…",
+ c:["Le curseur Exposition global","Un masque/ajustement local (pinceau, dégradé ou sélection) avec exposition locale","Le filtre graduated global","Le recadrage"],
+ b:1,
+ e:"On crée un masque limité au visage (pinceau ou sélection par plage) puis on remonte l'exposition locale. Résultat : visage lumineux, fond inchangé. C'est la base de la retouche portrait professionnelle."},
+{t:"Retouche locale",q:"Pour <em>assombrir un ciel trop clair</em> en partant de l'horizon, l'outil idéal est…",
+ c:["Le pinceau partout","Le filtre gradué (dégradé) avec exposition négative","Le vignettage","Le sélecteur de couleur"],
+ b:1,
+ e:"Le dégradé va du foncé en haut vers transparent en bas : parfait pour un ciel ou une mer. Vous tirez de l'horizon vers le haut, puis baissez l'exposition locale. Le masque suit la ligne d'horizon proprement."},
+{t:"Retouche locale",q:"Des <em>points blancs/poussière</em> sur le capteur apparaissent sur toutes les photos du shooting. Correction :",
+ c:["Les cloner un par un sur chaque photo","Corriger sur la première photo puis copier/synchroniser les réglages aux autres","Les supprimer en post-traitement automatique","Les ignorer"],
+ b:1,
+ e:"Les dust spots sont fixes sur le capteur : même position sur toutes les photos. Corrigez une fois (outil Spot/Clone), puis copiez les réglages ou synchronisez — le masque se reproduit sur toute la série."},
+{t:"Retouche locale",q:"Pour une retouche <em>peau réaliste</em>, la règle d'or est…",
+ c:["Gommer tous les pores jusqu'à la plastique","Légère correction des imperfections + conserver la texture naturelle","Bruit + netteté au max","Flou total sur le visage"],
+ b:1,
+ e:"Une peau retouchée pro garde ses pores, ses imperfections subtiles. On corrige rougeurs, boutons, cernes marqués — mais jamais tout lisser. Le but est une peau « reposée », pas un masque. Le zoom 100% est obligatoire pour vérifier."},
+{t:"Savoir-faire",q:"La technique <em>dodge & burn</em> (éclaircir/sombrir localement) sert surtout à…",
+ c:["Changer la balance des blancs","Sculpter le visage : creuser les joues, illuminer les pommettes, guider le regard","Ajouter du bruit","Créer un HDR"],
+ b:1,
+ e:"Le dodge & burn est la technique de retouche la plus ancienne (déjà chez les photographes d'argent) : on éclaire ou assombrit par petites touches pour modeler les volumes du visage. Subtil = invisible ; poussé = sculptural."},
+{t:"Savoir-faire",q:"La touche <em>Y (avant/après)</em> en retouche sert à…",
+ c:["Exporter plus vite","Vérifier instantanément qu'on n'en a pas trop fait (sur-retouche, halos)","Passer au projet suivant","Supprimer l'historique"],
+ b:1,
+ e:"Comparer l'original à la version retouchée en temps réel est LE réflexe pro. On voit immédiatement les zones trop poussées : peau plastique, ciel cramé, halos. Sans ce réflexe, la plupart des débutants sur-retouchent."},
+{t:"Savoir-faire",q:"Un <em>preset/préréglage</em> appliqué à tout un shooting assure…",
+ c:["Une qualité automatique","Une cohérence de style entre toutes les photos","Une vitesse d'export","Une protection contre le vol"],
+ b:1,
+ e:"Le preset applique le même look (courbe, WB, contraste) à toutes les images : le portfolio garde une identité visuelle. Attention : il faut souvent ajuster légèrement chaque photo ensuite — le preset est un point de départ, pas un finish."},
+{t:"Savoir-faire",q:"Pour un portrait, on corrige <em>d'abord</em> dans l'ordre :",
+ c:["Détails → couleur → exposition","Balance des blancs → exposition → retouche locale → couleur fine","Netteté → recadrage → export","Saturation → contraste → vignettage"],
+ b:1,
+ e:"L'ordre logique : WB d'abord (sinon les couleurs jugées sont fausses), puis exposition globale (les fondations), retouche locale (visage), enfin couleur fine (HSL, courbe) et export. Retoucher avant de poser les bases = tout refaire deux fois."},
+{t:"Export & réseaux",q:"Pour <em>Instagram</em>, l'espace colorimétrique et le format idéaux sont…",
+ c:["Adobe RGB en TIFF","sRGB en JPEG, qualité 85-90","ProPhoto en PNG","sRGB en RAW"],
+ b:1,
+ e:"Instagram convertit tout en JPEG sRGB : exportez directement en sRGB pour éviter les dérives de couleur. Qualité 85-90 = bon compromis poids/qualité. RAW sur Instagram = refusé ou écrasé."},
+{t:"Export & réseaux",q:"Les dimensions idéales pour un post <em>carré Instagram</em> :",
+ c:["500×500 px","1080×1080 px","4000×4000 px","1920×1080 px"],
+ b:1,
+ e:"1080×1080 px est le format carré standard : net sur tous les écrans sans être trop lourd. Pour le 4:5 portrait (plus de visibilité dans le feed) : 1080×1350. N'exportez jamais plus grand que nécessaire pour le web."},
+{t:"Export & réseaux",q:"Le <em>nettoyage/renforcement</em> (sharpening) pour le web se fait…",
+ c:["À 100% sur l'écran, après redimensionnement","Uniquement sur l'original plein format","Jamais, Instagram s'en charge","En RAW uniquement"],
+ b:0,
+ e:"Le sharpening dépend de la taille finale : une photo réduite à 1080px a besoin de plus de netteté qu'un tirage. On affine sur l'export final à 100%, jamais sur l'original avant réduction — sinon l'image paraît dure et bruitée."},
+{t:"Export & réseaux",q:"Un <em>watermark/logo</em> sur les photos publiées sert à…",
+ c:["Améliorer la qualité","Protéger le travail et renforcer la marque Saysko","Rendre l'image plus lourde","Obligatoire pour Instagram"],
+ b:1,
+ e:"Un watermark discret (logo en coin, opacité ~30-50%) protège contre le vol d'image et fait de chaque photo une pub pour ta marque. Trop visible = gâche la photo ; trop discret = inefficace. L'équilibre est dans la subtilité."}
+];
+
+let i=0,score=0,serie=0,maxSerie=0,parTheme={};
+const VIDEO={
+"Tons & exposition":"https://www.youtube.com/results?search_query=retouche+photo+exposition+histogramme+tutoriel",
+"Couleur & balance des blancs":"https://www.youtube.com/results?search_query=balance+des+blancs+retouche+peau+tutoriel",
+"Retouche locale":"https://www.youtube.com/results?search_query=retouche+locale+pinceau+masque+photo+tutoriel",
+"Savoir-faire":"https://www.youtube.com/results?search_query=retouche+peau+dodge+burn+tutoriel+francais",
+"Export & réseaux":"https://www.youtube.com/results?search_query=export+photo+instagram+sRGB+dimensions+tutoriel"
+};
+const $=id=>document.getElementById(id);
+
+function melanger(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function ordre(){const idx=QUIZ.map((_,k)=>k);return melanger(idx)}
+let file=ordre();
+
+function afficherRecord(){
+  try{const r=JSON.parse(localStorage.getItem('quizRetoucheRecord')||'null');
+    if(r)$('record').textContent='Meilleur score : '+r.score+'/'+r.total+' — '+r.date;
+  }catch(e){}
+}
+function sauvegarder(score){
+  try{
+    const r=JSON.parse(localStorage.getItem('quizRetoucheRecord')||'null');
+    if(!r||score>r.score)localStorage.setItem('quizRetoucheRecord',JSON.stringify({score:score,total:QUIZ.length,date:new Date().toLocaleDateString('fr-FR')}));
+  }catch(e){}
+}
+
+function commencer(){
+  file=ordre();i=0;score=0;serie=0;maxSerie=0;parTheme={};
+  $('ecranDebut').style.display='none';$('ecranResultat').style.display='none';$('ecranQuiz').style.display='block';
+  question();
+}
+function retourDebut(){$('ecranResultat').style.display='none';$('ecranQuiz').style.display='none';$('ecranDebut').style.display='block';afficherRecord()}
+
+function question(){
+  const q=QUIZ[file[i]];
+  $('theme').textContent=q.t;
+  $('qnum').textContent='Question '+(i+1)+' / '+QUIZ.length;
+  $('barre').style.width=(i/QUIZ.length*100)+'%';
+  $('question').innerHTML=q.q;
+  $('serie').textContent=serie>1?('Série : '+serie):'';
+  $('feedback').className='feedback';$('suite').className='suite';
+  $('choix').innerHTML='';
+  const ordreC=melanger(q.c.map((txt,k)=>({txt,k})));
+  ordreC.forEach(o=>{
+    const b=document.createElement('button');
+    b.innerHTML=o.txt;
+    b.onclick=()=>repondre(b,o.k===q.b,q);
+    $('choix').appendChild(b);
+  });
+}
+function repondre(btn,ok,q){
+  [...$('choix').children].forEach(b=>{b.disabled=true;if(b.innerHTML===q.c[q.b])b.classList.add('bon')});
+  if(!ok)btn.classList.add('mauvais');
+  if(ok){score++;serie++;maxSerie=Math.max(maxSerie,serie)}else serie=0;
+  parTheme[q.t]=parTheme[q.t]||{ok:0,tot:0};parTheme[q.t].tot++;if(ok)parTheme[q.t].ok++;
+  $('fbTitre').textContent=ok?'Correct':'Raté — la bonne réponse : « '+q.c[q.b]+' »';
+  $('fbTexte').textContent=q.e;
+  const fv=$('fbVideo'),vq=VIDEO[q.t];
+  if(vq){fv.href=vq;fv.style.display='inline'}else fv.style.display='none';
+  $('feedback').className='feedback visible';
+  $('suite').className='suite visible';
+  $('btnSuite').textContent=i<QUIZ.length-1?'Question suivante':'Voir le résultat';
+}
+function suivante(){i++;if(i>=QUIZ.length)resultat();else question()}
+
+function resultat(){
+  $('ecranQuiz').style.display='none';$('ecranResultat').style.display='block';
+  $('barre').style.width='100%';
+  const p=score/QUIZ.length*100;
+  $('scoreFinal').textContent=score+'/'+QUIZ.length;
+  let niv,com;
+  if(p>=90){niv='Niveau Or — Retouche pro';com='Impressionnant : vous avez l\'œil d\'un retoucheur confirmé. Workflow propre, retouche locale maîtrisée, export sans faute — vous pouvez vendre ce niveau.'}
+  else if(p>=75){niv='Niveau Argent — Œil en formation';com='Très bon niveau : les bases sont solides. Revoyez les thèmes où vous avez hésité — le quiz est rejouable à l\'infini.'}
+  else if(p>=55){niv='Niveau Bronze — Bonnes bases';com='Vous avez les instincts, mais certains réflexes manquent encore. Refaites le quiz dans une semaine après avoir relu les explications.'}
+  else{niv='Niveau Explorateur — Apprendre la retouche';com='Normal au début : la retouche photo s\'apprend. Commencez par la balance des blancs et l\'exposition, puis rejouez ce quiz.'}
+  $('niveau').textContent=niv;$('commentaire').textContent=com;
+  const themes=Object.entries(parTheme).map(([t,v])=>({t,pct:v.ok/v.tot*100}));
+  const badges=[
+    {txt:'Tons & exposition parfaits',ok:themes.find(x=>x.t==='Tons & exposition')&&themes.find(x=>x.t==='Tons & exposition').pct===100},
+    {txt:'Couleur maîtrisée',ok:themes.find(x=>x.t==='Couleur & balance des blancs')&&themes.find(x=>x.t==='Couleur & balance des blancs').pct>=75},
+    {txt:'Export sans faute',ok:themes.find(x=>x.t==='Export & réseaux')&&themes.find(x=>x.t==='Export & réseaux').pct===100},
+    {txt:'Série de 5+ bonnes réponses',ok:maxSerie>=5},
+    {txt:'Savoir-faire solide',ok:themes.find(x=>x.t==='Savoir-faire')&&themes.find(x=>x.t==='Savoir-faire').pct>=75},
+  ];
+  $('badges').innerHTML=badges.map(b=>'<span class="'+(b.ok?'badge-obtenu':'badge-verrouille')+'">'+(b.ok?'✓ ':'')+b.txt+'</span>').join('');
+  sauvegarder(score);afficherRecord();
+}
+
+afficherRecord();
+</script>
+</body>
+</html>
