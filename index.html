@@ -7,14 +7,29 @@
 <meta name="description" content="Portfolio de Saysko, photographe spécialisé en photo de studio et strobisme : portraits, lumière sculptée, cours gratuits.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=13">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="site.css?v=28">
 <script>
   try {
     if (localStorage.getItem("saysko_intro_seen") === "1") {
       document.documentElement.classList.add("intro-seen");
     }
   } catch (e) {}
+  // Téléphones -> version mobile dédiée ; ?desktop=1 force la version web.
+  (function () {
+    if (/[?&]desktop=1/.test(location.search)) {
+      try { sessionStorage.setItem('saysko_force_desktop','1'); } catch (e) {}
+      return;
+    }
+    try { if (sessionStorage.getItem('saysko_force_desktop') === '1') return; } catch (e) {}
+    var mobile = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent) ||
+                 (window.matchMedia && window.matchMedia('(max-width: 760px)').matches);
+    if (mobile && location.pathname.indexOf('mobile.html') === -1) {
+      location.replace('mobile.html');
+    }
+  })();
 </script>
 <style>
   html.intro-open, html.intro-open body { overflow: hidden; }
@@ -23,7 +38,7 @@
   .site-controls { position: fixed; top: 18px; right: 18px; z-index: 10000; display: flex; gap: 8px; }
   .site-controls button {
     width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
-    background: rgba(8,7,10,0.72); border: 1px solid rgba(224,189,133,0.45);
+    background: rgba(7,10,18,0.72); border: 1px solid rgba(201,165,106,0.45);
     color: var(--accent); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
     transition: background 0.25s, color 0.25s, transform 0.25s;
   }
@@ -31,17 +46,24 @@
 
   /* ---------- PETITS AJUSTEMENTS PAGE D'ACCUEIL ---------- */
   main { padding-top: 72px; }
-  #portfolio { padding: 90px 0 20px; }
+  #portfolio { padding: 26px 0 34px; }
+  #portfolio .section-header { margin-bottom: 22px; }
+  #portfolio .carousel { max-width: 900px; }
+  #portfolio .carousel-viewport { aspect-ratio: 16 / 7.2; }
+  #portfolio .slide { width: min(56%, 540px); height: 80%; }
+  #portfolio .view-modes, #portfolio .filter-bar { margin-bottom: 18px; }
+  #portfolio .univers-more { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 12px; }
+  #portfolio .univers-intro { margin: 0; max-width: 620px; color: var(--muted); font-size: 0.9rem; line-height: 1.6; font-style: italic; text-align: center; }
   .about-wrap { padding-bottom: 10px; }
   #contact { padding-bottom: 90px; }
   /* ---------- MENU MOBILE ---------- */
-  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(224,189,133,0.4); background: rgba(224,189,133,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid rgba(201,165,106,0.4); background: rgba(201,165,106,0.06); color: var(--accent); cursor: pointer; border-radius: 2px; font-size: 1.2rem; line-height: 1; }
   @media (max-width: 780px) {
     .menu-toggle { display: flex; align-items: center; justify-content: center; }
     nav {
       position: fixed; top: 72px; left: 0; right: 0; min-height: calc(100dvh - 72px);
       flex-direction: column; align-items: stretch; gap: 0;
-      background: #08070a; border-bottom: 1px solid rgba(224,189,133,0.2);
+      background: #070a12; border-bottom: 1px solid rgba(201,165,106,0.2);
       padding: 10px 20px 20px; transform: translateY(-150%); opacity: 0;
       transition: transform 0.35s ease, opacity 0.3s; z-index: 9000;
     }
@@ -67,7 +89,7 @@
 
   /* Introduction photo et iris mecanique SVG */
   html.intro-open, html.intro-open body { overflow: hidden; }
-  html.intro-seen .intro, html.intro-seen .iris-transition { display: none; }
+  html.intro-seen .intro, html.intro-seen .iris-transition:not(.is-active) { display: none; }
   html.intro-open .site-controls { display: none; }
   .intro {
     position: fixed; inset: 0; z-index: 9000;
@@ -138,7 +160,7 @@
 }
 #apropos::after {
   content: ''; position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(180deg, rgba(8,7,10,0.82) 0%, rgba(8,7,10,0.88) 55%, rgba(8,7,10,0.96) 100%);
+  background: linear-gradient(180deg, rgba(7,10,18,0.82) 0%, rgba(7,10,18,0.88) 55%, rgba(7,10,18,0.96) 100%);
   pointer-events: none;
 }
 #apropos > .container { position: relative; z-index: 1; }
@@ -147,14 +169,14 @@
 .saysko-bot { position: fixed; right: 20px; bottom: 22px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-family: inherit; pointer-events: none; }
 .bot-bubble {
   width: 320px; max-width: calc(100vw - 32px); max-height: 70vh; overflow: auto;
-  background: rgba(13,12,15,0.97); border: 1px solid rgba(224,189,133,0.35);
+  background: rgba(13,20,32,0.97); border: 1px solid rgba(201,165,106,0.35);
   box-shadow: 0 24px 60px rgba(0,0,0,0.6); border-radius: 4px;
   transform: translateY(14px) scale(0.98); opacity: 0; pointer-events: none;
   transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .25s;
 }
 .saysko-bot.open .bot-bubble { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; } .bot-launch { pointer-events: auto; }
-.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(224,189,133,0.18); }
-.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0b0d; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
+.bot-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(201,165,106,0.18); }
+.bot-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #070a12; font-weight: 700; font-size: .85rem; flex: 0 0 auto; }
 .bot-head strong { display: block; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); }
 .bot-head small { display: block; color: var(--accent); font-size: .65rem; letter-spacing: 1px; margin-top: 2px; }
 .bot-close { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 6px; }
@@ -172,22 +194,166 @@
 .bot-accordion.open .bot-q::after { transform: rotate(45deg); }
 .bot-a { display: none; padding: 0 2px 12px; color: var(--muted); font-size: .73rem; line-height: 1.75; }
 .bot-accordion.open .bot-a { display: block; animation: botFade .25s ease; }
-.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(224,189,133,.35); }
+.bot-a a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(201,165,106,.35); }
 @keyframes botFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(224,189,133,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
+.bot-foot { padding: 10px 14px; border-top: 1px solid rgba(201,165,106,.18); color: var(--muted); font-size: .64rem; letter-spacing: .5px; }
 .bot-launch {
   width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border: 0; color: #0b0b0d; font-size: 1.4rem; font-weight: 700;
+  border: 0; color: #070a12; font-size: 1.4rem; font-weight: 700;
   box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s, box-shadow .2s;
 }
-.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(224,189,133,.35); }
+.bot-launch:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(201,165,106,.35); }
 @media (max-width: 600px) { .saysko-bot { right: 14px; bottom: 14px; } }
+
+/* ========== CHAPITRES HORIZONTAUX ========== */
+html.chapters-mode, html.chapters-mode body { overflow: hidden; height: 100%; }
+.chapters { position: fixed; inset: 0; overflow: hidden; overflow-x: hidden; overscroll-behavior-x: none; }
+.chapters-track { display: flex; height: 100%; width: 100%; transition: transform .8s cubic-bezier(.76,0,.24,1); }
+.chapter { flex: 0 0 100vw; width: 100vw; height: 100%; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; padding: 100px 0 90px; position: relative; }
+.chapter::-webkit-scrollbar { display: none; }
+.chapter[data-ambiance="studio"] {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(7,10,18,.18) 0%, rgba(7,10,18,.62) 100%),
+    url("bg-studio-softbox.jpg") center center / cover no-repeat;
+}
+.chapter[data-ambiance="about"] {
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(201,165,106,.06) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(7,10,18,.92) 0%, rgba(7,10,18,.7) 100%),
+    url("bg-about.jpg") center center / cover no-repeat;
+}
+.live-btn { display:inline-flex; align-items:center; gap:9px; margin-left:10px; border-color:rgba(201,165,106,.55); background:rgba(201,165,106,.08); color:var(--accent); }
+.live-btn:hover { background:rgba(201,165,106,.18); }
+.live-dot { width:8px; height:8px; border-radius:50%; background:#ff4d5e; box-shadow:0 0 0 0 rgba(255,77,94,.6); animation:livePulse 1.8s infinite; }
+@keyframes livePulse { 0%{box-shadow:0 0 0 0 rgba(255,77,94,.55)} 70%{box-shadow:0 0 0 8px rgba(255,77,94,0)} 100%{box-shadow:0 0 0 0 rgba(255,77,94,0)} }
+.chapter[data-ambiance="retouche"] {
+  background: linear-gradient(90deg, rgba(7,10,18,.82) 0%, rgba(7,10,18,.5) 45%, rgba(7,10,18,.82) 100%), url("bg-retouche.jpg") center center / cover no-repeat;
+}
+.chapter[data-ambiance="formation"] {
+  background: linear-gradient(90deg, rgba(7,10,18,.86) 0%, rgba(7,10,18,.55) 45%, rgba(7,10,18,.86) 100%), url("station-retouche-3ecrans.jpg") center center / cover no-repeat;
+}
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(7,10,18,.88) 0%, rgba(7,10,18,.72) 45%, rgba(7,10,18,.88) 100%), url("bg-galerie.png") center center / cover no-repeat; }
+.chapter[data-ambiance="contact"] { background: linear-gradient(90deg, rgba(7,10,18,.86) 0%, rgba(7,10,18,.55) 45%, rgba(7,10,18,.86) 100%), url("bg-contact.jpg") center center / cover no-repeat; }
+.chapter::before { content:''; position:absolute; inset:0; pointer-events:none; opacity:.5; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E"); }
+/* Navigation */
+.chapter-nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; align-items: center; gap: 16px; }
+.chapter-arrow { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,9,11,.7); border: 1px solid rgba(201,165,106,.45); color: var(--accent); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: .25s; }
+.chapter-arrow:hover { background: var(--accent); color: #070a12; }
+.chapter-arrow:disabled { opacity: .25; cursor: default; }
+.chapter-dots { display: flex; gap: 10px; }
+.chapter-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(201,165,106,.55); background: transparent; cursor: pointer; padding: 0; transition: .25s; }
+.chapter-dot.active { background: var(--accent); box-shadow: 0 0 12px rgba(201,165,106,.6); }
+.chapter-label { position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%); z-index: 300; color: var(--accent); font-family: "Montserrat",sans-serif; font-size: .62rem; letter-spacing: 3px; text-transform: uppercase; opacity: .8; }
+/* Retouche */
+.retouche-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; max-width: 1100px; margin: 40px auto 0; }
+.retouche-img img { width: 100%; border-radius: 4px; border: 1px solid rgba(201,165,106,.25); display: block; }
+.retouche-text .about-kicker { color: var(--accent); font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+.retouche-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+.retouche-text .btn { display: inline-block; margin-top: 10px; }
+@media (max-width: 900px) { .retouche-wrap { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .chapter-nav { bottom: 12px; } .chapter-label { bottom: 62px; } }
+
+
+/* Lecteur d'ambiance dans chaque chapitre */
+.chapter-player { position: absolute; top: 96px; right: 5%; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 9px 14px; background: rgba(10,9,11,.55); border: 1px solid rgba(201,165,106,.3); border-radius: 40px; backdrop-filter: blur(6px); }
+.player-toggle { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: .9rem; cursor: pointer; transition: .25s; }
+.player-toggle:hover { background: var(--accent); color: #070a12; }
+.player-info { display: flex; flex-direction: column; line-height: 1.3; }
+.player-title { color: var(--text); font-family: "Montserrat",sans-serif; font-size: .66rem; letter-spacing: 1.2px; text-transform: uppercase; }
+.player-sub { color: var(--muted); font-size: .58rem; letter-spacing: .6px; }
+.player-bars { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.player-bars i { display: block; width: 3px; height: 5px; background: var(--accent); border-radius: 2px; opacity: .5; }
+.chapter-player.playing .player-bars i { animation: eq .9s ease-in-out infinite alternate; opacity: 1; }
+.chapter-player.playing .player-bars i:nth-child(2) { animation-delay: .2s; }
+.chapter-player.playing .player-bars i:nth-child(3) { animation-delay: .4s; }
+.chapter-player.playing .player-bars i:nth-child(4) { animation-delay: .15s; }
+@keyframes eq { from { height: 4px; } to { height: 17px; } }
+@media (max-width: 700px) { .chapter-player { top: 74px; right: 14px; padding: 6px 10px; } .player-bars { display: none; } }
+
+
+/* ===== FONDS ANIMÉS (CSS/SVG/Canvas) — galerie & contact ===== */
+.chapter[data-ambiance="galerie"] { background: linear-gradient(90deg, rgba(7,10,18,.88) 0%, rgba(7,10,18,.72) 45%, rgba(7,10,18,.88) 100%), url("bg-galerie.png") center center / cover no-repeat; }
+.chapter[data-ambiance="contact"] { background: linear-gradient(90deg, rgba(7,10,18,.86) 0%, rgba(7,10,18,.55) 45%, rgba(7,10,18,.86) 100%), url("bg-contact.jpg") center center / cover no-repeat; }
+.fond-anime { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.fond-anime canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .85; }
+.fond-anime::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(8,7,6,.92) 0%, rgba(8,7,6,.86) 38%, rgba(8,7,6,.45) 72%, rgba(8,7,6,.85) 100%);
+}
+.fond-anime::before {
+  content:''; position:absolute; inset:0; z-index:2; opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift .6s steps(3) infinite;
+}
+@keyframes grainShift { 0%{transform:translate(0,0)} 33%{transform:translate(-2%,1%)} 66%{transform:translate(1%,-2%)} 100%{transform:translate(0,0)} }
+.chapter[data-ambiance="galerie"] > .container, .chapter[data-ambiance="contact"] > .container { position: relative; z-index: 3; }
+
+/* ========== MOBILE : tout le site ========== */
+@media (max-width: 700px) {
+  /* Chapitres plein écran : moins de padding, texte lisible et non coupé */
+  main { padding-top: 60px; }
+  .chapter { padding: 70px 16px 96px; }
+  .chapter .container { padding: 0 4px; }
+  .section-header { margin-bottom: 16px; }
+  .section-header h2 { font-size: clamp(1.9rem, 8vw, 2.6rem); line-height: 1.1; }
+  .section-header .line { margin-top: 14px; }
+  .chapter p, .retouche-text p, .about-text p, .contact p { font-size: 0.9rem; line-height: 1.55; }
+  .about-wrap, .retouche-wrap { gap: 20px; margin-top: 18px; }
+  .retouche-img { max-width: 420px; margin: 0 auto; }
+  /* Lecteur d'ambiance : sous le titre, plus petit */
+  .chapter-player { top: 124px; right: 12px; padding: 4px 8px; gap: 6px; }
+  .player-toggle { width: 24px; height: 24px; font-size: .75rem; }
+  .player-title { font-size: .56rem; }
+  .player-sub { font-size: .5rem; }
+  /* Navigation et label : placement sûr au-dessus du bouton assistant */
+  .chapter-nav { bottom: 14px; gap: 10px; }
+  .chapter-arrow { width: 38px; height: 38px; }
+  .chapter-dots { gap: 7px; }
+  .chapter-dot { width: 7px; height: 7px; }
+  .chapter-label { bottom: 58px; font-size: .55rem; }
+  /* Footer : masqué en mode chapitres fixes (sinon il traverse les titres) */
+  body.home footer { display: none; }
+  /* Galerie sur mobile */
+  #portfolio { padding: 12px 0 40px; }
+  #portfolio .carousel { max-width: 100%; }
+  #portfolio .carousel-viewport { aspect-ratio: 5 / 4; }
+  #portfolio .slide { width: 72%; height: 86%; }
+  #portfolio .overlay { padding: 18px; }
+  .overlay h3 { font-size: 1.4rem; }
+  .photo-watermark { right: 12px; bottom: 10px; font-size: .45rem; }
+  .view-modes { flex-wrap: wrap; gap: 6px; }
+  .view-mode { padding: 8px 12px; font-size: .65rem; }
+  #portfolio .univers-intro { font-size: .82rem; }
+  /* Contact : champs et bouton */
+  .contact-form input, .contact-form textarea, .contact-form button { width: 100%; box-sizing: border-box; }
+  .email { font-size: .9rem; word-break: break-all; }
+  /* Assistant : plus petit pour laisser la navigation visible */
+  .saysko-bot { bottom: 66px; right: 12px; transform: scale(.9); transform-origin: bottom right; }
+}
+@media (max-width: 380px) {
+  .section-header h2 { font-size: 1.8rem; }
+  .chapter p { font-size: .85rem; }
+}
+
+</style>
+<style>
+/* Correctif mobile : boutons son / plein ecran sous l'en-tete (<=768px uniquement, desktop inchange) */
+@media (max-width: 768px){
+  .site-controls { top: 72px !important; }
+}
 </style>
 </head>
 <body class="home">
 
-<audio id="bgMusic" src="fashion-session.mp3" loop preload="auto"></audio>
+<!-- Une ambiance par chapitre : un seul élément joué à la fois, fondu en douceur. -->
+<audio id="bgMusic" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="1" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="2" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="3" src="audio/lofi-retouche.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="4" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="5" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
+<audio class="amb-track" data-amb="6" src="audio/ambient-cinematic.mp3" loop preload="auto"></audio>
 <div class="site-controls">
   <button id="soundBtn" type="button" aria-label="Couper la musique" title="Couper la musique">
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" id="soundIcon"><path d="M4 9h3l5-4v14l-5-4H4z"/><path id="soundWaves" d="M16 8.5a4 4 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12"/></svg>
@@ -272,6 +438,7 @@
         <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span class="nav-lbl">Qui suis-je</span> <span aria-hidden="true">&#9662;</span></button>
         <div class="nav-drop-menu">
           <a href="apropos.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="camera"><use href="#i-camera"/></svg><span>Présentation</span></a>
+          <a href="collaborations.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="users"><use href="#i-users"/></svg><span>Collaborations</span></a>
           <a href="commentaires.html"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-lucide="mail"><use href="#i-mail"/></svg><span>Avis &amp; Commentaires</span></a>
         </div>
       </div>
@@ -284,19 +451,35 @@
   </div>
 </header>
 
-<main>
+<main class="chapters" id="chapters">
+  <div class="chapters-track" id="chaptersTrack">
   <!-- ================= HERO ================= -->
-  <section class="hero">
-    <div class="kicker">Photo de studio &amp; strobisme</div>
+  <section class="chapter hero" data-chapter="01 · Le studio" data-ambiance="studio">
+    <div class="chapter-player" data-player="studio">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Studio</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="hero-monogram" aria-hidden="true">SAYSKO</div>
+    <div class="kicker">Bienvenue · Photo de studio &amp; strobisme</div>
     <h1>SAYSKO <strong>PHOTOGRAPHIE</strong></h1>
     <div class="slogan">La lumière sculpte vos émotions au cœur de chaque image.</div>
     <p>Des portraits travaillés au flash, une lumière maîtrisée et des images qui racontent une histoire. Bienvenue dans mon studio.</p>
-    <a class="btn" href="#portfolio">Visite</a>
+    <a class="btn btn-outline" id="visitBtn" href="portfolio.html?iris=1">Visite</a>
     <div class="scroll-indicator"><span class="mouse"></span>Défiler</div>
   </section>
 
   <!-- ================= A PROPOS ================= -->
-  <section id="apropos">
+  <section class="chapter" id="apropos" data-chapter="02 · Qui suis-je" data-ambiance="about">
+    <div class="chapter-player" data-player="about">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · portrait</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <h2>Qui <span>suis-je</span></h2>
@@ -320,8 +503,101 @@
     </div>
   </section>
 
+
+  <!-- ================= RETOUCHE (chapitre) ================= -->
+  <!-- ================= MATERIEL ================= -->
+  <section class="chapter" id="materiel" data-chapter="03 · Le matériel" data-ambiance="materiel">
+    <div class="chapter-player" data-player="materiel">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Matériel</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Le <span>matériel</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="about-wrap">
+        <div class="about-portrait reveal">
+          <img src="canon-face.jpg" alt="Canon EOS 5D Mark IV avec objectif 24-105 mm" loading="lazy">
+          <div class="photo-credit">Photo : CEphoto, Uwe Aranas · Wikimedia Commons (CC BY-SA 3.0)</div>
+        </div>
+        <div class="about-text reveal">
+          <div class="about-kicker">Dans le boîtier</div>
+          <p>Un <strong>Canon 5D Mark IV</strong> sur trépied, piloté depuis l'ordinateur en prise de vue connectée. Un seul flash déporté, une softbox, un réflecteur — et la lumière devient un langage.</p>
+          <a class="btn" href="competences.html">Voir mes compétences</a>
+          <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">
+            <span class="live-dot"></span> Rejoindre le live 🎧
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="retouche" data-chapter="04 · La retouche" data-ambiance="retouche">
+    <div class="chapter-player" data-player="retouche">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Retouche</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>La <span>retouche</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="retouche-wrap">
+        <div class="retouche-img reveal">
+          <img src="avant-apres.jpg" alt="Avant / après retouche photo" loading="lazy">
+        </div>
+        <div class="retouche-text reveal">
+          <div class="about-kicker">Le travail de l'image</div>
+          <p>La prise de vue n'est que la moitié du chemin. La retouche révèle ce que l'œil a vu au moment du déclenchement : les couleurs, les contrastes, la texture de la peau.</p>
+          <p>De Lightroom à Capture One, chaque réglage sert une intention — jamais l'inverse.</p>
+          <a class="btn" href="cours.html">Voir les tutoriels</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ================= FORMATION ================= -->
+  <section class="chapter" id="formation" data-chapter="05 · La formation" data-ambiance="formation">
+    <div class="chapter-player" data-player="formation">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Formation</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Apprendre la <span>retouche</span></h2>
+        <div class="line"></div>
+      </div>
+      <div class="retouche-wrap">
+        <div class="retouche-img reveal">
+          <img src="station-retouche-3ecrans.jpg" alt="Station de retouche avec trois écrans : catalogue, développement et colorimétrie" loading="lazy">
+        </div>
+        <div class="retouche-text reveal">
+          <div class="about-kicker">Salle de formation</div>
+          <p>De Lightroom Classic à Capture One, apprenez à construire une lumière maîtrisée puis à révéler chaque image au post-traitement.</p>
+          <p>Des tutoriels pas à pas, en français, avec le matériel et les réglages que j'utilise en studio.</p>
+          <a class="btn" href="cours.html">Accéder aux tutoriels</a>
+          <a class="btn live-btn" href="https://discord.gg/DeJSVe7xM" target="_blank" rel="noopener">Rejoindre le live 🎧</a>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ================= PORTFOLIO ================= -->
-  <section id="portfolio">
+  <section class="chapter" id="portfolio" data-chapter="06 · La galerie" data-ambiance="galerie">
+    <div class="chapter-player" data-player="galerie">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Galerie</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container">
       <div class="section-header reveal">
         <h2>Entrez dans <span>mon univers</span></h2>
@@ -338,6 +614,13 @@
         <button class="view-mode" data-mode="story" title="Plein écran">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg> Plein écran
         </button>
+      </div>
+
+      <div class="filter-bar reveal" id="filterBar" role="group" aria-label="Filtrer les photos par catégorie">
+        <button class="filter-chip active" data-filter="all">Tout</button>
+        <button class="filter-chip" data-filter="Portrait">Portraits</button>
+        <button class="filter-chip" data-filter="Strobisme">Strobisme</button>
+        <button class="filter-chip" data-filter="Lifestyle">Lifestyle</button>
       </div>
 
       <div class="grid-view" id="gridView"></div>
@@ -357,12 +640,24 @@
           <div class="car-dots" id="carDots"></div>
           <div class="car-count" id="carCount"></div>
         </div>
+        <div class="univers-more">
+          <p class="univers-intro">Portraits, lumière sculptée et instants volés — bienvenue dans mon regard.</p>
+          <a href="portfolio.html?iris=1" class="btn btn-outline">Voir tout le portfolio</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ================= CONTACT ================= -->
-  <section id="contact">
+  <section class="chapter" id="contact" data-chapter="07 · Contact" data-ambiance="contact">
+    <div class="fond-anime" data-fond="contact"><canvas></canvas></div>
+    <div class="chapter-player" data-player="contact">
+      <button class="player-toggle" type="button" aria-label="Activer ou couper la musique">
+        <span class="player-icon">♫</span>
+      </button>
+      <div class="player-info"><span class="player-title">Ambiance · Contact</span><span class="player-sub">Saysko · Studio</span></div>
+      <div class="player-bars"><i></i><i></i><i></i><i></i></div>
+    </div>
     <div class="container contact">
       <div class="section-header reveal">
         <h2>Me <span>contacter</span></h2>
@@ -372,26 +667,33 @@
       <a href="mailto:sayskothemix+contact@gmail.com" class="email" id="contactEmail">sayskothemix+contact@gmail.com</a>
 
       <form class="contact-form" id="contactForm">
-        <h3>Ou envoyez-moi un message</h3>
+        <h3>Écrivez-moi</h3>
         <label for="cfName">Votre nom</label>
         <input type="text" id="cfName" placeholder="Votre nom" required>
         <label for="cfEmail">Votre email</label>
         <input type="email" id="cfEmail" placeholder="vous@exemple.com" required>
         <label for="cfMessage">Votre message</label>
         <textarea id="cfMessage" placeholder="Votre message..." required></textarea>
-        <button type="submit" class="btn-admin">Envoyer le message</button>
+        <button type="submit" class="btn-admin">Envoyer</button>
         <div class="status" id="cfStatus"></div>
       </form>
     </div>
   </section>
+  </div>
+  <!-- Navigation des chapitres -->
+  <nav class="chapter-nav" id="chapterNav" aria-label="Navigation des chapitres">
+    <button class="chapter-arrow chapter-prev" id="chapterPrev" aria-label="Chapitre précédent">‹</button>
+    <div class="chapter-dots" id="chapterDots"></div>
+    <button class="chapter-arrow chapter-next" id="chapterNext" aria-label="Chapitre suivant">›</button>
+  </nav>
 </main>
 
-<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(224,189,133,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
+<footer style="text-align:center;padding:50px 20px;color:var(--muted);border-top:1px solid rgba(201,165,106,0.12);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;">
   SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. &nbsp;·&nbsp; Saysko © 2026
-  <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Musique : <a href="https://pixabay.com/fr/users/kulakovka-47183261/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Alex Shulgin</a> — <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=566503" style="color:inherit;">Pixabay</a></div>
+  <div style="margin-top:10px;font-size:0.58rem;letter-spacing:1px;text-transform:none;opacity:0.75;">Musique : <a href="https://pixabay.com/fr/users/atlasaudio-54514918/" style="color:inherit;">AtlasAudio</a> &nbsp;·&nbsp; Lo-fi retouche : <a href="https://pixabay.com/fr/users/bodleasons-28047609/" style="color:inherit;">BoDleasons</a> — <a href="https://pixabay.com/music/" style="color:inherit;">Pixabay</a></div>
 </footer>
 
-<script src="site.js?v=5"></script>
+<script src="site.js?v=13"></script>
 <script>
 (function () {
   'use strict';
@@ -419,13 +721,15 @@
   var busy = false;
   var audioContext = null;
 
-  if (!intro || !overlay || document.documentElement.classList.contains('intro-seen')) {
+  var introSeen = document.documentElement.classList.contains('intro-seen');
+  var visitBtn = document.getElementById('visitBtn');
+
+  if (!intro || !overlay || introSeen) {
     document.documentElement.classList.remove('intro-open');
     if (intro) intro.remove();
-    if (overlay) overlay.remove();
-    return;
+  } else {
+    document.documentElement.classList.add('intro-open');
   }
-  document.documentElement.classList.add('intro-open');
 
   function point(value) {
     return value[0].toFixed(3) + ' ' + value[1].toFixed(3);
@@ -627,7 +931,10 @@
     if (!audioContext) audioContext = new AudioContext();
 
     var resume = audioContext.state === 'suspended'
-      ? audioContext.resume()
+      ? Promise.race([
+          audioContext.resume(),
+          new Promise(function (resolve) { setTimeout(resolve, 500); })
+        ])
       : Promise.resolve();
     var audioFile = fetch('reflex-shutter.mp3').then(function (response) {
       if (!response.ok) throw new Error('The shutter sound could not be loaded.');
@@ -649,7 +956,7 @@
       var source = audioContext.createBufferSource();
       source.buffer = result.buffer;
       var gain = audioContext.createGain();
-      gain.gain.value = volume == null ? 1 : volume;
+      gain.gain.value = volume == null ? 2 : volume;
       source.connect(gain);
       gain.connect(audioContext.destination);
       return new Promise(function (resolve, reject) {
@@ -699,7 +1006,36 @@
       enterSite();
     }
   });
-  intro.focus({ preventScroll: true });
+  if (intro && document.contains(intro)) intro.focus({ preventScroll: true });
+
+  // --- Transition iris synchronisée sur le bouton "Visite" ---
+  (function () {
+    var visitBtn = document.getElementById('visitBtn');
+    if (!visitBtn) return;
+
+    var visiting = false;
+    var shutterReady = prepareShutter();
+    var audioState = shutterReady.catch(function (error) {
+      return { error: error };
+    });
+
+    visitBtn.addEventListener('click', function (event) {
+      if (visiting || document.documentElement.classList.contains('intro-open')) return;
+      event.preventDefault();
+      visiting = true;
+
+      // Un seul iris : il se ferme ici, la page de destination le réouvre.
+      playShutter(audioState).catch(function (error) {
+        console.error('The reflex shutter sound could not be played.', error);
+      });
+      overlay.classList.add('is-active');
+      animateIris(1, 0, 800).then(function () {
+        overlay.classList.add('is-closed');
+        window.location.href = visitBtn.getAttribute('href');
+        return new Promise(function (resolve) { setTimeout(resolve, 500); });
+      });
+    });
+  })();
 })();
 </script>
 <script>
@@ -710,27 +1046,38 @@
   var soundWaves = document.getElementById('soundWaves');
   var fsBtn = document.getElementById('fsBtn');
   var started = false;
-  if (audio) { audio.loop = true; audio.volume = 0.55; audio.muted = false; startMusic(); updateSoundUI(); }
+  var blocked = false;
+  var allTracks=[audio].concat([].slice.call(document.querySelectorAll('.amb-track'))).filter(Boolean);
+  if (audio) { audio.muted = false; startMusic(); updateSoundUI(); }
 
   function startMusic() {
     if (!audio) return;
-    var p = audio.play();
-    if (p && typeof p.catch === 'function') p.catch(function () {});
+    // Ne lancer que la piste active ; les autres restent prêtes à jouer.
+    var active=allTracks[window.__sayskoCurrentChapter||0]||audio;
+    var p=active.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {
+      // Autoplay bloqué par le navigateur : on attend un clic utilisateur.
+      blocked = true;
+      updateSoundUI();
+    });
   }
 
   function updateSoundUI() {
     if (!audio || !soundBtn) return;
-    var muted = audio.muted;
-    soundBtn.setAttribute('aria-label', muted ? 'Activer la musique' : 'Couper la musique');
-    soundBtn.title = muted ? 'Activer la musique' : 'Couper la musique';
-    if (soundWaves) soundWaves.style.opacity = muted ? '0.15' : '1';
-    soundBtn.dataset.muted = muted ? '1' : '0';
+    var off = audio.muted || blocked;
+    soundBtn.setAttribute('aria-label', off ? 'Activer la musique' : 'Couper la musique');
+    soundBtn.title = off ? 'Activer la musique' : 'Couper la musique';
+    if (soundWaves) soundWaves.style.opacity = off ? '0.15' : '1';
+    soundBtn.dataset.muted = off ? '1' : '0';
   }
 
   function startOnFirstInteraction() {
     if (!audio || started) return;
     started = true;
-    audio.muted = false;
+    // On ne réactive jamais le son si l'utilisateur l'a coupé via le bouton.
+    if (audio.muted) return;
+    blocked = false;
+    allTracks.forEach(function(t){ t.muted=false; });
     startMusic();
     updateSoundUI();
   }
@@ -743,14 +1090,12 @@
       e.preventDefault();
       e.stopPropagation();
       if (!audio) return;
-      if (!started) {
-        started = true;
-        audio.muted = false;
-        startMusic();
-      } else {
-        audio.muted = !audio.muted;
-        if (!audio.muted && audio.paused) startMusic();
-      }
+      started = true;
+      blocked = false;
+      // Si le son est coupé, on l'active ; sinon on le coupe.
+      var off=!audio.muted;
+      allTracks.forEach(function(t){ t.muted=off; });
+      if (!off) startMusic();
       updateSoundUI();
     });
   }
@@ -829,6 +1174,196 @@
     });
   })();
   </script>
+
+  <script src="iris-transition.js"></script>
+
+<div class="chapter-label" id="chapterLabel"></div>
+<script>
+(function(){
+  var track=document.getElementById('chaptersTrack');
+  if(!track) return;
+  document.documentElement.classList.add('chapters-mode');
+  var chapters=[...track.querySelectorAll('.chapter')];
+  var dots=document.getElementById('chapterDots');
+  var label=document.getElementById('chapterLabel');
+  var prev=document.getElementById('chapterPrev');
+  var next=document.getElementById('chapterNext');
+  var i=0;
+  chapters.forEach(function(c,n){
+    var b=document.createElement('button');
+    b.className='chapter-dot'+(n===0?' active':'');
+    b.setAttribute('aria-label','Chapitre '+(n+1));
+    b.addEventListener('click',function(){go(n);});
+    dots.appendChild(b);
+  });
+  var dotEls=[...dots.children];
+  function go(n){
+    i=Math.max(0,Math.min(chapters.length-1,n));
+    track.style.transform='translateX(-'+(i*100)+'vw)';
+    dotEls.forEach(function(d,k){d.classList.toggle('active',k===i);});
+    label.textContent=chapters[i].dataset.chapter||'';
+    prev.disabled=i===0; next.disabled=i===chapters.length-1;
+    chapters[i].scrollTop=0;
+    setAmbiance(i);
+  }
+  /* Ambiances sonores : une piste par chapitre, fondu en douceur, sans Web Audio */
+  var audio=document.getElementById('bgMusic');
+  var tracks=[audio].concat([].slice.call(document.querySelectorAll('.amb-track')));
+  var MASTER=0.55, current=0;
+  var fades=new WeakMap();
+  tracks.forEach(function(t){ t.volume=0; t.loop=true; });
+  // Première piste audible dès l'ouverture.
+  tracks[0].volume=MASTER;
+  function ensureAudio(){ /* conservé pour compatibilité, sans effet */ }
+  function fadeTo(a, target, done){
+    var t0=performance.now();
+    var old=fades.get(a);
+    if(old) cancelAnimationFrame(old);
+    (function tick(now){
+      var k=Math.min(1,(now-t0)/350);
+      a.volume=Math.max(0,Math.min(1,target*k));
+      if(k<1){ fades.set(a,requestAnimationFrame(tick)); }
+      else { fades.delete(a); if(done) done(); }
+    })(t0);
+  }
+  function setAmbiance(n){
+    if(!tracks.length) return;
+    n=Math.max(0,Math.min(tracks.length-1,n));
+    window.__sayskoCurrentChapter=n;
+    if(n===current) return;
+    var next=tracks[n], prev=tracks[current];
+    current=n;
+    // La nouvelle piste démarre à zéro puis monte ; l'ancienne descend puis se met en pause.
+    next.volume=0;
+    var p=next.play();
+    if(p&&typeof p.catch==='function') p.catch(function(){});
+    fadeTo(next,MASTER);
+    if(prev && prev!==next){
+      fadeTo(prev,0,function(){ if(prev!==tracks[current]) prev.pause(); });
+    }
+    if(prev===next) next.volume=MASTER;
+  }
+  document.addEventListener('pointerdown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  document.addEventListener('keydown',function(){ensureAudio();setAmbiance(i);},{once:true});
+  prev.addEventListener('click',function(){go(i-1);});
+  next.addEventListener('click',function(){go(i+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'){go(i+1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);}
+  });
+  var lock=false;
+  // Roulette désactivée sur l'accueil : navigation uniquement par flèches / boutons / dots
+  window.addEventListener('wheel',function(e){ e.preventDefault(); },{passive:false});
+  var x0=null;
+  window.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  window.addEventListener('touchmove',function(e){ e.preventDefault(); },{passive:false});
+  window.addEventListener('touchend',function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>60) go(i+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+  go(0);
+})();
+</script>
+
+
+<script>
+/* Lecteurs d'ambiance synchronisés avec la musique globale */
+(function(){
+  var a=document.getElementById('bgMusic');
+  if(!a) return;
+  var tracks=[a].concat([].slice.call(document.querySelectorAll('.amb-track')));
+  var players=[...document.querySelectorAll('.chapter-player')];
+  function paint(){
+    var on=!a.muted;
+    players.forEach(function(p){p.classList.toggle('playing',on);var t=p.querySelector('.player-toggle');if(t)t.setAttribute('aria-label',on?'Couper la musique':'Activer la musique');});
+  }
+  players.forEach(function(p){
+    var btn=p.querySelector('.player-toggle');
+    if(!btn) return;
+    btn.addEventListener('pointerdown',function(e){
+      e.preventDefault(); e.stopPropagation();
+      var off=!a.muted;
+      tracks.forEach(function(t){t.muted=off;});
+      if(!off){
+        var active=tracks[window.__sayskoCurrentChapter||0]||a;
+        var pl=active.play(); if(pl&&pl.catch)pl.catch(function(){});
+      }
+      paint();
+    });
+  });
+  tracks.forEach(function(t){ t.addEventListener('play',paint); t.addEventListener('pause',paint); t.addEventListener('volumechange',paint); });
+  paint();
+  window.__sayskoPlayerPaint=paint;
+})();
+</script>
+
+
+<script>
+/* Fonds animés Canvas : reflets champagne + bokeh doux, zone centrale sombre */
+(function(){
+  var boxes=[...document.querySelectorAll('.fond-anime')];
+  if(!boxes.length) return;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  function setup(box){
+    var c=box.querySelector('canvas');
+    if(!c) return null;
+    var ctx=c.getContext('2d');
+    if(!ctx) return null;
+    var w=box.clientWidth||window.innerWidth, h=box.clientHeight||window.innerHeight;
+    c.width=w*dpr; c.height=h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var dark=box.dataset.fond==='contact';
+    var orbs=[];
+    var n=dark?7:13;
+    for(var i=0;i<n;i++){
+      orbs.push({
+        x:Math.random()*w, y:Math.random()*h,
+        r:(dark?80:60)+Math.random()*(dark?180:160),
+        vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12,
+        a:(dark?.05:.09)+Math.random()*(dark?.06:.12),
+        hue: Math.random()<.5?'201,165,106':'201,165,106',
+        ph:Math.random()*Math.PI*2
+      });
+    }
+    return {c:c,ctx:ctx,w:w,h:h,orbs:orbs,dark:dark,t:0};
+  }
+  var states=boxes.map(setup).filter(Boolean);
+  function draw(st){
+    var ctx=st.ctx,w=st.w,h=st.h;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#070a12'; ctx.fillRect(0,0,w,h);
+    // reflets argentés en travers
+    var g=ctx.createLinearGradient(w*(st.dark?.55:.1),0,w, h*.4);
+    g.addColorStop(0,'rgba(201,165,106,0)');
+    g.addColorStop(.45,st.dark?'rgba(201,165,106,.045)':'rgba(201,165,106,.07)');
+    g.addColorStop(1,'rgba(201,165,106,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    // bokeh
+    ctx.globalCompositeOperation='screen';
+    st.orbs.forEach(function(o){
+      o.x+=o.vx; o.y+=o.vy;
+      if(o.x<-o.r)o.x=w+o.r; if(o.x>w+o.r)o.x=-o.r;
+      if(o.y<-o.r)o.y=h+o.r; if(o.y>h+o.r)o.y=-o.r;
+      var pulse=o.a*(.7+.3*Math.sin(st.t*.01+o.ph));
+      var rg=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      rg.addColorStop(0,'rgba('+o.hue+','+pulse+')');
+      rg.addColorStop(1,'rgba('+o.hue+',0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalCompositeOperation='source-over';
+    // zone centrale sombre pour le texte
+    var v=ctx.createRadialGradient(w/2,h/2,h*.08,w/2,h/2,h*.62);
+    v.addColorStop(0,'rgba(8,7,6,.94)'); v.addColorStop(1,'rgba(8,7,6,0)');
+    ctx.fillStyle=v; ctx.fillRect(0,0,w,h);
+    st.t++;
+  }
+  function loop(){ states.forEach(draw); requestAnimationFrame(loop); }
+  loop();
+  window.addEventListener('resize',function(){ states=boxes.map(setup).filter(Boolean); });
+})();
+</script>
 
 </body>
 </html>
