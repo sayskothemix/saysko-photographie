@@ -420,6 +420,17 @@
 @media (max-width: 768px){
   .site-controls { top: 72px !important; }
 }
+/* Prompts Firefly */
+.firefly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:22px 0 6px}
+.firefly-card{position:relative;display:flex;flex-direction:column;gap:8px;padding:16px 16px 14px;border:1px solid rgba(201,165,106,.35);border-radius:14px;background:rgba(255,255,255,.04)}
+.firefly-card .ff-prompt{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92rem;line-height:1.35;color:#f3e7cf;margin:0}
+.firefly-card .ff-fr{font-size:.82rem;opacity:.72;margin:0}
+.firefly-card .ff-copy{align-self:flex-start;margin-top:auto;background:transparent;color:var(--accent);border:1px solid rgba(201,165,106,.5);border-radius:999px;padding:5px 13px;font-size:.78rem;cursor:pointer;transition:background .2s,color .2s}
+.firefly-card .ff-copy:hover,.firefly-card .ff-copy.copied{background:var(--accent);color:#141414}
+.firefly-tip{font-size:.9rem;opacity:.8;margin:14px 0 0}
+.firefly-shot{margin:18px 0 0;text-align:center}
+.firefly-shot img{max-width:100%;border-radius:14px;border:1px solid rgba(201,165,106,.3)}
+.firefly-shot figcaption{font-size:.82rem;opacity:.7;margin-top:8px}
 </style>
 </head>
 <body>
@@ -578,6 +589,53 @@
     </article>
   </div>
 
+  <!-- FIREFLY -->
+  <div class="cat-group" data-category="ps" style="margin-top:20px;">
+    <div class="cat-divider">
+      <h2><span class="badge-tag" style="font-size:1.15rem;padding:4px 11px;">Ai</span> Firefly — les prompts qui fonctionnent</h2>
+      <div class="line"></div>
+    </div>
+    <p class="cat-desc">L'IA générative de Photoshop (Firefly) répond mieux à des descriptions courtes et concrètes : un décor, une matière, une lumière. Voici les formulations testées, à copier-coller dans <em>Remplissage génératif</em> ou <em>Générer une image</em>. Ajoute ton sujet avant ou après le prompt pour l'adapter à ta photo.</p>
+
+    <article class="cours-section reveal" data-category="ps" id="ps-firefly-prompts">
+      <div class="cours-section-head">
+        <div class="cours-num">PS-05</div>
+        <div><div class="cours-kicker">Catégorie : IA générative</div><h3>18 prompts Firefly prêts à copier</h3></div>
+        <div class="cours-badge">Nouveau</div>
+        <div class="cours-toggle-btn"><span class="btn-lbl">Ouvrir</span> <span class="cours-toggle-arrow">▼</span></div>
+      </div>
+      <div class="cours-accordion-drawer"><div class="cours-accordion-inner"><div class="cours-body">
+        <p class="cours-lead">Ces prompts décrivent surtout des <strong>fonds et des ambiances</strong> : c'est là que Firefly est le plus fiable. Pour un rendu propre, garde l'anglais (la langue d'entraînement du modèle) et change un seul paramètre à la fois entre deux essais : la lumière, puis la matière, puis le cadrage.</p>
+
+        <div class="firefly-grid">
+          <div class="firefly-card"><p class="ff-prompt">Textured wall paint</p><p class="ff-fr">Peinture murale texturée</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Fairy little light</p><p class="ff-fr">Petite lumière féerique</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Rugged backdrop</p><p class="ff-fr">Fond brut, rocailleux</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Magical fairytale</p><p class="ff-fr">Conte de fées magique</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Graphite Drawing background</p><p class="ff-fr">Fond dessin au graphite</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Splash Art background</p><p class="ff-fr">Fond splash art (peinture numérique)</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">black Textile Art background</p><p class="ff-fr">Fond art textile noir</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">jungle plant background</p><p class="ff-fr">Fond de plantes de jungle</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Vintage Ephemera background</p><p class="ff-fr">Fond de vieux papiers et éphémères</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">chesterfield sofa black background</p><p class="ff-fr">Canapé Chesterfield sur fond noir</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">black textured background</p><p class="ff-fr">Fond noir texturé</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">large empty black colored room with distressed vintage walls, aged gold detailing, light flooring, directional cinematic lighting</p><p class="ff-fr">Grande pièce vide noire, murs vintage patinés, détails dorés vieillis, sol clair, lumière cinématographique dirigée</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Cosmic nebula</p><p class="ff-fr">Nébuleuse cosmique</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Electric energy</p><p class="ff-fr">Énergie électrique</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Steampunk machine</p><p class="ff-fr">Machine steampunk</p><button type="button" class="ff-copy">Copier</button></div>
+          <div class="firefly-card"><p class="ff-prompt">Abstract fluid</p><p class="ff-fr">Fluide abstrait</p><button type="button" class="ff-copy">Copier</button></div>
+        </div>
+
+        <p class="firefly-tip"><strong>Méthode :</strong> sélectionne la zone à remplacer, écris le prompt en anglais, génère 3 variantes, puis affine avec « warmer light », « softer shadows » ou « more texture ». Pour un portrait, garde le visage hors de la sélection : Firefly déforme vite les traits.</p>
+
+        <figure class="firefly-shot">
+          <img src="firefly-prompts.png" alt="Fiche : liste des prompts Photoshop Firefly qui fonctionnent" loading="lazy">
+          <figcaption>La fiche d'origine, à garder sous la main · <a href="firefly-prompts.png" download>télécharger l'image</a></figcaption>
+        </figure>
+      </div></div></div>
+    </article>
+  </div>
+
   <!-- PLUGINS -->
   <div class="cat-group" data-category="plugins" style="margin-top:20px;">
     <div class="cat-divider">
@@ -605,6 +663,24 @@
 <div style="text-align:center;margin:3rem 0 1rem;"><a href="cours.html" class="btn">← Tous les tutoriels</a></div>
 </div>
 <footer> SAYSKO PHOTOGRAPHIE — Leur bonheur est ma plus belle image. · Saysko © 2026 · Musique : Alex Shulgin — Pixabay</footer>
+<script>
+(function(){
+  document.querySelectorAll('.ff-copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.firefly-card');
+      var txt = card ? card.querySelector('.ff-prompt').textContent.trim() : '';
+      function ok(){ btn.textContent = 'Copié ✓'; btn.classList.add('copied'); setTimeout(function(){ btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(ok).catch(function(){ btn.textContent = 'Copie impossible'; });
+      } else {
+        var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch(e) { btn.textContent = 'Copie impossible'; }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+})();
+</script>
 <script src="site.js?v=13"></script>
 <script src="site-music.js?v=3"></script>
 </body>
