@@ -1769,3 +1769,18 @@ body.has-cursor-halo::after { opacity: 1; }
   table { display: block; max-width: 100%; overflow-x: auto; }
 }
 
+/* ---------- CONTROLES PERSISTANTS (hors intro) ---------- */
+.site-controls { position: fixed; top: 84px !important; right: 20px !important; z-index: 10000; display: flex; gap: 8px; }
+.site-controls button {
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(7,10,18,0.72); border: 1px solid rgba(201,165,106,0.45);
+  color: var(--accent, #c9a56a); font-size: 1rem; cursor: pointer; backdrop-filter: blur(8px);
+  transition: background 0.25s, color 0.25s, transform 0.25s, opacity 0.25s;
+}
+.site-controls button:hover { background: var(--accent, #c9a56a); color: var(--bg, #070a12); transform: translateY(-1px); }
+.site-controls button[data-muted="1"] { opacity: 0.72; border-color: rgba(201,165,106,0.28); }
+@media (max-width: 768px) {
+  .site-controls { top: 72px !important; right: 12px; }
+  .site-controls button { width: 38px; height: 38px; }
+  .site-controls svg { width: 15px; height: 15px; }
+}
