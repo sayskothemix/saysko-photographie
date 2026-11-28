@@ -119,7 +119,14 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06e
 .toast{transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
 .etape:hover{transform:translateX(3px)}
 .apercu{transition:background .45s ease,filter .45s ease}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Bouton son persistant */
+.site-controls{position:fixed;top:16px;right:16px;z-index:10000;display:flex;gap:8px}
+.site-controls button{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(7,10,18,.72);border:1px solid rgba(201,165,106,.45);color:var(--or);cursor:pointer;backdrop-filter:blur(8px);transition:background .25s,color .25s,transform .25s,opacity .25s}
+.site-controls button:hover{background:var(--or);color:var(--bg);transform:translateY(-1px)}
+.site-controls button[data-muted="1"]{opacity:.72;border-color:rgba(201,165,106,.28)}
+@media(max-width:768px){.site-controls{top:12px;right:12px}.site-controls button{width:38px;height:38px}.site-controls svg{width:15px;height:15px}}
+</style>
 </head>
 <body>
 <a href="index.html" style="position:fixed;top:14px;left:14px;z-index:60;color:#e8c98f;text-decoration:none;font:600 12px/1 system-ui,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;border:1px solid rgba(201,165,106,.4);border-radius:999px;background:rgba(7,10,18,.85);backdrop-filter:blur(6px)">&#8592; Saysko</a>
@@ -458,5 +465,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'&&e.altKey){e.preventDefault();etapeSuivante()}
 });
 </script>
+<script src="site-music.js?v=3"></script>
 </body>
 </html>
